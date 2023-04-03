@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:google_place/src/autocomplete/autocomplete_prediction.dart';
+import 'package:my_truck_dot_one/Screens/Gps_Screen/provider/add_Trip_Provider.dart';
+import 'package:my_truck_dot_one/Screens/Gps_Screen/provider/choose_Source_Provider.dart';
+import 'package:provider/provider.dart';
+
+import '../../../AppUtils/constants.dart';
+
+class AddressList extends StatelessWidget {
+
+  AddTripProvider addTripProvider;
+  AddressList(this.addTripProvider );
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child:Consumer<ChooseSourceProvider>(builder: (_, proData, __) {
+        print(proData.predictions.length);
+
+        // if (proData) {
+        //   return Center(
+        //     child: CircularProgressIndicator.adaptive(),
+        //   );
+        // }
+        // if (
+        //     proData.predictions.length == 0)
+        //   return Center(child: Text('No Record Found'));
+        // else
+        return ListView.builder(
+            itemCount: proData.predictions.length,
+            padding: EdgeInsets.zero,
+            itemBuilder: (BuildContext context, int index) =>
+           proData.addressController.text.isEmpty?SizedBox():  ListTile(
+                    leading: CircleAvatar(
+                      child: Icon(
+                        Icons.pin_drop,
+                        color: Colors.white,
+                      ),
+                    ),
+                    title: Text(proData.predictions[index].description!),
+                    onTap: () {
+                      proData.addressController.text =
+                      proData.predictions[index].description!;
+                      addTripProvider.handleSearch(proData.addressController.text,context,addTripProvider);
+                       addTripProvider.setAddressChooseSource(proData.predictions[index].description!);
+                      Navigator.pop(navigatorKey.currentState!.context);
+
+                      // debugPrint(proData.predictions[index].placeId);
+                    }));
+      }
+      )
+      );
+
+  }
+}
