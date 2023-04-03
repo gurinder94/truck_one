@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -18,6 +19,7 @@ import 'package:my_truck_dot_one/Screens/team_manage_Screen%20/company_team_mana
 import 'package:new_version/new_version.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+
 import 'AppUtils/chat_socket_connection.dart';
 import 'AppUtils/constants.dart';
 import 'Model/JobModel/JobViewList.dart';
@@ -37,9 +39,11 @@ import 'Screens/JobScreen/JobList/CompanyJob/Provider/JobListProvider.dart';
 import 'Screens/JobScreen/JobList/UserComponent/Provider/UserJobProvider.dart';
 import 'Screens/JobScreen/ViewJob/Provider/JobviewProvider.dart';
 import 'Screens/JobScreen/ViewJob/ViewJob.dart';
+import 'Screens/Language_Screen/application_localizations.dart';
+import 'Screens/Language_Screen/language_Provider.dart';
 import 'Screens/LoginScreen/Provider/LoginPageProvider.dart';
-import 'Screens/Network/network_page/network_provider.dart';
 import 'Screens/Network/network_page/network_page.dart';
+import 'Screens/Network/network_page/network_provider.dart';
 import 'Screens/Profile/UserProfile/Provider/UserProfileProvider.dart';
 import 'Screens/SellerScreen/seller_manage_product_screen/Provider/seller_product_list_provider.dart';
 import 'Screens/SellerScreen/seller_product_question_screen/Provider/seller_product_question _answer.dart';
@@ -55,8 +59,6 @@ import 'Screens/Trip Planner/HosScreen/Provider/HosMapProvider.dart';
 import 'Screens/Trip Planner/Provider/TripPlannerProvider.dart';
 import 'Screens/Trip Planner/TripPlannerScreen/Provider/TripPlannerTabbar.dart';
 import 'Screens/Trip Planner/UserLiveMap/Provider/route_marker_list_provider.dart';
-import 'Screens/Language_Screen/application_localizations.dart';
-import 'Screens/Language_Screen/language_Provider.dart';
 import 'Screens/team_manage_Screen /company_team_manage/company_team_mange_component/team_manage_screen.dart';
 import 'Screens/team_manage_Screen /seller_manage_team/Provider/seller_manage_team_Provider.dart';
 import 'SplashPage.dart';
@@ -68,7 +70,7 @@ final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  await WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
 
   // Stripe.publishableKey =
@@ -79,7 +81,7 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
   // await Stripe.instance.applySettings();
-  FirebaseMessaging.onBackgroundMessage(_messageHandler);
+  //FirebaseMessaging.onBackgroundMessage(_messageHandler);
   await _flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -103,7 +105,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-
     notificationReceiver();
     // TODO: implement initState
     Language_PAGE_OPEN = true;
@@ -158,7 +159,8 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (_) => SellerProductListProvider()),
           ChangeNotifierProvider(create: (_) => JobDetailModel()),
           ChangeNotifierProvider(create: (_) => ChatViewGroupProvider()),
-          ChangeNotifierProvider(create: (_) => LanguageChangeNotifierProvider()),
+          ChangeNotifierProvider(
+              create: (_) => LanguageChangeNotifierProvider()),
         ],
         child: Selector<LanguageChangeNotifierProvider, dynamic>(
             selector: (_, provider) => provider.languageCode,
@@ -205,8 +207,6 @@ class _MyAppState extends State<MyApp> {
                   home: SplashPage());
             }));
   }
-
-
 
   MaterialColor buildMaterialColor(Color color) {
     List strengths = <double>[.05];
@@ -363,11 +363,10 @@ Future<void> onNotificationClick(String? payload) async {
           Navigator.push(
               navigatorKey.currentState!.context,
               MaterialPageRoute(
-                  builder: (context) =>   ChangeNotifierProvider(create: (_) => UserEventViewProvider(),
-                    child: UserViewEvent(
-                      model.id!),
-                  )));
-
+                  builder: (context) => ChangeNotifierProvider(
+                        create: (_) => UserEventViewProvider(),
+                        child: UserViewEvent(model.id!),
+                      )));
 
           break;
         case "JOB":

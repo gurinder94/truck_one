@@ -1,21 +1,15 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
-import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/Profile/Company/provider/ProfileProvider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:provider/provider.dart';
-import 'AppUtils/chat_socket_connection.dart';
-import 'Screens/AddCartScreen/Add_cart_page.dart';
-import 'Screens/AddCartScreen/provider/add_cart_provider.dart';
+
 import 'Screens/BottomMenu/bottom_menu.dart';
 import 'Screens/LoginScreen/LoginScreen.dart';
-import 'Screens/PricingScreen/Pricing_Screen.dart';
-import 'Screens/PricingScreen/Provider/Pricing_provider.dart';
 import 'Screens/Profile/Company/CompanyProfile.dart';
 import 'Screens/Profile/UserProfile/Userprofile.dart';
-import 'Screens/Language_Screen/application_localizations.dart';
-import 'Screens/commanWidget/SizeConfig.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -182,13 +176,12 @@ class SplashPageState extends State with TickerProviderStateMixin {
               onDoneFunction: () async {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => LoginScreen()),
-                        (Route<dynamic> route) => false);
+                    (Route<dynamic> route) => false);
               },
               oncancelFunction: () => Navigator.pop(context),
               title: 'Profile Complete!',
               buttonTitle: "yes",
-              alertTitle:
-              "Kindly fill your profile before proceeding further.",
+              alertTitle: "Kindly fill your profile before proceeding further.",
             );
           else
             Navigator.of(context).pushAndRemoveUntil(
@@ -222,16 +215,14 @@ class SplashPageState extends State with TickerProviderStateMixin {
               onDoneFunction: () async {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => LoginScreen()),
-                        (Route<dynamic> route) => false);
+                    (Route<dynamic> route) => false);
               },
               oncancelFunction: () => Navigator.pop(context),
               title: 'Profile Complete!',
               buttonTitle: "yes",
-              alertTitle:
-              "Kindly fill your profile before proceeding further.",
+              alertTitle: "Kindly fill your profile before proceeding further.",
             );
-          }
-          else
+          } else
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => BottomMenu('Saleperson', 0)),
