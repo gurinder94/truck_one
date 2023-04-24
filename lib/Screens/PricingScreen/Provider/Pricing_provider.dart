@@ -2,15 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
-import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
+
 import '../../../Model/validate_receipt_ios_model.dart';
 
 var _GpsSubscriptionId = ["Gps_Plan_Monthly_6.99", "Gps_Plan_Yearly_69.99"];
@@ -29,7 +31,7 @@ class PriceProvider extends ChangeNotifier {
   List<LatestReceiptInfo> inApp = <LatestReceiptInfo>[];
   bool buyProductLoder = false;
   bool isAvailable = false;
-  bool isTest = true;
+  bool isTest = false;
   bool purchasePending = false;
   ResponseModel? responseModel;
   PurchaseDetails? previousPurchase;
@@ -41,7 +43,7 @@ class PriceProvider extends ChangeNotifier {
       InAppPurchase.instance.purchaseStream;
   Map<String, PurchaseDetails> purch = {};
 
-  String message='';
+  String message = '';
 
   Future<void> initStoreInfo() async {
     loading = true;
@@ -60,13 +62,6 @@ class PriceProvider extends ChangeNotifier {
       return;
     }
 
-    if (Platform.isIOS) {
-      final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
-          _inAppPurchase
-              .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
-      await iosPlatformAddition.setDelegate(ExamplePaymentQueueDelegate());
-    }
-
     final ProductDetailsResponse productDetailResponse =
         await _inAppPurchase.queryProductDetails(kProductIds.toSet());
     if (productDetailResponse.error != null) {
@@ -79,7 +74,7 @@ class PriceProvider extends ChangeNotifier {
       purchasePending = false;
       loading = false;
 
-      print("error_${notFoundIds}");
+      print("error_ ${notFoundIds}");
       notifyListeners();
       return;
     }
@@ -108,10 +103,19 @@ class PriceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  setPurchase() {
+  setPurchase() async {
+    print("setPurchase>> ");
+    var paymentWrapper = SKPaymentQueueWrapper();
+    var transactions = await paymentWrapper.transactions();
+    transactions.forEach((transaction) async {
+      await paymentWrapper.finishTransaction(transaction);
+    });
     purch = Map<String, PurchaseDetails>.fromEntries(
         purchases.map((PurchaseDetails purchase) {
       if (purchase.pendingCompletePurchase) {
+        print("setPurchase>> pendingCompletePurchase ${purchase.error?.code} ");
+        print(
+            "setPurchase>> pendingCompletePurchase ${purchase.error?.message} ");
         _inAppPurchase.completePurchase(purchase);
       }
       return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
@@ -127,6 +131,8 @@ class PriceProvider extends ChangeNotifier {
   void initData() async {
     ProductDetailsResponse productDetailResponse =
         await _inAppPurchase.queryProductDetails(kProductIds.toSet());
+    setListener();
+
     if (productDetailResponse.error != null) {}
     if (productDetailResponse.productDetails.isEmpty) {
       final Map<String, PurchaseDetails> purch =
@@ -143,7 +149,8 @@ class PriceProvider extends ChangeNotifier {
         }
       }
     }
-
+    initStoreInfo();
+    setPurchase();
     notifyListeners();
   }
 
@@ -173,13 +180,14 @@ class PriceProvider extends ChangeNotifier {
         } else if (purchaseDetails.status == PurchaseStatus.purchased) {
           final bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
-            print("sdjhsdjhksdjhkajhdsahjasdhjk ${purchaseDetails.productID}");
+            print(
+                "sdjhsdjhksdjhkajhdsahjasdhjk    ${purchaseDetails.productID}");
             //  final bool valid = await _verifyPurchase(purchaseDetails.productID);
             var receiptBody = {
               'receipt-data':
                   purchaseDetails.verificationData.localVerificationData,
               // receipt key you will receive in request purchase callback function
-              'exclude-old-transactions': true,
+              "exclude-old-transactions": true,
               'password': '777b657dd5984c8d820b86f9ee25d868'
             };
 
@@ -208,7 +216,7 @@ class PriceProvider extends ChangeNotifier {
         if (purchaseDetails.pendingCompletePurchase) {
           purchasePending = false;
           notifyListeners();
-          // await _inAppPurchase.completePurchase(purchaseDetails);
+          await _inAppPurchase.completePurchase(purchaseDetails);
         }
       }
     }
@@ -233,23 +241,17 @@ class PriceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initStore() async {
-    if (Platform.isIOS) {
-      var iosPlatformAddition = InAppPurchase.instance
-          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
-      await iosPlatformAddition.setDelegate(ExamplePaymentQueueDelegate());
-    }
-  }
-
   void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
     print("_handleInvalidPurchase");
     purchasePending = false;
     notifyListeners();
+    print("_handleInvalidPurchase>>> ${purchaseDetails.error?.message}");
     print(purchaseDetails.error);
   }
 
   void handleError(IAPError iapError) {
     purchasePending = false;
+    print("iapError>>> ${iapError.message}");
     notifyListeners();
   }
 
@@ -260,23 +262,49 @@ class PriceProvider extends ChangeNotifier {
               .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       iosPlatformAddition.setDelegate(null);
     }
-    subscription!.cancel();
+    // subscription!.cancel();
     notifyListeners();
   }
 
   Future<void> requestPurchase(ProductDetails product) async {
     buyProductLoder = true;
     notifyListeners();
+    // var transactions = await SKPaymentQueueWrapper().transactions();
+    // transactions.forEach((skPaymentTransactionWrapper) {
+    //   SKPaymentQueueWrapper().finishTransaction(skPaymentTransactionWrapper);
+    // });
+    print("requestPurchase  dff");
+    late PurchaseParam purchaseParam;
     try {
-      late PurchaseParam purchaseParam;
       purchaseParam =
           PurchaseParam(productDetails: product, applicationUserName: null);
       await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
-      setListener();
+
       purchasePending = false;
       notifyListeners();
     } on Exception catch (e) {
-      print("1111111111111111 ${e}");
+      print("requestPurchase   ${e}");
+      if (e is PlatformException) {
+        if (e.code == 'storekit_duplicate_product_object') {
+          ProductDetailsResponse productDetailResponse =
+              await _inAppPurchase.queryProductDetails(kProductIds.toSet());
+          print(
+              "requestPurchase storekit_duplicate_product_object ${productDetailResponse.productDetails.length}");
+          if (productDetailResponse.productDetails.isNotEmpty) {
+            print("requestPurchase>>> dd ${purchases.length}");
+            for (var _purchaseDetails in purchases) {
+              if (_purchaseDetails.pendingCompletePurchase) {
+                await _inAppPurchase.completePurchase(_purchaseDetails);
+              }
+            }
+          }
+          var paymentWrapper = SKPaymentQueueWrapper();
+          var transactions = await paymentWrapper.transactions();
+          transactions.forEach((transaction) async {
+            await paymentWrapper.finishTransaction(transaction);
+          });
+        }
+      }
       buyProductLoder = false;
       notifyListeners();
     }
@@ -301,16 +329,32 @@ class PriceProvider extends ChangeNotifier {
   Future<void> deliverProduct(PurchaseDetails purchaseDetails, res) async {
     try {
       inApp.clear();
+      print("deliverProduct>> ${purchaseDetails.productID}");
+
+      log("deliverProduct>> res ${res.body}");
       purchases.add(purchaseDetails);
       var getid = await getUserId();
       var response = json.decode(res.body);
+
+      log("deliverProduct>> res ${response}");
       validateReceiptIosModel =
           await ValidateReceiptIosModel.fromJson(response);
-      inApp.addAll(validateReceiptIosModel.latestReceiptInfo);
-      print(response['receipt']['in_app']);
+      log("Receipts>> Length ${validateReceiptIosModel.latestReceiptInfo.length}");
+      // log("Receipts>> latest" + response['latest_receipt_info']);
+
+      // log("Receipts>>" + response['receipt']['in_app']);
       print(getid);
-      responseModel = await hitSubscriptionPlanPayment(
-          {"userId": getid, "paymentData": response['receipt']['in_app']});
+
+      responseModel = await hitSubscriptionPlanPayment({
+        "userId": getid,
+        "paymentData":
+            jsonDecode(jsonEncode(validateReceiptIosModel.latestReceiptInfo))
+      }).catchError((onError) {
+        buyProductLoder = false;
+        notifyListeners();
+      });
+      inApp.addAll(validateReceiptIosModel.latestReceiptInfo);
+      buyProductLoder = false;
       notifyListeners();
       purchasePending = false;
     } on Exception catch (e) {

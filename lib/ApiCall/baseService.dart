@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_truck_dot_one/AppUtils/constants.dart';
 
 baseServicePost(String url, Map<String, dynamic> map) async {
   print("SERVER_URL + url${SERVER_URL + url}");
@@ -52,12 +52,14 @@ TomServiceGet(String url, Map<String, dynamic> map) async {
 }
 
 baseItunesPost(String url, Map<String, dynamic> map) async {
-  var res = await http.post(
-    Uri.parse(url),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(map),
-  )     .timeout(Duration(seconds: 40));
+  var res = await http
+      .post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(map),
+      )
+      .timeout(Duration(seconds: 10));
   return res;
 }

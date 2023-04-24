@@ -1,17 +1,15 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:html/parser.dart';
-import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
-import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 final String IMG_URL = SERVER_URL + '/uploads/enduser/';
 final String Event_logo_Url = SERVER_URL + "/uploads/event/brand_logo/";
@@ -33,24 +31,22 @@ final String Base_Url_group = SERVER_URL + '/uploads/group/';
 
 final Color PrimaryColor = Color(0xFF044a87);
 var AppversionName = "1.1.7";
- final String SERVER_URL = "https://mytruck.one:1337";
-//final String SERVER_URL = "http://192.168.1.140:1339";
+//  final String SERVER_URL = "https://mytruck.one:1337";
+final String SERVER_URL = "https://mytruck.one:1337";
 
- // final String SERVER_URL = 'https://zimotechnologies.in:4000';
+// final String SERVER_URL = 'https://zimotechnologies.in:4000';
 final Color IconColor = Colors.black.withOpacity(0.5);
 String Base_URL_image = SERVER_URL + '/api/v1/post/uploadImage';
 final String Base_URL_group_image = SERVER_URL + '/uploads/post/image/';
 String Base_URL_Image_ThumbNail = SERVER_URL + '/uploads/post/image/thumbnail/';
 
-String Base_URL_video_ThumbNail =
-    SERVER_URL + '/uploads/post/video/';
+String Base_URL_video_ThumbNail = SERVER_URL + '/uploads/post/video/';
 
 String Base_URL_video = SERVER_URL + '/api/v1/post/uploadVideo/';
 String Base_URL_ProductList = SERVER_URL + '/uploads/product/image/';
 
 String Base_url_Add_Product = "https://mytruck.one/login";
 String Base_url_Terms_Conditions = "https://mytruck.one/pages/terms-conditions";
-
 
 String conversationId = "";
 
@@ -198,8 +194,6 @@ var deviceModel = "";
 late BuildContext contxt;
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-
-
 Color mC = Colors.grey.shade100;
 Color mCL = Colors.white;
 Color mCD = Colors.black.withOpacity(0.075);
@@ -219,5 +213,3 @@ BoxDecoration nMbox =
     blurRadius: 10,
   ),
 ]);
-
-

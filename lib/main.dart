@@ -17,6 +17,7 @@ import 'package:my_truck_dot_one/Screens/NotificationScreen/Provider/notificatio
 import 'package:my_truck_dot_one/Screens/PricingScreen/Provider/Pricing_provider.dart';
 import 'package:my_truck_dot_one/Screens/team_manage_Screen%20/company_team_manage/Provider/team_manger_provider.dart';
 import 'package:new_version/new_version.dart';
+// import 'package:new_version/new_version.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -71,6 +72,7 @@ final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
 
 Future<void> main() async {
   await WidgetsFlutterBinding.ensureInitialized();
+  //InAppPurchaseStoreKitPlatform.registerPlatform();
   HttpOverrides.global = MyHttpOverrides();
 
   // Stripe.publishableKey =

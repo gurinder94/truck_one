@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:my_truck_dot_one/Model/ActivityLogModel.dart';
 import 'package:my_truck_dot_one/Model/ChatModel/CreateSingleConversationModel.dart';
@@ -84,9 +86,8 @@ import 'package:my_truck_dot_one/Model/WeatherModel/thunder_weather_model.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
 import 'package:my_truck_dot_one/Model/privacy_policy_model.dart';
 import 'package:my_truck_dot_one/Model/switch_user_model.dart';
-import 'package:my_truck_dot_one/Model/validate_receipt_ios_model.dart';
 import 'package:my_truck_dot_one/Model/weather_model.dart';
-import '../AppUtils/constants.dart';
+
 import '../Model/Apply_PromoCode_model.dart';
 import '../Model/ChatModel/ChatConversationModelDetail.dart';
 import '../Model/ChatModel/ChatGroupViewModel.dart';
@@ -98,13 +99,10 @@ import '../Model/MyPlanModel.dart';
 import '../Model/NotificationModel/NotificationModel.dart';
 import '../Model/PlanUpgradeSuccessModel.dart';
 import '../Model/SubscriptionPlanModel/Add_to_cart_model.dart';
-import '../Model/SubscriptionPlanModel/Cart_model.dart';
 import '../Model/SubscriptionPlanModel/Subscription_payment_successful_model.dart';
-import '../Model/SubscriptionPlanModel/Subscription_plan_model.dart';
 import '../Model/SubscriptionPlanModel/promo_code_model.dart';
 import '../Model/TripPlannerModel/trip_history_model.dart';
 import '../Model/account_detail_Model.dart';
-import '../Model/plan_upgrade_model.dart';
 import '../Model/sellerDashBoardModel.dart';
 import '../PaymentSuccessModel.dart';
 import 'baseService.dart';
@@ -2801,7 +2799,7 @@ SellerDashBordApi(Map<String, dynamic> map) async {
     var response =
         await baseServicePost('/api/v1/review/numberOfQuestion', map);
     if (response.statusCode == 200) {
-       print('Response body: ${response.body}');
+      print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -2882,7 +2880,7 @@ hitAccountInformationApi(Map<String, dynamic> map) async {
     var response = await baseServicePost('/api/v1/user/accountInfo', map);
     if (response.statusCode == 200) {
       var parseData = json.decode(response.body);
-       print("7978787787878787878${response.body}");
+      print("7978787787878787878${response.body}");
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
       else {
@@ -3523,7 +3521,9 @@ hitValidateReceiptIos(
   String url,
 ) async {
   try {
+    print("map>>>>>>  hitValidateReceiptIos  ");
     var response = await baseItunesPost(url, map);
+    print("response>> ${response}");
     if (response.statusCode == 200) {
       print('ValidateReceiptIos: ${response.statusCode}');
       var parseData = json.decode(response.body);
@@ -3537,13 +3537,15 @@ hitValidateReceiptIos(
   }
 }
 
-hitSubscriptionPlanPayment(Map<String, dynamic> map) async {
+Future hitSubscriptionPlanPayment(Map<String, dynamic> map) async {
   try {
+    log("hitSubscriptionPlanPayment>> $map");
     var response =
         await baseServicePost('/api/mobile/subscriptionplan/payment', map);
     print("0000000000000000000000${response.body}");
+
     if (response.statusCode == 200) {
-       print('sub: ${response.body}');
+      print('sub: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -3560,7 +3562,7 @@ hitMyPlan(Map<String, dynamic> map) async {
     var response =
         await baseServicePost('/api/v1/subscriptionplan/myPlan', map);
     if (response.statusCode == 200) {
-       print('myPlan: ${response.body}');
+      print('myPlan: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);

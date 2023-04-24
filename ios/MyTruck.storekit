@@ -1,0 +1,33 @@
+{
+  "identifier" : "36767F81",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "6445274876",
+      "localizations" : [
+        {
+          "description" : "This Package will provide you 10 Trip.",
+          "displayName" : "GPS Plan",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "Gps_Plan_Monthly_6.99",
+      "referenceName" : "MyTruck.one",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

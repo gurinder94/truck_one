@@ -61,7 +61,9 @@ dependencies:
   new_version: ^0.3.0
   package_info_plus: ^1.4.2
   in_app_purchase: ^3.1.1
-  flutter_inapp_purchase: ^5.3.1
+  # flutter_inapp_purchase: ^5.3.1
+  in_app_purchase_storekit: ^0.3.6+2
+
 
 
 
