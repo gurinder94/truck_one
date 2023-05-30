@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class CompanyDetail extends ChangeNotifier {
+  var middleName;
+
   CompanyDetail({
     this.userId,
     this.companyName,
@@ -20,8 +22,7 @@ class CompanyDetail extends ChangeNotifier {
     this.email,
     this.firstName,
     this.lastName,
-
-
+    this.middleName,
   });
 
   String ?userId;
@@ -63,6 +64,7 @@ class CompanyDetail extends ChangeNotifier {
         aboutCompany: json["aboutCompany"],
         email: json["email"],
         firstName: json['firstName'],
+        middleName: json['middleName'],
         lastName: json['lastName'],
       );
 
@@ -88,6 +90,7 @@ class CompanyDetail extends ChangeNotifier {
         "aboutCompany": aboutCompany,
         "email": email,
         "firstName":firstName,
+        "middleName":middleName,
         "lastName":lastName,
       };
 }

@@ -7,7 +7,7 @@ import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Model/JobModel/Industry_list_model.dart';
 import 'package:my_truck_dot_one/Model/JobModel/JobListModel.dart';
-import 'package:my_truck_dot_one/Model/JobModel/JobModel.dart';
+import 'package:my_truck_dot_one/Model/JobModel/JobModel 2.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/qualificationModel.dart';
 
 class UserJobProvider extends ChangeNotifier {

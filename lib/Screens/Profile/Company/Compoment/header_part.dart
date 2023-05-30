@@ -41,7 +41,7 @@ class HeaderPart extends StatelessWidget {
             child: CustomImage(
                 image: profile_banner_url + bannerImage,
                 width: double.infinity,
-                boxFit: BoxFit.cover,
+                boxFit: BoxFit.fill,
                 height: 280)),
 
         Container(
@@ -207,84 +207,6 @@ class HeaderPart extends StatelessWidget {
             },
           ),
         ),
-
-        // Positioned(
-        //           left: 10,
-        //           top: 0,
-        //  right: 10,
-        //  child:  Container(
-        //    width: MediaQuery.of(context).size.width,
-        //    height: 80,
-        //    child: Row(
-        //      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //      children: [
-        //        profileComplete == true
-        //                         ?     IconButton(
-        //            onPressed: () => Navigator.pop(context),
-        //            icon: Icon(
-        //              Icons.arrow_back,
-        //              color: Colors.white,
-        //            )):SizedBox(),
-        //        Text(
-        //          'Profile',
-        //          style: TextStyle(
-        //              color: Colors.white,
-        //              fontSize: 20,
-        //              fontWeight: FontWeight.w600),
-        //        ),
-        //        profileComplete == true
-        //            ?  SizedBox():              PopupMenuButton(
-        //                       onSelected: (value) {
-        //                         switch (value) {
-        //                           case 1:
-        //                             DialogUtils.showMyDialog(
-        //                               context,
-        //                               onDoneFunction: () async {
-        //                                 final pref = await SharedPreferences.getInstance();
-        //                                 await pref.clear();
-        //
-        //                                 Navigator.of(context).pushAndRemoveUntil(
-        //                                     MaterialPageRoute(
-        //                                         builder: (context) => LoginScreen()),
-        //                                         (Route<dynamic> route) => false);
-        //                               },
-        //                               oncancelFunction: () =>
-        //                                   Navigator.pop(context),
-        //                               title: 'Logout!',
-        //                               alertTitle:
-        //                               "Are you sure want to logout ?",
-        //                               btnText: "Done",
-        //                             );
-        //                             break;
-        //                         }
-        //                       },
-        //                       itemBuilder: (context) => [
-        //                         PopupMenuItem(
-        //                           child: Text("LogOut"),
-        //                           value: 1,
-        //                         ),
-        //                       ],
-        //                       child: Icon(
-        //                         Icons.more_vert,
-        //                         color: Colors.white,
-        //                       ),
-        //                     ),
-        //                   ],
-        //                 ),
-        //    decoration: BoxDecoration(
-        //        gradient: LinearGradient(
-        //          begin: Alignment.topRight,
-        //          end: Alignment.bottomLeft,
-        //          colors: [
-        //            Colors.black45,
-        //            Colors.black45,
-        //          ],
-        //        )
-        //    ),
-        //               )
-        //
-        //
-        // )
       ],
     );
   }

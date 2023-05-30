@@ -12,11 +12,13 @@ import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/E_commerce_Model/BrandListModel.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
 import 'package:my_truck_dot_one/Model/TripPlannerModel/TruckDetailListModel.dart';
+import 'package:my_truck_dot_one/Model/VINModel.dart';
 
 class EditTruckManagerProvider extends ChangeNotifier {
-  bool loading = true, loder = false,imageLoder=false;
+  bool loading = true, loder = false, imageLoder = false;
   var message = "";
   final ImagePicker _picker = ImagePicker();
+  VinModel vinModel = VinModel();
   List<Datum> brandList = [];
   BrandListModel? brandListModel;
   ResponseModel? _responseModel;
@@ -31,14 +33,42 @@ class EditTruckManagerProvider extends ChangeNotifier {
   TextEditingController numberTyres = TextEditingController();
   TextEditingController wheelbase = TextEditingController();
   TextEditingController power = TextEditingController();
+  TextEditingController brand = TextEditingController();
+  TextEditingController tyreenter = TextEditingController();
   bool isDelete = false;
   String isDeleteName = "Unarchived";
   var trailerName;
   var image;
-  Datum? brandvalue;
+  Datum brandvalue = Datum();
   var fuelType;
   TruckDetailListModel? truckDetailModel;
   String fleetManagerId;
+
+  var brandName;
+
+  var tyre;
+
+  var totalTyres = [
+    "4",
+    "6",
+    "8",
+    "10",
+    "12",
+    "14",
+    "16",
+    "18",
+    "20",
+    "22",
+    "24",
+    "26",
+    "28",
+    "30",
+    "Other"
+  ];
+
+  bool vinLoad = false;
+
+  String? textType;
 
   EditTruckManagerProvider(this.fleetManagerId);
 
@@ -57,10 +87,10 @@ class EditTruckManagerProvider extends ChangeNotifier {
     print(map);
     try {
       brandListModel = await hitBrandListApi(map);
+      brandList.add(Datum(brand: "Others", id: "12345"));
       brandList.addAll(brandListModel!.data!);
       await hitGetTruckDetails("truck");
       loading = false;
-
       notifyListeners();
     } on Exception catch (e) {
       print("hh");
@@ -79,6 +109,7 @@ class EditTruckManagerProvider extends ChangeNotifier {
   ///set value Brand
   setBrandValue(Datum value) {
     brandvalue = value;
+    brandName = value.brand;
     notifyListeners();
   }
 
@@ -97,11 +128,8 @@ class EditTruckManagerProvider extends ChangeNotifier {
     }
   }
 
-  imageUpload(
-    File image,
-    String type,
-  ) async {
-    imageLoder=true;
+  imageUpload(File image, String type) async {
+    imageLoder = true;
     notifyListeners();
     var url = SERVER_URL + '/api/v1/event/uploads';
     var request = http.MultipartRequest(
@@ -136,22 +164,9 @@ class EditTruckManagerProvider extends ChangeNotifier {
             : Base_Url_Fleet_truck + imageReal;
 
         notifyListeners();
-        // if (type == "COMPANYBANNER") {
-        //   imagebanner = imageReal;
-        //   userModel!.data!.bannerImage = imagebanner;
-        //   showMessage(jsonData['message']);
-        //   print("hello");
-        //   notifyListeners();
-        // } else {
-        //   imageLogo = imageReal;
-        //   userModel!.data!.image = imageLogo;
-        //   showMessage(jsonData['message']);
-        //   print(imageLogo);
-        //   notifyListeners();
-        // }
       }
     }
-    imageLoder=false;
+    imageLoder = false;
     notifyListeners();
   }
 
@@ -234,7 +249,26 @@ class EditTruckManagerProvider extends ChangeNotifier {
     modelNumber.text = truckDetail.modelNumber ?? "";
     engineNumber.text = truckDetail.engine ?? "";
     wheelbase.text = truckDetail.wheelbase.toString();
-    numberTyres.text = truckDetail.numOfTyres.toString();
+    if (truckDetail.numOfTyres! % 2 == 0) {
+      if (truckDetail.numOfTyres! > 30) {
+        print('${truckDetail.numOfTyres = 30} is even');
+        tyre = "30";
+      } else {
+        tyre = truckDetail.numOfTyres.toString();
+      }
+    } else {
+      if (truckDetail.numOfTyres! > 30) {
+        print('${truckDetail.numOfTyres = 30} is not odd');
+        tyre = "30";
+      } else {
+        tyre = "${truckDetail.numOfTyres! + 1}";
+        print('${truckDetail.numOfTyres! + 1} is odd');
+      }
+    }
+    tyre = truckDetail.numOfTyres.toString() == "0"
+        ? "Other"
+        : truckDetail.numOfTyres.toString();
+    tyreenter.text = truckDetail.OtherTyre.toString();
     power.text = truckDetail.power.toString();
     fuelType = truckDetail.fuelType == null
         ? null
@@ -242,16 +276,56 @@ class EditTruckManagerProvider extends ChangeNotifier {
             ? "Petrol"
             : "Diesel";
     image = truckDetail.image;
-    int index =
-        brandList.indexWhere((item) => item.id == truckDetail.brand!.id);
+    int index = brandList.indexWhere((item) =>
+        item.id ==
+        (truckDetail.brand!.id == null &&
+                truckDetail.otherbrand.toString() == "null"
+            ? ""
+            : truckDetail.brand!.id == null
+                ? "12345"
+                : truckDetail.brand!.id));
     vin.text = truckDetail.number.toString();
     if (index >= 0) {
       setBrandValue(brandList[index]);
     }
-    print(index);
+    brand.text = truckDetail.otherbrand.toString() == "null"
+        ? ""
+        : truckDetail.otherbrand.toString();
     image = image == null ? "" : Base_Url_Fleet_truck + truckDetail.image!;
     isDeleteName = truckDetail.isDeleted == true ? "Archived" : "Unarchived";
     isDelete = truckDetail.isDeleted!;
+  }
+
+  Future<void> hitVehicleData() async {
+    vinLoad = true;
+    notifyListeners();
+    Map<String, dynamic> map = {};
+    print(map);
+    try {
+      vinModel = await hitAddVehiclesApi(map, vin.text);
+      showData();
+      vinLoad = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      message = e.toString().replaceAll('Exception:', '');
+      showMessage(message);
+      print(e.toString());
+      vinLoad = false;
+      notifyListeners();
+    }
+  }
+
+  void showData() {
+    textType = vinModel.results![0]["EngineManufacturer"];
+    brand.text = vinModel.results![0]["EngineManufacturer"].toString();
+    fuelType = vinModel.results![0]["FuelTypePrimary"] == "Gasoline"
+        ? "Gas"
+        : vinModel.results![0]["FuelTypePrimary"] == ""
+            ? "Gas"
+            : vinModel.results![0]["FuelTypePrimary"];
+    weight.text = vinModel.results![0]["TrackWidth"].toString();
+    power.text = vinModel.results![0]["EngineHP"].toString();
+    modelNumber.text = vinModel.results![0]['Model'].toString();
   }
 
   hitUpdateVehicelType(String id, String type) async {
@@ -260,8 +334,9 @@ class EditTruckManagerProvider extends ChangeNotifier {
     var getId = await getUserId();
     Map<String, dynamic> map = type == "truck"
         ? {
-            '_id': id,
-            "brand": brandvalue!.id,
+            "brand": brandvalue.id,
+            "otherbrand": brandvalue.id != "12345" ? "" : brand.text,
+            "createdById": getId,
             "engine": engineNumber.text,
             "fuelCapacity": capacity.text,
             "fuelType": fuelType,
@@ -269,17 +344,19 @@ class EditTruckManagerProvider extends ChangeNotifier {
             "image": image == null
                 ? null
                 : image.toString().replaceAll(Base_Url_Fleet_truck, ''),
+            "isDeleted": isDelete,
             "loadCapacity": "0",
             "modelNumber": modelNumber.text,
             "name": name.text,
-            "numOfTyres": numberTyres.text,
+            "numOfTyres": tyre,
             "number": vin.text,
             "power": power.text,
             "vehicleType": "TRUCK",
             "weight": weight.text,
             "wheelbase": wheelbase.text,
             "width": width.text,
-            "isDeleted": isDelete,
+            "_id": id,
+            "OtherTyre": tyreenter.text
           }
         : {
             "createdById": getId,
@@ -295,20 +372,15 @@ class EditTruckManagerProvider extends ChangeNotifier {
             "weight": weight.text,
             "width": width.text,
             "_id": id,
-            "isDeleted": isDelete,
           };
-
     try {
-      _responseModel = await hitUpdateFleetManagerApi(
-        map,
-      );
+      _responseModel = await hitUpdateFleetManagerApi(map);
       Navigator.pop(navigatorKey.currentState!.context);
       showMessage(_responseModel!.message!);
       loder = false;
       notifyListeners();
     } on Exception catch (e) {
       message = e.toString().replaceAll('Exception:', '');
-
       showMessage(message.toString());
       print(e.toString());
       loder = false;
@@ -318,7 +390,7 @@ class EditTruckManagerProvider extends ChangeNotifier {
 
   void setDelete(String newValue) {
     isDelete = newValue == "Archived" ? true : false;
-    isDeleteName=newValue;
+    isDeleteName = newValue;
     notifyListeners();
   }
 }

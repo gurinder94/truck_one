@@ -6,28 +6,23 @@ class MutipleKeySkill extends StatefulWidget {
 
   MutipleKeySkill(this.userProfileProvider);
 
-
-
   @override
-  _MutipleKeySkillState createState() => _MutipleKeySkillState(userProfileProvider);
+  _MutipleKeySkillState createState() =>
+      _MutipleKeySkillState(userProfileProvider);
 }
 
 class _MutipleKeySkillState extends State<MutipleKeySkill> {
   @override
-
-
-
   UserProfileProvider userProfileProvider;
 
   _MutipleKeySkillState(this.userProfileProvider);
-
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    userProfileProvider.skill = '';
+    setState(() {});
   }
 
   @override
@@ -45,17 +40,16 @@ class _MutipleKeySkillState extends State<MutipleKeySkill> {
               ' Key Skills',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-
             Expanded(
               child: Container(
-
                 child: ListView.builder(
-                    itemCount: userProfileProvider.skillModel.data!.length,
+                    itemCount: userProfileProvider.listSkill.length,
                     itemBuilder: (context, index) {
-                      var key = userProfileProvider.skillModel.data![index].skill;
                       return Column(
                         children: [
-                          SizedBox(height: 20,),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -64,18 +58,20 @@ class _MutipleKeySkillState extends State<MutipleKeySkill> {
                                   child: Container(
                                     width: 270,
                                     child: Text(
-                                      userProfileProvider
-                                          .skillModel.data![index].skill
+                                      userProfileProvider.listSkill[index].skill
                                           .toString(),
-                                      style: TextStyle(fontWeight: FontWeight.w600),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 ),
                                 Spacer(),
                                 Checkbox(
-                                    value:   userProfileProvider.skillModel.data![index].isValue,
+                                    value: userProfileProvider
+                                        .listSkill[index].isValue,
                                     onChanged: (val) {
-                                      userProfileProvider.skillModel.data![index].isValue = val!;
+                                      userProfileProvider
+                                          .listSkill[index].isValue = val!;
                                       setState(() {});
                                     })
                               ],
@@ -98,28 +94,45 @@ class _MutipleKeySkillState extends State<MutipleKeySkill> {
                     child: Text(
                       'Ok',
                       style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
-                      userProfileProvider.skillarray=[];
-                      userProfileProvider.skillId=[];
+                      userProfileProvider.skillarray = [];
+                      userProfileProvider.skillId = [];
                       List.generate(
-                          userProfileProvider.skillModel.data!.length,
-                              (index) => {
-                            if (userProfileProvider.skillModel.data![index].isValue == true)
-                              {
-                                userProfileProvider.skillarray.add(
-                                    userProfileProvider.skillModel.data![index]
-                                        .skill),
-                                userProfileProvider.skillId.add(userProfileProvider.skillModel.data![index].id.toString()),
-                              }
-                          });
-
-                      userProfileProvider.skillText.text =    userProfileProvider.skillarray.toString()
+                          userProfileProvider.listSkill.length,
+                          (index) => {
+                                if (userProfileProvider
+                                        .listSkill[index].isValue ==
+                                    true)
+                                  {
+                                    print(userProfileProvider
+                                        .listSkill[index].skill),
+                                    if (userProfileProvider
+                                            .listSkill[index].skill
+                                            .toString() ==
+                                        "Others")
+                                      {
+                                        userProfileProvider.skill =
+                                            userProfileProvider
+                                                .listSkill[index].skill
+                                                .toString()
+                                      },
+                                    userProfileProvider.skillarray.add(
+                                        userProfileProvider
+                                            .listSkill[index].skill),
+                                    userProfileProvider.skillId.add(
+                                        userProfileProvider.listSkill[index].id
+                                            .toString()),
+                                  }
+                              });
+                      userProfileProvider.skillText.text = userProfileProvider
+                          .skillarray
+                          .toString()
                           .replaceAll('[', '')
                           .replaceAll(']', '');
 
-                      Navigator.pop(context);
+                      Navigator.of(context).pop(userProfileProvider.skill);
                     },
                   ),
                 ),
@@ -129,10 +142,10 @@ class _MutipleKeySkillState extends State<MutipleKeySkill> {
                     child: Text(
                       'Cancel',
                       style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.of(context).pop();
                     },
                   ),
                 )
@@ -144,5 +157,3 @@ class _MutipleKeySkillState extends State<MutipleKeySkill> {
     );
   }
 }
-
-

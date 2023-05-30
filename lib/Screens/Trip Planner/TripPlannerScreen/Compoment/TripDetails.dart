@@ -29,7 +29,9 @@ class TripDetails extends StatelessWidget {
             height: 35,
             child: Center(
               child: Text(
-                AppLocalizations.instance.text("Trip Details",),
+                AppLocalizations.instance.text(
+                  "Trip Details",
+                ),
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ),
@@ -41,16 +43,54 @@ class TripDetails extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          TripDeatils("Source",
-              _listProvider.tripViewDetails!.data!.source!.address.toString()),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                    width: Size.width * 0.40,
+                    child: Text("Starting Point" + " :",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600))),
+                Spacer(),
+                Container(
+                    width: Size.width * 0.40,
+                    child: Text(
+                      _listProvider.tripViewDetails!.data!.source!.address
+                          .toString(),
+                      style: TextStyle(fontSize: 12),
+                    )),
+              ],
+            ),
+          ),
           Divider(
             color: Colors.black38,
             height: 2,
           ),
-          TripDeatils(
-              "Destination",
-              _listProvider.tripViewDetails!.data!.destination!.address
-                  .toString()),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                    width: Size.width * 0.40,
+                    child: Text("Final Destination" + " :",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600))),
+                Spacer(),
+                Container(
+                    width: Size.width * 0.40,
+                    child: Text(
+                      _listProvider.tripViewDetails!.data!.destination!.address
+                          .toString(),
+                      style: TextStyle(fontSize: 12),
+                    )),
+              ],
+            ),
+          ),
           Divider(
             color: Colors.black38,
             height: 2,
@@ -59,8 +99,8 @@ class TripDetails extends StatelessWidget {
               "Arrive Date",
               _listProvider.tripViewDetails!.data!.endDate == null
                   ? ''
-                  : getCovert(_listProvider.tripViewDetails!.data!.endDate
-                      .toString())),
+                  : getCovert(
+                      _listProvider.tripViewDetails!.data!.endDate.toString())),
           Divider(
             color: Colors.black38,
             height: 2,
@@ -69,8 +109,8 @@ class TripDetails extends StatelessWidget {
               "Depart Date",
               _listProvider.tripViewDetails!.data!.startDate == null
                   ? ''
-                  : getCovert(
-                      _listProvider.tripViewDetails!.data!.startDate.toString())),
+                  : getCovert(_listProvider.tripViewDetails!.data!.startDate
+                      .toString())),
           Divider(
             color: Colors.black38,
             height: 2,
@@ -117,16 +157,20 @@ class TripDetails extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Row(
-crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
               width: Size.width * 0.40,
-
-              child: Text(AppLocalizations.instance.text(Heading)+" :",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600))),
+              child: Text(AppLocalizations.instance.text(Heading) + " :",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
           Spacer(),
           Container(
-              width: Size.width * 0.40, child: Text(value,style: TextStyle(fontSize: 12),)),
+              width: Size.width * 0.40,
+              child: Text(
+                value,
+                style: TextStyle(fontSize: 12),
+              )),
         ],
       ),
     );
@@ -137,7 +181,7 @@ getCovert(String value) {
   print(value);
   DateTime dt = DateTime.parse(value).toLocal();
   print(dt);
-    String formattedDate = DateFormat('MMM-dd-yyyy , hh:mm:a').format(dt);
+  String formattedDate = DateFormat('MMM-dd-yyyy , hh:mm:a').format(dt);
 
   return formattedDate;
 }

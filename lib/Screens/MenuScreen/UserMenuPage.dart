@@ -238,7 +238,6 @@ class _UserMenuPageState extends State<UserMenuPage> {
     var GpsPlanuser = await getGpsPlanData();
     switch (title) {
       case 'Events':
-        //
         Navigator.push(
             context,
             MaterialPageRoute(

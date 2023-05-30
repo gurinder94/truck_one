@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
@@ -6,7 +7,9 @@ import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/OutsideButton.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/comman_rich_text.dart';
 import 'package:provider/provider.dart';
+import '../../../../AppUtils/UserInfo.dart';
 import '../../../Language_Screen/application_localizations.dart';
+import '../../Provider/_invite_member_provider.dart';
 import '../Provider/team_manger_provider.dart';
 
 class ManageTeam extends StatelessWidget {
@@ -15,7 +18,8 @@ class ManageTeam extends StatelessWidget {
   ManageTeam(this.managerTeamProvider);
 
   List<String> documentName = [];
-  int pagee=1;
+  int pagee = 1;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -26,11 +30,12 @@ class ManageTeam extends StatelessWidget {
           );
         }
         if (proData.CompanyManageList.length == 0)
-          return Center(child: Text(AppLocalizations.instance.text('No Record Found')));
+          return Center(
+              child: Text(AppLocalizations.instance.text('No Record Found')));
         else
           return ListView.builder(
               itemCount: proData.CompanyManageList.length,
-              controller:proData.scrollController ,
+              controller: proData.scrollController,
               padding: EdgeInsets.zero,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
@@ -39,7 +44,6 @@ class ManageTeam extends StatelessWidget {
                     padding: EdgeInsets.all(15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-
                       children: [
                         SizedBox(
                           height: 5,
@@ -49,30 +53,96 @@ class ManageTeam extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                               capitalize( proData.CompanyManageList[index].personName
-                            .toString()),
-
+                                capitalize(proData
+                                    .CompanyManageList[index].personName
+                                    .toString()),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                             ),
 
                             // checkButtonCondation(proData, index, context),
-                            proData.CompanyManageList[index].accessLevel=="DRIVER"?   proData.inviteStatus!="Accepted"?SizedBox():        OutsideButton(
+                            proData.CompanyManageList[index].accessLevel ==
+                                    "DRIVER"
+                                ? proData.inviteStatus != "Accepted"
+                                    ? SizedBox()
+                                    : OutsideButton(
                                         Icon: GestureDetector(
-                                      child: Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
-                                      ),
-                                      onTap: () {
-                                        delete(
-                                            context,
-                                            proData.CompanyManageList[index].driverId
-                                                .toString(),
-                                            index,
-                                            proData);
-                                      },
-                                    )):SizedBox(),
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                        onTap: () {
+                                          proData.paginationLoder = false;
+                                          delete(
+                                              context,
+                                              proData.CompanyManageList[index]
+                                                  .driverId
+                                                  .toString(),
+                                              index,
+                                              proData);
+                                        },
+                                      ))
+                                : SizedBox(),
+
+                            proData.CompanyManageList[index].isAccepted ==
+                                    "decline"
+                                ? GestureDetector(
+                                    onTap: () async {
+                                      proData.paginationLoder = false;
+                                      var getId = await getUserId();
+                                      var companyId = await getCompanyId();
+                                      var roleName = await getRoleInfo();
+                                      proData.pagee = 1;
+                                      proData.sendInviteMember({
+                                        "accessLevel": proData.valueItemSelected
+                                            .toString()
+                                            .toUpperCase(),
+                                        "companyId":
+                                            companyId == '' ? getId : companyId,
+                                        "constName": proData
+                                                    .valueItemSelected ==
+                                                "Driver"
+                                            ? 'NOOFDRIVERS'
+                                            : proData.valueItemSelected == "HR"
+                                                ? 'NOOFHR'
+                                                : "NOOFDISPATCHER",
+                                        "createdById": getId,
+                                        "email": proData
+                                            .CompanyManageList[index].email,
+                                        "lastName": proData
+                                            .CompanyManageList[index].lastName,
+                                        "firstName": proData
+                                            .CompanyManageList[index].firstName,
+                                        "mobileNumber": proData
+                                            .CompanyManageList[index]
+                                            .mobileNumber,
+                                        "planTitle": "TRIPPLAN",
+                                        "roleTitle":
+                                            roleName.toString().toUpperCase()
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.outgoing_mail,
+                                      weight: 10,
+                                      size: 30,
+                                    ))
+                                : proData.CompanyManageList[index].isAccepted ==
+                                        "pending"
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          proData.pagee = 1;
+                                          proData.paginationLoder = false;
+                                          proData.hitDeleteByCompany(proData
+                                              .CompanyManageList[index].email
+                                              .toString());
+                                        },
+                                        child: Icon(
+                                          Icons.cancel_outlined,
+                                          weight: 10,
+                                          size: 30,
+                                        ))
+                                    : SizedBox()
                           ],
                         ),
                         SizedBox(
@@ -83,27 +153,30 @@ class ManageTeam extends StatelessWidget {
                           children: [
                             Expanded(
                                 child: CommonRichText(
-                              richText1: AppLocalizations.instance.text('Email'),
+                              richText1:
+                                  AppLocalizations.instance.text('Email'),
                               style1: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   height: 1.4,
                                   color: Colors.black),
-                              richText2: '\n${proData.CompanyManageList[index].email
-                                  .toString()}',
+                              richText2:
+                                  '\n${proData.CompanyManageList[index].email.toString()}',
                               style2: TextStyle(fontWeight: FontWeight.normal),
                             )),
-SizedBox(width: 10,),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Expanded(
                                 flex: 1,
                                 child: CommonRichText(
-                                  richText1:AppLocalizations.instance.text('Phone Number') ,
+                                  richText1: AppLocalizations.instance
+                                      .text('Phone Number'),
                                   style1: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       height: 1.4,
                                       color: Colors.black),
-                                  richText2:'\n${ proData
-                                    .CompanyManageList[index].mobileNumber
-                                    .toString()}',
+                                  richText2:
+                                      '\n${proData.CompanyManageList[index].mobileNumber.toString()}',
                                   style2:
                                       TextStyle(fontWeight: FontWeight.normal),
                                 )),
@@ -117,21 +190,22 @@ SizedBox(width: 10,),
                           children: [
                             Expanded(
                                 child: CommonRichText(
-                              richText1: AppLocalizations.instance.text('Access') ,
+                              richText1:
+                                  AppLocalizations.instance.text('Access'),
                               style1: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   height: 1.4,
                                   color: Colors.black),
-                              richText2: '\n${proData
-                                  .CompanyManageList[index].accessLevel
-                                  .toString()}',
+                              richText2:
+                                  '\n${proData.CompanyManageList[index].accessLevel.toString()}',
                               style2: TextStyle(fontWeight: FontWeight.normal),
                             )),
                             proData.valueItemSelected != "Accepted"
                                 ? SizedBox()
                                 : Expanded(
                                     child: CommonRichText(
-                                    richText1:AppLocalizations.instance.text('Joining Date') ,
+                                    richText1: AppLocalizations.instance
+                                        .text('Joining Date'),
                                     style1: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         height: 1.4,
@@ -140,9 +214,7 @@ SizedBox(width: 10,),
                                                 .dateOfJoining ==
                                             null
                                         ? '\n'
-                                        : '\n${formatterDate(proData
-                                        .CompanyManageList[index]
-                                        .dateOfJoining)}',
+                                        : '\n${formatterDate(proData.CompanyManageList[index].dateOfJoining)}',
                                     style2: TextStyle(
                                         fontWeight: FontWeight.normal),
                                   )),
@@ -169,13 +241,16 @@ SizedBox(width: 10,),
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(proData.CompanyManageList[index]
-                                            .documents![i].name ==
-                                        null
-                                    ? ''
-                                    : proData.CompanyManageList[index]
-                                        .documents![i].name
-                                        .toString(),style: TextStyle(color: PrimaryColor),),
+                                Text(
+                                  proData.CompanyManageList[index].documents![i]
+                                              .name ==
+                                          null
+                                      ? ''
+                                      : proData.CompanyManageList[index]
+                                          .documents![i].name
+                                          .toString(),
+                                  style: TextStyle(color: PrimaryColor),
+                                ),
                               ],
                             ),
                             onTap: () {
@@ -187,8 +262,11 @@ SizedBox(width: 10,),
                                                 proData.CompanyManageList[index]
                                                     .documents![i].fileName
                                                     .toString(),
-                                        title:   proData.CompanyManageList[index]
-                                            .documents![i].name.toString(),
+                                            title: proData
+                                                .CompanyManageList[index]
+                                                .documents![i]
+                                                .name
+                                                .toString(),
                                           )));
                             },
                           ),
@@ -213,7 +291,6 @@ SizedBox(width: 10,),
       }),
     );
   }
-
 }
 
 getCovert(String value) {
@@ -237,12 +314,8 @@ delete(BuildContext context, String driverId, int index,
       Navigator.of(context).pop();
     },
     oncancelFunction: () => Navigator.pop(context),
-    title:'Manage Team !',
-    alertTitle:'Manage Team Remove Message',
+    title: 'Manage Team !',
+    alertTitle: 'Manage Team Remove Message',
     btnText: "Yes",
   );
-
 }
-
-
-

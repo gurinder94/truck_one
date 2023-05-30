@@ -82,9 +82,7 @@ listOfOptions(
                 ),
                 Expanded(
                     child: Text(
-                  AppLocalizations.instance.text(
-                    title,
-                  ),
+                  title,
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.black.withOpacity(0.4)),

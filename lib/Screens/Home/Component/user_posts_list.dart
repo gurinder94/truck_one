@@ -63,10 +63,6 @@ class _UserPostListState extends State<UserPostList> {
                       itemBuilder: (context, i) {
                         return ChangeNotifierProvider<PostItem>.value(
                             value: data.list[i],
-                            // child: PostItemWidget(
-                            //   position: i,
-                            //   listProvider: _listProvider,
-                            // ),
                             child: MyPostItemWidget(_listProvider, i));
                       }),
                 ));
@@ -80,7 +76,6 @@ class _UserPostListState extends State<UserPostList> {
       "userId": getid,
       "count": 10,
       "page": _page,
-      //"type": "Connections"
     }, pagination);
   }
 
@@ -92,7 +87,6 @@ class _UserPostListState extends State<UserPostList> {
       "userId": getid,
       "count": 10,
       "page": 1,
-      //"type": "Connections"
     }, false);
   }
 

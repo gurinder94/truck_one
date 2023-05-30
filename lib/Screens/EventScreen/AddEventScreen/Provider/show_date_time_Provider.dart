@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
-import 'package:my_truck_dot_one/Model/EventModel.dart';
+import 'package:my_truck_dot_one/Model/EventModel 2.dart';
 import 'package:my_truck_dot_one/Model/TimezoneModel.dart';
 
 class ShowTimeProvider extends ChangeNotifier {

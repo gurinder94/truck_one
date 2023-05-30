@@ -67,8 +67,7 @@ class TripPlanner extends StatelessWidget {
             )),
 
 
-
-    );
+        );
   }
 
   getEventList(BuildContext context, String  type) async {

@@ -11,14 +11,14 @@ import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/SkillModel.dart';
-import 'package:my_truck_dot_one/Model/ProfileModel/UserModel.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/qualificationModel.dart';
 import 'package:my_truck_dot_one/Screens/BottomMenu/bottom_menu.dart';
 import 'package:my_truck_dot_one/Screens/Profile/UserProfile/user_profile_view/provider/user_profile_provider.dart';
 import 'package:my_truck_dot_one/Screens/Profile/UserProfile/user_profile_view/user_profile_view.dart';
 import 'package:provider/provider.dart';
-
+import '../../../../Model/JobModel/JobViewList.dart';
 import '../../../../Model/NetworkModel/normal_response.dart';
+import '../../../../Model/ProfileModel/UserModel.dart';
 
 class UserProfileProvider extends ChangeNotifier {
   TextEditingController firstName = TextEditingController();
@@ -32,13 +32,15 @@ class UserProfileProvider extends ChangeNotifier {
   TextEditingController designation = TextEditingController();
   TextEditingController qualificationEditText = TextEditingController();
   TextEditingController skillText = TextEditingController();
+  TextEditingController marriedStatus = TextEditingController();
+  TextEditingController educationQualification = TextEditingController();
+  TextEditingController experienceController = TextEditingController();
   TextEditingController languages = TextEditingController();
   TextEditingController resumeDocument = TextEditingController();
   TextEditingController drivingDocument = TextEditingController();
   TextEditingController additionalEditText = TextEditingController();
   TextEditingController aboutUs = TextEditingController();
   TextEditingController medical = TextEditingController();
-
   final ImagePicker _picker = ImagePicker();
   bool _loading = false, updateloder = false;
   String? getid;
@@ -57,9 +59,14 @@ class UserProfileProvider extends ChangeNotifier {
       LoderMedical = false,
       loderAdditonalDocument = false;
 
+  String data = '';
+  String skill = '';
+
   bool get loading => _loading;
   UserModel? userModel;
   late QualificationModel qualification;
+  List<Datum> listQualification = [];
+  List<SkillDatum> listSkill = [];
   late SkillModel skillModel;
   final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
   var skillarray = [];
@@ -68,11 +75,15 @@ class UserProfileProvider extends ChangeNotifier {
 
   List<String> skillId = [];
   List<String> qualificationId = [];
+  List<Qualifications> userList = [];
+  List<Qualifications> skillData = [];
   bool ImageUploadShow = false;
 
   List<String> get items => _items;
 
   List<String> get experience => _experience;
+
+  List<String> get monthExp => _experiencemonth;
   DateTime startDate = DateTime.now();
   String? getName, getProfileImage;
   int? ProgressBar = 0;
@@ -81,13 +92,14 @@ class UserProfileProvider extends ChangeNotifier {
   List<String> get maritalStatus => _maritalStatus;
   String? valueItemSelected;
   String? valueExperience;
+  String? valueExpMonth;
   String? valueLanguage;
   String? valueMaritalStatus;
   String? userId;
   List<String> _items = [
     "Male",
     "Female",
-    "Other",
+    "Others",
   ];
   String? imageReal;
   var imageFile;
@@ -112,19 +124,77 @@ class UserProfileProvider extends ChangeNotifier {
     "14 year",
     "15 year",
   ];
-  List<String> _maritalStatus = [
-    "Married",
-    "Single",
+
+  List<String> _experiencemonth = [
+    "0 months",
+    "1 months",
+    "2 months",
+    "3 months",
+    "4 months",
+    "5 months",
+    "6 months",
+    "7 months",
+    "8 months",
+    "9 months",
+    "10 months",
+    "11 months",
+    "12 months",
   ];
+  List<String> _maritalStatus = ["Married", "Single", "Others"];
 
   Map<String, bool> mutipleLanguage = {
+    'Arabic': false,
+    'Bengali': false,
+    'Chinese': false,
+    'Danish': false,
+    'Dutch': false,
     'English': false,
+    'French': false,
+    'German': false,
+    'Gujarati': false,
+    'Hindi': false,
+    'Indonesian': false,
+    'Italian': false,
+    'Japanese': false,
+    'Korean': false,
+    'Kannada': false,
+    'Marathi': false,
     'Punjabi': false,
+    'Portuguese': false,
+    'Russian': false,
     'Spanish': false,
-    'French': false
+    'Tamil': false,
+    'Telugu': false,
+    'Turkish': false,
+    'Urdu': false,
   };
 
-  var multiLanguageKeys = ['English', 'Punjabi', 'Spanish', 'French'];
+  var multiLanguageKeys = [
+    'Arabic',
+    'Bengali',
+    'Chinese',
+    'Danish',
+    'Dutch',
+    'English',
+    'French',
+    'German',
+    'Gujarati',
+    'Hindi',
+    'Indonesian',
+    'Italian',
+    'Japanese',
+    'Korean',
+    'Kannada',
+    'Marathi',
+    'Punjabi',
+    'Portuguese',
+    'Russian',
+    'Spanish',
+    'Tamil',
+    'Telugu',
+    'Turkish',
+    'Urdu'
+  ];
 
   void setSelectedLanguage(String s) {
     valueLanguage = s;
@@ -139,6 +209,11 @@ class UserProfileProvider extends ChangeNotifier {
 
   void setSelectedExperience(String s) {
     valueExperience = s;
+    notifyListeners();
+  }
+
+  void setMonthExperience(String s) {
+    valueExpMonth = s;
 
     notifyListeners();
   }
@@ -156,6 +231,10 @@ class UserProfileProvider extends ChangeNotifier {
       Map<String, String> map = {
         'endUserId': getId.toString(),
       };
+      listQualification.clear();
+      listSkill.clear();
+      userList.clear();
+      skillData.clear();
       this.getid = getId;
       _loading = true;
       print(map);
@@ -165,8 +244,19 @@ class UserProfileProvider extends ChangeNotifier {
         userModel = await hitUserProfileApi(map);
         qualification = await hitGetQualificationApi(map);
         skillModel = await hitGetSkillApi(map);
+        if (userModel!.data!.otherQualification != "") {
+          userList.add(Qualifications(qualification: "Others"));
+        }
+        if (userModel!.data!.otherSkill != "") {
+          skillData.add(Qualifications(skill: "Others"));
+        }
+        userList.addAll(userModel!.data!.qualification!);
+        skillData.addAll(userModel!.data!.skillData!);
+        listQualification.add(Datum(qualification: "Others", id: "12345"));
+        listQualification.addAll(qualification.data!);
+        listSkill.add(SkillDatum(skill: "Others", id: "123456"));
+        listSkill.addAll(skillModel.data!);
         setValue();
-
         _loading = false;
         roleName.toString().toUpperCase() == "DRIVER"
             ? DriverCalculatePercentage()
@@ -180,7 +270,7 @@ class UserProfileProvider extends ChangeNotifier {
     }
   }
 
-   setValue() {
+  setValue() {
     var userProfile = userModel!.data!;
 
     firstName.text =
@@ -189,7 +279,7 @@ class UserProfileProvider extends ChangeNotifier {
         userProfile.lastName == null ? '' : userProfile.lastName.toString();
     email.text = userProfile.email!;
     mobile.text = userProfile.mobileNumber!;
-
+    educationQualification.text = userProfile.otherQualification.toString();
     permanentsaddress.text = userProfile.permAddress == null
         ? ''
         : userProfile.permAddress.toString();
@@ -206,16 +296,21 @@ class UserProfileProvider extends ChangeNotifier {
         ? ''
         : formatterDate(userProfile.dateOfBirth!);
     dateofbirth.text = dateToString;
-
     String? gender = userProfile.gender;
-
-    valueItemSelected = gender == "" ? "null" : gender.toString();
-    String? experience = userProfile.experience.toString();
+    valueItemSelected = gender == null
+        ? "Male"
+        : gender == ""
+            ? "Male"
+            : gender.toString();
+    experienceController.text = userProfile.experience.toString();
+    String? monthExperience = userProfile.monthsExperience.toString();
+    valueExpMonth =
+        monthExperience == "null" ? valueExpMonth : "${monthExperience} months";
     valueExperience = experience == "null"
         ? valueExperience
         : "${experience.toString()} year";
     String? maritalStatus = userProfile.maritalStatus.toString();
-
+    marriedStatus.text = userProfile.otherSkill.toString();
     valueMaritalStatus =
         maritalStatus == "" ? "null" : maritalStatus.toString();
     getQualification();
@@ -227,7 +322,6 @@ class UserProfileProvider extends ChangeNotifier {
     roleName == "DRIVER" ? getdocumentView(userProfile) : '';
     aboutUs.text =
         userProfile.aboutUser == null ? '' : userProfile.aboutUser.toString();
-
     notifyListeners();
   }
 
@@ -289,16 +383,12 @@ class UserProfileProvider extends ChangeNotifier {
   void getQualification() {
     var q = [];
     qualificationId = [];
-
-    for (int j = 0; j < userModel!.data!.qualification!.length; j++) {
-      for (int i = 0; i < qualification.data!.length; i++) {
-        {
-          if (userModel!.data!.qualification![j].qualification ==
-              qualification.data![i].qualification) {
-            qualification.data![i].isvalue = true;
-            q.add(qualification.data![i].qualification.toString());
-            qualificationId.add(qualification.data![i].id.toString());
-          }
+    for (int j = 0; j < userList.length; j++) {
+      for (int i = 0; i < listQualification.length; i++) {
+        if (userList[j].qualification == listQualification[i].qualification) {
+          listQualification[i].isvalue = true;
+          q.add(listQualification[i].qualification.toString());
+          qualificationId.add(listQualification[i].id.toString());
         }
       }
     }
@@ -325,14 +415,14 @@ class UserProfileProvider extends ChangeNotifier {
   void getSkill() {
     var q = [];
     skillId = [];
-    for (int j = 0; j < userModel!.data!.skillData!.length; j++) {
-      for (int i = 0; i < skillModel.data!.length; i++) {
+    for (int j = 0; j < skillData.length; j++) {
+      for (int i = 0; i < listSkill.length; i++) {
         {
-          if (userModel!.data!.skillData![j].skill ==
-              skillModel.data![i].skill) {
-            skillModel.data![i].isValue = true;
-            q.add(skillModel.data![i].skill.toString());
-            skillId.add(skillModel.data![i].id.toString());
+          if (skillData[j].skill == listSkill[i].skill) {
+            listSkill[i].isValue = true;
+            print(listSkill[i].skill.toString());
+            q.add(listSkill[i].skill.toString());
+            skillId.add(listSkill[i].id.toString());
           }
         }
       }
@@ -361,14 +451,17 @@ class UserProfileProvider extends ChangeNotifier {
             'mobileNumber': mobile.text,
             'gender': valueItemSelected,
             'dateOfBirth': dateofbirth.text,
-            'experience': valueExperience.toString().substring(0, 1),
+            'experience': experienceController.text,
             'maritalStatus': valueMaritalStatus,
             'workPlace': workplace.text,
             'designation': designation.text,
             'permAddress': permanentsaddress.text,
             'corrAddress': crosssaddress.text,
+            'otherQualification': otherQualification(),
             'roleTitle': roleName,
             'skills': skillId,
+            "monthsExperience": valueExpMonth.toString().substring(0, 1),
+            'otherSkill': otherSkill(),
             'qualification': qualificationId,
             'language': languagearray,
             "aboutUser": aboutUs.text,
@@ -391,8 +484,10 @@ class UserProfileProvider extends ChangeNotifier {
             'mobileNumber': mobile.text,
             'gender': valueItemSelected,
             'dateOfBirth': dateofbirth.text,
-            'experience': valueExperience.toString().substring(0, 1),
+            'experience': experienceController.text,
+            'otherQualification': otherQualification(),
             'maritalStatus': valueMaritalStatus,
+            "monthsExperience": valueExpMonth.toString().substring(0, 1),
             'workPlace': workplace.text,
             'designation': designation.text,
             'permAddress': permanentsaddress.text,
@@ -400,6 +495,7 @@ class UserProfileProvider extends ChangeNotifier {
             'roleTitle': roleName,
             'skills': skillId,
             'qualification': qualificationId,
+            'otherSkill': otherSkill(),
             'language': languagearray,
             "aboutUser": aboutUs.text,
             'proImage': imageLogo == null
@@ -410,7 +506,7 @@ class UserProfileProvider extends ChangeNotifier {
             "bannerImage": imagebanner == null ? imageviewBanner : imagebanner,
           };
 
-    print(map);
+    print(map.toString());
     try {
       ResponseModel res = await hitUserProfileUpdateApi(map);
 
@@ -422,7 +518,8 @@ class UserProfileProvider extends ChangeNotifier {
             MaterialPageRoute(
                 builder: (context) => ChangeNotifierProvider(
                     create: (_) => UserProfileViewProvider(),
-                    child: UserProfileView())));
+                    child:
+                        UserProfileView(roleName.toString().toUpperCase()))));
 
       setProfileComplete(true);
       setProgressBar(percent.floor() == 99 ? 100 : percent.floor());
@@ -430,12 +527,10 @@ class UserProfileProvider extends ChangeNotifier {
       updateloder = false;
       setprofileInfo(imageLogo == null ? image : imageLogo);
       notifyListeners();
-
     } on Exception catch (e) {
       message = e.toString().replaceAll('Exception:', '');
 
       showMessage(message!);
-      print("dfjhdsfkjhsfdjhkjgkhsfdghkfdeghj${e.toString()}");
       notifyListeners();
     }
     updateloder = false;
@@ -559,9 +654,9 @@ class UserProfileProvider extends ChangeNotifier {
       startDate.month,
       startDate.day,
     );
-    if (DateTime.now().difference(startDate) < Duration(days: 6570)) {
+    if (DateTime.now().difference(startDate) <= Duration(days: 5840)) {
       showMessage(
-        "You should be 18 years old",
+        "User must be 16 or above",
       );
       dateofbirth.text = '';
       notifyListeners();
@@ -818,5 +913,28 @@ class UserProfileProvider extends ChangeNotifier {
             (Route<dynamic> route) => false);
         break;
     }
+  }
+
+  otherQualification() {
+    var qualification;
+    for (int i = 0; i < qualificationId.length; i++) {
+      if (qualificationId[i] == "12345") {
+        return qualification = educationQualification.text;
+      } else
+        return qualification = "";
+    }
+    return qualification;
+  }
+
+  otherSkill() {
+    var qualification;
+    for (int i = 0; i < skillId.length; i++) {
+      if (skillId[i] == "123456") {
+        print(skillId[i] + "ewyt56565656757");
+        return qualification = marriedStatus.text;
+      } else
+        return qualification = "";
+    }
+    return qualification;
   }
 }

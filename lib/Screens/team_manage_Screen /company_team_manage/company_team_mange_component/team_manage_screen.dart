@@ -141,10 +141,11 @@ class CompanyTeamManageScreen extends StatelessWidget {
                                   CommanBottomSheet.ShowBottomSheet(context,
                                       child: ChangeNotifierProvider(
                                         create: (_) => ManagerTeamProvider(),
-                                        child: FliterBottomSheet(
-                                          _managerTeamProvider,
-                                        ),
+                                        child: FliterBottomSheet(),
                                       )).then((value) => {
+                                        _managerTeamProvider.pagee = 1,
+                                        _managerTeamProvider.paginationLoder =
+                                            false,
                                         _managerTeamProvider.setSelectedItem(
                                             value.valueItemSelected),
                                         _managerTeamProvider.setAccessRole(
@@ -152,7 +153,7 @@ class CompanyTeamManageScreen extends StatelessWidget {
                                         _managerTeamProvider
                                             .hitCompanyManageTeam(
                                           context,
-                                        )
+                                        ),
                                       });
                                 },
                               ),

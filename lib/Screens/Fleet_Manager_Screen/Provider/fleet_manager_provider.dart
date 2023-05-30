@@ -28,6 +28,10 @@ class FleetManagerProvider extends ChangeNotifier {
   FleetManagerModel? fleetManagerModel = null;
   List<Datum> FleetMangerList = [];
 
+
+
+  var sort;
+
   FleetManagerProvider() {
     refresh();
     hitFLeetList(

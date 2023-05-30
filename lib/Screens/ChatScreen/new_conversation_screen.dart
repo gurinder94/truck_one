@@ -105,10 +105,6 @@ class NewConversationScreen extends StatelessWidget {
                                               children: [
                                                 Text(
                                                     '${proData.list[index].personName}'),
-
-                                                // Text(_conversation.lastMessages!.length == 0
-                                                //     ? ''
-                                                //     : _conversation.lastMessages![0].message!),
                                               ],
                                             ),
                                           ),

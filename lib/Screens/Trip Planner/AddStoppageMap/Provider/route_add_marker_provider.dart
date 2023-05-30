@@ -16,7 +16,7 @@ class RouteMarkerProvider extends ChangeNotifier {
   RouteModel _model = RouteModel();
   var no;
   var list = [];
-  bool hosLoder = false,addMarkerLoder=false;
+  bool hosLoder = false, addMarkerLoder = false;
 
   RouteModel get routeModel => _model;
   TextEditingController speedController = TextEditingController();
@@ -69,7 +69,6 @@ class RouteMarkerProvider extends ChangeNotifier {
     var url =
         "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}:${data.destination!.location!.coordinates![0]},${data.destination!.location!.coordinates![1]}/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=zc9hdsTH7XOx170MeAyMSWU0MBXLGhrH&routeType=eco&avoid=unpavedRoads&travelMode=truck&vehicleWeight=${data.weight}&vehicleWidth=${data.width}&vehicleHeight=${data.height}&vehicleCommercial=true";
     var response = await http.get(Uri.parse(url));
-
     var jsonRes = json.decode(response.body);
     if (jsonRes["error"] != null) {
       print(jsonRes);
@@ -246,7 +245,7 @@ class RouteMarkerProvider extends ChangeNotifier {
             );
           },
         );
-        addMarkerLoder=false;
+        addMarkerLoder = false;
         notifyListeners();
       }
     }
@@ -259,8 +258,9 @@ class RouteMarkerProvider extends ChangeNotifier {
       String tripId,
       String? serviceList,
       BuildContext context,
-      RouteMarkerProvider routeMarkerProvider, TextEditingController addMarkerDescription) async {
-    addMarkerLoder=true;
+      RouteMarkerProvider routeMarkerProvider,
+      TextEditingController addMarkerDescription) async {
+    addMarkerLoder = true;
     notifyListeners();
     Map<String, dynamic> map = {
       'location': {'coordinates': latLng},
@@ -271,7 +271,7 @@ class RouteMarkerProvider extends ChangeNotifier {
       'rootId': "route$no",
       'type': serviceList,
       'description': addMarkerDescription.text,
-      'serviceName':markerName,
+      'serviceName': markerName,
     };
     print(map);
 
@@ -290,18 +290,15 @@ class RouteMarkerProvider extends ChangeNotifier {
 
       var parseData = json.decode(res.body);
       showMessage(parseData['message']);
-      addMarkerLoder=false;
+      addMarkerLoder = false;
       notifyListeners();
     } on Exception catch (e) {
-    var   message = e.toString().replaceAll('Exception:', '');
+      var message = e.toString().replaceAll('Exception:', '');
       showMessage(
         message,
       );
       print(e.toString());
     }
-
-
-
 
     notifyListeners();
   }

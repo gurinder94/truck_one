@@ -31,8 +31,8 @@ final String Base_Url_group = SERVER_URL + '/uploads/group/';
 
 final Color PrimaryColor = Color(0xFF044a87);
 var AppversionName = "1.1.7";
-//  final String SERVER_URL = "https://mytruck.one:1337";
-final String SERVER_URL = "https://mytruck.one:1337";
+// final String SERVER_URL = "https://mytruck.one:1337";
+final String SERVER_URL = "http://192.168.1.140:1339";
 
 // final String SERVER_URL = 'https://zimotechnologies.in:4000';
 final Color IconColor = Colors.black.withOpacity(0.5);

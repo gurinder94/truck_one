@@ -25,8 +25,8 @@ class _SellerHeadPartState extends State<SellerHeadPart> {
           height: 550,
           width: double.infinity,
           child: Image.asset(
-            'icons/defaultImage.jpg',
-            fit: BoxFit.cover,
+            'assets/default.png',
+            fit: BoxFit.fill,
           ),
         )
             : SizedBox(
@@ -50,7 +50,7 @@ class _SellerHeadPartState extends State<SellerHeadPart> {
                         "/uploads/product/image/" +
                         productview.productView.data!.images![pagePos].name
                             .toString(),
-                    boxFit: BoxFit.cover,
+                    boxFit: BoxFit.fill,
                   );
                 })),
         Container(

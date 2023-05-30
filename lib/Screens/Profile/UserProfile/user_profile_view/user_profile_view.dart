@@ -7,15 +7,19 @@ import 'User_head_Part.dart';
 
 class UserProfileView extends StatelessWidget {
   late UserProfileViewProvider _userProfileProvider;
+  String roleName;
+
+
+  UserProfileView(this.roleName);
 
   @override
   Widget build(BuildContext context) {
     _userProfileProvider =
         Provider.of<UserProfileViewProvider>(context, listen: false);
-
     _userProfileProvider.hitUserProfileDetails(context);
     _userProfileProvider.hitCompanyList();
     _userProfileProvider.getroleName();
+
 
     return Scaffold(
         backgroundColor: APP_BG,
@@ -46,7 +50,7 @@ class UserProfileView extends StatelessWidget {
                 ],
               );
             else
-              return UserHeadPart(proData);
+              return UserHeadPart(proData,roleName);
           }),
         ));
   }

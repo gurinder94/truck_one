@@ -11,7 +11,7 @@ import 'drop_down_box.dart';
 late Widget child;
 var valueItemSelected;
 
-late UserProfileViewProvider _profileViewProvider;
+UserProfileViewProvider _profileViewProvider = UserProfileViewProvider();
 
 Future<dynamic> someDialog(BuildContext context, String description) async {
   _profileViewProvider =
@@ -37,37 +37,42 @@ Future<dynamic> someDialog(BuildContext context, String description) async {
                   ),
                   Consumer<UserProfileViewProvider>(
                       builder: (context, notif, __) {
-                    return DropDownBox(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 5),
-                        child: DropdownButton<String>(
-                          value: notif.valueItemSelected,
-                          isExpanded: true,
-                          hint: Text(
-                            'Select Company Leave',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.grey,
-                          ),
-                          iconSize: 24,
-                          style: const TextStyle(color: Colors.black),
-                          underline: Container(),
-                          onChanged: (String? newValue) {
-                            notif.setSelectedItem(newValue!);
-                          },
-                          items: notif.companyLeaveModel.data!
-                              .map((ReasonLeaveModel value) {
-                            return new DropdownMenuItem<String>(
-                              value: value.reasonTitle,
-                              child: new Text(value.reasonTitle.toString(),
-                                  style: new TextStyle(color: Colors.black)),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    );
+                    return notif.companyLeaveModel.data == null
+                        ? SizedBox()
+                        : DropDownBox(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 5),
+                              child: DropdownButton<String>(
+                                value: notif.valueItemSelected,
+                                isExpanded: true,
+                                hint: Text(
+                                  'Select Company Leave',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.grey,
+                                ),
+                                iconSize: 24,
+                                style: const TextStyle(color: Colors.black),
+                                underline: Container(),
+                                onChanged: (String? newValue) {
+                                  notif.setSelectedItem(newValue!);
+                                },
+                                items: notif.companyLeaveModel.data!
+                                    .map((ReasonLeaveModel value) {
+                                  return new DropdownMenuItem<String>(
+                                    value: value.reasonTitle,
+                                    child: new Text(
+                                        value.reasonTitle.toString(),
+                                        style:
+                                            new TextStyle(color: Colors.black)),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          );
                   })
                 ],
               ),
@@ -81,25 +86,26 @@ Future<dynamic> someDialog(BuildContext context, String description) async {
                     Navigator.of(context).pop();
                   },
                 ),
-
                 Selector<UserProfileViewProvider, bool>(
                     selector: (_, provider) => provider.companyLeft,
                     builder: (context, paginationLoading, child) {
-                      return  paginationLoading==true?CircularProgressIndicator():IgnorePointer(
-                        ignoring:    _profileViewProvider.valueItemSelected==null?true:false,
-                        child:     InkWell(
-                          splashColor: PrimaryColor,
-                          highlightColor: Colors.white,
-                          child: Text('Yes'),
-                          onTap: () async {
-                            _profileViewProvider.hitCompanyLeave(context);
-                          },
-                        ),
-
-
-                      );
+                      return paginationLoading == true
+                          ? CircularProgressIndicator()
+                          : IgnorePointer(
+                              ignoring:
+                                  _profileViewProvider.valueItemSelected == null
+                                      ? true
+                                      : false,
+                              child: InkWell(
+                                splashColor: PrimaryColor,
+                                highlightColor: Colors.white,
+                                child: Text('Yes'),
+                                onTap: () async {
+                                  _profileViewProvider.hitCompanyLeave(context);
+                                },
+                              ),
+                            );
                     }),
-
               ],
             ),
           ),

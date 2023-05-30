@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/Profile/UserProfile/Compoment/dropexperience.dart';
 import 'package:my_truck_dot_one/Screens/Profile/UserProfile/Compoment/maritalStatus.dart';
+import 'package:my_truck_dot_one/Screens/Profile/UserProfile/Compoment/monthExperience.dart';
+import 'package:my_truck_dot_one/Screens/Profile/UserProfile/Compoment/phoneFormat.dart';
 import 'package:my_truck_dot_one/Screens/Profile/UserProfile/Provider/UserProfileProvider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/commanField_widget.dart';
 import 'package:provider/provider.dart';
@@ -14,12 +16,14 @@ import 'educationalQualification.dart';
 import 'mutipleKeySkills.dart';
 
 class UserForm extends StatefulWidget {
-  const UserForm({Key? key}) : super(key: key);
+  UserForm(this.roleName, {Key? key}) : super(key: key);
+  String roleName;
 
   @override
   _UserFormState createState() => _UserFormState();
 }
 
+// add marital status and  qualification
 class _UserFormState extends State<UserForm> {
   final _formKey = GlobalKey<FormState>();
 
@@ -30,7 +34,6 @@ class _UserFormState extends State<UserForm> {
   Widget build(BuildContext context) {
     _userProfileProvider =
         Provider.of<UserProfileProvider>(context, listen: false);
-
     return Container(
       margin: EdgeInsets.only(top: 260),
       padding: EdgeInsets.only(left: 15, top: 10, right: 20),
@@ -130,11 +133,13 @@ class _UserFormState extends State<UserForm> {
                   child: TextFormField(
                     controller: _userProfileProvider.mobile,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(10),
-                      FilteringTextInputFormatter.deny(' ')
+                      FilteringTextInputFormatter.deny(' '),
+                      PhoneInputFormatter()
                     ],
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -203,44 +208,49 @@ class _UserFormState extends State<UserForm> {
                 hintStyle: TextStyle(fontSize: 17),
                 contentPadding: EdgeInsets.all(10),
               ),
-              // validator: (value) {
-              //   if (value == null || value.isEmpty) {
-              //     return 'Please enter Your Permanent Address';
-              //   } else if (!RegExp("^[^\s][a-zA-Z0-9\s!]{3,}[^\s]")
-              //       .hasMatch(value)) {
-              //     return 'Please enter valid address ';
-              //   } else
-              //     return null;
-              // },
             )),
             SizedBox(
               height: 20,
             ),
-            InputTextField(
-              child: TextFormField(
-                controller: _userProfileProvider.crosssaddress,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                textInputAction: TextInputAction.next,
-                inputFormatters: <TextInputFormatter>[
-                  LengthLimitingTextInputFormatter(75),
-                  FilteringTextInputFormatter.allow(
-                      RegExp('[a-z A-Z á-ú Á-Ú 0-9 ]')),
-                  FilteringTextInputFormatter.deny('  ')
-                ],
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter Your correspondence Address',
-                  hintStyle: TextStyle(fontSize: 17),
-                  contentPadding: EdgeInsets.all(10),
-                ),
-                // validator: (value) {
-                //   if (!RegExp(r"\s+").hasMatch(value!)) {
-                //     return 'Please enter Your correspondence Address';
-                //   }
-                //   return null;
-                // },
-              ),
-            ),
+            _userProfileProvider.roleName == "SALESPERSON"
+                ? InputTextField(
+                    child: TextFormField(
+                      controller: _userProfileProvider.crosssaddress,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      textInputAction: TextInputAction.next,
+                      inputFormatters: <TextInputFormatter>[
+                        LengthLimitingTextInputFormatter(75),
+                        FilteringTextInputFormatter.allow(
+                            RegExp('[a-z A-Z á-ú Á-Ú 0-9 ]')),
+                        FilteringTextInputFormatter.deny('  ')
+                      ],
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Enter Your Mailing Address',
+                        hintStyle: TextStyle(fontSize: 17),
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                    ),
+                  )
+                : InputTextField(
+                    child: TextFormField(
+                      controller: _userProfileProvider.crosssaddress,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      textInputAction: TextInputAction.next,
+                      inputFormatters: <TextInputFormatter>[
+                        LengthLimitingTextInputFormatter(75),
+                        FilteringTextInputFormatter.allow(
+                            RegExp('[a-z A-Z á-ú Á-Ú 0-9 ]')),
+                        FilteringTextInputFormatter.deny('  ')
+                      ],
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Enter Your Corresponding Address',
+                        hintStyle: TextStyle(fontSize: 17),
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                    ),
+                  ),
             SizedBox(
               height: 20,
             ),
@@ -284,13 +294,13 @@ class _UserFormState extends State<UserForm> {
                 ],
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter Your Designation *',
+                  hintText: 'Enter Your Final Designation *',
                   hintStyle: TextStyle(fontSize: 17),
                   contentPadding: EdgeInsets.all(10),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter Your Designation';
+                    return 'Please enter Your Final Designation';
                   }
                   return null;
                 },
@@ -306,17 +316,38 @@ class _UserFormState extends State<UserForm> {
               height: 20,
             ),
             InputTextField(
-              child: ExperienceDrop(),
+              child: TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                controller: _userProfileProvider.experienceController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Enter Your experience *',
+                  hintStyle: TextStyle(fontSize: 17),
+                  contentPadding: EdgeInsets.all(10),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please Enter Your Experience';
+                  }
+                  return null;
+                },
+              ),
             ),
             SizedBox(
               height: 20,
             ),
-            InputTextField(
-              child: MaritaleDrop(),
-            ),
-            SizedBox(
-              height: 20,
-            ),
+            widget.roleName.toUpperCase() == "SALEPERSON"
+                ? SizedBox()
+                : Column(
+                    children: [
+                      InputTextField(
+                        child: MaritaleDrop(),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
             InputTextField(
               child: TextFormField(
                 readOnly: true,
@@ -332,16 +363,58 @@ class _UserFormState extends State<UserForm> {
                   showDialog(
                       context: context,
                       builder: (context) =>
-                          MutipleKeySkill(_userProfileProvider));
+                          MutipleKeySkill(_userProfileProvider)).then((value) {
+                    _userProfileProvider.skill = value;
+                    print(_userProfileProvider.skill);
+                    _userProfileProvider.notifyListeners();
+                  });
                 },
-                // validator: (value) {
-                //   if (value == null || value.isEmpty) {
-                //     return 'Please enter Your  Key Skills';
-                //   }
-                //   return null;
-                // },
               ),
             ),
+            if (_userProfileProvider.userModel != null)
+              if (_userProfileProvider.userModel!.data!.otherSkill != "")
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    InputTextField(
+                      child: TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: _userProfileProvider.marriedStatus,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Enter Your Other Skill',
+                          hintStyle: TextStyle(fontSize: 17),
+                          contentPadding: EdgeInsets.all(10),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              else
+                for (int i = 0; i < _userProfileProvider.skillarray.length; i++)
+                  if (_userProfileProvider.skillarray[i] == "Others")
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        InputTextField(
+                          child: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            controller: _userProfileProvider.marriedStatus,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Enter Your Other Skill',
+                              hintStyle: TextStyle(fontSize: 17),
+                              contentPadding: EdgeInsets.all(10),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
             SizedBox(
               height: 20,
             ),
@@ -352,7 +425,7 @@ class _UserFormState extends State<UserForm> {
                 controller: _userProfileProvider.languages,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter Your Languages Known',
+                  hintText: 'Enter Your Language Known',
                   hintStyle: TextStyle(fontSize: 17),
                   contentPadding: EdgeInsets.all(10),
                 ),
@@ -362,42 +435,101 @@ class _UserFormState extends State<UserForm> {
                       builder: (context) =>
                           MutipleLanguage(_userProfileProvider));
                 },
-                validator: (value) {
-                  // if (value == null || value.isEmpty) {
-                  //   return 'Please enter Your  Languages Known';
-                  // }
-                  // return null;
-                },
               ),
             ),
             SizedBox(
               height: 20,
             ),
-            InputTextField(
-              child: TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                controller: _userProfileProvider.qualificationEditText,
-                readOnly: true,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter Your Educational Qualification *',
-                  hintStyle: TextStyle(fontSize: 17),
-                  contentPadding: EdgeInsets.all(10),
-                ),
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) =>
-                          EducationalQualification(_userProfileProvider));
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Your Educational Qualification';
-                  }
-                  return null;
-                },
-              ),
-            ),
+            widget.roleName.toUpperCase() == "SALEPERSON"
+                ? InputTextField(
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: _userProfileProvider.qualificationEditText,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Enter Your Educational Qualification',
+                        hintStyle: TextStyle(fontSize: 17),
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => EducationalQualification(
+                                _userProfileProvider)).then((value) {
+                          _userProfileProvider.data = value;
+                          _userProfileProvider.notifyListeners();
+                        });
+                      },
+                    ),
+                  )
+                : InputTextField(
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: _userProfileProvider.qualificationEditText,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Enter Your Educational Qualification',
+                        hintStyle: TextStyle(fontSize: 17),
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => EducationalQualification(
+                                _userProfileProvider)).then((value) {
+                          _userProfileProvider.data = value;
+                          _userProfileProvider.notifyListeners();
+                        });
+                      },
+                    ),
+                  ),
+            if (_userProfileProvider.userModel!.data!.otherQualification != "")
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InputTextField(
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: _userProfileProvider.educationQualification,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Enter Your Other Qualification',
+                        hintStyle: TextStyle(fontSize: 17),
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            else
+              for (int i = 0;
+                  i < _userProfileProvider.qualificationarray.length;
+                  i++)
+                if (_userProfileProvider.qualificationarray[i] == "Others")
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      InputTextField(
+                        child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          controller:
+                              _userProfileProvider.educationQualification,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Enter Your Other Qualification',
+                            hintStyle: TextStyle(fontSize: 17),
+                            contentPadding: EdgeInsets.all(10),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
             SizedBox(
               height: 20,
             ),
@@ -408,42 +540,35 @@ class _UserFormState extends State<UserForm> {
                           selector: (_, provider) =>
                               provider.loaderDriverlicense,
                           builder: (context, loder, child) {
-                            return  InputTextField(
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    controller: _userProfileProvider
-                                        .drivingDocument,
-                                    autovalidateMode: AutovalidateMode
-                                        .onUserInteraction,
-                                    textInputAction:
-                                        TextInputAction.next,
-                                    inputFormatters: <
-                                        TextInputFormatter>[
-                                      LengthLimitingTextInputFormatter(
-                                          20),
-                                    ],
-                                    decoration: InputDecoration(
-                                      suffixIcon:loder == true
-                                          ? CircularProgressIndicator()
-                                          : GestureDetector(
+                            return InputTextField(
+                              child: TextFormField(
+                                readOnly: true,
+                                controller:
+                                    _userProfileProvider.drivingDocument,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textInputAction: TextInputAction.next,
+                                inputFormatters: <TextInputFormatter>[
+                                  LengthLimitingTextInputFormatter(20),
+                                ],
+                                decoration: InputDecoration(
+                                  suffixIcon: loder == true
+                                      ? CircularProgressIndicator()
+                                      : GestureDetector(
                                           child: Icon(
-                                            // Based on passwordVisible state choose the icon
+                                              // Based on passwordVisible state choose the icon
                                               Icons.upload_file),
                                           onTap: () {
                                             _userProfileProvider
                                                 .getFile("Driving License");
                                           }),
-
-                                      border: InputBorder.none,
-                                      hintText:
-                                          'Upload Driving License ',
-                                      hintStyle:
-                                          TextStyle(fontSize: 17),
-                                      contentPadding:
-                                          EdgeInsets.all(10),
-                                    ),
-                                  ),
-                                );
+                                  border: InputBorder.none,
+                                  hintText: 'Upload Driving License ',
+                                  hintStyle: TextStyle(fontSize: 17),
+                                  contentPadding: EdgeInsets.all(10),
+                                ),
+                              ),
+                            );
                           }),
                       SizedBox(
                         height: 20,
@@ -451,36 +576,34 @@ class _UserFormState extends State<UserForm> {
                       Selector<UserProfileProvider, bool>(
                           selector: (_, provider) => provider.LoderResume,
                           builder: (context, loder, child) {
-                            return  InputTextField(
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    controller:
-                                        _userProfileProvider.resumeDocument,
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    textInputAction: TextInputAction.next,
-                                    inputFormatters: <TextInputFormatter>[
-                                      LengthLimitingTextInputFormatter(20),
-                                    ],
-                                    decoration: InputDecoration(
-                                      suffixIcon: GestureDetector(
-                                          child:loder == true
-                                              ? CircularProgressIndicator()
-                                              : Icon(
+                            return InputTextField(
+                              child: TextFormField(
+                                readOnly: true,
+                                controller: _userProfileProvider.resumeDocument,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textInputAction: TextInputAction.next,
+                                inputFormatters: <TextInputFormatter>[
+                                  LengthLimitingTextInputFormatter(20),
+                                ],
+                                decoration: InputDecoration(
+                                  suffixIcon: GestureDetector(
+                                      child: loder == true
+                                          ? CircularProgressIndicator()
+                                          : Icon(
                                               // Based on passwordVisible state choose the icon
                                               Icons.upload_file),
-                                          onTap: () {
-                                            _userProfileProvider.getFile(
-                                                "Resume");
-                                          }),
-                                      border: InputBorder.none,
-                                      hintText: 'Upload Resume',
-                                      hintStyle: TextStyle(fontSize: 17),
-                                      contentPadding: EdgeInsets.all(10),
-                                    ),
-                                    onTap: () {},
-                                  ),
-                                );
+                                      onTap: () {
+                                        _userProfileProvider.getFile("Resume");
+                                      }),
+                                  border: InputBorder.none,
+                                  hintText: 'Upload Resume',
+                                  hintStyle: TextStyle(fontSize: 17),
+                                  contentPadding: EdgeInsets.all(10),
+                                ),
+                                onTap: () {},
+                              ),
+                            );
                           }),
                       SizedBox(
                         height: 20,
@@ -489,36 +612,35 @@ class _UserFormState extends State<UserForm> {
                           selector: (_, provider) =>
                               provider.loderAdditonalDocument,
                           builder: (context, loder, child) {
-                            return  InputTextField(
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    controller: _userProfileProvider
-                                        .additionalEditText,
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    textInputAction: TextInputAction.next,
-                                    inputFormatters: <TextInputFormatter>[
-                                      LengthLimitingTextInputFormatter(20),
-                                    ],
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      suffixIcon:loder == true
-                                          ? CircularProgressIndicator()
-                                          : GestureDetector(
+                            return InputTextField(
+                              child: TextFormField(
+                                readOnly: true,
+                                controller:
+                                    _userProfileProvider.additionalEditText,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textInputAction: TextInputAction.next,
+                                inputFormatters: <TextInputFormatter>[
+                                  LengthLimitingTextInputFormatter(20),
+                                ],
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  suffixIcon: loder == true
+                                      ? CircularProgressIndicator()
+                                      : GestureDetector(
                                           child: Icon(
                                               // Based on passwordVisible state choose the icon
                                               Icons.upload_file),
                                           onTap: () {
-                                            _userProfileProvider.getFile(
-                                                "Additional document");
+                                            _userProfileProvider
+                                                .getFile("Additional document");
                                           }),
-                                      hintText:
-                                          'Upload Additional Document',
-                                      hintStyle: TextStyle(fontSize: 17),
-                                      contentPadding: EdgeInsets.all(10),
-                                    ),
-                                  ),
-                                );
+                                  hintText: 'Upload Additional Document',
+                                  hintStyle: TextStyle(fontSize: 17),
+                                  contentPadding: EdgeInsets.all(10),
+                                ),
+                              ),
+                            );
                           }),
                       SizedBox(
                         height: 20,
@@ -526,21 +648,21 @@ class _UserFormState extends State<UserForm> {
                       Selector<UserProfileProvider, bool>(
                           selector: (_, provider) => provider.LoderMedical,
                           builder: (context, loder, child) {
-                            return  InputTextField(
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    controller:
-                                        _userProfileProvider.medical,
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    textInputAction: TextInputAction.next,
-                                    inputFormatters: <TextInputFormatter>[
-                                      LengthLimitingTextInputFormatter(20),
-                                    ],
-                                    decoration: InputDecoration(
-                                      suffixIcon:loder == true
-                                          ? Center(child: CircularProgressIndicator())
-                                          : GestureDetector(
+                            return InputTextField(
+                              child: TextFormField(
+                                readOnly: true,
+                                controller: _userProfileProvider.medical,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textInputAction: TextInputAction.next,
+                                inputFormatters: <TextInputFormatter>[
+                                  LengthLimitingTextInputFormatter(20),
+                                ],
+                                decoration: InputDecoration(
+                                  suffixIcon: loder == true
+                                      ? Center(
+                                          child: CircularProgressIndicator())
+                                      : GestureDetector(
                                           child: Icon(
                                               // Based on passwordVisible state choose the icon
                                               Icons.upload_file),
@@ -548,14 +670,13 @@ class _UserFormState extends State<UserForm> {
                                             _userProfileProvider.getFile(
                                                 "DMV Medical Certificate");
                                           }),
-                                      border: InputBorder.none,
-                                      hintText:
-                                          'Upload DMV Medical Certificate',
-                                      hintStyle: TextStyle(fontSize: 17),
-                                      contentPadding: EdgeInsets.all(10),
-                                    ),
-                                  ),
-                                );
+                                  border: InputBorder.none,
+                                  hintText: 'Upload DMV Medical Certificate',
+                                  hintStyle: TextStyle(fontSize: 17),
+                                  contentPadding: EdgeInsets.all(10),
+                                ),
+                              ),
+                            );
                           }),
                       SizedBox(
                         height: 15,
@@ -572,7 +693,7 @@ class _UserFormState extends State<UserForm> {
                 controller: _userProfileProvider.aboutUs,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 inputFormatters: <TextInputFormatter>[
-                  LengthLimitingTextInputFormatter(2000),
+                  LengthLimitingTextInputFormatter(250),
                 ],
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
@@ -604,13 +725,8 @@ class _UserFormState extends State<UserForm> {
                     titleColor: APP_BG,
                     onDoneFuction: () {
                       if (_formKey.currentState!.validate()) {
-                        // if (_userProfileProvider.valueItemSelected == null)
-                        //   showMessage("Please select gender ");
                         if (_userProfileProvider.valueExperience == null)
                           showMessage("Please select experience *");
-                        // else if (_userProfileProvider.valueMaritalStatus ==
-                        //     null)
-                        //   showMessage("Please select marital status ");
                         else
                           _userProfileProvider.hitUserProfileUpdate(context);
                       }

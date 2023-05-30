@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
-import 'package:my_truck_dot_one/Model/EventModel.dart';
+import 'package:my_truck_dot_one/Model/EventModel 2.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/ViewEventScreen/Provider/UserViewEventProvider.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/ViewEventScreen/ViewEvent.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
@@ -45,11 +45,10 @@ class _UserEventListState extends State<UserEventList> {
     _eventListProvider = context.read<UserEventListProvider>();
     var tab = context.read<UserEventTabBarProvider>();
     Future.delayed(Duration(milliseconds: 3000))
-        .then((onValue) =>   tab.setMenuClick(0));
+        .then((onValue) => tab.setMenuClick(0));
     pagee = 1;
     _eventListProvider.resetList();
     getEventList(context, taber, 1, "");
-
   }
 
   Widget build(BuildContext context) {
@@ -66,47 +65,53 @@ class _UserEventListState extends State<UserEventList> {
         ),
         floatingActionWidget: SizedBox(),
         actions: SizedBox(),
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            SizeConfig.screenHeight! < 1010?
-
-            SizedBox(
-              height: Platform.isIOS? SizeConfig.safeBlockVertical! *17:SizeConfig.safeBlockVertical! * 12, //10 for example
-            ):  SizedBox(
-              height: Platform.isIOS? SizeConfig.safeBlockVertical! *9:SizeConfig.safeBlockVertical! * 9, //10 for example
-            ),
+            SizeConfig.screenHeight! < 1010
+                ? SizedBox(
+                    height: Platform.isIOS
+                        ? SizeConfig.safeBlockVertical! * 17
+                        : SizeConfig.safeBlockVertical! * 12, //10 for example
+                  )
+                : SizedBox(
+                    height: Platform.isIOS
+                        ? SizeConfig.safeBlockVertical! * 9
+                        : SizeConfig.safeBlockVertical! * 9, //10 for example
+                  ),
             Row(
               children: [
                 SizedBox(
                   width: 20,
                 ),
-                Expanded(child: CommanSearchBar(onTextChange: (val) {
-                  if (searchText == '') {
-                    searchText = val;
-                    pagee = 1;
-                    Onserach = '';
-                  }
+                Expanded(
+                    child: CommanSearchBar(
+                  onTextChange: (val) {
+                    if (searchText == '') {
+                      searchText = val;
+                      pagee = 1;
+                      Onserach = '';
+                    }
 
-                  if (!_eventListProvider.loading) {
-                    Onserach = val;
-                    _eventListProvider.resetList();
-                    getEventList(context, taber, 1, Onserach);
-                  } else {}
-                },IconName: GestureDetector(
-                  child: Icon(
-                    Icons.filter_list,
-                    color: Colors.black,
-                  ),
-                  onTap: () {
-                    CommanBottomSheet.ShowBottomSheet(context,
-                        child: ChangeNotifierProvider(
-                            create: (_) => UserEventListProvider(),
-                            child: MenuBarEvent(_eventListProvider)));
+                    if (!_eventListProvider.loading) {
+                      Onserach = val;
+                      _eventListProvider.resetList();
+                      getEventList(context, taber, 1, Onserach);
+                    } else {}
                   },
-                ),)),
+                  IconName: GestureDetector(
+                    child: Icon(
+                      Icons.filter_list,
+                      color: Colors.black,
+                    ),
+                    onTap: () {
+                      CommanBottomSheet.ShowBottomSheet(context,
+                          child: ChangeNotifierProvider(
+                              create: (_) => UserEventListProvider(),
+                              child: MenuBarEvent(_eventListProvider)));
+                    },
+                  ),
+                )),
                 SizedBox(
                   width: 5,
                 ),
@@ -114,18 +119,16 @@ class _UserEventListState extends State<UserEventList> {
                   selector: (_, provider) => provider.locationPermission,
                   builder: (context, locationPermission, child) {
                     return locationPermission == false
-                        ?
-                    GestureDetector(
-                    child: Icon(
-                    Icons.more_vert,
-                    color: Colors.black,
-                    ),
-                    onTap: () {
-                      showMessage('Please Enable Location');
-                    }
-                    )
+                        ? GestureDetector(
+                            child: Icon(
+                              Icons.more_vert,
+                              color: Colors.black,
+                            ),
+                            onTap: () {
+                              showMessage('Please Enable Location');
+                            })
                         : PopMenuBar(
-                      iconsName: Icons.more_vert,
+                            iconsName: Icons.more_vert,
                             val: 0,
                             userMenuItems: [
                               ['50 Miles', 1],
@@ -179,8 +182,9 @@ class _UserEventListState extends State<UserEventList> {
                       pos: 0,
                       title: 'All',
                       onTabHit: (val) {
+                        if(_eventListProvider.eventListLoad)
                         taber = "UPCOMING";
-                        _eventListProvider.resetList();
+                         _eventListProvider.resetList();
                         print(_eventListProvider.resetList());
 
                         _eventListProvider.hitGetEventsList(
@@ -210,8 +214,6 @@ class _UserEventListState extends State<UserEventList> {
                             context, taber, 1, false, Onserach, 0);
                       },
                     ),
-
-
                   ]),
             ),
             SizedBox(
@@ -224,7 +226,9 @@ class _UserEventListState extends State<UserEventList> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (proData.Event.length == 0)
-                  return Center(child: Text(AppLocalizations.instance.text("No Record Found")));
+                  return Center(
+                      child: Text(
+                          AppLocalizations.instance.text("No Record Found")));
                 else {
                   return ListView.builder(
                       itemCount: proData.Event.length,
@@ -239,11 +243,14 @@ class _UserEventListState extends State<UserEventList> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>   ChangeNotifierProvider(create: (_) => UserEventViewProvider(),
-                                          child: UserViewEvent(
-                                              proData.Event[index].id
+                                        builder: (context) =>
+                                            ChangeNotifierProvider(
+                                              create: (_) =>
+                                                  UserEventViewProvider(),
+                                              child: UserViewEvent(proData
+                                                  .Event[index].id
                                                   .toString()),
-                                        )));
+                                            )));
                               },
                             ));
                       });

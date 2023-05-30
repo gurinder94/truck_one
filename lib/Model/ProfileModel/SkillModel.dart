@@ -18,13 +18,13 @@ class SkillModel {
 
   int ?code;
   String? message;
-  List<Datum>? data;
+  List<SkillDatum>? data;
   int ?totalCount;
 
   factory SkillModel.fromJson(Map<String, dynamic> json) => SkillModel(
     code: json["code"],
     message: json["message"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    data: List<SkillDatum>.from(json["data"].map((x) => SkillDatum.fromJson(x))),
     totalCount: json["totalCount"],
   );
 
@@ -36,8 +36,8 @@ class SkillModel {
   };
 }
 
-class Datum {
-  Datum({
+class SkillDatum {
+  SkillDatum({
     this.id,
     this.skill,
     this.isActive,
@@ -52,7 +52,7 @@ class Datum {
   String? createdById;
   bool ? isValue=false;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory SkillDatum.fromJson(Map<String, dynamic> json) => SkillDatum(
     id: json["_id"],
     skill: json["skill"],
     isActive: json["isActive"],

@@ -6,7 +6,7 @@ import '../../../ApiCall/api_Call.dart';
 import '../../../AppUtils/UserInfo.dart';
 import '../../../AppUtils/constants.dart';
 import '../../../Model/NetworkModel/normal_response.dart';
-import '../../../Model/SubscriptionPlanModel/promo_code_model.dart';
+import '../../../Model/SubscriptionPlanModel/promo_code_model 2.dart';
 
 class PromoCodeProvider extends ChangeNotifier {
   bool loading = false;

@@ -69,7 +69,7 @@ class TermConditionProvider extends ChangeNotifier {
 
          if (profileComplete == false)
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileUser(false)));
+              MaterialPageRoute(builder: (context) => ProfileUser(false,roleTitle)));
         else
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => BottomMenu('User', 0)),
@@ -78,7 +78,7 @@ class TermConditionProvider extends ChangeNotifier {
       case ("DISPATCHER"):
          if (profileComplete == false)
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileUser(false)));
+              MaterialPageRoute(builder: (context) => ProfileUser(false,roleTitle)));
         else
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
@@ -108,7 +108,7 @@ class TermConditionProvider extends ChangeNotifier {
       case ("HR"):
         if (profileComplete == false)
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileUser(false)));
+              MaterialPageRoute(builder: (context) => ProfileUser(false,roleTitle)));
         else
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => BottomMenu('Hr', 0)),
@@ -117,7 +117,7 @@ class TermConditionProvider extends ChangeNotifier {
       case ("DRIVER"):
          if (profileComplete == false)
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileUser(false)));
+              MaterialPageRoute(builder: (context) => ProfileUser(false,roleTitle)));
         else
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => BottomMenu('Driver', 0)),
@@ -127,7 +127,7 @@ class TermConditionProvider extends ChangeNotifier {
       case ("SALESPERSON"):
         if (profileComplete == false)
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProfileUser(false)));
+              MaterialPageRoute(builder: (context) => ProfileUser(false,roleTitle)));
         else
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => BottomMenu('Saleperson', 0)),

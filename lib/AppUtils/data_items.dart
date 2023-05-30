@@ -15,7 +15,7 @@ List<String> dummyImages = [
 List<List<String>> settingEnglish = [
   ['icons/changePassword.svg', 'Change Password'],
   ['icons/activity.svg', 'Activity'],
-  ['Company_menu_image/language.svg', 'Language'],
+  ['Company_menu_image/language.svg', 'Default Profile Display Language'],
   ['Company_menu_image/deleteAccount.svg', 'Delete My Account'],
   ['Company_menu_image/insurance.svg', 'Privacy Policy'],
 ];
@@ -227,7 +227,7 @@ var loadType = [
 //weather_monthly
 Set<String> ids = {"weather_monthly"};
 
-var fuelType = ["Petrol", "Diesel"];
+var fuelType = ["Electric", "Diesel","Gas"];
 
 var trailerType = [
   "Flat-bed",

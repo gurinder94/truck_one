@@ -20,7 +20,7 @@ class ViewFleetManagerProvider extends ChangeNotifier
     };
     fleetLoading = true;
 notifyListeners();
-    print(map);
+    print("====================> $map");
     try {
       fleetManagerDetailModel = await hitFleetManagerDetailApi(map);
 

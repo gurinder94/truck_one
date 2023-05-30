@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../AppUtils/constants.dart';
+import '../../AppUtils/constants.dart';
 
 class CommanVideoView extends StatefulWidget {
   String name;

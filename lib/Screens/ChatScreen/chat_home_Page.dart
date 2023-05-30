@@ -226,27 +226,4 @@ class _ChatHomePageState extends State<ChatHomePage> {
           }),
         ]));
   }
-
-// addScrollListener(
-//   BuildContext context,
-//   ConversationListModel model,
-// ) {
-//   scrollController.addListener(() {
-//     if (scrollController.position.maxScrollExtent ==
-//         scrollController.position.pixels) {
-//       if ( _chatHomeProvider.list.length == 0) {
-//
-//       } else {
-//         page = page + 1;
-//         pagnationList(context, page);
-//       }
-//       // Perform event when user reach at the end of list (e.g. do Api call)
-//
-//     }
-//   });
-// }
-
-// pagnationList(BuildContext context, int pagee) async {
-//   _chatHomeProvider.getConversations('', true, pagee);
-// }
 }

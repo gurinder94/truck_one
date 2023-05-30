@@ -42,15 +42,15 @@ class ValidateReceiptIosModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "environment": environment,
-        "receipt": receipt.toJson(),
-        "latest_receipt_info":
-            List<dynamic>.from(latestReceiptInfo.map((x) => x.toJson())),
-        "latest_receipt": latestReceipt,
-        "pending_renewal_info":
-            List<dynamic>.from(pendingRenewalInfo.map((x) => x.toJson())),
-        "status": status,
-      };
+    "environment": environment,
+    "receipt": receipt.toJson(),
+    "latest_receipt_info":
+    List<dynamic>.from(latestReceiptInfo.map((x) => x.toJson())),
+    "latest_receipt": latestReceipt,
+    "pending_renewal_info":
+    List<dynamic>.from(pendingRenewalInfo.map((x) => x.toJson())),
+    "status": status,
+  };
 }
 
 class LatestReceiptInfo {
@@ -117,25 +117,25 @@ class LatestReceiptInfo {
       );
 
   Map<String, dynamic> toJson() => {
-        "quantity": quantity,
-        "product_id": productId,
-        "transaction_id": transactionId,
-        "original_transaction_id": originalTransactionId,
-        "purchase_date": purchaseDate,
-        "purchase_date_ms": purchaseDateMs,
-        "purchase_date_pst": purchaseDatePst,
-        "original_purchase_date": originalPurchaseDate,
-        "original_purchase_date_ms": originalPurchaseDateMs,
-        "original_purchase_date_pst": originalPurchaseDatePst,
-        "expires_date": expiresDate,
-        "expires_date_ms": expiresDateMs,
-        "expires_date_pst": expiresDatePst,
-        "web_order_line_item_id": webOrderLineItemId,
-        "is_trial_period": isTrialPeriod,
-        "is_in_intro_offer_period": isInIntroOfferPeriod,
-        "in_app_ownership_type": inAppOwnershipType,
-        "subscription_group_identifier": subscriptionGroupIdentifier,
-      };
+    "quantity": quantity,
+    "product_id": productId,
+    "transaction_id": transactionId,
+    "original_transaction_id": originalTransactionId,
+    "purchase_date": purchaseDate,
+    "purchase_date_ms": purchaseDateMs,
+    "purchase_date_pst": purchaseDatePst,
+    "original_purchase_date": originalPurchaseDate,
+    "original_purchase_date_ms": originalPurchaseDateMs,
+    "original_purchase_date_pst": originalPurchaseDatePst,
+    "expires_date": expiresDate,
+    "expires_date_ms": expiresDateMs,
+    "expires_date_pst": expiresDatePst,
+    "web_order_line_item_id": webOrderLineItemId,
+    "is_trial_period": isTrialPeriod,
+    "is_in_intro_offer_period": isInIntroOfferPeriod,
+    "in_app_ownership_type": inAppOwnershipType,
+    "subscription_group_identifier": subscriptionGroupIdentifier,
+  };
 }
 
 class PendingRenewalInfo {
@@ -160,11 +160,11 @@ class PendingRenewalInfo {
       );
 
   Map<String, dynamic> toJson() => {
-        "auto_renew_product_id": autoRenewProductId,
-        "product_id": productId,
-        "original_transaction_id": originalTransactionId,
-        "auto_renew_status": autoRenewStatus,
-      };
+    "auto_renew_product_id": autoRenewProductId,
+    "product_id": productId,
+    "original_transaction_id": originalTransactionId,
+    "auto_renew_status": autoRenewStatus,
+  };
 }
 
 class Receipt {
@@ -209,45 +209,45 @@ class Receipt {
   List<LatestReceiptInfo> inApp;
 
   factory Receipt.fromJson(Map<String, dynamic> json) => Receipt(
-        receiptType: json["receipt_type"],
-        adamId: json["adam_id"],
-        appItemId: json["app_item_id"],
-        bundleId: json["bundle_id"],
-        applicationVersion: json["application_version"],
-        downloadId: json["download_id"],
-        versionExternalIdentifier: json["version_external_identifier"],
-        receiptCreationDate: json["receipt_creation_date"],
-        receiptCreationDateMs: json["receipt_creation_date_ms"],
-        receiptCreationDatePst: json["receipt_creation_date_pst"],
-        requestDate: json["request_date"],
-        requestDateMs: json["request_date_ms"],
-        requestDatePst: json["request_date_pst"],
-        originalPurchaseDate: json["original_purchase_date"],
-        originalPurchaseDateMs: json["original_purchase_date_ms"],
-        originalPurchaseDatePst: json["original_purchase_date_pst"],
-        originalApplicationVersion: json["original_application_version"],
-        inApp: List<LatestReceiptInfo>.from(
-            json["in_app"].map((x) => LatestReceiptInfo.fromJson(x))),
-      );
+    receiptType: json["receipt_type"],
+    adamId: json["adam_id"],
+    appItemId: json["app_item_id"],
+    bundleId: json["bundle_id"],
+    applicationVersion: json["application_version"],
+    downloadId: json["download_id"],
+    versionExternalIdentifier: json["version_external_identifier"],
+    receiptCreationDate: json["receipt_creation_date"],
+    receiptCreationDateMs: json["receipt_creation_date_ms"],
+    receiptCreationDatePst: json["receipt_creation_date_pst"],
+    requestDate: json["request_date"],
+    requestDateMs: json["request_date_ms"],
+    requestDatePst: json["request_date_pst"],
+    originalPurchaseDate: json["original_purchase_date"],
+    originalPurchaseDateMs: json["original_purchase_date_ms"],
+    originalPurchaseDatePst: json["original_purchase_date_pst"],
+    originalApplicationVersion: json["original_application_version"],
+    inApp: List<LatestReceiptInfo>.from(
+        json["in_app"].map((x) => LatestReceiptInfo.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "receipt_type": receiptType,
-        "adam_id": adamId,
-        "app_item_id": appItemId,
-        "bundle_id": bundleId,
-        "application_version": applicationVersion,
-        "download_id": downloadId,
-        "version_external_identifier": versionExternalIdentifier,
-        "receipt_creation_date": receiptCreationDate,
-        "receipt_creation_date_ms": receiptCreationDateMs,
-        "receipt_creation_date_pst": receiptCreationDatePst,
-        "request_date": requestDate,
-        "request_date_ms": requestDateMs,
-        "request_date_pst": requestDatePst,
-        "original_purchase_date": originalPurchaseDate,
-        "original_purchase_date_ms": originalPurchaseDateMs,
-        "original_purchase_date_pst": originalPurchaseDatePst,
-        "original_application_version": originalApplicationVersion,
-        "in_app": List<dynamic>.from(inApp.map((x) => x.toJson())),
-      };
+    "receipt_type": receiptType,
+    "adam_id": adamId,
+    "app_item_id": appItemId,
+    "bundle_id": bundleId,
+    "application_version": applicationVersion,
+    "download_id": downloadId,
+    "version_external_identifier": versionExternalIdentifier,
+    "receipt_creation_date": receiptCreationDate,
+    "receipt_creation_date_ms": receiptCreationDateMs,
+    "receipt_creation_date_pst": receiptCreationDatePst,
+    "request_date": requestDate,
+    "request_date_ms": requestDateMs,
+    "request_date_pst": requestDatePst,
+    "original_purchase_date": originalPurchaseDate,
+    "original_purchase_date_ms": originalPurchaseDateMs,
+    "original_purchase_date_pst": originalPurchaseDatePst,
+    "original_application_version": originalApplicationVersion,
+    "in_app": List<dynamic>.from(inApp.map((x) => x.toJson())),
+  };
 }

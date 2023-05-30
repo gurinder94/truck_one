@@ -13,6 +13,7 @@ import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
 
+import '../../../AppUtils/constants.dart';
 import '../../../Model/validate_receipt_ios_model.dart';
 
 var _GpsSubscriptionId = ["Gps_Plan_Monthly_6.99", "Gps_Plan_Yearly_69.99"];
@@ -31,7 +32,7 @@ class PriceProvider extends ChangeNotifier {
   List<LatestReceiptInfo> inApp = <LatestReceiptInfo>[];
   bool buyProductLoder = false;
   bool isAvailable = false;
-  bool isTest = false;
+  bool isTest = true;
   bool purchasePending = false;
   ResponseModel? responseModel;
   PurchaseDetails? previousPurchase;
@@ -337,8 +338,7 @@ class PriceProvider extends ChangeNotifier {
       var response = json.decode(res.body);
 
       log("deliverProduct>> res ${response}");
-      validateReceiptIosModel =
-          await ValidateReceiptIosModel.fromJson(response);
+      validateReceiptIosModel = await ValidateReceiptIosModel.fromJson(response);
       log("Receipts>> Length ${validateReceiptIosModel.latestReceiptInfo.length}");
       // log("Receipts>> latest" + response['latest_receipt_info']);
 
@@ -348,7 +348,10 @@ class PriceProvider extends ChangeNotifier {
       responseModel = await hitSubscriptionPlanPayment({
         "userId": getid,
         "paymentData":
-            jsonDecode(jsonEncode(validateReceiptIosModel.latestReceiptInfo))
+            jsonDecode(jsonEncode(validateReceiptIosModel.latestReceiptInfo)),
+        "deviceName": deviceId,
+        "paymentMode": "IOS",
+        "paymentType": "INAPPPURCHASE"
       }).catchError((onError) {
         buyProductLoder = false;
         notifyListeners();

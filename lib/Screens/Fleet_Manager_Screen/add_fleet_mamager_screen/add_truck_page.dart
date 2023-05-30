@@ -76,7 +76,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                                             : noti.image,
                                         height: 200,
                                         width: double.infinity,
-                                        boxFit: BoxFit.cover,
+                                        boxFit: BoxFit.fill,
                                       )),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -99,10 +99,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                           ],
                         ),
                         SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 10,
+                          height: 20,
                         ),
                         InputTextField(
                           child: TextFormField(
@@ -132,24 +129,6 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                         SizedBox(
                           height: 20,
                         ),
-                        CommanDrop(
-                          title: AppLocalizations.instance
-                              .text("Please Select Brand Name"),
-                          onChangedFunction: (dynamic newValue) {
-                            noti.setBrandValue(newValue);
-                          },
-                          selectValue:
-                              noti.brandvalue == null ? null : noti.brandvalue,
-                          itemsList: noti.brandList.map((Datum items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items.brand.toString()),
-                            );
-                          }).toList(),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
                         InputTextField(
                           child: TextFormField(
                             controller: noti.vin,
@@ -161,11 +140,15 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: AppLocalizations.instance
-                                  .text("Enter Your VIN"),
+                              hintText: "Enter Your VIN",
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),
+                            onChanged: (val) {
+                              if (noti.vin.text.length == 17) {
+                                noti.hitVehicleData();
+                              }
+                            },
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return 'Please enter VIN';
@@ -177,6 +160,64 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                             },
                           ),
                         ),
+                        noti.textType == null || noti.textType == ""
+                            ? Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  CommanDrop(
+                                    title: AppLocalizations.instance
+                                        .text("Please Select Brand Name"),
+                                    onChangedFunction: (dynamic newValue) {
+                                      noti.setBrandValue(newValue);
+                                    },
+                                    selectValue: noti.brandvalue == null
+                                        ? null
+                                        : noti.brandvalue,
+                                    itemsList:
+                                        noti.brandList.map((Datum items) {
+                                      return DropdownMenuItem(
+                                        value: items,
+                                        child: Text(items.brand.toString()),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              )
+                            : SizedBox(),
+                        noti.brandName != "Others"
+                            ? SizedBox()
+                            : noti.textType != null || noti.textType != ""
+                                ? Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      InputTextField(
+                                        child: TextFormField(
+                                          controller: noti.brand,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: "Enter Brand Name",
+                                            hintStyle: TextStyle(fontSize: 17),
+                                            contentPadding: EdgeInsets.all(10),
+                                          ),
+                                          validator: (value) {
+                                            if (value!.trim().isEmpty) {
+                                              return 'Enter Brand Name';
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox(),
                         SizedBox(
                           height: 20,
                         ),
@@ -297,7 +338,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText:AppLocalizations.instance
+                              hintText: AppLocalizations.instance
                                   .text("Enter Your Weight(lbs)"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
@@ -325,7 +366,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText:AppLocalizations.instance
+                              hintText: AppLocalizations.instance
                                   .text("Enter Your Engine Number"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
@@ -354,7 +395,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText:AppLocalizations.instance
+                              hintText: AppLocalizations.instance
                                   .text("Enter Your Fuel Capacity(gl)"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
@@ -371,35 +412,57 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                         SizedBox(
                           height: 20,
                         ),
-                        InputTextField(
-                          child: TextFormField(
-                            controller: noti.numberTyres,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(2),
-                            ],
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: AppLocalizations.instance
-                                  .text("Enter Your Number Of Tyres"),
-                              hintStyle: TextStyle(fontSize: 17),
-                              contentPadding: EdgeInsets.all(10),
-                            ),
-                            validator: (value) {
-                              if (value!.trim().isEmpty) {
-                                return 'Please enter number of tyres';
-                              } else {
-                                return null;
-                              }
+                        CommanDrop(
+                          title: "Enter Number Of Tyres",
+                          onChangedFunction: (String newValue) {
+                            noti.setTyreValue(newValue);
+                          },
+                          selectValue: noti.tyre,
+                          itemsList:
+                              noti.totalTyres.map<DropdownMenuItem<String>>(
+                            (value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
                             },
-                          ),
+                          ).toList(),
                         ),
                         SizedBox(
                           height: 20,
                         ),
+                        noti.tyre == "Other"
+                            ? Column(
+                              children: [
+                                InputTextField(
+                                    child: TextFormField(
+                                      controller: noti.tyreenter,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      textInputAction: TextInputAction.next,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        LengthLimitingTextInputFormatter(4),
+                                      ],
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Enter Other Number Of Tyres",
+                                        hintStyle: TextStyle(fontSize: 17),
+                                        contentPadding: EdgeInsets.all(10),
+                                      ),
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return 'Please enter other number of tyres';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                SizedBox(height: 20,)
+                              ],
+                            )
+                            : SizedBox(),
                         InputTextField(
                           child: TextFormField(
                             controller: noti.wheelbase,
@@ -412,8 +475,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText:
-                              AppLocalizations.instance
+                              hintText: AppLocalizations.instance
                                   .text("Enter Your WheelBase"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
@@ -442,7 +504,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText:   AppLocalizations.instance
+                              hintText: AppLocalizations.instance
                                   .text("Enter Your Power"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
@@ -465,10 +527,10 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                           titleColor: APP_BG,
                           onDoneFuction: () {
                             if (_formKey.currentState!.validate()) {
-                              if (noti.brandvalue == null) {
-                                showMessage("Please Enter Brand");
-                              } else if (noti.fuelType == null) {
+                              if (noti.fuelType == null) {
                                 showMessage("Please Enter Fuel Type");
+                              } else if (noti.tyre == null) {
+                                showMessage("Please Enter Number Of Tyres");
                               } else
                                 noti.hitAddFleetManager("truck");
                             }

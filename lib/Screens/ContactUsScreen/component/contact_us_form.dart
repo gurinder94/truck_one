@@ -4,7 +4,7 @@ import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/commanField_widget.dart';
 import 'package:provider/provider.dart';
-import '../../../../../AppUtils/comman_validation.dart';
+import '../../../AppUtils/comman_validation.dart';
 import '../../commanWidget/comman_button_widget.dart';
 import '../provider/contact_us_provider.dart';
 import 'contact_us_lower_part.dart';

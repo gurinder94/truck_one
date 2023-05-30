@@ -68,7 +68,7 @@ class _EditTrailerManagerState extends State<EditTrailerManager> {
                                   image: noti.image == null ? "" : noti.image,
                                   height: 200,
                                   width: double.infinity,
-                                  boxFit: BoxFit.cover,
+                                  boxFit: BoxFit.fill,
                                 )),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -99,8 +99,7 @@ class _EditTrailerManagerState extends State<EditTrailerManager> {
                         InputTextField(
                           child: TextFormField(
                             controller: noti.name,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             textInputAction: TextInputAction.next,
                             inputFormatters: <TextInputFormatter>[
                               LengthLimitingTextInputFormatter(15),

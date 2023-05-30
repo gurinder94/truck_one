@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/JobList/CompanyJob/Component/PDFViewerFromUrl.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/JobList/CompanyJob/Provider/JobListProvider.dart';
@@ -10,21 +11,25 @@ import 'package:provider/provider.dart';
 import '../../../../Language_Screen/application_localizations.dart';
 
 class ApplicantsItem extends StatelessWidget {
-  const ApplicantsItem({Key? key}) : super(key: key);
+  String? jobId;
+
+  ApplicantsItem(this.jobId, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Expanded(
       child: Consumer<JobListProvider>(builder: (_, proData, __) {
-
         if (proData.jobViewApplicants) {
           return Center(
             child: CircularProgressIndicator.adaptive(),
           );
         }
         if (proData.applicant == null || proData.applicant!.data!.length == 0)
-          return Center(child: Text(AppLocalizations.instance.text("No Record Found"),));
+          return Center(
+              child: Text(
+            AppLocalizations.instance.text("No Record Found"),
+          ));
         else
           return ListView.builder(
               itemCount: proData.applicant!.data!.length,
@@ -45,12 +50,33 @@ class ApplicantsItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             user.personName.toString(),
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w800),
                           ),
+                          proData.applicant!.data![index].isReaded == null
+                              ? SizedBox()
+                              : proData.applicant!.data![index].isReaded ==
+                                      false
+                                  ? GestureDetector(
+                                      child: Icon(Icons.visibility_off),
+                                      onTap: () {
+                                        proData.hitIsReaded(
+                                            proData.applicant!.data![index].id
+                                                .toString(),
+                                            jobId.toString());
+                                        // showpop(context, description);
+                                      },
+                                    )
+                                  : GestureDetector(
+                                      child: Icon(Icons.visibility),
+                                      onTap: () {
+                                        // showpop(context, description);
+                                      },
+                                    )
                         ],
                       ),
                       SizedBox(
@@ -72,12 +98,14 @@ class ApplicantsItem extends StatelessWidget {
                           Expanded(
                               flex: 1,
                               child: CommonRichText(
-                                richText1:  AppLocalizations.instance.text("Phone Number"),
+                                richText1: AppLocalizations.instance
+                                    .text("Phone Number"),
                                 style1: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     height: 1.4,
                                     color: Colors.black),
-                                richText2: '\n${user.mobileNumber.toString().toString()}',
+                                richText2:
+                                    '\n${user.mobileNumber.toString().toString()}',
                                 style2:
                                     TextStyle(fontWeight: FontWeight.normal),
                               )),
@@ -86,32 +114,86 @@ class ApplicantsItem extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      Text('${AppLocalizations.instance.text("Resume/Description")+'\n'}',style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          height: 1.4,
-                          color: Colors.black),),
-                      resume == ""
-                          ? GestureDetector(
-                              child: Icon(Icons.visibility),
-                              onTap: () {
-                                showpop(context, description);
-                              },
-                            )
-                          : GestureDetector(
-                              child: Icon(Icons.upload_file),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute<dynamic>(
-                                        builder: (_) => PDFViewerFromUrl(
-                                              url: Resume_Pdf_URl + resume!,
-                                          title: " Resume",
-                                            )));
-                              })
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${AppLocalizations.instance.text("Resume/Description") + '\n'}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.4,
+                                      color: Colors.black),
+                                ),
+                                resume == ""
+                                    ? SizedBox()
+                                    : GestureDetector(
+                                        child: Icon(Icons.upload_file),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute<dynamic>(
+                                                  builder: (_) =>
+                                                      PDFViewerFromUrl(
+                                                        url: Resume_Pdf_URl +
+                                                            resume!,
+                                                        title: " Resume",
+                                                      )));
+                                        }),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Status",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.4,
+                                      color: Colors.black),
+                                ),
+                                Text(proData.applicant!.data![index].status
+                                            .toString() ==
+                                        "reject"
+                                    ? "Rejected"
+                                    : proData.applicant!.data![index].status
+                                                .toString() ==
+                                            "accept"
+                                        ? "Accepted"
+                                        : proData.applicant!.data![index].status
+                                            .toString())
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Applied Date",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            height: 1.4,
+                            color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(DateFormat("dd-MM-yyyy ,hh:mm a").format(proData
+                          .applicant!.data![index].createdAt!
+                          .toLocal())),
                     ],
                   ),
-                  decoration: const BoxDecoration(
-                      color: Color(0xFFEEEEEE),
+                  decoration: BoxDecoration(
+                      color: proData.applicant!.data![index].isReaded == false
+                          ? Color(0xFFEEEEEE)
+                          : Colors.grey.shade300,
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       boxShadow: [
                         BoxShadow(
@@ -145,20 +227,14 @@ class ApplicantsItem extends StatelessWidget {
           ),
         ),
         actions: <Widget>[
-        InkWell(
-        splashColor: PrimaryColor,
-        highlightColor: Colors.white,
-        child:Text("okay"),
-        onTap: () {
-          Navigator.of(ctx).pop();
-
-
-        },
-
-
-
-      )
-
+          InkWell(
+            splashColor: PrimaryColor,
+            highlightColor: Colors.white,
+            child: Text("okay"),
+            onTap: () {
+              Navigator.of(ctx).pop();
+            },
+          )
         ],
       ),
     );

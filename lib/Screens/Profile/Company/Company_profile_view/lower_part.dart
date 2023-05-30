@@ -121,12 +121,12 @@ class LowerPart extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
             child: Text.rich(TextSpan(
-                text: AppLocalizations.instance.text('Director Name'),
+                text: AppLocalizations.instance.text('Company Name'),
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 children: <InlineSpan>[
                   TextSpan(
                     text: ' : ' +
-                        companyViewProvider.companyDetail!.directorName
+                        companyViewProvider.companyDetail!.companyName
                             .toString(),
                     style:
                         TextStyle(fontSize: 14, fontWeight: FontWeight.normal),

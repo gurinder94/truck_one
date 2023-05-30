@@ -7,29 +7,33 @@ import 'package:provider/provider.dart';
 class RouteListWidget extends StatelessWidget {
   late RouteMarkerListProvider _provider;
   String roleName;
+
   RouteListWidget(this.roleName);
 
   @override
   Widget build(BuildContext context) {
-_provider=context.read<RouteMarkerListProvider>();
+    _provider = context.read<RouteMarkerListProvider>();
     return Container(
         color: Colors.white,
         child: Consumer<RouteMarkerListProvider>(
           builder: (context, noti, child) => noti.loading
               ? Center(child: CircularProgressIndicator.adaptive())
-              : noti.routeModel.routes!.length==null?SizedBox(): ListView.builder(
-              itemCount: noti.routeModel.routes!.length,
-                  itemBuilder: (context, index)
-                      {
-                       return  Container(
+              : noti.routeModel.routes == null
+                  ? SizedBox()
+                  : ListView.builder(
+                      itemCount: noti.routeModel.routes!.length,
+                      itemBuilder: (context, index) {
+                        return Container(
                             margin: EdgeInsets.all(10),
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 boxShadow: [
-                                  BoxShadow(color: Colors.black26, blurRadius: 10),
+                                  BoxShadow(
+                                      color: Colors.black26, blurRadius: 10),
                                 ],
-                                borderRadius: BorderRadius.all(Radius.circular(5))),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
                             child: Column(
                               children: [
                                 Text(
@@ -55,7 +59,8 @@ _provider=context.read<RouteMarkerListProvider>();
                                         ),
                                         Text(
                                           '${((noti.routeModel.routes![index].summary!.lengthInMeters)! * 0.000621).toStringAsFixed(2)} miles',
-                                          style: TextStyle(color: Colors.black45),
+                                          style:
+                                              TextStyle(color: Colors.black45),
                                         ),
                                       ],
                                     ),
@@ -71,34 +76,45 @@ _provider=context.read<RouteMarkerListProvider>();
                                         ),
                                         Text(
                                           '${getDuration(Duration(seconds: noti.routeModel.routes![index].summary!.travelTimeInSeconds!))}',
-                                          style: TextStyle(color: Colors.black45),
+                                          style:
+                                              TextStyle(color: Colors.black45),
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     TextButton(
                                         onPressed: () {
                                           _provider.applyRoute(index);
                                         },
-                                        child: Text(AppLocalizations.instance.text("View"))),
-                                    roleName.toUpperCase()=="DRIVER"?     TextButton(
-                                        onPressed: () {
-                                          _provider.openNavigation(index,context);
-                                        }, child: Text(AppLocalizations.instance.text("Navigate"))):TextButton(
-                                        onPressed: () {
-                                          _provider.openNavigation(index,context);
-                                        }, child: Text(AppLocalizations.instance.text("Tracking")))
+                                        child: Text(AppLocalizations.instance
+                                            .text("View"))),
+                                    roleName.toUpperCase() == "DRIVER"
+                                        ? TextButton(
+                                            onPressed: () {
+                                              _provider.openNavigation(
+                                                  index, context);
+                                            },
+                                            child: Text(AppLocalizations
+                                                .instance
+                                                .text("Navigate")))
+                                        : TextButton(
+                                            onPressed: () {
+                                              _provider.openNavigation(
+                                                  index, context);
+                                            },
+                                            child: Text(AppLocalizations
+                                                .instance
+                                                .text("Tracking")))
                                   ],
                                 )
                               ],
                             ));
-
-                      }
-                ),
+                      }),
         ));
   }
 

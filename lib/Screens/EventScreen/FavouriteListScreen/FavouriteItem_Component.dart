@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
-import 'package:my_truck_dot_one/Model/EventModel.dart';
+import 'package:my_truck_dot_one/Model/EventModel 2.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/FavouriteListScreen/favourite_list_provider.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/UserEventScreen/EventListScreen/Provider/UserEventListProvider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/InsideButton.dart';
@@ -225,7 +225,7 @@ class FavouriteItem extends StatelessWidget {
     return ClipRRect(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-        child:  CustomImage(image:  SERVER_URL + '/uploads/event/image/' + bannerImage , width: double.infinity, boxFit:BoxFit.cover, height: hei)
+        child:  CustomImage(image:  SERVER_URL + '/uploads/event/image/' + bannerImage , width: double.infinity, boxFit:BoxFit.fill, height: hei)
     );
   }
 

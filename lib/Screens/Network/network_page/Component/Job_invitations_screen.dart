@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
-import 'package:my_truck_dot_one/Model/NetworkModel/job_invitation_model.dart';
+import 'package:my_truck_dot_one/Model/NetworkModel/job_invitation_model 2.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/loading_widget.dart';
 import 'package:my_truck_dot_one/Screens/Network/user_profile.dart';
 import 'package:provider/provider.dart';

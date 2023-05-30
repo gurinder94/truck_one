@@ -12,7 +12,7 @@ import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/CompanyProfile.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/CountryModel.dart';
-import 'package:my_truck_dot_one/Model/ProfileModel/PostalCodeModel.dart';
+import 'package:my_truck_dot_one/Model/ProfileModel/PostalCodeModel 2.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/ServiceModel.dart';
 import 'package:my_truck_dot_one/Screens/BottomMenu/bottom_menu.dart';
 import 'package:my_truck_dot_one/Screens/Profile/Company/Company_profile_view/Provider/company_profile_view_provider.dart';
@@ -123,7 +123,7 @@ class ProfileProvider extends ChangeNotifier {
     var company = _companyModel!;
     companyName.text = company.companyName.toString();
     directorName.text =
-        company.directorName == null ? '' : company.directorName.toString();
+        company.middleName == null ? '' : company.middleName.toString();
     firstName.text =
         company.firstName == null ? '' : company.firstName.toString();
     lastName.text = company.lastName == null ? '' : company.lastName.toString();
@@ -228,7 +228,7 @@ class ProfileProvider extends ChangeNotifier {
       'firstName': firstName.text,
       'lastName': lastName.text,
       'country': countryId,
-      'directorName': directorName.text,
+      'middleName': directorName.text,
       'email': email.text,
       'incorporationDate': incorprationDate.text,
       'mobileNumber': mobile.text,

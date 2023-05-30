@@ -14,9 +14,7 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		9DD3706429DD665300C7CAF1 /* configuration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 9DD3706329DD665300C7CAF1 /* configuration.storekit */; };
 		9DD3706729DD765A00C7CAF1 /* MyTruck.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 9DD3706629DD765900C7CAF1 /* MyTruck.storekit */; };
-		9DD3706E29DD824700C7CAF1 /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9DD3706D29DD824700C7CAF1 /* StoreKitTestCertificate.cer */; };
 		9DEA3ECF29DAE8F80078AE53 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DEA3ECE29DAE8F80078AE53 /* GoogleService-Info.plist */; };
 		9DEA3ED329DAEB020078AE53 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DEA3ED229DAEB020078AE53 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
@@ -52,10 +50,8 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9DD3706329DD665300C7CAF1 /* configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = configuration.storekit; sourceTree = "<group>"; };
 		9DD3706629DD765900C7CAF1 /* MyTruck.storekit */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MyTruck.storekit; sourceTree = "<group>"; };
 		9DD3706A29DD7C2400C7CAF1 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
-		9DD3706D29DD824700C7CAF1 /* StoreKitTestCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = StoreKitTestCertificate.cer; sourceTree = "<group>"; };
 		9DEA3ECE29DAE8F80078AE53 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9DEA3ED029DAEAD90078AE53 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		9DEA3ED229DAEB020078AE53 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -100,8 +96,6 @@
 			children = (
 				9DD3706629DD765900C7CAF1 /* MyTruck.storekit */,
 				9DD3706A29DD7C2400C7CAF1 /* TestPlan.xctestplan */,
-				9DD3706329DD665300C7CAF1 /* configuration.storekit */,
-				9DD3706D29DD824700C7CAF1 /* StoreKitTestCertificate.cer */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
@@ -210,8 +204,6 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				9DD3706729DD765A00C7CAF1 /* MyTruck.storekit in Resources */,
-				9DD3706429DD665300C7CAF1 /* configuration.storekit in Resources */,
-				9DD3706E29DD824700C7CAF1 /* StoreKitTestCertificate.cer in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				9DEA3ECF29DAE8F80078AE53 /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
@@ -229,6 +221,7 @@
 			files = (
 			);
 			inputPaths = (
+				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
 			);
 			name = "Thin Binary";
 			outputPaths = (

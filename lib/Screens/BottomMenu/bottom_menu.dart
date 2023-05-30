@@ -28,7 +28,6 @@ import 'package:my_truck_dot_one/Screens/team_manage_Screen%20/company_team_mana
 import 'package:my_truck_dot_one/Screens/team_manage_Screen%20/seller_manage_team/seller_manage_team_component/seller_manage_Screen.dart';
 import 'package:my_truck_dot_one/Screens/team_manage_Screen%20/Dispatcher_team_manage/team_manage_screen.dart';
 import 'package:provider/provider.dart';
-import '../../AppUtils/UserInfo.dart';
 import '../Home/Provider/home_page_list_provider.dart';
 import '../SellerScreen/provider/seller_dash_bord_provider.dart';
 import '../team_manage_Screen /Provider/manage_team_provider.dart';
@@ -55,13 +54,11 @@ class _BottomMenuState extends State<BottomMenu> {
 
   @override
   void initState() {
-    print("dasjhasdjkhdajkh${widget.type}");
     // TODO: implement initState
     _bottomProvider = context.read<BottomProvider>();
     _bottomProvider.menuClick = widget.tabber;
     _homePageListProvider = context.read<HomePageListProvider>();
     _homePageListProvider.totalCount = 0;
-
     _bottomProvider.getChatSocket(context);
     _bottomProvider.getlocalLanguage();
     // _homePageListProvider.hitNotificationCount(context);

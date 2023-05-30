@@ -1,4 +1,4 @@
-import 'EventModel.dart';
+import 'EventModel 2.dart';
 
 class EventListModel {
   int? code;

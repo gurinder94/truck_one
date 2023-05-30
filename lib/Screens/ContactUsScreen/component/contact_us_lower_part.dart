@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_truck_dot_one/Screens/ContactUsScreen/component/plan_view.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/commanField_widget.dart';
-import '../../../../../AppUtils/comman_validation.dart';
+import '../../../AppUtils/comman_validation.dart';
 import '../provider/contact_us_provider.dart';
 
 

@@ -114,19 +114,20 @@ class ChatPage extends StatelessWidget {
                     ),
                     _chatProvider.type == "GROUP"
                         ? Text(
-                          'tab to here for  group info',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        )
+                            'tab to here for  group info',
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          )
                         : SizedBox()
                   ],
                 ),
-                onTap: ()
-                {
-                  _chatProvider.type == "GROUP"?     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ViewGroupPage(conversationId))):SizedBox();
+                onTap: () {
+                  _chatProvider.type == "GROUP"
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ViewGroupPage(conversationId)))
+                      : SizedBox();
                 },
               )
             ],
@@ -212,13 +213,19 @@ class ChatPage extends StatelessWidget {
                                   ]),
                               child: GestureDetector(
                                 onTap: () {
-                                  mm.document!.length == 0
-                                      ? SizedBox()
-                                      : _launchURL(ChatUrl +
-                                          mm.document.toString().substring(
-                                              1,
-                                              mm.document.toString().length -
-                                                  1));
+                                  final matcher = new RegExp(
+                                      r"(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)");
+                                  return matcher.hasMatch(mm.message.toString())
+                                      ? _launchURL(mm.message.toString())
+                                      : mm.document!.length == 0
+                                          ? SizedBox()
+                                          : _launchURL(ChatUrl +
+                                              mm.document.toString().substring(
+                                                  1,
+                                                  mm.document
+                                                          .toString()
+                                                          .length -
+                                                      1));
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -226,12 +233,21 @@ class ChatPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        mm.message.toString(),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      RegExp(r"(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)")
+                                              .hasMatch(mm.message.toString())
+                                          ? Text(
+                                              mm.message.toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.red,
+                                                  decoration:
+                                                      TextDecoration.underline),
+                                            )
+                                          : Text(
+                                              mm.message.toString(),
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
                                       mm.document!.length == 0
                                           ? SizedBox(
                                               height: 5,
@@ -492,7 +508,9 @@ class ChatPage extends StatelessWidget {
   }
 }
 
-_launchURL(String url_chat) async {
+_launchURL(
+  String url_chat,
+) async {
   print(url_chat);
   var url = url_chat;
   if (await canLaunch(url)) {

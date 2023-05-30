@@ -16,18 +16,19 @@ class SelllerProductDetail extends StatelessWidget {
 
     _provider.getProductView(id);
     return Scaffold(
-        body: Selector<SellerViewProductProvider, bool>(
-            selector: (_, provider) => provider.loading,
-            builder: (context, paginationLoading, child) {
-              return paginationLoading == true
-                  ? Center(child: CircularProgressIndicator())
-                  : SingleChildScrollView(
-                      controller: _provider.scrollController,
-                      child: Stack(children: [
-                        SellerHeadPart(),
-                        SellerLowerPart(_provider.productView)
-                      ]),
-                    );
-            }));
+      body: Selector<SellerViewProductProvider, bool>(
+          selector: (_, provider) => provider.loading,
+          builder: (context, paginationLoading, child) {
+            return paginationLoading == true
+                ? Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    controller: _provider.scrollController,
+                    child: Stack(children: [
+                      SellerHeadPart(),
+                      SellerLowerPart(_provider.productView)
+                    ]),
+                  );
+          }),
+    );
   }
 }

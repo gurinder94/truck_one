@@ -47,8 +47,8 @@ class FeetManagerItem extends StatelessWidget {
                                       .toInt()));
                         },
                         errorBuilder: (a, b, c) => Image.asset(
-                              'icons/defaultImage.jpg',
-                              fit: BoxFit.cover,
+                              'assets/default.png',
+                              fit: BoxFit.fill,
                               width: double.infinity,
                               height: 160,
                             )),
@@ -71,8 +71,8 @@ class FeetManagerItem extends StatelessWidget {
                                       .toInt()));
                         },
                         errorBuilder: (a, b, c) => Image.asset(
-                              'icons/defaultImage.jpg',
-                              fit: BoxFit.cover,
+                              'assets/default.png',
+                              fit: BoxFit.fill,
                               width: double.infinity,
                               height: 160,
                             )),

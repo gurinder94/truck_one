@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
-import 'package:my_truck_dot_one/Model/NetworkModel/group_invitation_model.dart';
-import 'package:my_truck_dot_one/Model/NetworkModel/job_invitation_model.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
-import 'package:my_truck_dot_one/Model/NetworkModel/recommandation_model.dart';
+import '../../../Model/NetworkModel/group_invitation_model 2.dart';
+import '../../../Model/NetworkModel/job_invitation_model 2.dart';
+import '../../../Model/NetworkModel/recommandation_model 2.dart';
 
 class NetworkProvider extends ChangeNotifier {
   int _tabEnable = 0;

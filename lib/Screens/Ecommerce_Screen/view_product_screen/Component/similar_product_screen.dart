@@ -176,7 +176,7 @@ eventImage(double hei, String bannerImage) {
               ? ''
               : Base_URL_ProductList + bannerImage.toString(),
           width: double.infinity,
-          boxFit: BoxFit.cover,
+          boxFit: BoxFit.fill,
           height: 140)
     ],
   );

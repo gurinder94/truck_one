@@ -12,9 +12,9 @@ import 'Component/seller_detail.dart';
 import 'Component/trailer_Item.dart';
 import 'e_commerce_view_product_provider/Product_view_Provider.dart';
 
-
 class LowerPart extends StatefulWidget {
   ProductViewProvider viewProduct;
+
   LowerPart(this.viewProduct);
 
   @override
@@ -22,9 +22,9 @@ class LowerPart extends StatefulWidget {
 }
 
 class _LowerPartState extends State<LowerPart> {
-
   late FliterProvider provider;
   ProductViewProvider _productViewProvider;
+
   _LowerPartState(this._productViewProvider);
 
   @override
@@ -34,7 +34,6 @@ class _LowerPartState extends State<LowerPart> {
     provider = context.read<FliterProvider>();
 
     provider.getFavourite(_productViewProvider.productView.data!.iswishList);
-
   }
 
   @override
@@ -81,7 +80,6 @@ class _LowerPartState extends State<LowerPart> {
                         SizedBox(
                           width: 20,
                         ),
-
                         Flexible(
                           child: Text(
                             _productViewProvider.productView.data!.currency
@@ -136,7 +134,9 @@ class _LowerPartState extends State<LowerPart> {
             SizedBox(
               height: 8,
             ),
-            _productViewProvider.productView.data!.categoryName=="Trucks"?ItemDetails(_productViewProvider):TrailerDetails(_productViewProvider),
+            _productViewProvider.productView.data!.categoryName == "Trucks"
+                ? ItemDetails(_productViewProvider)
+                : TrailerDetails(_productViewProvider),
             Divider(),
             SellerDetail(_productViewProvider),
             CustomerQuestion(_productViewProvider),
@@ -146,7 +146,9 @@ class _LowerPartState extends State<LowerPart> {
             ),
             Center(
               child: Text(
-                AppLocalizations.instance.text("Customers Q & A's",),
+                AppLocalizations.instance.text(
+                  "Customers Q & A's",
+                ),
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
@@ -163,7 +165,9 @@ class _LowerPartState extends State<LowerPart> {
                 );
               }
               if (proData.questionAnswerModel.data!.length == 0)
-                return Center(child: Text('${AppLocalizations.instance.text('Be the first to ask a question')}'));
+                return Center(
+                    child: Text(
+                        '${AppLocalizations.instance.text('Be the first to ask a question')}'));
               else
                 return CustomerAnswer(proData);
             }),
@@ -186,9 +190,10 @@ class _LowerPartState extends State<LowerPart> {
                   child: CircularProgressIndicator.adaptive(),
                 );
               }
-              if (
-                  proData.similarProduct.data!.length == 0)
-                return Center(child: Text(  "${AppLocalizations.instance.text("No Record Found")}"));
+              if (proData.similarProduct.data!.length == 0)
+                return Center(
+                    child: Text(
+                        "${AppLocalizations.instance.text("No Record Found")}"));
               else
                 return GestureDetector(child: SimilarProductScreen(proData));
             }),
@@ -231,5 +236,3 @@ showDetail(String? Heading, String? value) {
     ),
   );
 }
-
-

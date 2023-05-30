@@ -203,8 +203,8 @@ class WishList extends StatelessWidget {
           },
           errorBuilder: (a, b, c) => Center(
               child: Image.asset(
-            'icons/defaultImage.jpg',
-            fit: BoxFit.cover,
+            'assets/default.png',
+            fit: BoxFit.fill,
             width: double.infinity,
             height: hei,
           )),

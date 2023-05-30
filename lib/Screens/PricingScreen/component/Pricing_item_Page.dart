@@ -36,30 +36,30 @@ class PricingItem extends StatelessWidget {
                 ),
                 product.title.contains("Yearly")
                     ? Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Text(
-                          product.title.replaceAll('_', ' '),
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      )
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    product.title.replaceAll('_', ' '),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ),
+                )
                     : Text(
-                        capitalize(product.title
-                                .replaceAll('_', ' ')
-                                .contains("Weather Plan Monthly")
-                            ? "Weather Monthly Plan"
-                            : product.title
-                                    .replaceAll('_', ' ')
-                                    .contains("GPS Plan Monthly")
-                                ? "GPS Monthly Plan"
-                                : product.title.replaceAll('_', ' ')),
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600),
-                      ),
+                  capitalize(product.title
+                      .replaceAll('_', ' ')
+                      .contains("Weather Plan Monthly")
+                      ? "Weather Monthly Plan"
+                      : product.title
+                      .replaceAll('_', ' ')
+                      .contains("GPS Plan Monthly")
+                      ? "GPS Monthly Plan"
+                      : product.title.replaceAll('_', ' ')),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600),
+                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -171,52 +171,52 @@ class PricingItem extends StatelessWidget {
                 top: 25,
                 child: product.title.contains("Yearly")
                     ? Transform(
-                        child: Container(
-                            width: 250,
-                            padding: EdgeInsets.all(10),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 35, right: 35),
-                              child: new Text(
-                                "RECOMMENDED",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            color: Color(0xFFEDBC48)),
-                        alignment: FractionalOffset.center,
-                        transform: new Matrix4.identity()
-                          ..rotateZ(-25 * 4.1415927 / 180),
-                      )
+                  child: Container(
+                      width: 250,
+                      padding: EdgeInsets.all(10),
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.only(left: 35, right: 35),
+                        child: new Text(
+                          "RECOMMENDED",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      color: Color(0xFFEDBC48)),
+                  alignment: FractionalOffset.center,
+                  transform: new Matrix4.identity()
+                    ..rotateZ(-25 * 4.1415927 / 180),
+                )
                     : SizedBox())
           ],
         ),
         decoration: product.title.contains("Yearly")
             ? BoxDecoration(
-                color: Color(0xFFEEEEEE),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                boxShadow: [
-                    BoxShadow(
-                        color: Color(0xFFEDBC48),
-                        blurRadius: 1,
-                        offset: Offset(-2, -2)),
-                    BoxShadow(
-                        color: Color(0xFFEDBC48),
-                        blurRadius: 1,
-                        offset: Offset(2, 2)),
-                  ])
+            color: Color(0xFFEEEEEE),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            boxShadow: [
+              BoxShadow(
+                  color: Color(0xFFEDBC48),
+                  blurRadius: 1,
+                  offset: Offset(-2, -2)),
+              BoxShadow(
+                  color: Color(0xFFEDBC48),
+                  blurRadius: 1,
+                  offset: Offset(2, 2)),
+            ])
             : BoxDecoration(
-                color: Color(0xFFEEEEEE),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                boxShadow: [
-                    BoxShadow(
-                        color: Colors.white,
-                        blurRadius: 5,
-                        offset: Offset(-5, -5)),
-                    BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 1,
-                        offset: Offset(5, 5)),
-                  ]),
+            color: Color(0xFFEEEEEE),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.white,
+                  blurRadius: 5,
+                  offset: Offset(-5, -5)),
+              BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 1,
+                  offset: Offset(5, 5)),
+            ]),
       ),
     );
   }
@@ -229,51 +229,51 @@ class PricingItem extends StatelessWidget {
         children: [
           Expanded(
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '$name',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                '$value',
-                style: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )
-            ],
-          )),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$name',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    '$value',
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              )),
           SizedBox(
             width: 20,
           ),
           Expanded(
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '$name2',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                '$value2',
-                style: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )
-            ],
-          )),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$name2',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    '$value2',
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              )),
         ],
       ),
     );

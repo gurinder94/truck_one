@@ -11,7 +11,6 @@ class CustomImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
 
     return Image.network(
       image,
@@ -30,7 +29,7 @@ class CustomImage extends StatelessWidget {
 
       },
       errorBuilder: (a, b, c) =>
-          Center(child: Image.asset('icons/defaultImage.jpg',  fit: boxFit,
+          Center(child: Image.asset('assets/default.png',  fit: boxFit,
             width: width,
             height: height,
           )),

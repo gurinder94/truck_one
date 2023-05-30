@@ -9,8 +9,8 @@ class ProfileUser extends StatelessWidget {
   String? userId;
   UserProfileProvider? _profileProvider;
   bool profileComplete;
-
-  ProfileUser(this.profileComplete);
+  String roleName;
+  ProfileUser(this.profileComplete, this. roleName);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class ProfileUser extends StatelessWidget {
                   : SingleChildScrollView(
                     child: Column(
                         children: [
-                          UserHeadPart(profileComplete),
+                          UserHeadPart(profileComplete,roleName),
                           // Expanded(child: UserForm()),
                         ],
                       ),

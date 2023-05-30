@@ -23,7 +23,7 @@ import 'package:my_truck_dot_one/Model/E_commerce_Model/sub_category_list.dart';
 import 'package:my_truck_dot_one/Model/E_commerce_Model/view_question_answer_model.dart';
 import 'package:my_truck_dot_one/Model/E_commerce_Model/wish_list_model.dart';
 import 'package:my_truck_dot_one/Model/EventListModel.dart';
-import 'package:my_truck_dot_one/Model/EventModel.dart';
+import 'package:my_truck_dot_one/Model/EventModel 2.dart';
 import 'package:my_truck_dot_one/Model/Fleet_manager_model/fleet_manager_detail_model.dart';
 import 'package:my_truck_dot_one/Model/Fleet_manager_model/fleet_manager_list_model.dart';
 import 'package:my_truck_dot_one/Model/JobModel/Applicant.dart';
@@ -32,17 +32,17 @@ import 'package:my_truck_dot_one/Model/JobModel/JobListModel.dart';
 import 'package:my_truck_dot_one/Model/JobModel/JobViewList.dart';
 import 'package:my_truck_dot_one/Model/LoginListModel.dart';
 import 'package:my_truck_dot_one/Model/ManageTeamModel/company_mange_team_model.dart';
-import 'package:my_truck_dot_one/Model/ManageTeamModel/manage_team_model.dart';
+import 'package:my_truck_dot_one/Model/ManageTeamModel/manage_team_model 2.dart';
 import 'package:my_truck_dot_one/Model/ManageTeamModel/seller_manage_team_model.dart';
-import 'package:my_truck_dot_one/Model/ManageTeamModel/user_left_company_model.dart';
+import 'package:my_truck_dot_one/Model/ManageTeamModel/user_left_company_model 2.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/GroupMenberListModel.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/comments_model.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/group_detail_list.dart';
-import 'package:my_truck_dot_one/Model/NetworkModel/group_invitation_model.dart';
+import 'package:my_truck_dot_one/Model/NetworkModel/group_invitation_model 2.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/group_invite_menber_model.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/group_model.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/invited_connections_model.dart';
-import 'package:my_truck_dot_one/Model/NetworkModel/job_invitation_model.dart';
+import 'package:my_truck_dot_one/Model/NetworkModel/job_invitation_model 2.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/like_list_model.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/like_post_model.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/my_frinds_model.dart';
@@ -50,12 +50,12 @@ import 'package:my_truck_dot_one/Model/NetworkModel/my_groups_model.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/post_list_model.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/post_upload_model.dart';
-import 'package:my_truck_dot_one/Model/NetworkModel/recommandation_model.dart';
+import 'package:my_truck_dot_one/Model/NetworkModel/recommandation_model 2.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/recomments_model.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/user_detail_model.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/CompanyProfile.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/CountryModel.dart';
-import 'package:my_truck_dot_one/Model/ProfileModel/PostalCodeModel.dart';
+import 'package:my_truck_dot_one/Model/ProfileModel/PostalCodeModel 2.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/ServiceModel.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/SkillModel.dart';
 import 'package:my_truck_dot_one/Model/ProfileModel/UserModel.dart';
@@ -84,6 +84,7 @@ import 'package:my_truck_dot_one/Model/WeatherModel/preciptaion_waether_model.da
 import 'package:my_truck_dot_one/Model/WeatherModel/snow_weather_model.dart';
 import 'package:my_truck_dot_one/Model/WeatherModel/thunder_weather_model.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
+import 'package:my_truck_dot_one/Model/isReadedModel.dart';
 import 'package:my_truck_dot_one/Model/privacy_policy_model.dart';
 import 'package:my_truck_dot_one/Model/switch_user_model.dart';
 import 'package:my_truck_dot_one/Model/weather_model.dart';
@@ -100,10 +101,11 @@ import '../Model/NotificationModel/NotificationModel.dart';
 import '../Model/PlanUpgradeSuccessModel.dart';
 import '../Model/SubscriptionPlanModel/Add_to_cart_model.dart';
 import '../Model/SubscriptionPlanModel/Subscription_payment_successful_model.dart';
-import '../Model/SubscriptionPlanModel/promo_code_model.dart';
+import '../Model/SubscriptionPlanModel/promo_code_model 2.dart';
 import '../Model/TripPlannerModel/trip_history_model.dart';
+import '../Model/VINModel.dart';
 import '../Model/account_detail_Model.dart';
-import '../Model/sellerDashBoardModel.dart';
+import '../Model/sellerDashBoardModel 2.dart';
 import '../PaymentSuccessModel.dart';
 import 'baseService.dart';
 
@@ -179,10 +181,9 @@ hitAcceptPoliciesApi(Map<String, dynamic> map) async {
         await baseServicePost('/api/mobile/user/acceptPolicies', map);
     if (response.statusCode == 200) {
       print('/api/mobile/user/acceptPolicies ${response.body}');
-      var parseData = json.decode(response.body);
-
+      // var parseData = json.decode(response.body);
       if (response.statusCode == 200) {
-        // print('Response body: ${response.body}');
+        print('Response body: ${response.body}');
         var parseData = json.decode(response.body);
         if (parseData['code'] != 200)
           throw Exception(parseData['message']);
@@ -215,7 +216,7 @@ hitforgetPasswordAPI(Map<String, dynamic> map) async {
 hitAddEventApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/v1/event/createEvent', map);
-    var parseData = json.decode(response.body);
+    // var parseData = json.decode(response.body);
     if (response.statusCode == 200) {
       // print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
@@ -435,7 +436,7 @@ hitViewApplicantsApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/v1/applicant/list', map);
     if (response.statusCode == 200) {
-      // print('Response body: ${response.body}');
+      print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -547,11 +548,27 @@ hitCompanyJobListApi(Map<String, dynamic> map) async {
   }
 }
 
+hitReadedApi(Map<String, dynamic> map) async {
+  try {
+    var response = await baseServicePost('/api/v1/applicant/isReaded', map);
+    if (response.statusCode == 200) {
+      print('Response body: ${response.body}');
+      var parseData = json.decode(response.body);
+      if (parseData['code'] != 200)
+        throw Exception(parseData['message']);
+      else
+        return IsReaded.fromJson(parseData);
+    }
+  } on SocketException {
+    throw Exception('Network Issue !!');
+  }
+}
+
 hitJobCompanyDetailApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/mobile/job/details', map);
     if (response.statusCode == 200) {
-      // print('Response body: ${response.body}');
+      print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -713,7 +730,7 @@ hitUserProfileApi(Map<String, dynamic> map) async {
   try {
     print(map);
     var response = await baseServicePost('/api/v1/endUser/details', map);
-    print('Response body: ${response.body}');
+    log('Response body:userProfile ${response.body}');
     if (response.statusCode == 200) {
       print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
@@ -807,7 +824,7 @@ hitTripPlannerListApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/mobile/trip/list', map);
     if (response.statusCode == 200) {
-      print('Response body: ${response.body}');
+      log('Response brij: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         return parseData['message']; // throw Exception(parseData['message']);
@@ -821,9 +838,9 @@ hitTripPlannerListApi(Map<String, dynamic> map) async {
 
 hitTripPlannerDetailApi(Map<String, dynamic> map) async {
   try {
-    var response = await baseServicePost('/api/mobile/trip/details', map);
+    var response = await baseServicePost('/api/v1/trip/details', map);
     if (response.statusCode == 200) {
-      print('ResponseResponseResponse body: ${response.body}');
+      log('ResponseResponseResponse body000: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         return parseData['message']; // throw Exception(parseData['message']);
@@ -842,16 +859,7 @@ hitTrackMapDetail(Map<String, dynamic> map, sourceLat, sourceLng,
         "https://api.tomtom.com/routing/1/calculateRoute/$sourceLat,$sourceLng,:$destinationLat,$destinationLng/json?",
         map);
     var parseData = json.decode(response.body);
-    // if (response.statusCode == 200) {
-    //   print('Response body: ${response.body}');
-    //
-    //   if (parseData['code'] != 200)
-    //     return  parseData['message'];  // throw Exception(parseData['message']);
-    //   else
-
     return RouteModel.fromJson(parseData);
-    // }
-    return response;
   } on SocketException {
     throw Exception('Network Issue !!');
   }
@@ -1690,6 +1698,32 @@ hitSendInviteMember(
   }
 }
 
+hitDeleteByCom(
+  Map<String, dynamic> map,
+) async {
+  try {
+    var response = await baseServicePost(
+        '/api/v1/invitation/invitationDeleteByCompany', map);
+    if (response.statusCode == 200) {
+      // print('Response body: ${response.body}');
+      var parseData = json.decode(response.body);
+
+      switch (parseData['code']) {
+        case 200:
+          return ResponseModel.fromJson(parseData);
+        case 401:
+          return ResponseModel.fromJson(parseData);
+        case 404:
+          return ResponseModel.fromJson(parseData);
+        default:
+          return throw Exception(parseData['message']);
+      }
+    }
+  } on SocketException {
+    throw Exception('Network Issue !!');
+  }
+}
+
 hitLikeList(
   Map<String, dynamic> map,
 ) async {
@@ -1881,7 +1915,7 @@ hitViewServiceList(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/v1/service/details', map);
     if (response.statusCode == 200) {
-      // print('Response body: ${response.body}');
+      print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -2128,7 +2162,6 @@ hitQuestionAnswerApi(Map<String, dynamic> map) async {
     var response =
         await baseServicePost('/api/v1/review/questionAnswerlist', map);
     if (response.statusCode == 200) {
-      // print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -2346,7 +2379,7 @@ hitCompanyTeamApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/v1/endUser/list', map);
     if (response.statusCode == 200) {
-      print('Response body: ${response.body}');
+      log('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -2397,7 +2430,7 @@ hitFleetManagerListApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/mobile/truck/list', map);
     if (response.statusCode == 200) {
-      // print('Response body: ${response.body}');
+      log('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -2414,7 +2447,7 @@ hitFleetManagerDetailApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/v1/truck/details', map);
     if (response.statusCode == 200) {
-      // print('Response body: ${response.body}');
+      print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -2432,7 +2465,7 @@ hitSellerProductListApi(Map<String, dynamic> map) async {
     var response =
         await baseServicePost('/api/v1/product/productListAdmin', map);
     if (response.statusCode == 200) {
-      print('Response body: ${response.body}');
+      print('Response body00000: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -2816,12 +2849,12 @@ NotificationModelApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/v1/notification/list', map);
     if (response.statusCode == 200) {
-      //   print('Response body: ${response.body}');
+      print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
 
       switch (parseData['code']) {
         case 200:
-          print('Response body: ${response.body}');
+          // print('Response body: ${response.body}');
           return NotificationModel.fromJson(parseData);
         case 400:
         // throw Exception(parseData['message']);
@@ -3606,6 +3639,27 @@ hitAddFleetManagerApi(
         throw Exception(parseData['message']);
       else
         return ResponseModel.fromJson(parseData);
+    }
+  } on SocketException {
+    throw Exception('Network Issue !!');
+  }
+}
+
+hitAddVehiclesApi(
+  Map<String, dynamic> map,
+  String text,
+) async {
+  print(map);
+  try {
+    var response = await baseServicePosts(
+        "https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/" +
+            text +
+            "?format=json",
+        map);
+    if (response.statusCode == 200) {
+      log('sub: ${response.body}');
+      var parseData = json.decode(response.body);
+      return VinModel.fromJson(parseData);
     }
   } on SocketException {
     throw Exception('Network Issue !!');
