@@ -1,0 +1,114 @@
+{
+  "identifier" : "0C725D22",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1621264447",
+    "_askToBuyEnabled" : false,
+    "_developerTeamID" : "8UA6T645M2",
+    "_lastSynchronizedDate" : 702375513.11488295
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21209522",
+      "localizations" : [
+
+      ],
+      "name" : "GPS_Subscriptions",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "1.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6445668442",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "GPS Plan will provide upto 10 trips.",
+              "displayName" : "GPS Plan Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "Gps_Plan_Monthly_6.99",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "GPS Plan Monthly",
+          "subscriptionGroupID" : "21209522",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "69.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6445668472",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "GPS Plan will provide upto 10000 trips.",
+              "displayName" : "GPS Plan Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "Gps_Plan_Yearly_69.99",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "GPS Plan Yearly",
+          "subscriptionGroupID" : "21209522",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    },
+    {
+      "id" : "21207860",
+      "localizations" : [
+
+      ],
+      "name" : "Weather_Subscriptions",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "7.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6445668644",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "This plan will provide current & forecast ",
+              "displayName" : "Weather Plan Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "Weather_Plan_Monthly_7.99",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Weather Plan Monthly ",
+          "subscriptionGroupID" : "21207860",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}
