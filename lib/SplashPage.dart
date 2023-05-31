@@ -37,7 +37,6 @@ class SplashPageState extends State with TickerProviderStateMixin {
         printCharacters();
       }
     });
-    print("brijpriyanka jyiuyoiuyo");
     _animationController.forward();
   }
 

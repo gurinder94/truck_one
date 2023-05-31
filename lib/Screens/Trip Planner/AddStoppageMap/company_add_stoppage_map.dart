@@ -18,7 +18,10 @@ class AddStoppageMap extends StatefulWidget {
 }
 
 class _AddStoppageMapState extends State<AddStoppageMap> {
-
+  static final CameraPosition intialPos = CameraPosition(
+    target: LatLng(37.6, -95.665),
+    zoom: 1,
+  );
   TripPlannerModel data;
 
   _AddStoppageMapState(this. data);
@@ -31,10 +34,6 @@ class _AddStoppageMapState extends State<AddStoppageMap> {
     var   _routeMarkerProvider = Provider.of<RouteMarkerProvider>(context, listen: false);
     _routeMarkerProvider.resetRoute();
   }
-  static final CameraPosition intialPos = CameraPosition(
-    target: LatLng(37.6, -95.665),
-    zoom: 1,
-  );
 
   @override
   Widget build(BuildContext context) {

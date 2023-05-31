@@ -8,6 +8,8 @@ import 'package:my_truck_dot_one/Screens/Trip%20Planner/UserLiveMap/Provider/rou
 import 'package:my_truck_dot_one/Screens/Trip%20Planner/UserLiveMap/user_route_map.dart';
 import 'package:provider/provider.dart';
 
+import '../AddStoppageMap/Provider/route_add_marker_provider.dart';
+
 class TripItem extends StatelessWidget {
   @override
   var Size;
@@ -82,7 +84,10 @@ class TripItem extends StatelessWidget {
               break;
             case 2:
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddStoppageMap(data)));
+                  MaterialPageRoute(builder: (context) =>ChangeNotifierProvider(
+                  create: (BuildContext context) => RouteMarkerProvider(),
+                  child: ChangeNotifierProvider<TripPlannerModel>.value(
+                      value: data, child: AddStoppageMap(data)))));
               break;
             case 3:
               getTripDetails(data, context, data1);
@@ -120,9 +125,10 @@ class TripItem extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ChangeNotifierProvider(
-              create: (context) => RouteMarkerListProvider(),
-              child: UserRouteMap(data,"DISPATCHER"),
-            )));
+          builder: (context) => ChangeNotifierProvider(
+              create: (BuildContext context) => RouteMarkerListProvider(),
+              child: ChangeNotifierProvider<TripPlannerModel>.value(
+                  value: data, child: UserRouteMap(data, "DISPATCHER"))),
+        ));
   }
 }

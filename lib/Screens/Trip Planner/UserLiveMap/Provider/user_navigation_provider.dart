@@ -152,19 +152,25 @@ class UserNavigationProvider extends ChangeNotifier
         CameraPosition(target: pos, tilt: 30, zoom: 19.5)));
   }
 
+  Future<void> moveCameras(LatLng pos) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: pos, tilt: 30, zoom: 7.5)));
+  }
+
   void savePath(
       Map<PolylineId, Polyline> polyline,
       List<LatLng> turns,
       RoutePath routePath,
       Map<MarkerId, Marker> markers,
-      List<LatLng> weatherMarkers) {
+      List<LatLng> weatherMarkers,
+      LatLng routePoint) {
     this.polyline = polyline;
     this.turns = turns;
     this.routePath = routePath;
     this._markers = markers;
     this.weatherMarkers = weatherMarkers;
-
-
+    moveCameras(routePoint);
   }
 
   void setMapType(MapType type) {
@@ -328,7 +334,6 @@ class UserNavigationProvider extends ChangeNotifier
     print(map);
     try {
       getWazeMarker = await hitGetAllMarkerWazeMap(map);
-
       // }
       setWazerMarkers(getWazeMarker.data);
     } on Exception catch (e) {

@@ -15,9 +15,10 @@ class UserMapNavigation extends StatefulWidget {
   RoutePath routePath;
   Map<MarkerId, Marker> markers;
   List<LatLng> weatherMarkers;
+  LatLng routePoint;
 
   UserMapNavigation(this.polyline, this.turns, this.routePath, this.markers,
-      this.weatherMarkers);
+      this.weatherMarkers, this. routePoint);
 
   @override
   _UserMapNavigationState createState() => _UserMapNavigationState(
@@ -45,7 +46,7 @@ class _UserMapNavigationState extends State<UserMapNavigation> {
     // TODO: implement initState
     super.initState();
     _provider = context.read<UserNavigationProvider>();
-    _provider.savePath(polyline, turns, routePath, markers, weatherMarkers);
+    _provider.savePath(polyline, turns, routePath, markers, weatherMarkers,widget.routePoint);
     _provider.setContext(context);
     _provider.hitgetWazeList();
     _provider.getMarkerWazeMap();

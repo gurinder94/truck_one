@@ -40,7 +40,7 @@ dependencies:
   file_picker: ^5.2.5
   permission_handler: ^10.0.0
   flutter_cached_pdfview: ^0.4.0-nullsafety
-  google_maps_flutter: ^2.1.8
+  google_maps_flutter: ^2.2.8
   socket_io_client: ^2.0.1
   image_picker: ^0.8.4+11
   video_player: ^2.2.5
