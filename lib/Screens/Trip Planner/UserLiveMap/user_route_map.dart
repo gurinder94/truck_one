@@ -8,11 +8,6 @@ import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizatio
 import 'package:provider/provider.dart';
 
 class UserRouteMap extends StatefulWidget {
-  ///Map Intial Location
-  static final CameraPosition intialPos = CameraPosition(
-    target: LatLng(37.6, -95.665),
-    zoom: 1,
-  );
 
   ///TripPlannerModel
   TripPlannerModel data;
@@ -29,13 +24,17 @@ class UserRouteMap extends StatefulWidget {
 }
 
 class _UserRouteMapState extends State<UserRouteMap> {
+  ///Map Intial Location
+  static final CameraPosition intialPos = CameraPosition(
+    target: LatLng(37.6, -95.665),
+    zoom: 1,
+  );
   late RouteMarkerListProvider _provider;
 
   @override
   void initState() {
     // TODO: implement initState
     _provider = context.read<RouteMarkerListProvider>();
-
     _provider.RemovePolygonline();
     getData();
   }
@@ -63,12 +62,13 @@ class _UserRouteMapState extends State<UserRouteMap> {
                     mapType: MapType.normal,
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
-                    initialCameraPosition: UserRouteMap.intialPos,
+                    initialCameraPosition: intialPos,
                     polygons: Set<Polygon>.of(noti.polygon.values),
                     polylines: Set<Polyline>.of(noti.polyline.values),
                     markers: Set<Marker>.of(noti.markers.values),
                     onMapCreated: (GoogleMapController controller) {
-                      // noti.controller.complete(controller);
+                      noti.controller.complete(controller);
+                      setState(() {});
                     },
                   ),
                 )),

@@ -405,7 +405,7 @@ class AddTripProvider extends ChangeNotifier {
             builder: (context) => ChangeNotifierProvider(
                 create: (context) => UserNavigationProvider(),
                 child: UserMapNavigation(_polyline, turns, model.routes![index],
-                    markers, weatherMarkers))));
+                    markers, weatherMarkers,routePoints[0]))));
   }
 
   Future<void> addWeatherMarker(List<LatLng> routePoints) async {

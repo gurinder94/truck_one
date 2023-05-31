@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Model/TripPlannerModel/TripPlannerListModel.dart';
+import 'package:my_truck_dot_one/Model/TripPlannerModel/TripViewDetails.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:my_truck_dot_one/Screens/Trip%20Planner/Provider/TripPlannerProvider.dart';
 import 'package:my_truck_dot_one/Screens/Trip%20Planner/TripPlannerScreen/ViewTripPlanner.dart';
@@ -9,6 +10,7 @@ import 'package:my_truck_dot_one/Screens/Trip%20Planner/UserLiveMap/user_route_m
 import 'package:provider/provider.dart';
 
 import '../../../commanWidget/Comman_Alert_box.dart';
+import '../../UserLiveMap/Provider/route_marker_list_provider.dart';
 
 class DriverTripItem extends StatelessWidget {
   TripPlannerListProvider proData;
@@ -48,7 +50,7 @@ class DriverTripItem extends StatelessWidget {
                       onSelected: (value) {
                         switch (value) {
                           case 1:
-                            getTripPlanner(data, context);
+                            getTripPlanner(data, context, data1);
                             break;
                           case 2:
                             getTripDetails(data, context, data1);
@@ -72,20 +74,20 @@ class DriverTripItem extends StatelessWidget {
                         }
                       },
                       itemBuilder: (context) => [
-                        PopupMenuItem(
-                          child: Text("Navigate"),
-                          value: 1,
-                        ),
-                        PopupMenuItem(
-                          child: Text(AppLocalizations.instance
-                              .text("Trip Detail")),
-                          value: 2,
-                        ),
-                        PopupMenuItem(
-                          child: Text("Mark As Start"),
-                          value: 3,
-                        ),
-                      ]),
+                            PopupMenuItem(
+                              child: Text("Navigate"),
+                              value: 1,
+                            ),
+                            PopupMenuItem(
+                              child: Text(AppLocalizations.instance
+                                  .text("Trip Detail")),
+                              value: 2,
+                            ),
+                            PopupMenuItem(
+                              child: Text("Mark As Start"),
+                              value: 3,
+                            ),
+                          ]),
                 ),
               if (data.runningStatus.toString().toUpperCase() == "CANCELLED" ||
                   data.runningStatus.toString().toUpperCase() == "EXPIRED")
@@ -110,11 +112,11 @@ class DriverTripItem extends StatelessWidget {
                         }
                       },
                       itemBuilder: (context) => [
-                        PopupMenuItem(
-                          child: Text("Trip Detail"),
-                          value: 1,
-                        ),
-                      ]),
+                            PopupMenuItem(
+                              child: Text("Trip Detail"),
+                              value: 1,
+                            ),
+                          ]),
                 ),
               if (data.runningStatus.toString().toUpperCase() == "COMPLETED")
                 Container(
@@ -138,11 +140,11 @@ class DriverTripItem extends StatelessWidget {
                         }
                       },
                       itemBuilder: (context) => [
-                        PopupMenuItem(
-                          child: Text("Trip Detail"),
-                          value: 1,
-                        ),
-                      ]),
+                            PopupMenuItem(
+                              child: Text("Trip Detail"),
+                              value: 1,
+                            ),
+                          ]),
                 ),
               if (data.runningStatus.toString().toUpperCase() == "ACTIVE")
                 Container(
@@ -161,7 +163,7 @@ class DriverTripItem extends StatelessWidget {
                       onSelected: (value) {
                         switch (value) {
                           case 1:
-                            getTripPlanner(data, context);
+                            getTripPlanner(data, context, data1);
                             break;
                           case 2:
                             getTripDetails(data, context, data1);
@@ -185,19 +187,19 @@ class DriverTripItem extends StatelessWidget {
                         }
                       },
                       itemBuilder: (context) => [
-                        PopupMenuItem(
-                          child: Text("Track"),
-                          value: 1,
-                        ),
-                        PopupMenuItem(
-                          child: Text("Trip Detail"),
-                          value: 2,
-                        ),
-                        PopupMenuItem(
-                          child: Text("Mark As Complete"),
-                          value: 3,
-                        ),
-                      ]),
+                            PopupMenuItem(
+                              child: Text("Track"),
+                              value: 1,
+                            ),
+                            PopupMenuItem(
+                              child: Text("Trip Detail"),
+                              value: 2,
+                            ),
+                            PopupMenuItem(
+                              child: Text("Mark As Complete"),
+                              value: 3,
+                            ),
+                          ]),
                 ),
             ]),
             Row(
@@ -284,50 +286,57 @@ class DriverTripItem extends StatelessWidget {
     );
   }
 
-  Widget myPopMenu(
-      TripPlannerModel data, TripPlannerListProvider data1, BuildContext con) {
+  Widget myPopMenu(TripPlannerModel data, TripPlannerListProvider data1,
+      BuildContext con, TripViewDetails datas) {
     return PopupMenuButton(
         onSelected: (value) {},
         itemBuilder: (context) => [
-          PopupMenuItem(
-              value: 1,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                      child: Text('Live Track'),
-                      onTap: () {
-                        Navigator.pop(context);
-                        getTripPlanner(data, context);
-                      })
-                ],
-              )),
-          PopupMenuItem(
-              value: 3,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    child: Text('Trip Details'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      getTripDetails(data, context, data1);
-                    },
-                  )
-                ],
-              )),
-        ]);
+              PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: <Widget>[
+                      GestureDetector(
+                          child: Text('Live Track'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            getTripPlanner(data, context, data1);
+                          })
+                    ],
+                  )),
+              PopupMenuItem(
+                  value: 3,
+                  child: Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Text('Trip Details'),
+                        onTap: () {
+                          Navigator.pop(context);
+                          getTripDetails(data, context, data1);
+                        },
+                      )
+                    ],
+                  )),
+            ]);
   }
 
   getTripDetails(TripPlannerModel data, BuildContext context,
       TripPlannerListProvider data1) async {
     var getId = await getUserId();
     Future.delayed(Duration(microseconds: 100),
-            () => data1.hitViewTripPlannerView(data.id.toString(), context));
+        () => data1.hitViewTripPlannerView(data.id.toString(), context));
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => ViewTripPlanner()));
   }
 
-  getTripPlanner(TripPlannerModel data, BuildContext context) async {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => UserRouteMap(data, "DRIVER")));
+  getTripPlanner(TripPlannerModel data, BuildContext context,
+      TripPlannerListProvider data1) async {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChangeNotifierProvider(
+              create: (BuildContext context) => RouteMarkerListProvider(),
+              child: ChangeNotifierProvider<TripPlannerModel>.value(
+                  value: data, child: UserRouteMap(data, "DISPATCHER"))),
+        ));
   }
 }

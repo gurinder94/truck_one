@@ -13,11 +13,12 @@ class TrackingSystem extends StatefulWidget {
   late UserNavigationProvider _provider;
   List<LatLng> turns;
   RoutePath routePath;
+  LatLng routePoint;
   Map<MarkerId, Marker> markers;
   List<LatLng> weatherMarkers;
 
   TrackingSystem(this.polyline, this.turns, this.routePath, this.markers,
-      this.weatherMarkers);
+      this.weatherMarkers, this.routePoint);
 
   @override
   State<TrackingSystem> createState() =>
@@ -49,7 +50,8 @@ class _TrackingSystemState extends State<TrackingSystem> {
   void initState() {
     _provider = context.read<UserNavigationProvider>();
 
-    _provider.savePath(polyline, turns, routePath, markers, weatherMarkers);
+    _provider.savePath(
+        polyline, turns, routePath, markers, weatherMarkers, widget.routePoint);
     _provider.setContext(context);
 
     _provider.setWeatherMarkers(weatherMarkers);
@@ -132,6 +134,7 @@ class _TrackingSystemState extends State<TrackingSystem> {
                     ),
                     onMapCreated: (GoogleMapController controller) {
                       _provider.controller.complete(controller);
+                      setState(() {});
                     }
                     // mapType: _provider.mapType,
                     // myLocationButtonEnabled: false,

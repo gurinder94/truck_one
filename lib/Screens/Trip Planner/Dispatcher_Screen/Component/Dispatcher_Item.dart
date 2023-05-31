@@ -14,7 +14,9 @@ import 'package:provider/src/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../commanWidget/Comman_Alert_box.dart';
+import '../../AddStoppageMap/Provider/route_add_marker_provider.dart';
 import '../../AddStoppageMap/company_add_stoppage_map.dart';
+import '../../UserLiveMap/Provider/route_marker_list_provider.dart';
 
 class DispatcherItem extends StatelessWidget {
   DispatcherProvider listProvider;
@@ -45,121 +47,121 @@ class DispatcherItem extends StatelessWidget {
                 if (data.runningStatus == "UPCOMING")
                   data.isExpired == true
                       ? Container(
-                    width: 30,
-                    height: 30,
-                    child: PopupMenuButton(
-                        elevation: 10,
-                        enabled: true,
-                        child: Center(
-                          child: Icon(
-                            Icons.more_vert,
-                            color: Colors.black,
-                            size: 18,
-                          ),
-                        ),
-                        onSelected: (value) {
-                          switch (value) {
-                            case 1:
-                              getTripDetails(data, context, data1);
-                              break;
-                          }
-                        },
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Trip Detail")),
-                            value: 1,
-                          ),
-                        ]),
-                  )
+                          width: 30,
+                          height: 30,
+                          child: PopupMenuButton(
+                              elevation: 10,
+                              enabled: true,
+                              child: Center(
+                                child: Icon(
+                                  Icons.more_vert,
+                                  color: Colors.black,
+                                  size: 18,
+                                ),
+                              ),
+                              onSelected: (value) {
+                                switch (value) {
+                                  case 1:
+                                    getTripDetails(data, context, data1);
+                                    break;
+                                }
+                              },
+                              itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      child: Text(AppLocalizations.instance
+                                          .text("Trip Detail")),
+                                      value: 1,
+                                    ),
+                                  ]),
+                        )
                       : Container(
-                    width: 30,
-                    height: 30,
-                    child: PopupMenuButton(
-                        elevation: 10,
-                        enabled: true,
-                        child: Center(
-                          child: Icon(
-                            Icons.more_vert,
-                            color: Colors.black,
-                            size: 18,
-                          ),
+                          width: 30,
+                          height: 30,
+                          child: PopupMenuButton(
+                              elevation: 10,
+                              enabled: true,
+                              child: Center(
+                                child: Icon(
+                                  Icons.more_vert,
+                                  color: Colors.black,
+                                  size: 18,
+                                ),
+                              ),
+                              onSelected: (value) {
+                                switch (value) {
+                                  case 1:
+                                    getTripPlanner(data, context);
+                                    break;
+                                  case 2:
+                                    getAddStoppage(data, context);
+
+                                    break;
+                                  case 3:
+                                    getTripDetails(data, context, data1);
+                                    break;
+                                  case 4:
+                                    listProvider.hitReasonList();
+                                    listProvider.restDrop();
+
+                                    TripCancelAlertBox(
+                                            context,
+                                            "Are you sure you want to cancel this trip?",
+                                            listProvider,
+                                            data.driverId.toString(),
+                                            data.id.toString(),
+                                            "CANCELLED")
+                                        .then((value) {
+                                      data.runningStatus = "CANCELLED";
+                                    });
+                                    break;
+                                  case 5:
+                                    DialogUtils.showMyDialog(
+                                      context,
+                                      onDoneFunction: () async {
+                                        data.hitReasonCancel(
+                                            data.driverId.toString(),
+                                            data.id.toString(),
+                                            "ACTIVE",
+                                            listProvider,
+                                            index);
+                                      },
+                                      oncancelFunction: () =>
+                                          Navigator.pop(context),
+                                      title: 'Active',
+                                      alertTitle: "Trip Active Message",
+                                      btnText: "Done",
+                                    );
+                                    break;
+                                }
+                              },
+                              itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      child: Text(AppLocalizations.instance
+                                          .text("Track")),
+                                      value: 1,
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text(AppLocalizations.instance
+                                          .text("Add Stoppage")),
+                                      value: 2,
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text(AppLocalizations.instance
+                                          .text("Trip Detail")),
+                                      value: 3,
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text(AppLocalizations.instance
+                                          .text("Cancel")),
+                                      value: 4,
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text(AppLocalizations.instance
+                                          .text("Mark As Start")),
+                                      value: 5,
+                                    ),
+                                  ]),
                         ),
-                        onSelected: (value) {
-                          switch (value) {
-                            case 1:
-                              getTripPlanner(data, context);
-                              break;
-                            case 2:
-                              getAddStoppage(data, context);
-
-                              break;
-                            case 3:
-                              getTripDetails(data, context, data1);
-                              break;
-                            case 4:
-                              listProvider.hitReasonList();
-                              listProvider.restDrop();
-
-                              TripCancelAlertBox(
-                                  context,
-                                  "Are you sure you want to cancel this trip?",
-                                  listProvider,
-                                  data.driverId.toString(),
-                                  data.id.toString(),
-                                  "CANCELLED")
-                                  .then((value) {
-                                data.runningStatus = "CANCELLED";
-                              });
-                              break;
-                            case 5:
-                              DialogUtils.showMyDialog(
-                                context,
-                                onDoneFunction: () async {
-                                  data.hitReasonCancel(
-                                      data.driverId.toString(),
-                                      data.id.toString(),
-                                      "ACTIVE",
-                                      listProvider,
-                                      index);
-                                },
-                                oncancelFunction: () =>
-                                    Navigator.pop(context),
-                                title: 'Active',
-                                alertTitle: "Trip Active Message",
-                                btnText: "Done",
-                              );
-                              break;
-                          }
-                        },
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Track")),
-                            value: 1,
-                          ),
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Add Stoppage")),
-                            value: 2,
-                          ),
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Trip Detail")),
-                            value: 3,
-                          ),
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Cancel")),
-                            value: 4,
-                          ),
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Mark As Start")),
-                            value: 5,
-                          ),
-                        ]),
-                  ),
                 if (data.runningStatus == "CANCELLED" ||
                     data.runningStatus == 'EXPIRED')
                   Container(
@@ -183,12 +185,12 @@ class DispatcherItem extends StatelessWidget {
                           }
                         },
                         itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Trip Detail")),
-                            value: 1,
-                          ),
-                        ]),
+                              PopupMenuItem(
+                                child: Text(AppLocalizations.instance
+                                    .text("Trip Detail")),
+                                value: 1,
+                              ),
+                            ]),
                   ),
                 if (data.runningStatus == "UNASSINGED")
                   Container(
@@ -235,22 +237,22 @@ class DispatcherItem extends StatelessWidget {
                           }
                         },
                         itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Trip Detail")),
-                            value: 1,
-                          ),
-                          PopupMenuItem(
-                            child: Text(
-                                AppLocalizations.instance.text("Cancel")),
-                            value: 2,
-                          ),
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Assign Driver")),
-                            value: 3,
-                          ),
-                        ]),
+                              PopupMenuItem(
+                                child: Text(AppLocalizations.instance
+                                    .text("Trip Detail")),
+                                value: 1,
+                              ),
+                              PopupMenuItem(
+                                child: Text(
+                                    AppLocalizations.instance.text("Cancel")),
+                                value: 2,
+                              ),
+                              PopupMenuItem(
+                                child: Text(AppLocalizations.instance
+                                    .text("Assign Driver")),
+                                value: 3,
+                              ),
+                            ]),
                   ),
                 if (data.runningStatus == "COMPLETED")
                   Container(
@@ -274,12 +276,12 @@ class DispatcherItem extends StatelessWidget {
                           }
                         },
                         itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Trip Detail")),
-                            value: 1,
-                          ),
-                        ]),
+                              PopupMenuItem(
+                                child: Text(AppLocalizations.instance
+                                    .text("Trip Detail")),
+                                value: 1,
+                              ),
+                            ]),
                   ),
                 if (data.runningStatus == "ACTIVE")
                   Container(
@@ -323,39 +325,31 @@ class DispatcherItem extends StatelessWidget {
                                 alertTitle: 'Trip Complete Message',
                                 btnText: "Done",
                               );
-                              // TripCancelAlertBox(
-                              //     context,
-                              //     "Are you sure to mark trip as completed?",
-                              //     listProvider,
-                              //     data.driverId.toString(),
-                              //     data.id.toString(),
-                              //     "COMPLETED",);
-
                               break;
                           }
                         },
                         itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Text(
-                                AppLocalizations.instance.text("Track")),
-                            value: 1,
-                          ),
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Add Stoppage")),
-                            value: 2,
-                          ),
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Trip Detail")),
-                            value: 3,
-                          ),
-                          PopupMenuItem(
-                            child: Text(AppLocalizations.instance
-                                .text("Mark As Complete")),
-                            value: 4,
-                          ),
-                        ]),
+                              PopupMenuItem(
+                                child: Text(
+                                    AppLocalizations.instance.text("Track")),
+                                value: 1,
+                              ),
+                              PopupMenuItem(
+                                child: Text(AppLocalizations.instance
+                                    .text("Add Stoppage")),
+                                value: 2,
+                              ),
+                              PopupMenuItem(
+                                child: Text(AppLocalizations.instance
+                                    .text("Trip Detail")),
+                                value: 3,
+                              ),
+                              PopupMenuItem(
+                                child: Text(AppLocalizations.instance
+                                    .text("Mark As Complete")),
+                                value: 4,
+                              ),
+                            ]),
                   ),
               ],
             ),
@@ -440,8 +434,8 @@ class DispatcherItem extends StatelessWidget {
             color: data.isAnotherDriverLeft == true
                 ? Colors.pink.shade50
                 : data.isDriverLeft == true
-                ? Colors.grey.shade300
-                : APP_BG,
+                    ? Colors.grey.shade300
+                    : APP_BG,
             borderRadius: BorderRadius.all(Radius.circular(10)),
             boxShadow: [
               BoxShadow(
@@ -457,9 +451,9 @@ class DispatcherItem extends StatelessWidget {
       TripPlannerListProvider data1) async {
     var getId = await getUserId();
     Future.delayed(Duration(microseconds: 100),
-            () => data1.hitViewTripPlannerView(data.id.toString(), context));
+        () => data1.hitViewTripPlannerView(data.id.toString(), context));
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ViewTripPlanner()))
+            context, MaterialPageRoute(builder: (context) => ViewTripPlanner()))
         .then((_) {
       listProvider.resetList();
       print(type);
@@ -471,27 +465,27 @@ class DispatcherItem extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => UserRouteMap(data, "DISPATCHER"))).then((_) {
+          builder: (context) => ChangeNotifierProvider(
+              create: (BuildContext context) => RouteMarkerListProvider(),
+              child: ChangeNotifierProvider<TripPlannerModel>.value(
+                  value: data, child: UserRouteMap(data, "DISPATCHER"))),
+        )).then((_) {
       listProvider.resetList();
       listProvider.hitTripList(type.toUpperCase(), "");
     });
   }
 
   getAddStoppage(TripPlannerModel data, BuildContext context) async {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => AddStoppageMap(data)))
-        .then((_) {
-      print(type);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                create: (BuildContext context) => RouteMarkerProvider(),
+                child: ChangeNotifierProvider<TripPlannerModel>.value(
+                    value: data, child: AddStoppageMap(data))))).then((_) {
       listProvider.resetList();
       listProvider.hitTripList(type.toUpperCase(), "");
     });
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) => ChangeNotifierProvider(
-    //               create: (context) => RouteMarkerListProvider(),
-    //               child: UserRouteMap(data),
-    //             )));
   }
 
   //
@@ -528,12 +522,12 @@ class DispatcherItem extends StatelessWidget {
                     listProvider.hitReasonList();
                     listProvider.restDrop();
                     TripCancelAlertBox(
-                        context,
-                        "Are you sure you want to cancel this trip?",
-                        listProvider,
-                        data.driverId.toString(),
-                        data.id.toString(),
-                        "ACTIVE")
+                            context,
+                            "Are you sure you want to cancel this trip?",
+                            listProvider,
+                            data.driverId.toString(),
+                            data.id.toString(),
+                            "ACTIVE")
                         .then((value) {
                       if (value) {
                         print(value);
@@ -544,30 +538,30 @@ class DispatcherItem extends StatelessWidget {
                 }
               },
               itemBuilder: (context) => [
-                PopupMenuItem(
-                  child: Text(AppLocalizations.instance.text("Track")),
-                  value: 1,
-                ),
-                PopupMenuItem(
-                  child:
-                  Text(AppLocalizations.instance.text("Add Stoppage")),
-                  value: 2,
-                ),
-                PopupMenuItem(
-                  child:
-                  Text(AppLocalizations.instance.text("Trip Detail")),
-                  value: 3,
-                ),
-                PopupMenuItem(
-                  child: Text(AppLocalizations.instance.text("Cancel")),
-                  value: 4,
-                ),
-                PopupMenuItem(
-                  child:
-                  Text(AppLocalizations.instance.text("Mark As Start")),
-                  value: 5,
-                ),
-              ]),
+                    PopupMenuItem(
+                      child: Text(AppLocalizations.instance.text("Track")),
+                      value: 1,
+                    ),
+                    PopupMenuItem(
+                      child:
+                          Text(AppLocalizations.instance.text("Add Stoppage")),
+                      value: 2,
+                    ),
+                    PopupMenuItem(
+                      child:
+                          Text(AppLocalizations.instance.text("Trip Detail")),
+                      value: 3,
+                    ),
+                    PopupMenuItem(
+                      child: Text(AppLocalizations.instance.text("Cancel")),
+                      value: 4,
+                    ),
+                    PopupMenuItem(
+                      child:
+                          Text(AppLocalizations.instance.text("Mark As Start")),
+                      value: 5,
+                    ),
+                  ]),
           decoration: BoxDecoration(
               color: Color(0xFFEEEEEE),
               shape: BoxShape.circle,
