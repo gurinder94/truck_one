@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
-import 'package:my_truck_dot_one/Model/EventModel.dart';
+import 'package:my_truck_dot_one/Model/EventModel 2.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/AddEventScreen/AddEvent.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/AddEventScreen/Provider/AddEventProvider.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/AddEventScreen/Provider/show_date_time_Provider.dart';

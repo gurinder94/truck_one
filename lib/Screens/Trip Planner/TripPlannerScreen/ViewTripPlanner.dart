@@ -20,7 +20,7 @@ class ViewTripPlanner extends StatelessWidget {
   Widget build(BuildContext context) {
     _listProvider = context.watch<TripPlannerListProvider>();
     return CustomAppBarWidget(
-      title:AppLocalizations.instance.text('View Trip'),
+      title: AppLocalizations.instance.text('View Trip'),
       floatingActionWidget: SizedBox(),
       leading: IconButton(
         icon: Icon(Icons.arrow_back),
@@ -33,7 +33,7 @@ class ViewTripPlanner extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: 95,
+              height: 110,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,

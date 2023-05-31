@@ -53,7 +53,7 @@ class UserServiceItem extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-                    Text(
+                  /*  Text(
                      AppLocalizations.instance.text('Service cost')+
                           ' : ' +
                           serviceList[index].currency.toString() +
@@ -63,7 +63,7 @@ class UserServiceItem extends StatelessWidget {
                           color: Colors.black54,
                           fontSize: 16,
                           fontWeight: FontWeight.w600),
-                    ),
+                    ),*/
                     SizedBox(
                       height: 7,
                     ),

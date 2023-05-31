@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Screens/Profile/Company/provider/ProfileProvider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:provider/provider.dart';
-
 import 'Screens/BottomMenu/bottom_menu.dart';
 import 'Screens/LoginScreen/LoginScreen.dart';
 import 'Screens/Profile/Company/CompanyProfile.dart';
@@ -39,6 +37,7 @@ class SplashPageState extends State with TickerProviderStateMixin {
         printCharacters();
       }
     });
+    print("brijpriyanka jyiuyoiuyo");
     _animationController.forward();
   }
 
@@ -53,25 +52,7 @@ class SplashPageState extends State with TickerProviderStateMixin {
                 val++;
               } else {
                 _timer.cancel();
-
-                // sleep(Duration(microseconds:1000));
                 checkCondition();
-                //   Navigator.of(context).pushAndRemoveUntil(
-                //       MaterialPageRoute(
-                //         builder: (context) => ChangeNotifierProvider(
-                //             create: (_) => PriceProvider(),
-                //             child: PricingScreen()),
-                //       ),
-                //     (Route<dynamic> route) => false);
-
-                // Navigator.of(context).pushAndRemoveUntil(
-                //     MaterialPageRoute(
-                //       builder: (context) => ChangeNotifierProvider(
-                //
-                //           create: (_)=>AddCartProvider(),
-                //           child: AddCartScreen()),
-                //     ),
-                //         (Route<dynamic> route) => false);
               }
             }));
   }
@@ -149,8 +130,10 @@ class SplashPageState extends State with TickerProviderStateMixin {
 
         case "ENDUSER":
           if (profileComplete == false)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfileUser(false)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfileUser(false, role)));
           else
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => BottomMenu('User', 0)),
@@ -159,8 +142,10 @@ class SplashPageState extends State with TickerProviderStateMixin {
           break;
         case "DISPATCHER":
           if (profileComplete == false)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfileUser(false)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfileUser(false, role)));
           else
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
@@ -191,8 +176,10 @@ class SplashPageState extends State with TickerProviderStateMixin {
           break;
         case "DRIVER":
           if (profileComplete == false)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfileUser(false)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfileUser(false, role)));
           else
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
@@ -201,8 +188,10 @@ class SplashPageState extends State with TickerProviderStateMixin {
           break;
         case "HR":
           if (profileComplete == false)
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfileUser(false)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfileUser(false, role)));
           else
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => BottomMenu('Hr', 0)),

@@ -42,7 +42,7 @@ class _VideoVideState extends State<VideoView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 350,
       alignment: Alignment.center,
       child: load
           ? SizedBox(

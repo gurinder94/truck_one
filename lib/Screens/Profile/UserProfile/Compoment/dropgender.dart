@@ -8,26 +8,22 @@ class GenderDrop extends StatelessWidget {
     return Consumer<UserProfileProvider>(
       builder: (context, notif, __) {
         return DropdownButton<String>(
-          hint:  Text("Gender"),
+          hint: Text("Gender"),
           isExpanded: true,
           underline: Container(),
-          value: notif.valueItemSelected=="null"?null:notif.valueItemSelected,
-
+          value: notif.valueItemSelected,
           onChanged: (value) {
             notif.setSelectedItem(value.toString());
           },
-
           items: notif.items.map<DropdownMenuItem<String>>(
-                (final String value) {
+            (final String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Center(child: Text(value)),
               );
             },
           ).toList(),
-
         );
-
       },
     );
   }

@@ -18,53 +18,66 @@ class Applicant {
     this.totalCount,
   });
 
-  int ?code;
-  String ?message;
+  int? code;
+  String? message;
   List<Datum>? data;
   int? totalCount;
 
   factory Applicant.fromJson(Map<String, dynamic> json) => Applicant(
-    code: json["code"],
-    message: json["message"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    totalCount: json["totalCount"],
-  );
+        code: json["code"],
+        message: json["message"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        totalCount: json["totalCount"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "code": code,
-    "message": message,
-    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
-    "totalCount": totalCount,
-  };
+        "code": code,
+        "message": message,
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+        "totalCount": totalCount,
+      };
 }
 
-class Datum extends ChangeNotifier{
+class Datum extends ChangeNotifier {
+  var status;
+  var isReaded;
+
+  var createdAt;
+
   Datum({
     this.id,
     this.userData,
     this.resume,
+    this.createdAt,
     this.description,
-
+    this.isReaded,
+    this.status,
   });
 
-  String ?id;
-  UserData ?userData;
-  String ?resume;
-  String ?description;
+  String? id;
+  UserData? userData;
+  String? resume;
+  String? description;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["_id"],
-    userData: UserData.fromJson(json["userData"]),
-    resume: json["resume"],
-    description: json["description"],
-  );
+        id: json["_id"],
+        userData: UserData.fromJson(json["userData"]),
+        resume: json["resume"],
+        isReaded: json["isReaded"],
+        createdAt: json["createdAt"],
+        status: json["status"],
+        description: json["description"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "userData": userData!.toJson(),
-    "resume": resume,
-    "description": description,
-  };
+        "_id": id,
+        "userData": userData!.toJson(),
+        "resume": resume,
+        "isReaded": isReaded,
+        "createdAt": createdAt,
+        "status": status,
+        "description": description,
+      };
 }
 
 class UserData {
@@ -75,22 +88,22 @@ class UserData {
     this.mobileNumber,
   });
 
-  String ?id;
+  String? id;
   String? personName;
-  String ?email;
-  String ?mobileNumber;
+  String? email;
+  String? mobileNumber;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-    id: json["_id"],
-    personName: json["personName"],
-    email: json["email"],
-    mobileNumber: json["mobileNumber"],
-  );
+        id: json["_id"],
+        personName: json["personName"],
+        email: json["email"],
+        mobileNumber: json["mobileNumber"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "personName": personName,
-    "email": email,
-    "mobileNumber": mobileNumber,
-  };
+        "_id": id,
+        "personName": personName,
+        "email": email,
+        "mobileNumber": mobileNumber,
+      };
 }

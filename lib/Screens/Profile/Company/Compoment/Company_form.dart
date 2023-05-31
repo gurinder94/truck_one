@@ -86,7 +86,7 @@ class _CompanyFormState extends State<CompanyForm> {
             ),
             InputTextField(
               child: TextFormField(
-                controller: _profileProvider.lastName,
+                controller: _profileProvider.directorName,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 textInputAction: TextInputAction.next,
                 inputFormatters: <TextInputFormatter>[
@@ -94,13 +94,13 @@ class _CompanyFormState extends State<CompanyForm> {
                 ],
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter Your Last Name',
+                  hintText: 'Enter Your Middle Name',
                   hintStyle: TextStyle(fontSize: 17),
                   contentPadding: EdgeInsets.all(10),
                 ),
                 validator: (value) {
                   if (value!.trim().length == 0) {
-                    return 'Please enter last name';
+                    return 'Please enter middle name';
                   } else {
                     return null;
                   }
@@ -112,7 +112,7 @@ class _CompanyFormState extends State<CompanyForm> {
             ),
             InputTextField(
               child: TextFormField(
-                controller: _profileProvider.directorName,
+                controller: _profileProvider.lastName,
                 textInputAction: TextInputAction.next,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 inputFormatters: <TextInputFormatter>[
@@ -120,13 +120,13 @@ class _CompanyFormState extends State<CompanyForm> {
                 ],
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter Your Director Name',
+                  hintText: 'Enter Your Last Name',
                   hintStyle: TextStyle(fontSize: 17),
                   contentPadding: EdgeInsets.all(10),
                 ),
                 validator: (value) {
                   if (value!.trim().isEmpty) {
-                    return 'Please enter director name';
+                    return 'Please enter last name';
                   } else {
                     return null;
                   }

@@ -20,7 +20,6 @@ class PostDisplayPage extends StatefulWidget {
 class _PostDisplayPageState extends State<PostDisplayPage> {
   PostItem provider;
 
-
   _PostDisplayPageState(this.provider);
 
   int pagePos = 0;
@@ -40,14 +39,12 @@ class _PostDisplayPageState extends State<PostDisplayPage> {
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
             Container(
               height: 50,
               width: 50,
               clipBehavior: Clip.antiAlias,
               child: Image.network(
                 IMG_URL + provider.userData!.image.toString(),
-
                 loadingBuilder: (context, child, progress) {
                   return progress == null
                       ? child
@@ -112,12 +109,13 @@ class _PostDisplayPageState extends State<PostDisplayPage> {
                                 padding:
                                     const EdgeInsets.only(top: 20, bottom: 20),
                                 child: PinchZoom(
-                                    child: CustomImage(
-                                  height: 300,
-                                  width:double.infinity ,
-                                  boxFit: BoxFit.contain,
-                                  image:        Base_URL_group_image + _media.name.toString(),
-                                    ),
+                                  child: CustomImage(
+                                    height: 300,
+                                    width: double.infinity,
+                                    boxFit: BoxFit.contain,
+                                    image: Base_URL_group_image +
+                                        _media.name.toString(),
+                                  ),
                                   resetDuration:
                                       const Duration(milliseconds: 100),
                                   maxScale: 2.5,
@@ -170,7 +168,6 @@ class _PostDisplayPageState extends State<PostDisplayPage> {
                               SizedBox(
                                 width: 10,
                               ),
-
                               Expanded(
                                   child: Text(
                                 '${provider.totalComment} Comments',

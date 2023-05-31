@@ -1,8 +1,7 @@
 import 'dart:io';
-
+import 'package:my_truck_dot_one/Model/JobModel/JobModel 2.dart';
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
-import 'package:my_truck_dot_one/Model/JobModel/JobModel.dart';
 import 'package:my_truck_dot_one/Screens/Home/Component/pagination_widget.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/ViewJob/Provider/JobviewProvider.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/ViewJob/ViewJob.dart';

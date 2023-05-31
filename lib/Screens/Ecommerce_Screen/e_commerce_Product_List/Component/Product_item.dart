@@ -122,7 +122,7 @@ class ProductItem extends StatelessWidget {
           image: bannerImage == "null"
               ? ''
               : Base_URL_ProductList + bannerImage.toString(),
-          boxFit: BoxFit.cover,
+          boxFit: BoxFit.fill,
         ),
         Container(
           child: Row(

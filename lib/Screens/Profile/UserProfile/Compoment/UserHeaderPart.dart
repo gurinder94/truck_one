@@ -16,41 +16,45 @@ class UserHeadPart extends StatelessWidget {
   var profileData;
   var image;
   var bannerimage;
-  var loading ;
+  var loading;
+
   var imagelogo;
   var uploadbanner;
   bool profileComplete;
+  String roleName;
 
-  UserHeadPart(this. profileComplete);
+  UserHeadPart(this.profileComplete, this.roleName);
 
   Widget build(BuildContext context) {
     var profileProvider = Provider.of<UserProfileProvider>(context);
-    var profile= context.watch<UserProfileProvider>();
+    var profile = context.watch<UserProfileProvider>();
 
     String? type;
 
     image = profileData = profile.userModel == null
         ? ''
         : profile.userModel!.data!.proImage.toString();
-    imagelogo=profile.imageLogo==null?'':profile.imageLogo;
-    bannerimage= profileData=profile.userModel==null?'':profile.userModel!.data!.bannerImage.toString();
-
+    imagelogo = profile.imageLogo == null ? '' : profile.imageLogo;
+    bannerimage = profileData = profile.userModel == null
+        ? ''
+        : profile.userModel!.data!.bannerImage.toString();
 
     // TODO: implement build
     return Stack(
-
       children: [
-
         SizedBox(
             height: 300,
-            child:
-               profile.imagebanner==null?
-                CustomImage(image:  profile_banner_url +  bannerimage, width: double.infinity, boxFit: BoxFit.cover, height: 280):
-
-        CustomImage(image:  profile_banner_url + profile.imagebanner, width: double.infinity, boxFit: BoxFit.cover, height: 280)
-
-        ),
-
+            child: profile.imagebanner == null
+                ? CustomImage(
+                    image: profile_banner_url + bannerimage,
+                    width: double.infinity,
+                    boxFit: BoxFit.fill,
+                    height: 280)
+                : CustomImage(
+                    image: profile_banner_url + profile.imagebanner,
+                    width: double.infinity,
+                    boxFit: BoxFit.fill,
+                    height: 280)),
         Container(
             width: MediaQuery.of(context).size.width,
             height: 110,
@@ -62,15 +66,15 @@ class UserHeadPart extends StatelessWidget {
                   profileComplete == false
                       ? SizedBox()
                       : SizedBox(
-                    width: 35,
-                        height: 35,
-                        child: IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        )),
-                      ),
+                          width: 35,
+                          height: 35,
+                          child: IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              )),
+                        ),
                   Text(
                     AppLocalizations.instance.text('Profile'),
                     style: TextStyle(
@@ -80,60 +84,69 @@ class UserHeadPart extends StatelessWidget {
                   ),
                   profileComplete == false
                       ? PopupMenuButton(
-                    onSelected: (value) {
-                      switch (value) {
-                        case 1:
-                          DialogUtils.showMyDialog(
-                            context,
-                            onDoneFunction: () async {
-                              final pref =
-                              await SharedPreferences.getInstance();
-                              await pref.clear();
+                          onSelected: (value) {
+                            switch (value) {
+                              case 1:
+                                DialogUtils.showMyDialog(
+                                  context,
+                                  onDoneFunction: () async {
+                                    final pref =
+                                        await SharedPreferences.getInstance();
+                                    await pref.clear();
 
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginScreen()),
-                                      (Route<dynamic> route) => false);
-                            },
-                            oncancelFunction: () => Navigator.pop(context),
-                            title: 'Logout!',
-                            alertTitle: "'Are you sure want to logout ?",
-                            btnText: "Done",
-                          );
-                          break;
-                      }
-                    },
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: Text(   AppLocalizations.instance.text('Logout')),
-                        value: 1,
-                      ),
-                    ],
-                    child: Icon(
-                      Icons.more_vert,
-                      color: Colors.white,
-                    ),
-                  )
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginScreen()),
+                                        (Route<dynamic> route) => false);
+                                  },
+                                  oncancelFunction: () =>
+                                      Navigator.pop(context),
+                                  title: 'Logout!',
+                                  alertTitle: "'Are you sure want to logout ?",
+                                  btnText: "Done",
+                                );
+                                break;
+                            }
+                          },
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              child: Text(
+                                  AppLocalizations.instance.text('Logout')),
+                              value: 1,
+                            ),
+                          ],
+                          child: Icon(
+                            Icons.more_vert,
+                            color: Colors.white,
+                          ),
+                        )
                       : SizedBox()
                 ],
               ),
             ),
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  Colors.transparent,
-                  Color(0x4B525050),
-                  Colors.transparent,
-                ], begin: Alignment.topCenter, end: Alignment.bottomCenter))),
-
-        UserForm(),
+              Colors.transparent,
+              Color(0x4B525050),
+              Colors.transparent,
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter))),
+        UserForm(roleName),
         Positioned(
           left: 0,
           right: 0,
           top: 200,
-          child: profile.imageLogo==null?
-          CustomImageProfile(image:  IMG_URL + image, width: 90, boxFit: BoxFit.contain, height: 90)
-
-              :    CustomImageProfile(image:  IMG_URL + profile.imageLogo, width: 90, boxFit: BoxFit.contain, height: 90),
+          child: profile.imageLogo == null
+              ? CustomImageProfile(
+                  image: IMG_URL + image,
+                  width: 90,
+                  boxFit: BoxFit.contain,
+                  height: 90)
+              : CustomImageProfile(
+                  image: IMG_URL + profile.imageLogo,
+                  width: 90,
+                  boxFit: BoxFit.contain,
+                  height: 90),
         ),
         Positioned(
           top: 260,
@@ -155,14 +168,13 @@ class UserHeadPart extends StatelessWidget {
             ),
             onTap: () {
               type = "COMPANYLOGO";
-              profileProvider.getFromGallery(type!,context);
+              profileProvider.getFromGallery(type!, context);
             },
           ),
         ),
         Positioned(
-          top:210 ,
+          top: 210,
           right: 30,
-
           child: GestureDetector(
             child: Container(
               height: 40,
@@ -179,79 +191,10 @@ class UserHeadPart extends StatelessWidget {
             ),
             onTap: () {
               type = "COMPANYBANNER";
-              profileProvider.getFromGallery(type!,context);
+              profileProvider.getFromGallery(type!, context);
             },
           ),
         ),
-
-        // Positioned(
-        //     left: 10,
-        //     top: 10,
-        //     right: 10,
-        //     child:  Container(
-        //       width: MediaQuery.of(context).size.width,
-        //       height: 90,
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //         children: [
-        //           profileComplete == true
-        //               ?     IconButton(
-        //               onPressed: () => Navigator.pop(context),
-        //               icon: Icon(
-        //                 Icons.arrow_back,
-        //                 color: Colors.black,
-        //               )):SizedBox(),
-        //           Text(
-        //             'Profile',
-        //             style: TextStyle(
-        //                 color: Colors.black,
-        //                 fontSize: 20,
-        //                 fontWeight: FontWeight.w600),
-        //           ),
-        //           profileComplete == true
-        //               ?  SizedBox():              PopupMenuButton(
-        //             onSelected: (value) {
-        //               switch (value) {
-        //                 case 1:
-        //                   DialogUtils.showMyDialog(
-        //                     context,
-        //                     onDoneFunction: () async {
-        //                       final pref = await SharedPreferences.getInstance();
-        //                       await pref.clear();
-        //
-        //                       Navigator.of(context).pushAndRemoveUntil(
-        //                           MaterialPageRoute(
-        //                               builder: (context) => LoginScreen()),
-        //                               (Route<dynamic> route) => false);
-        //                     },
-        //                     oncancelFunction: () =>
-        //                         Navigator.pop(context),
-        //                     title: 'Logout!',
-        //                     alertTitle:
-        //                     "Are you sure want to logout ?",
-        //                     btnText: "Done",
-        //                   );
-        //                   break;
-        //               }
-        //             },
-        //             itemBuilder: (context) => [
-        //               PopupMenuItem(
-        //                 child: Text("LogOut"),
-        //                 value: 1,
-        //               ),
-        //             ],
-        //             child: Icon(
-        //               Icons.more_vert,
-        //               color: Colors.black,
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     )
-        //
-        //
-        // ),
-
       ],
     );
   }

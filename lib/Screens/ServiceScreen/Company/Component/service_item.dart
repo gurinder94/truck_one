@@ -10,9 +10,7 @@ class ServiceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var Size =MediaQuery
-        .of(context)
-        .size;
+    var Size =MediaQuery.of(context).size;
     return Container(
         width: double.infinity,
         padding: EdgeInsets.zero,
@@ -50,20 +48,6 @@ class ServiceItem extends StatelessWidget {
                     ),
                     SizedBox(
                       height: 5,
-                    ),
-                    Text(
-                      AppLocalizations.instance.text('Service cost') +
-                          ' : ' +
-                          serviceList.currency.toString() +
-                          ' ' +
-                          serviceList.serviceCost.toString(),
-                      style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      height: 7,
                     ),
                     Text(
                       AppLocalizations.instance.text('Location') +

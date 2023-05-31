@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/Screens/ServiceScreen/View_Service_Page/provider/view_service_provider.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 
-import '../../../../../AppUtils/constants.dart';
+import '../../../../AppUtils/constants.dart';
 
 class ServiceCompoment extends StatelessWidget {
   ViewServiceProvider serviceProvider;
@@ -38,11 +38,11 @@ class ServiceCompoment extends StatelessWidget {
             ),
             Heading('Service cost', serviceCost),
             Heading(
-                'Phone Number',
-                '+1' +
-                    ' ' +
-                    serviceProvider.viewServiceList.data!.contactNumber
-                        .toString()),
+              'Phone Number',
+              '+1' +
+                  ' ' +
+                  serviceProvider.numbers,
+            ),
             Heading('Location',
                 serviceProvider.viewServiceList.data!.address.toString()),
             Heading("Description", ''),

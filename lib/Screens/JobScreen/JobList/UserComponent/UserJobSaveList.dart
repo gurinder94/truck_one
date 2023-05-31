@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_truck_dot_one/Model/JobModel/JobModel.dart';
-import 'package:my_truck_dot_one/Screens/EventScreen/UserEventScreen/EventListScreen/Provider/UserEventListProvider.dart';
+import 'package:my_truck_dot_one/Model/JobModel/JobModel 2.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/ViewJob/Provider/JobviewProvider.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/ViewJob/ViewJob.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Menubar.dart';
@@ -23,7 +22,7 @@ class _SaveJobListState extends State<SaveJobList> {
 
   late UserJobProvider _jobListProvider;
 
-   initState() {
+  initState() {
     _jobListProvider = Provider.of<UserJobProvider>(context, listen: false);
 
     _jobListProvider.SaveJoblist = [];
@@ -33,7 +32,6 @@ class _SaveJobListState extends State<SaveJobList> {
   }
 
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Color(0xFFEEEEEE),
       body: CustomAppBar(

@@ -46,7 +46,7 @@ class FleetDetail extends StatelessWidget {
                                       .toString(),
                               height: 400,
                               width: double.infinity,
-                              boxFit: BoxFit.cover,
+                              boxFit: BoxFit.fill,
                             )),
                         SizedBox(
                           height: 10,
@@ -61,23 +61,29 @@ class FleetDetail extends StatelessWidget {
                                     AppLocalizations.instance.text('Nick Name'),
                                     proData.fleetManagerDetailModel.data!.name
                                         .toString(),
-                                    AppLocalizations.instance.text('Brand'),
-                                    proData.fleetManagerDetailModel.data!.brand!
-                                        .name
+                                    'VIN',
+                                    proData.fleetManagerDetailModel.data!.number
                                         .toString()),
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Divider(),
                                 displayText(
-                                    AppLocalizations.instance
-                                        .text('Model Number'),
-                                    proData.fleetManagerDetailModel.data!
-                                        .modelNumber
-                                        .toString(),
-                                    AppLocalizations.instance.text('VIN'),
-                                    proData.fleetManagerDetailModel.data!.number
-                                        .toString()),
+                                  AppLocalizations.instance
+                                      .text('Model Number'),
+                                  proData
+                                      .fleetManagerDetailModel.data!.modelNumber
+                                      .toString(),
+                                  'Other Brand',
+                                  proData.fleetManagerDetailModel.data!
+                                              .otherbrand
+                                              .toString() ==
+                                          "null"
+                                      ? ""
+                                      : proData.fleetManagerDetailModel.data!
+                                          .otherbrand
+                                          .toString(),
+                                ),
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -110,14 +116,28 @@ class FleetDetail extends StatelessWidget {
                                 ),
                                 Divider(),
                                 displayText(
-                                  AppLocalizations.instance
-                                      .text('Engine Number'),
-                                  proData.fleetManagerDetailModel.data!.engine
-                                      .toString(),
-                                  AppLocalizations.instance.text('Fuel Type'),
-                                  proData.fleetManagerDetailModel.data!.fuelType
-                                      .toString(),
-                                ),
+                                    AppLocalizations.instance
+                                        .text('Engine Number'),
+                                    proData.fleetManagerDetailModel.data!.engine
+                                        .toString(),
+                                    AppLocalizations.instance.text('Brand'),
+                                    proData.fleetManagerDetailModel.data!.brand!
+                                                    .name
+                                                    .toString() ==
+                                                "null" &&
+                                            proData.fleetManagerDetailModel
+                                                    .data!.otherbrand
+                                                    .toString() ==
+                                                "null"
+                                        ? ""
+                                        : proData.fleetManagerDetailModel.data!
+                                                    .brand!.name
+                                                    .toString() ==
+                                                "null"
+                                            ? "Others"
+                                            : proData.fleetManagerDetailModel
+                                                .data!.brand!.name
+                                                .toString()),
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -132,20 +152,50 @@ class FleetDetail extends StatelessWidget {
                                     AppLocalizations.instance
                                         .text('Number of Tyres'),
                                     proData.fleetManagerDetailModel.data!
-                                        .numOfTyres
-                                        .toString()),
+                                                .numOfTyres
+                                                .toString() ==
+                                            "0"
+                                        ? "Other"
+                                        : proData.fleetManagerDetailModel.data!
+                                            .numOfTyres
+                                            .toString()),
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Divider(),
                                 displayText(
-                                    AppLocalizations.instance.text('WheelBase'),
-                                    proData.fleetManagerDetailModel.data!
-                                            .wheelbase
-                                            .toString() +
-                                        ' in',
-                                    '',
-                                    ''),
+                                  AppLocalizations.instance.text('WheelBase'),
+                                  proData.fleetManagerDetailModel.data!
+                                          .wheelbase
+                                          .toString() +
+                                      ' in',
+                                  AppLocalizations.instance.text('Fuel Type'),
+                                  proData.fleetManagerDetailModel.data!.fuelType
+                                      .toString(),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Divider(),
+                                Text(
+                                  'Other Number Of Tyres',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  proData
+                                      .fleetManagerDetailModel.data!.OtherTyre
+                                      .toString(),
+                                  style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                                 SizedBox(
                                   height: 40,
                                 )

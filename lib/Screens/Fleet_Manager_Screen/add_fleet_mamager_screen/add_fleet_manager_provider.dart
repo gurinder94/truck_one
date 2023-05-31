@@ -10,29 +10,54 @@ import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/E_commerce_Model/BrandListModel.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
+import 'package:my_truck_dot_one/Model/VINModel.dart';
 
 class AddFleetManagerProvider extends ChangeNotifier {
-  bool loading = false, loder = false,imageloder=false;
+  bool loading = false, loder = false, imageloder = false, vinLoad = false;
   var message = "";
   final ImagePicker _picker = ImagePicker();
   List<Datum> brandList = [];
   BrandListModel? brandListModel;
   ResponseModel? _responseModel;
+  VinModel? vinModel;
   TextEditingController name = TextEditingController();
   TextEditingController weight = TextEditingController();
   TextEditingController height = TextEditingController();
   TextEditingController width = TextEditingController();
   TextEditingController capacity = TextEditingController();
   TextEditingController vin = TextEditingController();
+  TextEditingController brand = TextEditingController();
   TextEditingController modelNumber = TextEditingController();
   TextEditingController engineNumber = TextEditingController();
   TextEditingController numberTyres = TextEditingController();
   TextEditingController wheelbase = TextEditingController();
+  TextEditingController tyreenter = TextEditingController();
   TextEditingController power = TextEditingController();
   var trailerName;
   var image;
   Datum? brandvalue;
   var fuelType;
+  var tyre;
+  var totalTyres = [
+    "4",
+    "6",
+    "8",
+    "10",
+    "12",
+    "14",
+    "16",
+    "18",
+    "20",
+    "22",
+    "24",
+    "26",
+    "28",
+    "30",
+    "Other"
+  ];
+  String? brandName;
+
+  String? textType;
 
   getBrandList() async {
     brandList = [];
@@ -48,15 +73,13 @@ class AddFleetManagerProvider extends ChangeNotifier {
     print(map);
     try {
       brandListModel = await hitBrandListApi(map);
+      brandList.add(Datum(brand: "Others", id: "12345"));
       brandList.addAll(brandListModel!.data!);
       loading = false;
       notifyListeners();
     } on Exception catch (e) {
       print("hh");
       message = e.toString().replaceAll('Exception:', '');
-      //
-      // print(e.toString());
-      // notifyListeners();
     }
   }
 
@@ -68,12 +91,18 @@ class AddFleetManagerProvider extends ChangeNotifier {
   ///set value Brand
   setBrandValue(Datum value) {
     brandvalue = value;
+    brandName = value.brand;
     notifyListeners();
   }
 
   ///set value fuelType
   setFuelValue(String name) {
     fuelType = name;
+    notifyListeners();
+  }
+
+  setTyreValue(name) {
+    tyre = name;
     notifyListeners();
   }
 
@@ -102,10 +131,10 @@ class AddFleetManagerProvider extends ChangeNotifier {
             "width": width.text,
             "image": image == null
                 ? null
-                : image.toString().replaceAll(Base_Url_Fleet_trailer, '')
+                : image.toString().replaceAll(Base_Url_Fleet_trailer, ''),
           }
         : {
-            "brand": brandvalue!.id,
+            "brand": brandvalue == null ? null : brandvalue!.id,
             "companyId": companyId == "" ? userId : companyId,
             "constName": "NOOFTRUCKANDTRAILERS",
             "createdById": companyId == "" ? userId : companyId,
@@ -115,7 +144,7 @@ class AddFleetManagerProvider extends ChangeNotifier {
             "height": height.text,
             "modelNumber": modelNumber.text,
             "name": name.text,
-            "numOfTyres": numberTyres.text,
+            "numOfTyres": tyre,
             "number": vin.text,
             "planTitle": "TRIPPLAN",
             'power': power.text,
@@ -126,22 +155,46 @@ class AddFleetManagerProvider extends ChangeNotifier {
             "width": width.text,
             "image": image == null
                 ? null
-                : image.toString().replaceAll(Base_Url_Fleet_truck, '')
+                : image.toString().replaceAll(Base_Url_Fleet_truck, ''),
+            "otherbrand": brandvalue == null
+                ? null
+                : brandvalue!.id == "12345"
+                    ? ""
+                    : brand.text,
+            "OtherTyre": tyreenter.text
           };
     print(map);
 
     try {
       _responseModel = await hitAddFleetManagerApi(map);
-
       Navigator.pop(navigatorKey.currentState!.context);
       showMessage(_responseModel!.message.toString());
       loder = false;
       notifyListeners();
     } on Exception catch (e) {
       message = e.toString().replaceAll('Exception:', '');
-      showMessage(  message );
+      showMessage(message);
       print(e.toString());
       loder = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> hitVehicleData() async {
+    vinLoad = true;
+    notifyListeners();
+    Map<String, dynamic> map = {};
+    print(map);
+    try {
+      vinModel = await hitAddVehiclesApi(map, vin.text);
+      showData();
+      vinLoad = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      message = e.toString().replaceAll('Exception:', '');
+      showMessage(message);
+      print(e.toString());
+      vinLoad = false;
       notifyListeners();
     }
   }
@@ -149,18 +202,13 @@ class AddFleetManagerProvider extends ChangeNotifier {
   getFromGallery(BuildContext context, String type) async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (File(image!.path) != null) {
-      // setState(() {
-
       cropImage(File(image.path), type);
       notifyListeners();
     }
   }
 
-  imageUpload(
-    File image,
-    String type,
-  ) async {
-    imageloder=true;
+  imageUpload(File image, String type) async {
+    imageloder = true;
     notifyListeners();
     var url = SERVER_URL + '/api/v1/event/uploads';
     var request = http.MultipartRequest(
@@ -179,13 +227,12 @@ class AddFleetManagerProvider extends ChangeNotifier {
     print("request: " + request.toString());
     var response = await request.send();
     print(response.statusCode);
-
     if (response.statusCode == 200) {
       String value = await utf8.decoder.bind(response.stream).join();
       var jsonData = json.decode(value);
       print('image $value');
 
-      if (jsonData['data'] == null || jsonData['code']!=200) {
+      if (jsonData['data'] == null || jsonData['code'] != 200) {
       } else {
         var imageReal = jsonData['data']['imagePath'];
         print(type);
@@ -194,23 +241,10 @@ class AddFleetManagerProvider extends ChangeNotifier {
             : Base_Url_Fleet_truck + imageReal;
 
         notifyListeners();
-        // if (type == "COMPANYBANNER") {
-        //   imagebanner = imageReal;
-        //   userModel!.data!.bannerImage = imagebanner;
-        //   showMessage(jsonData['message']);
-        //   print("hello");
-        //   notifyListeners();
-        // } else {
-        //   imageLogo = imageReal;
-        //   userModel!.data!.image = imageLogo;
-        //   showMessage(jsonData['message']);
-        //   print(imageLogo);
-        //   notifyListeners();
-        // }
       }
     }
 
-    imageloder=false;
+    imageloder = false;
     notifyListeners();
   }
 
@@ -246,5 +280,22 @@ class AddFleetManagerProvider extends ChangeNotifier {
 
       print(image);
     }
+  }
+
+  void showData() {
+    textType = vinModel!.results![0]["EngineManufacturer"];
+    print("gygtuyguj$textType");
+    brand.text = vinModel!.results![0]["EngineManufacturer"].toString();
+    fuelType = vinModel!.results![0]["FuelTypePrimary"] == "Gasoline"
+        ? "Gas"
+        : vinModel!.results![0]["FuelTypePrimary"] == ""
+            ? "Gas"
+            : vinModel!.results![0]["FuelTypePrimary"];
+    weight.text = vinModel!.results![0]["TrackWidth"].toString();
+    /*tyre = vinModel!.results![0]["Wheels"] == ""
+        ? "4"
+        : vinModel!.results![0]["Wheels"];*/
+    power.text = vinModel!.results![0]["EngineHP"].toString();
+    modelNumber.text = vinModel!.results![0]['Model'].toString();
   }
 }

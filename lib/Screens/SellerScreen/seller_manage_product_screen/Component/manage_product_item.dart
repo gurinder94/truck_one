@@ -30,7 +30,7 @@ class SellerProductItem extends StatelessWidget {
                           .name
                           .toString(),
                   width: 100,
-                  boxFit: BoxFit.cover,
+                  boxFit: BoxFit.fill,
                   height: 100),
               SizedBox(
                 width: 10,

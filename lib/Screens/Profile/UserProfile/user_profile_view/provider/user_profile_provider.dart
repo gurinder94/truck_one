@@ -32,7 +32,7 @@ class UserProfileViewProvider extends ChangeNotifier {
   String? resumeId;
   String? additionalDocumentId;
   String? certificateId;
-  late ReasonLeaveListModel companyLeaveModel;
+   ReasonLeaveListModel companyLeaveModel=ReasonLeaveListModel();
   List <Document>documentDriverList = [];
   bool companyLeft = false;
 
@@ -58,8 +58,6 @@ class UserProfileViewProvider extends ChangeNotifier {
         setprofileInfo(
             userModel!.data!.proImage == null ? '' : userModel!.data!.proImage);
         setDataProfile(userModel!.data);
-
-
         _loading = false;
 
         notifyListeners();

@@ -29,7 +29,7 @@ class NewConversationProvider extends ChangeNotifier {
   Future<void> getUserList(String val) async {
     var uId = await getUserId();
     var roleTitle = await getRoleInfo();
-    var companyId= await getCompanyId();
+    var companyId = await getCompanyId();
 
     if (!PaginationLoder) {
       _list = [];
@@ -43,7 +43,7 @@ class NewConversationProvider extends ChangeNotifier {
     Map<String, dynamic> map = {
       "accessLevel": roleTitle,
       "isAccepted": "accept",
-      "companyId":companyId==""?uId:companyId,
+      "companyId": companyId == "" ? uId : companyId,
       "page": page,
       "searchKey": val,
       'userId': uId,
@@ -82,8 +82,6 @@ class NewConversationProvider extends ChangeNotifier {
     print(map);
     try {
       _singleConversationChatListModel = await hitCreateConversationApi(map);
-      // chatHomeProvider.addChatConversation(_SingleConversationChatListModel.data!.conversation_id.toString(), _SingleConversationChatListModel.data!.image.toString(), _SingleConversationChatListModel.data!.lastMessages==null?[]:_SingleConversationChatListModel.data!.lastMessages, _SingleConversationChatListModel.data!.name.toString(), _SingleConversationChatListModel.data!.type.toString(), _SingleConversationChatListModel.data!.unReadMsg);
-
       Navigator.pop(navigatorKey.currentState!.context);
       notifyListeners();
     } on Exception catch (e) {

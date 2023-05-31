@@ -4,7 +4,7 @@ import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/EventListModel.dart';
-import 'package:my_truck_dot_one/Model/EventModel.dart';
+import 'package:my_truck_dot_one/Model/EventModel 2.dart';
 
 class UserEventListProvider extends ChangeNotifier {
   bool eventListLoad = true;

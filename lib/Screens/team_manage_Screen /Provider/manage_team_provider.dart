@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
-import 'package:my_truck_dot_one/Model/ManageTeamModel/manage_team_model.dart';
+import 'package:my_truck_dot_one/Model/ManageTeamModel/manage_team_model 2.dart';
 
 class ManageTeamProvider extends ChangeNotifier {
   bool loading = true;

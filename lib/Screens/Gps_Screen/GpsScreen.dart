@@ -32,6 +32,7 @@ class _GpsScreenState extends State<GpsScreen> {
   var List = ['Add Truck', "Add Trailer", 'Hazmat Load', "Basic Detail"];
 
   late AddTripProvider _addTripProvider;
+  final GlobalKey<TooltipState> tooltipkey = GlobalKey<TooltipState>();
 
   initState() {
     super.initState();
@@ -41,7 +42,6 @@ class _GpsScreenState extends State<GpsScreen> {
   }
 
   Widget build(BuildContext context) {
-
     return Scaffold(
         backgroundColor: APP_BG,
         body: Stack(
@@ -62,8 +62,7 @@ class _GpsScreenState extends State<GpsScreen> {
             Positioned(
               child: Container(
                 color: APP_BG,
-                height:
-                MediaQuery.of(context).size.height / 3.3,
+                height: MediaQuery.of(context).size.height / 3.3,
                 child: SafeArea(
                   minimum: EdgeInsets.all(10),
                   child: Column(
@@ -104,8 +103,7 @@ class _GpsScreenState extends State<GpsScreen> {
                                 controller: _addTripProvider.chooseSource,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText: AppLocalizations.instance
-                                      .text('Choose  Source'),
+                                  hintText:'Choose Starting point ',
                                   border: InputBorder.none,
                                   prefixIcon: Icon(Icons.search),
                                 ),
@@ -183,8 +181,30 @@ class _GpsScreenState extends State<GpsScreen> {
                                   return GestureDetector(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text(AppLocalizations.instance
-                                            .text(List[index])),
+                                        child: Row(
+                                          children: [
+                                            Text(AppLocalizations.instance
+                                                .text(List[index])),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            index == 2
+                                                ? Tooltip(
+                                                    key: tooltipkey,
+                                                    message:
+                                                        'Hazmat stands for hazardous materialsand can include a wide range of substances such as explosives, flammable gases and liquids, poisons, radioactive materials, infectious substances, and other dangerous goods.',
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        tooltipkey.currentState
+                                                            ?.ensureTooltipVisible();
+                                                      },
+                                                      child: Icon(
+                                                          Icons.info_rounded),
+                                                    ),
+                                                  )
+                                                  : SizedBox()
+                                          ],
+                                        ),
                                       ),
                                       onTap: () {
                                         switch (index) {
@@ -267,7 +287,7 @@ class BottomButton extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              AppLocalizations.instance.text('Source') + " : ",
+                              'Starting point' + " : ",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w800),
                             ),
@@ -415,13 +435,18 @@ class BottomButton extends StatelessWidget {
                                   // var startTime =
                                   //     DateFormat.Hm().format(tempDate);
 
-                                  var date =
-                                      noti.startDate.text + ' ' + noti.endTime.text.toString();
+                                  var date = noti.startDate.text +
+                                      ' ' +
+                                      noti.endTime.text.toString();
 
-                                  final to12hours = DateFormat('yyyy-MM-dd hh:mm aa').format(DateTime.now());
-                                  DateTime now = DateFormat("yyyy-MM-dd hh:mm aa")
-                                      .parse(to12hours);
-                                  DateTime now5 = new DateFormat("yyyy-MM-dd hh:mm aa")
+                                  final to12hours =
+                                      DateFormat('yyyy-MM-dd hh:mm aa')
+                                          .format(DateTime.now());
+                                  DateTime now =
+                                      DateFormat("yyyy-MM-dd hh:mm aa")
+                                          .parse(to12hours);
+                                  DateTime now5 =
+                                      new DateFormat("yyyy-MM-dd hh:mm aa")
                                           .parse(date.toString());
 
                                   //
@@ -438,10 +463,10 @@ class BottomButton extends StatelessWidget {
                                       noti.grossWeight.text == '')
                                     showMessage("Please Basic Detail");
                                   else if (now5.compareTo(now) == 0 ||
-                                      now5.compareTo(now)<0 )
+                                      now5.compareTo(now) < 0)
                                     showMessage("Please check Time");
                                   else {
-                                     addTripProvider.hitTripCreate();
+                                    addTripProvider.hitTripCreate();
                                   }
                                 },
                               ),

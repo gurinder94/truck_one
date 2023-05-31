@@ -14,7 +14,8 @@ class UserTopProfileWidget extends StatelessWidget {
   @override
   String? name;
   String? getId;
-  String  roleName;
+  String roleName;
+
   UserTopProfileWidget(this.roleName);
 
   Widget build(BuildContext context) {
@@ -30,8 +31,8 @@ class UserTopProfileWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-           CustomImageProfile(
-                  image:IMG_URL + profileProvider.getProfileImage.toString(),
+              CustomImageProfile(
+                  image: IMG_URL + profileProvider.getProfileImage.toString(),
                   width: 60,
                   boxFit: BoxFit.contain,
                   height: 66),
@@ -48,22 +49,27 @@ class UserTopProfileWidget extends StatelessWidget {
                             child: profileProvider.getName == ''
                                 ? CircularProgressIndicator()
                                 : Text(
-                              profileProvider.getName==""?'': capitalize(profileProvider.getName.toString()),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: false,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0),
-                            ),
+                                    profileProvider.getName == ""
+                                        ? ''
+                                        : capitalize(
+                                            profileProvider.getName.toString()),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0),
+                                  ),
                           ),
-
                           SizedBox(
                             height: 2,
                           ),
-                          Text("${AppLocalizations.instance.text('Logged in as')} ${roleName}",style: TextStyle(fontSize: 12
-                              ,fontStyle: FontStyle.italic),),
+                          Text(
+                            "${AppLocalizations.instance.text('Logged in as')} ${roleName}",
+                            style: TextStyle(
+                                fontSize: 12, fontStyle: FontStyle.italic),
+                          ),
                           SizedBox(
                             height: 2,
                           ),
@@ -72,14 +78,18 @@ class UserTopProfileWidget extends StatelessWidget {
                               AppLocalizations.instance.text('profileText'),
                               style: TextStyle(
                                 color: Color(0xFF044a87),
-                                  fontSize: 15,
+                                fontSize: 15,
                               ),
                             ),
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>ChangeNotifierProvider(create: (_) => UserProfileViewProvider(),child: UserProfileView())));
+                                      builder: (context) =>
+                                          ChangeNotifierProvider(
+                                              create: (_) =>
+                                                  UserProfileViewProvider(),
+                                              child: UserProfileView(roleName))));
                             },
                           ),
                           SizedBox(

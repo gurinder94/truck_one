@@ -3,8 +3,13 @@ import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/ManageTeamModel/company_mange_team_model.dart';
-import 'package:my_truck_dot_one/Model/ManageTeamModel/user_left_company_model.dart';
+import 'package:my_truck_dot_one/Model/ManageTeamModel/user_left_company_model 2.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../commanWidget/Comman_Alert_box.dart';
+import '../company_team_mange_component/team_manage_screen.dart';
 
 class ManagerTeamProvider extends ChangeNotifier {
   int menuClick = 0;
@@ -15,6 +20,7 @@ class ManagerTeamProvider extends ChangeNotifier {
   ScrollController scrollController = new ScrollController();
   ScrollController separationscrollController = new ScrollController();
   var valueItemSelected = "Accepted";
+  var isDelete = "false";
   var roleName;
   String inviteStatus = "Accepted";
   var valueAccessRole = "All";
@@ -25,6 +31,8 @@ class ManagerTeamProvider extends ChangeNotifier {
 
   List<Datum> CompanyManageList = [];
   List<UserLeftModel> UserLeftCompanyList = [];
+
+  List items = ["Deleted", "Not-deleted"];
 
   ManagerTeamProvider() {
     getRole();
@@ -51,8 +59,6 @@ class ManagerTeamProvider extends ChangeNotifier {
 
         break;
     }
-
-
   }
 
   getRole() async {
@@ -82,15 +88,16 @@ class ManagerTeamProvider extends ChangeNotifier {
     Map<String, dynamic> map = {};
     roleName.toString().toUpperCase() == "COMPANY"
         ? map = {
-            "accessLevel": valueItemSelected == "All"
+            "accessLevel": valueAccessRole == "All"
                 ? "ALL"
-                : valueItemSelected == "Dispatcher"
+                : valueAccessRole == "Dispatcher"
                     ? "DISPATCHER"
-                    : valueItemSelected == "Driver"
+                    : valueAccessRole == "Driver"
                         ? "DRIVER"
-                        : valueItemSelected == "Hr"
+                        : valueAccessRole == "Hr"
                             ? "HR"
                             : "ALL",
+            // "isDeleted": valueItemSelect == 'Deleted' ? "true" : "false",
             "companyId": getId,
             "isAccepted": valueItemSelected == "Declined"
                 ? 'decline'
@@ -102,6 +109,7 @@ class ManagerTeamProvider extends ChangeNotifier {
             "page": pagee,
             "roleName": roleName.toString().toUpperCase(),
             "searchKey": searchText,
+            "count": 10
           }
         : map = {
             "accessLevel": valueAccessRole == "All"
@@ -121,9 +129,11 @@ class ManagerTeamProvider extends ChangeNotifier {
                     : valueItemSelected == "In Progress"
                         ? "pending"
                         : '',
+            // "isDeleted": valueItemSelect == 'Deleted' ? 'true' : 'false',
             "page": pagee,
             "roleName": roleName.toString().toUpperCase(),
             "searchKey": searchText,
+            "count": 10
           };
     print(paginationLoder);
     if (paginationLoder) {
@@ -138,7 +148,7 @@ class ManagerTeamProvider extends ChangeNotifier {
     try {
       companyManageTeamModel = await hitCompanyTeamApi(map);
       CompanyManageList.addAll(companyManageTeamModel.data!);
-
+      print(CompanyManageList.length.toString() + "tyytyty");
       inviteStatus = valueItemSelected;
       loading = false;
       notifyListeners();
@@ -153,6 +163,73 @@ class ManagerTeamProvider extends ChangeNotifier {
     loading = false;
   }
 
+  sendInviteMember(Map<String, dynamic> map) async {
+    loading = true;
+    notifyListeners();
+    print(map);
+    var rolename = await getRoleInfo();
+    try {
+      _responseModel = await hitSendInviteMember(
+        map,
+      );
+
+      print(_responseModel.code);
+      if (_responseModel.code == 401) {
+        loading = false;
+        notifyListeners();
+
+        return rolename == "COMPANY"
+            ? DialogUtils.showMyDialog(
+                contxt,
+                onDoneFunction: () async {
+                  _launchURL();
+                  Navigator.pop(contxt);
+                },
+                oncancelFunction: () => Navigator.pop(contxt),
+                title: 'Plan upgrade',
+                alertTitle: "Other Plan",
+                btnText: "Done",
+              )
+            : DialogUtils.showMyDialog(
+                contxt,
+                onDoneFunction: () async {
+                  Navigator.pop(contxt);
+                },
+                oncancelFunction: () => Navigator.pop(contxt),
+                title: 'Buy Plan !',
+                alertTitle:
+                    "You Don't have any Plan yet. Please Click below to go on Pricing page.",
+                btnText: "Done",
+              );
+      } else if (_responseModel.code == 200) {
+        hitCompanyManageTeam(
+          contxt,
+        );
+      }
+
+      showMessage(_responseModel.message.toString());
+      loading = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      message = e.toString().replaceAll('Exception:', '');
+      showMessage(message);
+      print(e.toString());
+      notifyListeners();
+    }
+    loading = false;
+  }
+
+  _launchURL() async {
+    String url = "http://74.208.25.43:3001/pages/pricing-page";
+    print(url);
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print('Could not launch $url');
+      throw 'Could not launch $url';
+    }
+  }
+
   hitDeleteCompanyManageTeam(
     String driverId,
     int index,
@@ -160,17 +237,36 @@ class ManagerTeamProvider extends ChangeNotifier {
   ) async {
     var getId = await getUserId();
     var roleName = await getRoleInfo();
+    loading = true;
     Map<String, dynamic> map = {
       "companyId": getId,
+      "loginId": getId,
       "reason": "Remove by company",
       "userId": driverId,
       "accessLevel": roleName.toString().toUpperCase(),
       "userName": proData.CompanyManageList[index].personName!
     };
-
     try {
       _responseModel = await hitRemoveManageTeamApi(map);
       proData.CompanyManageList.removeAt(index);
+      showMessage(_responseModel.message.toString());
+      loading = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      message = e.toString().replaceAll('Exception:', '');
+      showMessage(message!);
+      print(e.toString());
+      loading = false;
+      notifyListeners();
+    }
+  }
+
+  hitDeleteByCompany(String email) async {
+    Map<String, dynamic> map = {"email": email};
+
+    try {
+      _responseModel = await hitDeleteByCom(map);
+      hitCompanyManageTeam(contxt);
       showMessage(_responseModel.message.toString());
       notifyListeners();
     } on Exception catch (e) {
@@ -187,7 +283,7 @@ class ManagerTeamProvider extends ChangeNotifier {
     var getId = await getUserId();
     var companyId = await getCompanyId();
     Map<String, dynamic> map = {
-      "companyId":companyId==""? getId:companyId,
+      "companyId": companyId == "" ? getId : companyId,
       "page": pagee,
       "searchText": searchText,
     };
@@ -223,6 +319,7 @@ class ManagerTeamProvider extends ChangeNotifier {
   }
 
   void setAccessRole(String s) {
+    print(s);
     valueAccessRole = s;
     notifyListeners();
   }
@@ -279,7 +376,6 @@ class ManagerTeamProvider extends ChangeNotifier {
           }
         }
         // Perform event when user reach at the end of list (e.g. do Api call)
-
       }
     });
   }

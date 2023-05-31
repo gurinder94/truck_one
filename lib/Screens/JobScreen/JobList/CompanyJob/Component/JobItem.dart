@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
-import 'package:my_truck_dot_one/Model/JobModel/JobModel.dart';
+import 'package:my_truck_dot_one/Model/JobModel/JobModel 2.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/JobList/CompanyJob/Provider/JobListProvider.dart';
 
 import 'package:my_truck_dot_one/Screens/commanWidget/custom_image_network.dart';
@@ -35,12 +35,13 @@ class JobItem extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 4,),
+                  SizedBox(
+                    height: 4,
+                  ),
                   Text(data.title.toString(),
                       style: TextStyle(
                           fontSize: 16,
@@ -75,13 +76,13 @@ class JobItem extends StatelessWidget {
                     children: [
                       Text(
                         data.postedAt.toString(),
-                        style:
-                        TextStyle(color: PrimaryColor, fontSize: 14),
+                        style: TextStyle(color: PrimaryColor, fontSize: 14),
                       ),
                       GestureDetector(
-                        child: Text(AppLocalizations.instance.text("View Applicants"),
-                            style: TextStyle(
-                                color: PrimaryColor, fontSize: 14)),
+                        child: Text(
+                            AppLocalizations.instance.text("View Applicants"),
+                            style:
+                                TextStyle(color: PrimaryColor, fontSize: 14)),
                         onTap: () {
                           getViewApplicants(context, data.id);
                         },
@@ -96,71 +97,6 @@ class JobItem extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Flexible(
-            //   child: Container(
-            //     child: Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         SizedBox(
-            //           height: 20,
-            //         ),
-            //         Text(data.title.toString(),
-            //             style: TextStyle(
-            //                 fontSize:17,
-            //                 color: Colors.black,
-            //                 fontWeight: FontWeight.w400)),
-            //         SizedBox(
-            //           height: 5,
-            //         ),
-            //         Text(data.companyName.toString(),
-            //             style: TextStyle(
-            //                 fontSize: Theme.of(context).textTheme.bodyText2!.fontSize,
-            //                 color: Colors.black,
-            //                 wordSpacing: 1,
-            //                 fontWeight: FontWeight.w500)),
-            //         SizedBox(
-            //           height: 5,
-            //         ),
-            //         Text(
-            //           data.fullAddress!.toString(),
-            //           overflow: TextOverflow.ellipsis,
-            //           maxLines: 2,
-            //           style: TextStyle(
-            //             fontStyle: FontStyle.italic,
-            //             fontSize: Theme.of(context).textTheme.bodyText2!.fontSize,
-            //           ),
-            //         ),
-            //         SizedBox(
-            //           height: 10,
-            //         ),
-            //         Padding(
-            //           padding: const EdgeInsets.only(left: 10, right: 10),
-            //           child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //             children: [
-            //               Text(
-            //                 data.postedAt.toString(),
-            //                 style:
-            //                     TextStyle(color: PrimaryColor, fontSize: 14),
-            //               ),
-            //               GestureDetector(
-            //                 child: Text(AppLocalizations.instance.text("View Applicants"),
-            //                     style: TextStyle(
-            //                         color: PrimaryColor, fontSize: 14)),
-            //                 onTap: () {
-            //                   getViewApplicants(context, data.id);
-            //                 },
-            //
-            //                 // hitJobSaveApi()
-            //               )
-            //             ],
-            //           ),
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ],
         ),
         decoration: BoxDecoration(
@@ -180,12 +116,14 @@ class JobItem extends StatelessWidget {
             ]),
       ),
     );
-
-
   }
 
   getViewApplicants(BuildContext context, String? id) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ViewApplicants(id)));
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                create: (BuildContext context) => JobListProvider(),
+                child: ViewApplicants(id))));
   }
 }

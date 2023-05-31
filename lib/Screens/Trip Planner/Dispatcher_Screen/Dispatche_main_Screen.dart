@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
-import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/commanField_widget.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/comman_drop.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/pop_menu_Widget.dart';
@@ -152,10 +151,44 @@ class _DispatcherScreenState extends State<DispatcherScreen> {
                         ['Completed', 3],
                         ['Upcoming', 4],
                         ['Unassigned', 5],
-                        ['Expired', 7],
+                        ['Action Pending', 7],
                         ['Selected Type', 6],
                       ],
                     )),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              SizedBox(
+                width: 100,
+                child: Consumer<DispatcherProvider>(
+                  builder: (BuildContext context, value, Widget? child) =>
+                      CommanDrop(
+                    title: "Sort",
+                    onChangedFunction: (String newValue) {
+                      value.sort = newValue;
+                      if (value.sort == "A-Z") {
+                        value.tripList.sort((a, b) {
+                          return a.source!.address!
+                              .compareTo(b.source!.address.toString());
+                        });
+                      } else if (value.sort == "Z-A") {
+                        value.tripList.sort((a, b) => b.source!.address!
+                            .compareTo(a.source!.address.toString()));
+                      }
+                      value.notifyListeners();
+                    },
+                    selectValue: value.sort,
+                    itemsList: value.sortList.map<DropdownMenuItem<String>>(
+                      (value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Center(child: Text(value)),
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
               ),
             ],
           ),
@@ -170,17 +203,17 @@ class _DispatcherScreenState extends State<DispatcherScreen> {
               child: Row(
                 children: [
                   Container(
-                    width: 15,
-                    height: 15,
+                    width: 12,
+                    height: 12,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black.withOpacity(.2)),
                         color: Colors.grey.shade300,
                         shape: BoxShape.circle),
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 5,
                   ),
-                  Text(AppLocalizations.instance.text('Driver Left'))
+                  Text('Driver Exit Company')
                 ],
               ),
             ),
@@ -188,17 +221,17 @@ class _DispatcherScreenState extends State<DispatcherScreen> {
               child: Row(
                 children: [
                   Container(
-                    width: 15,
-                    height: 15,
+                    width: 12,
+                    height: 12,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black.withOpacity(.2)),
                         color: Colors.pink.shade50,
                         shape: BoxShape.circle),
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 5,
                   ),
-                  Text(AppLocalizations.instance.text('Another Driver Left'))
+                  Text('Substitute Driver Left')
                 ],
               ),
             ),
@@ -208,53 +241,8 @@ class _DispatcherScreenState extends State<DispatcherScreen> {
           height: 10,
         ),
         DispatcherList(_listProvider, type!),
-        _listProvider.pagination?LinearProgressIndicator():SizedBox()
+        _listProvider.pagination ? LinearProgressIndicator() : SizedBox()
       ]),
-      // floatingActionButton: widget.roleName == "company"
-      //     ? FloatingActionButton(
-      //         onPressed: () {
-      //           DialogUtils.showMyDialog(
-      //             context,
-      //             onDoneFunction: () async {
-      //               _launchURL();
-      //               Navigator.pop(context);
-      //             },
-      //             oncancelFunction: () => Navigator.pop(context),
-      //             title: 'Add TripPlanner',
-      //             alertTitle: "Add Trip Message",
-      //             btnText: "Done",
-      //           );
-      //         },
-      //         child: Icon(
-      //           Icons.add,
-      //           color: Colors.white,
-      //         ),
-      //         backgroundColor: PrimaryColor,
-      //         elevation: 5,
-      //       )
-      //     : widget.roleName == "Dispatcher"
-      //         ? FloatingActionButton(
-      //             onPressed: () {
-      //               DialogUtils.showMyDialog(
-      //                 context,
-      //                 onDoneFunction: () async {
-      //                   _launchURL();
-      //                   Navigator.pop(context);
-      //                 },
-      //                 oncancelFunction: () => Navigator.pop(context),
-      //                 title: 'Add TripPlanner',
-      //                 alertTitle: "Add Trip Message",
-      //                 btnText: "Done",
-      //               );
-      //             },
-      //             child: Icon(
-      //               Icons.add,
-      //               color: Colors.white,
-      //             ),
-      //             backgroundColor: PrimaryColor,
-      //             elevation: 5,
-      //           )
-      //         : SizedBox(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
@@ -267,7 +255,7 @@ class _DispatcherScreenState extends State<DispatcherScreen> {
     var getId = await getUserId();
 
     _listProvider.hitTripList(type, val);
-    _listProvider.addScrollListener(context,type, val);
+    _listProvider.addScrollListener(context, type, val);
   }
 }
 
@@ -354,38 +342,41 @@ SelectType(DispatcherProvider listProvider, String type) {
                   child: InkWell(
                     splashColor: PrimaryColor,
                     highlightColor: Colors.white,
-                    child: Text(AppLocalizations.instance.text('No'),style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16)),
+                    child: Text(AppLocalizations.instance.text('No'),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16)),
                     onTap: () async {
-                     Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                   ),
                 ),
                 SizedBox(),
-                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    splashColor: PrimaryColor,
-                    highlightColor: Colors.white,
-                    child: Text(AppLocalizations.instance.text('Yes'),style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16)),
-                    onTap: () async {
-                      listProvider.hitFilter(type);
-                    },
-                  ),
-                ),
-
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     splashColor: PrimaryColor,
                     highlightColor: Colors.white,
-                    child: Text(AppLocalizations.instance.text('Reset'),style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16)),
+                    child: Text(AppLocalizations.instance.text('Yes'),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16)),
+                    onTap: () async {
+                      listProvider.hitFilter(type);
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    splashColor: PrimaryColor,
+                    highlightColor: Colors.white,
+                    child: Text(AppLocalizations.instance.text('Reset'),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16)),
                     onTap: () async {
                       listProvider.resetDate(type);
                     },
                   ),
                 ),
-
                 SizedBox()
               ],
             ),

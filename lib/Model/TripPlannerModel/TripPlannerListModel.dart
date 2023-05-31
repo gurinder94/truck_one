@@ -70,18 +70,20 @@ class TripPlannerModel  extends ChangeNotifier{
     this.driverName,
     this.driverId,
     this.isExpired,
+    this.grossWeight,
   });
 
   String ?id;
   DateTime? dateTime;
   String ?routeFlag;
-  int ?weight;
-  int ?height;
-  int ?width;
+  var weight;
+  var height;
+  var width;
   String? fuelType;
   int ?loadCapacity;
   String ?vehicleType;
-  int? alternateRoots;
+  var alternateRoots;
+  var grossWeight;
   Destination ?source;
   Destination? destination;
   bool ?hoursOfServices;
@@ -100,6 +102,7 @@ class TripPlannerModel  extends ChangeNotifier{
     id: json["_id"],
     dateTime: DateTime.parse(json["date_Time"]),
     routeFlag: json["routeFlag"],
+    grossWeight: json["grossWeight"],
     weight: json["weight"],
     height: json["height"],
     width: json["width"],
@@ -129,6 +132,7 @@ class TripPlannerModel  extends ChangeNotifier{
     "weight": weight,
     "height": height,
     "width": width,
+    "grossWeight": grossWeight,
     "fuelType": fuelType,
     "loadCapacity": loadCapacity,
     "vehicleType": vehicleType,

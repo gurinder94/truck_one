@@ -20,7 +20,6 @@ class _HomePageEcommerceState extends State<HomePageEcommerce> {
     Future.delayed(Duration(milliseconds: 100), () {
       _categoryProvider = context.read<CategoryProvider>();
       _categoryProvider.getCategory();
-
     });
   }
 
@@ -55,7 +54,7 @@ class _HomePageEcommerceState extends State<HomePageEcommerce> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Text(
-                   AppLocalizations.instance.text("E-commerce title"),
+                    AppLocalizations.instance.text("E-commerce title"),
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
@@ -67,7 +66,9 @@ class _HomePageEcommerceState extends State<HomePageEcommerce> {
                   return GridView.count(
                       crossAxisCount: 2,
                       mainAxisSpacing: 1.0,
-                      childAspectRatio: MediaQuery.of(context).size.width<900?(cardWidth / cardHeight) / 235:(cardWidth / cardHeight) / 200,
+                      childAspectRatio: MediaQuery.of(context).size.width < 900
+                          ? (cardWidth / cardHeight) / 235
+                          : (cardWidth / cardHeight) / 200,
                       crossAxisSpacing: 1.0,
                       children: List.generate(
                         noti.ecommerceCategoryModel.data!.length,
@@ -96,7 +97,7 @@ class _HomePageEcommerceState extends State<HomePageEcommerce> {
                                         BoxConstraints constraints) {
                                       if (constraints.maxWidth > 400) {
                                         return eventImage(
-                                            400,
+                                            370,
                                             noti.ecommerceCategoryModel
                                                 .data![index].image
                                                 .toString());
@@ -134,19 +135,27 @@ class _HomePageEcommerceState extends State<HomePageEcommerce> {
                                   Spacer(),
                                 ])),
                             onTap: () {
-                              noti.ecommerceCategoryModel
-                                  .data![index].categoryName=="Accessories"?SizedBox():  noti.ecommerceCategoryModel
-                                  .data![index].categoryName=="Spare parts"?SizedBox():
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ProductList(
-                                              noti.ecommerceCategoryModel
-                                                  .data![index].categoryName
-                                                  .toString(),
-                                              noti.ecommerceCategoryModel
-                                                  .data![index].id.toString(),)));
+                              noti.ecommerceCategoryModel.data![index]
+                                          .categoryName ==
+                                      "Accessories"
+                                  ? SizedBox()
+                                  : noti.ecommerceCategoryModel.data![index]
+                                              .categoryName ==
+                                          "Spare parts"
+                                      ? SizedBox()
+                                      : Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ProductList(
+                                                    noti
+                                                        .ecommerceCategoryModel
+                                                        .data![index]
+                                                        .categoryName
+                                                        .toString(),
+                                                    noti.ecommerceCategoryModel
+                                                        .data![index].id
+                                                        .toString(),
+                                                  )));
                             },
                           );
                         },
@@ -155,35 +164,32 @@ class _HomePageEcommerceState extends State<HomePageEcommerce> {
               ]));
   }
 
-
-
   eventImage(double hei, String bannerImage) {
-
     return Container(
       height: hei,
-      child:  bannerImage=="null"?Image.asset(
-        "icons/defaultImage.jpg",
-        height: hei,
-        width: double.infinity,
-        fit: BoxFit.cover,
-
-      ): Image.network(
-        "https://mytruck.one:1337/uploads/category/thumbnail/" + bannerImage,
-        height: hei,
-        width: double.infinity,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, progress) {
-          return progress == null
-              ? child
-              : Center(
-              child: LoadingWidget(
-                  ((progress.cumulativeBytesLoaded /
-                      progress.expectedTotalBytes!) *
-                      100)
-                      .toInt()));
-        },
-      ),
-
+      child: bannerImage == "null"
+          ? Image.asset(
+              "icons/default.jpg",
+              height: hei,
+              width: double.infinity,
+              fit: BoxFit.fill,
+            )
+          : Image.network(
+              "https://mytruck.one:1337/uploads/category/thumbnail/" +
+                  bannerImage,
+              height: hei,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, progress) {
+                return progress == null
+                    ? child
+                    : Center(
+                        child: LoadingWidget(((progress.cumulativeBytesLoaded /
+                                    progress.expectedTotalBytes!) *
+                                100)
+                            .toInt()));
+              },
+            ),
     );
   }
 }

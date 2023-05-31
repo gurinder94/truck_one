@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/TripPlannerModel/GetServiceMarker.dart';
@@ -89,7 +90,7 @@ class RouteMarkerListProvider extends ChangeNotifier {
     _loading = true;
     notifyListeners();
     var url =
-        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}:${data.destination!.location!.coordinates![0]},${data.destination!.location!.coordinates![1]}/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=zc9hdsTH7XOx170MeAyMSWU0MBXLGhrH&routeType=eco&avoid=unpavedRoads&travelMode=truck&vehicleWeight=${data.weight}&vehicleWidth=${data.width}&vehicleHeight=${data.height}&vehicleCommercial=true";
+        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}:${data.destination!.location!.coordinates![0]},${data.destination!.location!.coordinates![1]}/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=FAwecAoL8qcVNzRyX18RPYKkcfrGTvdB&routeType=eco&traffic=true&avoid=unpavedRoads&arriveAt=${DateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'").format(data.endDate!)}&travelMode=truck&vehicleEngineType=${"combustion"}&vehicleWeight=${data.grossWeight! ~/ 2.2046}&vehicleWidth=${data.width! ~/ 39.37}&vehicleHeight=${data.height! ~/ 39.37}&vehicleCommercial=true";
     var response = await http.get(Uri.parse(url));
     var jsonRes = json.decode(response.body);
     _model = RouteModel.fromJson(jsonRes);
@@ -132,9 +133,11 @@ class RouteMarkerListProvider extends ChangeNotifier {
   }
 
   Future<void> moveCamera(LatLng position) async {
+    print("2367547");
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: position, tilt: 0, zoom: 5)));
+        CameraPosition(target: position, tilt: 0, zoom: 15)));
+    notifyListeners();
   }
 
   Future<void> openNavigation(int index, BuildContext context) async {

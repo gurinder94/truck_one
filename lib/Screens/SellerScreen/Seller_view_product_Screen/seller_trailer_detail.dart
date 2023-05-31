@@ -32,11 +32,35 @@ class SellerTrailerDetails extends StatelessWidget {
           Divider(),
           showDetail("Model", productView.data!.dataModelName.toString()),
           Divider(),
-          showDetail("Year of Production", productView.data!.productionYear.toString()),
+          showDetail("Year of Production",
+              productView.data!.productionYear.toString()),
           Divider(),
           showDetail("Condition", productView.data!.condition),
           Divider(),
-          showDetail("Price", productView.data!.currency! +' '+productView.data!.price.toString()),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 20, top: 5, bottom: 5, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    "Currency",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black),
+                  ),
+                ),
+                Expanded(
+                  child: Text(productView.data!.currency! +
+                      ' ' +
+                      productView.data!.price.toString()),
+                ),
+              ],
+            ),
+          ),
           Divider(),
           showDetail(
               "Gross Weight", productView.data!.grossWeight.toString() + ' KG'),

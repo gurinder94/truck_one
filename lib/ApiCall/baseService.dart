@@ -16,6 +16,18 @@ baseServicePost(String url, Map<String, dynamic> map) async {
   return res;
 }
 
+baseServicePosts(String url, Map<String, dynamic> map) async {
+  print("SERVER_URL + url ${ url}");
+  var res = await http.get(Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          )
+      .timeout(Duration(seconds: 40));
+
+  return res;
+}
+
 baseServiceGet(String url) async {
   print("SERVER_URL + url${SERVER_URL + url}");
   var res = await http.post(

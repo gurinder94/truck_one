@@ -9,17 +9,18 @@ import '../../commanWidget/loading_widget.dart';
 import '../post_display_page.dart';
 
 class ShareImageVideoComponent extends StatefulWidget {
-
   List<Media> media;
   PostItem provider;
+
   ShareImageVideoComponent(this.media, this.provider);
 
   @override
-  State<ShareImageVideoComponent> createState() => _ShareImageVideoComponentState();
+  State<ShareImageVideoComponent> createState() =>
+      _ShareImageVideoComponentState();
 }
 
 class _ShareImageVideoComponentState extends State<ShareImageVideoComponent> {
-int pagePos=0;
+  int pagePos = 0;
 
   late VideoPlayerController _controller;
 
@@ -31,11 +32,12 @@ int pagePos=0;
         SizedBox(
           height: 300,
           child: GestureDetector(
-            onDoubleTap: (){
+            onDoubleTap: () {
               Navigator.of(context).push(
                 PageRouteBuilder(
                   opaque: false, // set to false
-                  pageBuilder: (_, __, ___) => SharePostDisplayPage(widget.provider),
+                  pageBuilder: (_, __, ___) =>
+                      SharePostDisplayPage(widget.provider),
                 ),
               );
             },
@@ -43,65 +45,60 @@ int pagePos=0;
               itemCount: widget.media.length,
               controller: PageController(
                   initialPage: 0, keepPage: true, viewportFraction: 1),
-              onPageChanged: (value)
-              {
-                pagePos=value;
-                setState(() {
-
-                });
+              onPageChanged: (value) {
+                pagePos = value;
+                setState(() {});
               },
               itemBuilder: (BuildContext context, int itemIndex) {
                 Media _media = widget.media[itemIndex];
                 return _media.type == 'IMAGE'
                     ? Container(
-                    height: 300,
-                    child:Image.network(
-
-                      Base_URL_group_image + _media.name.toString(),
-                      height: 300,
-                      width:double.infinity ,fit: BoxFit.cover,
-                      loadingBuilder: (context, child, progress) {
-                        return progress == null
-                            ? child
-                            : Center(
-                            child: LoadingWidget(
-                                ((progress.cumulativeBytesLoaded /
-                                    progress.expectedTotalBytes!) *
-                                    100)
-                                    .toInt()));
-
-                      },
-                      errorBuilder: (a, b, c) =>
-                          Center(child: Image.asset('icons/defaultImage.jpg',
-                            height: 300,
-                            width:double.infinity ,fit: BoxFit.cover,
+                        height: 250,
+                        child: Image.network(
+                          Base_URL_group_image + _media.name.toString(),
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                          loadingBuilder: (context, child, progress) {
+                            return progress == null
+                                ? child
+                                : Center(
+                                    child: LoadingWidget(((progress
+                                                    .cumulativeBytesLoaded /
+                                                progress.expectedTotalBytes!) * 100)
+                                        .toInt()));
+                          },
+                          errorBuilder: (a, b, c) => Center(
+                              child: Image.asset(
+                            'icons/defaultImage.jpg',
+                            width: double.infinity,
+                            fit: BoxFit.cover,
                           )),
-                    ))
-
+                        ))
                     : VideoView(_media.name!);
               },
             ),
           ),
         ),
-        widget.media.length>1?      Container(
-            width: double.infinity,
-            color: Colors.black.withOpacity(.5),
-            alignment: Alignment.center,
-            child: SizedBox(
-              height: 25,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: widget.media.length,
-                  itemBuilder: (context, index) => Container(
-                    height: index == pagePos ? 9 : 5,
-                    width: index == pagePos ? 9 : 5,
-                    margin: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle),
-                  )),
-            )):SizedBox()
+        widget.media.length > 1
+            ? Container(
+                width: double.infinity,
+                color: Colors.black.withOpacity(.5),
+                alignment: Alignment.center,
+                child: SizedBox(
+                  height: 25,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: widget.media.length,
+                      itemBuilder: (context, index) => Container(
+                            height: index == pagePos ? 9 : 5,
+                            width: index == pagePos ? 9 : 5,
+                            margin: EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                                color: Colors.white, shape: BoxShape.circle),
+                          )),
+                ))
+            : SizedBox()
       ],
     );
   }

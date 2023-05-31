@@ -17,12 +17,12 @@ class LoginScreen extends StatelessWidget {
             .of(context)
             .size
             .height,
-        
+
         child: SingleChildScrollView(
           child: Column(
             children: [
               CommanImageComponent(),
-                SizedBox(height: 10,),
+              SizedBox(height: 10,),
               LoginComponent(),
             ],
           ),

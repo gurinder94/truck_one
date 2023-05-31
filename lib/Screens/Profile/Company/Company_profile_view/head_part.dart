@@ -29,7 +29,7 @@ class HeadPart extends StatelessWidget {
                         companyViewProvider.companyDetail!.bannerImage
                             .toString(),
                 width: double.infinity,
-                boxFit: BoxFit.cover,
+                boxFit: BoxFit.fill,
                 height: 300)),
         Padding(
           padding: EdgeInsets.only(top: 20),

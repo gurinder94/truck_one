@@ -3,7 +3,7 @@ import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../AppUtils/UserInfo.dart';
 import '../../../AppUtils/constants.dart';
-import '../../../Model/sellerDashBoardModel.dart';
+import '../../../Model/sellerDashBoardModel 2.dart';
 class SellerDashBordProvider extends ChangeNotifier
 {
 

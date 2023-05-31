@@ -54,7 +54,7 @@ class AddTrailerPage extends StatelessWidget {
                                   image: noti.image == null ? "" : noti.image,
                                   height: 200,
                                   width: double.infinity,
-                                  boxFit: BoxFit.cover,
+                                  boxFit: BoxFit.fill,
                                 )),
                             Padding(
                               padding: const EdgeInsets.all(10.0),

@@ -28,7 +28,7 @@ class _MutipleLanguageState extends State<MutipleLanguage> {
     return Dialog(
       backgroundColor: Colors.transparent,
       child: Container(
-        height: 300,
+        height: 330,
         width: 200,
         color: Colors.white,
         padding: EdgeInsets.all(10),

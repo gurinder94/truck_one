@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../ApiCall/api_Call.dart';
 import '../Model/ChatModel/ChatConversationModelDetail.dart';
-import '../Model/ChatModel/ConversationListModel.dart';
 import '../Model/ChatModel/MessageModel.dart';
 import '../Screens/ChatScreen/chat_screen.dart';
 import '../Screens/ChatScreen/provider/chat_provider.dart';

@@ -289,18 +289,6 @@ class MyPostItemWidget extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) =>
-                      //             ChangeNotifierProvider(
-                      //               create: (context) =>
-                      //                   GroupProvider(),
-                      //               child: ViewGroup(
-                      //                 gId: _provider.groupData!.id
-                      //                     .toString(),
-                      //               ),
-                      //             )));
                     },
                   )
                 : SizedBox(),

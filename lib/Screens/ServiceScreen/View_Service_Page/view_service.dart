@@ -17,6 +17,7 @@ String  id;
   Widget build(BuildContext context) {
     _serviceProvider = context.read<ViewServiceProvider>();
     _serviceProvider.hitViewService(context, id);
+
     return CustomAppBar(
         visual: false,
         title: AppLocalizations.instance.text("Service Details"),

@@ -18,6 +18,7 @@ import 'Provider/seller_product_list_provider.dart';
 
 class ManageProductScreen extends StatefulWidget {
   bool backButton;
+
   ManageProductScreen(this.backButton);
 
   @override
@@ -48,12 +49,14 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
 
     return CustomAppBarWidget(
         title: AppLocalizations.instance.text('Manage Product'),
-        leading:widget.backButton==false? GestureDetector(
-          child: Icon(Icons.arrow_back),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ):SizedBox(),
+        leading: widget.backButton == false
+            ? GestureDetector(
+                child: Icon(Icons.arrow_back),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              )
+            : SizedBox(),
         floatingActionWidget: SizedBox(),
         // FloatingActionButton(
         //   onPressed: () {

@@ -166,7 +166,7 @@ class LowerPart extends StatelessWidget {
           Divider(),
           experienceCompany(
               context,
-              proData.userModel!.data!.experience.toString() + ' Year',
+              proData.userModel!.data!.experience.toString(),
               "Experience"),
           proData.checkRole == "DRIVER" ? Divider() : SizedBox(),
           proData.checkRole == "DRIVER"

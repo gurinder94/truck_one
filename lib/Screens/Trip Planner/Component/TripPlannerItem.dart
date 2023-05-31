@@ -34,7 +34,7 @@ class TripItem extends StatelessWidget {
                 padding: EdgeInsets.all(4.0),
                 width: Size.width * 0.25,
                 child:
-                    Center(child: Text(data.destination!.address.toString())),
+                Center(child: Text(data.destination!.address.toString())),
               ),
               Container(
                 padding: EdgeInsets.all(4.0),
@@ -90,22 +90,22 @@ class TripItem extends StatelessWidget {
           }
         },
         itemBuilder: (context) => [
-              PopupMenuItem(
-                  value: 1,
-                  child: Row(
-                    children: <Widget>[Text('Live Track')],
-                  )),
-              PopupMenuItem(
-                  value: 2,
-                  child: Row(
-                    children: <Widget>[Text('Add Stopage')],
-                  )),
-              PopupMenuItem(
-                  value: 3,
-                  child: Row(
-                    children: <Widget>[Text('Trip Details')],
-                  )),
-            ]);
+          PopupMenuItem(
+              value: 1,
+              child: Row(
+                children: <Widget>[Text('Live Track')],
+              )),
+          PopupMenuItem(
+              value: 2,
+              child: Row(
+                children: <Widget>[Text('Add Stopage')],
+              )),
+          PopupMenuItem(
+              value: 3,
+              child: Row(
+                children: <Widget>[Text('Trip Details')],
+              )),
+        ]);
   }
 
   getTripDetails(TripPlannerModel data, BuildContext context,

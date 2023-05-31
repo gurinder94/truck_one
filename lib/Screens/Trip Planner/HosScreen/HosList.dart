@@ -257,15 +257,16 @@ class _HosListState extends State<HosList> {
             Column(
               children: [
                 Icon(
-                  Icons.add,
-                  color: Colors.deepOrange,
+                  Icons.alarm,
+                  color: Colors.black45,
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Icon(
-                  Icons.add,
-                  color: Colors.blue,
+                  FontAwesomeIcons.truck,
+                  color: Colors.black45,
+                  size: 20,
                 ),
               ],
             ),

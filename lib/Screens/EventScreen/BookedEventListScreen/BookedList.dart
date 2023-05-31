@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:my_truck_dot_one/Model/EventModel.dart';
+import 'package:my_truck_dot_one/Model/EventModel 2.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/BookedEventListScreen/booked_event_list_provider.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/ViewEventScreen/ViewEvent.dart';
 import 'package:my_truck_dot_one/Screens/Home/Component/pagination_widget.dart';

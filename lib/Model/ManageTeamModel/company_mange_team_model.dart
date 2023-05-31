@@ -38,6 +38,9 @@ class CompanyManageTeamModel {
 }
 
 class Datum {
+  var lastName;
+  var firstName;
+
   Datum({
     this.id,
     this.driverId,
@@ -61,7 +64,8 @@ class Datum {
     this.licenseInfo,
     this.accessLevel,
     this.documents,
-
+    this.lastName,
+    this.firstName
   });
 
   String ?id;
@@ -89,6 +93,8 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["_id"],
+    lastName: json["lastName"],
+    firstName: json["firstName"],
     driverId: json["driverId"],
     dateOfJoining: json["dateOfJoining"] == null ? null : DateTime.parse(json["dateOfJoining"]),
     mobileNumber: json["mobileNumber"],
@@ -119,6 +125,8 @@ class Datum {
     "dateOfJoining": dateOfJoining == null ? DateTime.now() : dateOfJoining!.toIso8601String(),
     "mobileNumber": mobileNumber,
     "email": email,
+    "lastName": lastName,
+    "firstName": firstName,
     "personName": personName,
     "driverImage": driverImage,
     "skills": List<dynamic>.from(skills!.map((x) => x.toJson())),

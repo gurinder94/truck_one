@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/Screens/AddCartScreen/provider/promo_code_provider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Custom_App_Bar_Widget.dart';
 import 'package:provider/provider.dart';
-
-import '../../Model/SubscriptionPlanModel/promo_code_model.dart';
 import '../Language_Screen/application_localizations.dart';
+import '../../../Model/SubscriptionPlanModel/promo_code_model 2.dart';
 
 class PromoCodePage extends StatelessWidget {
   late PromoCodeProvider _provider;

@@ -154,9 +154,6 @@ class UserProfile extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          // ProfileAbout(_provider),
-                          // contactInformation(_provider.model, _provider),
-
                           _provider.model.data!.roleTitle == "COMPANY"
                               ? SizedBox()
                               : Row(
@@ -191,30 +188,6 @@ class UserProfile extends StatelessWidget {
                                                 _provider.model.data!
                                                             .inConnection ==
                                                         "accept"
-                                                    //     ? GestureDetector(
-                                                    //   onTap: () async {
-                                                    //     var getId = await getUserId();
-                                                    //     _provider.getInviteDecline(
-                                                    //       {
-                                                    //         "invitationId":
-                                                    //         _provider.friendId,
-                                                    //       },
-                                                    //     );
-                                                    //   },
-                                                    //   child: Container(
-                                                    //     padding: EdgeInsets.all(10),
-                                                    //     decoration: BoxDecoration(
-                                                    //         color: APP_BAR_BG,
-                                                    //         borderRadius:
-                                                    //         BorderRadius.all(
-                                                    //             Radius.circular(20))),
-                                                    //     child: Text(
-                                                    //       'Remove',
-                                                    //       style: TextStyle(
-                                                    //           color: Colors.white),
-                                                    //     ),
-                                                    //   ),
-                                                    // ) ?
                                                     ? SizedBox()
                                                     : _provider.model.data!
                                                                 .inConnection ==
@@ -431,30 +404,6 @@ class UserProfile extends StatelessWidget {
                                                 _provider.model.data!
                                                             .inConnection ==
                                                         "accept"
-                                                    //     ? GestureDetector(
-                                                    //   onTap: () async {
-                                                    //     var getId = await getUserId();
-                                                    //     _provider.getInviteDecline(
-                                                    //       {
-                                                    //         "invitationId":
-                                                    //         _provider.friendId,
-                                                    //       },
-                                                    //     );
-                                                    //   },
-                                                    //   child: Container(
-                                                    //     padding: EdgeInsets.all(10),
-                                                    //     decoration: BoxDecoration(
-                                                    //         color: APP_BAR_BG,
-                                                    //         borderRadius:
-                                                    //         BorderRadius.all(
-                                                    //             Radius.circular(20))),
-                                                    //     child: Text(
-                                                    //       'Remove',
-                                                    //       style: TextStyle(
-                                                    //           color: Colors.white),
-                                                    //     ),
-                                                    //   ),
-                                                    // ) ?
                                                     ? SizedBox()
                                                     : _provider.model.data!
                                                                 .inConnection ==

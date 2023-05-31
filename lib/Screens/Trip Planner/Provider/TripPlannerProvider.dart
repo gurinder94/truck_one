@@ -18,7 +18,8 @@ class TripPlannerListProvider extends ChangeNotifier {
   List<LatLng> points = [];
   RouteModel? _routeModel;
   final List<LatLng> markerPositions = [];
-  String  checkValue="UPCOMING";
+  String checkValue = "UPCOMING";
+
   hitGetDriverList(BuildContext context, String type, String search) async {
     var getid = await getUserId();
     var companyId = await getCompanyId();
@@ -77,9 +78,8 @@ class TripPlannerListProvider extends ChangeNotifier {
   }
 
   hitViewTripPlannerView(String tripId, BuildContext context) async {
-
     Map<String, dynamic> map = {'_id': tripId};
-
+    print("mapmapmap$map ");
     tripPlannerListLoad = true;
     notifyListeners();
     print(map);
@@ -99,9 +99,8 @@ class TripPlannerListProvider extends ChangeNotifier {
     }
   }
 
-  setValuefliter(String value)
-  {
-    checkValue=value;
+  setValuefliter(String value) {
+    checkValue = value;
     notifyListeners();
   }
 }

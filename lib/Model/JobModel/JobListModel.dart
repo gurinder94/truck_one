@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'JobModel.dart';
+import 'JobModel 2.dart';
 
 JobListModel jobListFromJson(String str) => JobListModel.fromJson(json.decode(str));
 

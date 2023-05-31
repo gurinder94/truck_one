@@ -30,6 +30,8 @@ class DispatcherProvider extends ChangeNotifier {
   var page = 1;
 
   var pagination = false;
+  var sortList=["A-Z","Z-A"];
+  var sort;
 
   void addScrollListener(BuildContext context, String type, String search) {
     scrollController.addListener(() {

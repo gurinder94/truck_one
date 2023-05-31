@@ -164,7 +164,7 @@ class LoginProvider extends ChangeNotifier {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ProfileUser(false)));
+                        builder: (context) => ProfileUser(false,loginListModel.data!.accessLevel.toString())));
               else
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
@@ -176,7 +176,7 @@ class LoginProvider extends ChangeNotifier {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ProfileUser(false)));
+                        builder: (context) => ProfileUser(false,loginListModel.data!.accessLevel.toString())));
               else
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
@@ -220,7 +220,7 @@ class LoginProvider extends ChangeNotifier {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ProfileUser(false)));
+                        builder: (context) => ProfileUser(false,loginListModel.data!.accessLevel.toString())));
               else
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
@@ -242,7 +242,7 @@ class LoginProvider extends ChangeNotifier {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ProfileUser(false)));
+                        builder: (context) => ProfileUser(false,loginListModel.data!.accessLevel.toString())));
               else
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
@@ -423,7 +423,7 @@ class LoginProvider extends ChangeNotifier {
               });
             else if (profileComplete == false)
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ProfileUser(false)));
+                  MaterialPageRoute(builder: (context) => ProfileUser(false,loginListModel.data!.accessLevel.toString())));
             else
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(

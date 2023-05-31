@@ -78,8 +78,43 @@ class TruckDetails extends StatelessWidget {
             color: Colors.black38,
             height: 2,
           ),
-          TripDeatils("Brand",
-              _listProvider.tripViewDetails!.data!.brandData!.toString()),
+          TripDeatils(
+              "Brand",
+              _listProvider.tripViewDetails!.data!.truckData!.brand == null
+                  ? "Others"
+                  : _listProvider.tripViewDetails!.data!.truckData!.brand!
+                      .toString()),
+          Divider(
+            color: Colors.black38,
+            height: 2,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                    width: Size.width * 0.40,
+                    child: Text("Other Brand" + " :",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600))),
+                Spacer(),
+                Container(
+                    width: Size.width * 0.40,
+                    child: Text(
+                      _listProvider.tripViewDetails!.data!.truckData!
+                                  .otherbrand ==
+                              null
+                          ? ""
+                          : _listProvider
+                              .tripViewDetails!.data!.truckData!.otherbrand!
+                              .toString(),
+                      style: TextStyle(fontSize: 12),
+                    )),
+              ],
+            ),
+          ),
           Divider(
             color: Colors.black38,
             height: 2,
@@ -176,11 +211,15 @@ class TruckDetails extends StatelessWidget {
         children: [
           Container(
               width: Size.width * 0.40,
-
-              child: Text(AppLocalizations.instance.text(Heading)+" :",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600))),
+              child: Text(AppLocalizations.instance.text(Heading) + " :",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
           Spacer(),
           Container(
-              width: Size.width * 0.40, child: Text(value,style: TextStyle(fontSize: 12),)),
+              width: Size.width * 0.40,
+              child: Text(
+                value,
+                style: TextStyle(fontSize: 12),
+              )),
         ],
       ),
     );

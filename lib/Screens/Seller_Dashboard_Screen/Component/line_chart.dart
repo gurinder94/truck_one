@@ -6,7 +6,8 @@ import 'package:my_truck_dot_one/Screens/SellerScreen/provider/seller_dash_bord_
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../../../Model/sellerDashBoardModel.dart';
+import '../../../Model/sellerDashBoardModel 2.dart';
+
 
 class LineCharts extends StatelessWidget {
   SellerDashBordProvider dashBordProvider;
@@ -19,7 +20,7 @@ class LineCharts extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    setDataInGraph(dashBordProvider.dataa);
+    setDataInGraph(dashBordProvider.dataa.cast<GRAPTHDATA>());
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),

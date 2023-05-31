@@ -28,7 +28,7 @@ class HeadPart extends StatelessWidget {
                     SERVER_URL +
                         "/uploads/event/image//" +
                         _addEventProvider!.imagebackground.toString(),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   )),
         Positioned(
           bottom: 75,

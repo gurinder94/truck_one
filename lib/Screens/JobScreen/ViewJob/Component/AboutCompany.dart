@@ -44,8 +44,8 @@ class AboutCompany extends StatelessWidget {
             ),
 
             displayDate(
-                AppLocalizations.instance.text('Start Date'),
-                AppLocalizations.instance.text('End Date'),
+                'Valid From',
+                'Valid Upto',
                 _jobViewProvider.jobModel.data![0].walkInDetails![0].startDate!,
                 _jobViewProvider.jobModel.data![0].walkInDetails![0].endDate!),
             SizedBox(
@@ -70,51 +70,6 @@ class AboutCompany extends StatelessWidget {
                   .toString(),
               '',
             ),
-            // Row(
-            //
-            //   children: [
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           Text("Company Name"),
-            //           SizedBox(
-            //             height: 10,
-            //           ),
-            //           Text("Websites"),
-            //           SizedBox(
-            //             height: 10,
-            //           ),
-            //           // Text("Contact Person"),
-            //         ],
-            //       ),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.only(left: 20),
-            //       child: Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           Text(_jobViewProvider.jobModel.data![0].companyName.toString(),),
-            //           SizedBox(
-            //             height: 10,
-            //           ),
-            //           Text(_jobViewProvider.jobModel.data![0].companyWebsite
-            //               .toString()==""?"N/A":_jobViewProvider.jobModel.data![0].companyWebsite
-            //               .toString()),
-            //           SizedBox(
-            //             height: 10,
-            //           ),
-            //           // Text(_jobViewProvider.jobModel.data![0].walkInDetails![0].number
-            //           //     .toString()),
-            //         ],
-            //       ),
-            //     ),
-            //     SizedBox(
-            //       height: 20,
-            //     ),
-            //   ],
-            // ),
             Divider(
               color: Colors.black.withOpacity(0.2),
             ),
@@ -198,20 +153,14 @@ class AboutCompany extends StatelessWidget {
           children: [
             Text(
               '$value',
-              style: TextStyle(
-                overflow: TextOverflow.ellipsis,
-                 fontSize: 14
-              ),
+              style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 14),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
-              value2=="N/A"?'N/A':'$value2',
-              style: TextStyle(
-                overflow: TextOverflow.ellipsis,
-                  fontSize: 14
-              ),
+              value2 == "N/A" ? 'N/A' : '$value2',
+              style: TextStyle(overflow: TextOverflow.ellipsis, fontSize: 14),
             )
           ],
         )),

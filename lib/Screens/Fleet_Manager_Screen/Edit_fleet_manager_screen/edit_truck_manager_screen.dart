@@ -29,6 +29,7 @@ class _EditTruckManagerState extends State<EditTruckManager> {
     _editTruckManagerProvider =
         Provider.of<EditTruckManagerProvider>(context, listen: false);
     _editTruckManagerProvider.getBrandList();
+    print(_editTruckManagerProvider.brandvalue.id.toString() + "000000");
   }
 
   @override
@@ -74,7 +75,7 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                                             : noti.image,
                                         height: 200,
                                         width: double.infinity,
-                                        boxFit: BoxFit.cover,
+                                        boxFit: BoxFit.fill,
                                       )),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -130,26 +131,13 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                         SizedBox(
                           height: 20,
                         ),
-                        CommanDrop(
-                          title: AppLocalizations.instance
-                              .text("Please select brand value"),
-                          onChangedFunction: (dynamic newValue) {
-                            noti.setBrandValue(newValue);
-                          },
-                          selectValue:
-                              noti.brandvalue == null ? null : noti.brandvalue,
-                          itemsList: noti.brandList.map((Datum items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items.brand.toString()),
-                            );
-                          }).toList(),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
                         InputTextField(
                           child: TextFormField(
+                            onChanged: (val) {
+                              if (noti.vin.text.length == 17) {
+                                noti.hitVehicleData();
+                              }
+                            },
                             controller: noti.vin,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -180,6 +168,74 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                         ),
                         SizedBox(
                           height: 20,
+                        ),
+                        Column(
+                          children: [
+                            noti.brand.text == ""
+                                ? SizedBox()
+                                : noti.textType == null ||
+                                        noti.textType == "" &&
+                                            noti.brandName == null
+                                    ? Column(
+                                        children: [
+                                          CommanDrop(
+                                            title: "Please select brand value",
+                                            onChangedFunction:
+                                                (dynamic newValue) {
+                                              noti.setBrandValue(newValue);
+                                            },
+                                            selectValue: noti.brandvalue,
+                                            itemsList: noti.brandList
+                                                .map((Datum items) {
+                                              return DropdownMenuItem(
+                                                value: items,
+                                                child: Text(
+                                                    items.brand.toString()),
+                                              );
+                                            }).toList(),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                        ],
+                                      )
+                                    : SizedBox(),
+                            noti.brandName != "Others" || noti.brandName == null
+                                ? SizedBox()
+                                : noti.textType != null || noti.textType != ""
+                                    ? Column(
+                                        children: [
+                                          InputTextField(
+                                            child: TextFormField(
+                                              controller: noti.brand,
+                                              autovalidateMode: AutovalidateMode
+                                                  .onUserInteraction,
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: "Enter Brand Name",
+                                                hintStyle:
+                                                    TextStyle(fontSize: 17),
+                                                contentPadding:
+                                                    EdgeInsets.all(10),
+                                              ),
+                                              validator: (value) {
+                                                if (value!.trim().isEmpty) {
+                                                  return 'Enter Brand Name';
+                                                } else {
+                                                  return null;
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                        ],
+                                      )
+                                    : SizedBox(),
+                          ],
                         ),
                         InputTextField(
                           child: TextFormField(
@@ -372,35 +428,60 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                         SizedBox(
                           height: 20,
                         ),
-                        InputTextField(
-                          child: TextFormField(
-                            controller: noti.numberTyres,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(2),
-                            ],
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: AppLocalizations.instance
-                                  .text('Enter Your Number Of Tyres'),
-                              hintStyle: TextStyle(fontSize: 17),
-                              contentPadding: EdgeInsets.all(10),
-                            ),
-                            validator: (value) {
-                              if (value!.trim().isEmpty) {
-                                return 'Please enter number of tyres';
-                              } else {
-                                return null;
-                              }
+                        CommanDrop(
+                          title: "Enter Number Of Tyres",
+                          onChangedFunction: (String newValue) {
+                            noti.tyre = newValue;
+                            noti.notifyListeners();
+                          },
+                          selectValue: noti.tyre,
+                          itemsList:
+                              noti.totalTyres.map<DropdownMenuItem<String>>(
+                            (value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
                             },
-                          ),
+                          ).toList(),
                         ),
                         SizedBox(
                           height: 20,
                         ),
+                        noti.tyre == "Others"
+                            ? Column(
+                                children: [
+                                  InputTextField(
+                                    child: TextFormField(
+                                      controller: noti.tyreenter,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      textInputAction: TextInputAction.next,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        LengthLimitingTextInputFormatter(4),
+                                      ],
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Enter Number Of Tyres",
+                                        hintStyle: TextStyle(fontSize: 17),
+                                        contentPadding: EdgeInsets.all(10),
+                                      ),
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return 'Please enter number of tyres';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  )
+                                ],
+                              )
+                            : SizedBox(),
                         InputTextField(
                           child: TextFormField(
                             controller: noti.wheelbase,
@@ -485,6 +566,8 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                                 showMessage("Please Enter Brand");
                               } else if (noti.fuelType == null) {
                                 showMessage("Please Enter Fuel Type");
+                              } else if (noti.tyre == null) {
+                                showMessage("Please Enter Number Of Tyres");
                               } else
                                 noti.hitUpdateVehicelType(
                                     noti.truckDetailModel!.data!.id!, "truck");

@@ -46,6 +46,7 @@ import 'Screens/LoginScreen/Provider/LoginPageProvider.dart';
 import 'Screens/Network/network_page/network_page.dart';
 import 'Screens/Network/network_page/network_provider.dart';
 import 'Screens/Profile/UserProfile/Provider/UserProfileProvider.dart';
+import 'Screens/Profile/UserProfile/user_profile_view/provider/user_profile_provider.dart';
 import 'Screens/SellerScreen/seller_manage_product_screen/Provider/seller_product_list_provider.dart';
 import 'Screens/SellerScreen/seller_product_question_screen/Provider/seller_product_question _answer.dart';
 import 'Screens/SellerScreen/seller_product_question_screen/seller_question_screen.dart';
@@ -132,6 +133,7 @@ class _MyAppState extends State<MyApp> {
             lazy: false,
           ),
           ChangeNotifierProvider(create: (_) => PriceProvider()),
+          ChangeNotifierProvider(create: (_) => UserProfileViewProvider()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (_) => AddTripProvider()),
           ChangeNotifierProvider(create: (_) => BottomProvider()),

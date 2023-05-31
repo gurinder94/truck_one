@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
-import 'package:my_truck_dot_one/Model/JobModel/JobModel.dart';
+import 'package:my_truck_dot_one/Model/JobModel/JobModel 2.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/JobList/UserComponent/Provider/UserJobProvider.dart';
 import 'package:provider/src/provider.dart';
 
@@ -28,7 +28,7 @@ class AppliedJobItem extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 child: Container(
                   clipBehavior: Clip.antiAlias,
-                  child: CustomImage(image: IMG_URL + data.companyImg.toString() , width: 80, boxFit:BoxFit.cover, height: 80)
+                  child: CustomImage(image: IMG_URL + data.companyImg.toString() , width: 80, boxFit:BoxFit.fill, height: 80)
                   ,decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white,
