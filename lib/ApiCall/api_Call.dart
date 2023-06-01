@@ -3657,7 +3657,7 @@ hitAddVehiclesApi(
             "?format=json",
         map);
     if (response.statusCode == 200) {
-      log('sub: ${response.body}');
+      log('sub vin data: ${response.body}');
       var parseData = json.decode(response.body);
       return VinModel.fromJson(parseData);
     }

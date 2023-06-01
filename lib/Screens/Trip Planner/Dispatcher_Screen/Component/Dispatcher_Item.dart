@@ -479,10 +479,7 @@ class DispatcherItem extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ChangeNotifierProvider(
-                create: (BuildContext context) => RouteMarkerProvider(),
-                child: ChangeNotifierProvider<TripPlannerModel>.value(
-                    value: data, child: AddStoppageMap(data))))).then((_) {
+            builder: (context) =>  AddStoppageMap(data))).then((_) {
       listProvider.resetList();
       listProvider.hitTripList(type.toUpperCase(), "");
     });

@@ -65,9 +65,9 @@ class _ProfilePostShareMediaState extends State<ProfilePostShareMedia> {
 
                       },
                       errorBuilder: (a, b, c) =>
-                          Center(child: Image.asset('icons/defaultImage.jpg',
+                          Center(child: Image.asset('assets/default.png',
                             height: 300,
-                            width:double.infinity ,fit: BoxFit.cover,
+                            width:double.infinity ,fit: BoxFit.fill,
                           )),
                     ))
 

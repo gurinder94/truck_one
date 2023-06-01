@@ -159,8 +159,8 @@ class AddFleetManagerProvider extends ChangeNotifier {
             "otherbrand": brandvalue == null
                 ? null
                 : brandvalue!.id == "12345"
-                    ? ""
-                    : brand.text,
+                    ? brand.text
+                    : "",
             "OtherTyre": tyreenter.text
           };
     print(map);
@@ -290,7 +290,9 @@ class AddFleetManagerProvider extends ChangeNotifier {
         ? "Gas"
         : vinModel!.results![0]["FuelTypePrimary"] == ""
             ? "Gas"
-            : vinModel!.results![0]["FuelTypePrimary"];
+            : vinModel!.results![0]["FuelTypePrimary"] == "Not Applicable"
+                ? "Gas"
+                : vinModel!.results![0]["FuelTypePrimary"];
     weight.text = vinModel!.results![0]["TrackWidth"].toString();
     /*tyre = vinModel!.results![0]["Wheels"] == ""
         ? "4"

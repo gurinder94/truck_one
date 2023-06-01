@@ -1,16 +1,9 @@
-// To parse this JSON data, do
-//
-//     final applicant = applicantFromJson(jsonString);
-
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
-
-Applicant applicantFromJson(String str) => Applicant.fromJson(json.decode(str));
-
-String applicantToJson(Applicant data) => json.encode(data.toJson());
-
 class Applicant {
+  int? code;
+  String? message;
+  List<Datum>? data;
+  int? totalCount;
+
   Applicant({
     this.code,
     this.message,
@@ -18,12 +11,8 @@ class Applicant {
     this.totalCount,
   });
 
-  int? code;
-  String? message;
-  List<Datum>? data;
-  int? totalCount;
-
-  factory Applicant.fromJson(Map<String, dynamic> json) => Applicant(
+  factory Applicant.fromJson(Map<String, dynamic> json) =>
+      Applicant(
         code: json["code"],
         message: json["message"],
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
@@ -38,60 +27,67 @@ class Applicant {
       };
 }
 
-class Datum extends ChangeNotifier {
-  var status;
-  var isReaded;
-
-  var createdAt;
+class Datum {
+  String? id;
+  DateTime? createdAt;
+  UserData? userData;
+  dynamic resume;
+  String? description;
+  String? companyId;
+  List<dynamic>? driverDocument;
+  bool? isReaded;
+  String? status;
 
   Datum({
     this.id,
+    this.createdAt,
     this.userData,
     this.resume,
-    this.createdAt,
     this.description,
+    this.companyId,
+    this.driverDocument,
     this.isReaded,
     this.status,
   });
 
-  String? id;
-  UserData? userData;
-  String? resume;
-  String? description;
-
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["_id"],
+        createdAt: DateTime.parse(json["createdAt"]),
         userData: UserData.fromJson(json["userData"]),
         resume: json["resume"],
-        isReaded: json["isReaded"],
-        createdAt: json["createdAt"],
-        status: json["status"],
         description: json["description"],
+        companyId: json["companyId"],
+        driverDocument:
+            List<dynamic>.from(json["driverDocument"].map((x) => x)),
+        isReaded: json["isReaded"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
+        "createdAt": createdAt!.toIso8601String(),
         "userData": userData!.toJson(),
         "resume": resume,
-        "isReaded": isReaded,
-        "createdAt": createdAt,
-        "status": status,
         "description": description,
+        "companyId": companyId,
+        "driverDocument": List<dynamic>.from(driverDocument!.map((x) => x)),
+        "isReaded": isReaded,
+        "status": status,
       };
 }
 
 class UserData {
+  String? id;
+  String? personName;
+  String? email;
+  String? mobileNumber;
+
   UserData({
     this.id,
     this.personName,
     this.email,
     this.mobileNumber,
   });
-
-  String? id;
-  String? personName;
-  String? email;
-  String? mobileNumber;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json["_id"],

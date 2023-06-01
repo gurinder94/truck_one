@@ -356,7 +356,7 @@ class EditTruckManagerProvider extends ChangeNotifier {
             "wheelbase": wheelbase.text,
             "width": width.text,
             "_id": id,
-            "OtherTyre": tyreenter.text
+            "OtherTyre":tyre == "Other"? tyreenter.text:""
           }
         : {
             "createdById": getId,

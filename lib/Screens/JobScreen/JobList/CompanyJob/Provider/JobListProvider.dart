@@ -21,8 +21,8 @@ class JobListProvider extends ChangeNotifier {
 
   TextEditingController dateController = TextEditingController();
 
-  var selectItems;
-  var selectRead;
+  var selectItems="All";
+  var selectRead="All";
 
   var title = ["All", "Accepted", "Rejected", "On-Hold"];
   var read = ["All", "Read", "Un-Read"];
@@ -110,7 +110,7 @@ class JobListProvider extends ChangeNotifier {
   ) async {
     Map<String, dynamic> map = {
       "count": 3,
-      "isRead": selectRead == null
+      "isRead": selectRead == "All"
           ? ""
           : selectRead == "Read"
               ? true
@@ -119,7 +119,7 @@ class JobListProvider extends ChangeNotifier {
           ? ""
           : selectItems.toString().toLowerCase() == "on-hold"
               ? "onHold"
-              : selectItems == null
+              : selectItems == "All"
                   ? ""
                   : selectItems.toString().toLowerCase() == "accepted"
                       ? "accept"
@@ -203,9 +203,8 @@ class JobListProvider extends ChangeNotifier {
 
   void resetFields() {
     dateController.clear();
-    selectItems = null;
-    selectRead == null;
-    print(selectItems.toString() + "0000");
+    selectItems = "All";
+    selectRead = "All";
     notifyListeners();
   }
 }

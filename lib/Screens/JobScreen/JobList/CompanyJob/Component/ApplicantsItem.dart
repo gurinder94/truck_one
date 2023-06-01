@@ -185,9 +185,8 @@ class ApplicantsItem extends StatelessWidget {
                       SizedBox(
                         height: 5,
                       ),
-                      Text(DateFormat("dd-MM-yyyy ,hh:mm a").format(proData
-                          .applicant!.data![index].createdAt!
-                          .toLocal())),
+                      Text(
+                          "${DateFormat("dd-MM-yyyy ,hh:mm a").format(proData.applicant!.data![index].createdAt!.toLocal())}"),
                     ],
                   ),
                   decoration: BoxDecoration(

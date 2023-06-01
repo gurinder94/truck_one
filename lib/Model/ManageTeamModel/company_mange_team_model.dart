@@ -76,7 +76,7 @@ class Datum {
   String ?personName;
   dynamic driverImage;
   List<Skill>? skills;
-  int ? experience;
+  var experience;
   dynamic city;
   bool ?isDeleted;
   bool ?isActive;
@@ -130,7 +130,7 @@ class Datum {
     "personName": personName,
     "driverImage": driverImage,
     "skills": List<dynamic>.from(skills!.map((x) => x.toJson())),
-    "experience": experience == null ? null : experience,
+    "experience": experience == null ? "" : experience,
     "city": city,
     "isDeleted": isDeleted,
     "isActive": isActive,

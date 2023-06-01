@@ -25,170 +25,178 @@ class ViewApplicants extends StatelessWidget {
         body: CustomAppBar(
             visual: false,
             title: AppLocalizations.instance.text("View Applicants"),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 100,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: InputShape(
-                        child: TextFormField(
-                          onTap: () {
-                            startDate(context);
-                          },
-                          controller: _jobListProvider.dateController,
-                          readOnly: true,
-                          decoration: InputDecoration(
-                              hintText: 'Select Date',
-                              suffixIcon: Icon(Icons.calendar_today),
-                              border: InputBorder.none),
+            child: Consumer<JobListProvider>(
+                builder: (BuildContext context, value, Widget? child) => Column(
+                      children: [
+                        SizedBox(
+                          height: 100,
                         ),
-                      )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Consumer<JobListProvider>(
-                          builder:
-                              (BuildContext context, value, Widget? child) =>
-                                  CommanDrop(
-                            title: "Sort",
-                            onChangedFunction: (String newValue) {
-                              value.sort = newValue;
-                              if (value.sort == "A-Z") {
-                                value.applicant!.data!.sort((a, b) {
-                                  return a.userData!.personName!.compareTo(
-                                      b.userData!.personName!.toString());
-                                });
-                              } else if (value.sort == "Z-A") {
-                                value.applicant!.data!.sort((a, b) =>
-                                    b.userData!.personName!.compareTo(
-                                        a.userData!.personName!.toString()));
-                              }
-                              value.notifyListeners();
-                            },
-                            selectValue: value.sort,
-                            itemsList:
-                                value.sortList.map<DropdownMenuItem<String>>(
-                              (value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Center(child: Text(value)),
-                                );
-                              },
-                            ).toList(),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: InputShape(
+                                child: TextFormField(
+                                  onTap: () {
+                                    startDate(context);
+                                  },
+                                  controller: value.dateController,
+                                  readOnly: true,
+                                  decoration: InputDecoration(
+                                      hintText: 'Select Date',
+                                      suffixIcon: Icon(Icons.calendar_today),
+                                      border: InputBorder.none),
+                                ),
+                              )),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child:
+                                      CommanDrop(
+                                    title: "Sort",
+                                    onChangedFunction: (String newValue) {
+                                      value.sort = newValue;
+                                      if (value.sort == "A-Z") {
+                                        value.applicant!.data!.sort((a, b) {
+                                          return a.userData!.personName!
+                                              .compareTo(b.userData!.personName!
+                                                  .toString());
+                                        });
+                                      } else if (value.sort == "Z-A") {
+                                        value.applicant!.data!.sort((a, b) => b
+                                            .userData!.personName!
+                                            .compareTo(a.userData!.personName!
+                                                .toString()));
+                                      }
+                                      value.notifyListeners();
+                                    },
+                                    selectValue: value.sort,
+                                    itemsList: value.sortList
+                                        .map<DropdownMenuItem<String>>(
+                                      (value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Center(child: Text(value)),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFE5E5E5),
+                                        Color(0xFFECEAEA),
+                                        Color(0xFFECEAEA),
+                                      ],
+                                    ),
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color(0xFFD5D5D5),
+                                        offset: Offset(5.0, 5.0),
+                                        blurRadius: 1,
+                                      ),
+                                      BoxShadow(
+                                        color: Colors.white,
+                                        offset: Offset(-5.0, -5.0),
+                                        blurRadius: 3,
+                                      ),
+                                    ]),
+                                child: GestureDetector(
+                                    onTap: () {
+                                      value.resetFields();
+                                      getApplicants(context);
+                                      value.notifyListeners();
+                                    },
+                                    child: Icon(Icons.restart_alt)),
+                              )
+                            ],
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color(0xFFE5E5E5),
-                                  Color(0xFFECEAEA),
-                                  Color(0xFFECEAEA),
-                                ],
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: InputShape(
+                                    child: DropdownButtonFormField(
+                                  isExpanded: true,
+                                  value: value.selectItems,
+                                  items: value.title
+                                      .map((String value) {
+                                    return DropdownMenuItem(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (valu) {
+                                    value.selectItems =
+                                        valu.toString();
+                                    getApplicants(context);
+                                    value.notifyListeners();
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Select Status",
+                                    counterText: "",
+                                    contentPadding: EdgeInsets.only(left: 10),
+                                    enabled: true,
+                                    border: InputBorder.none,
+                                  ),
+                                  validator: (value) => value == null
+                                      ? 'Please select title'
+                                      : null,
+                                )),
                               ),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0xFFD5D5D5),
-                                  offset: Offset(5.0, 5.0),
-                                  blurRadius: 1,
-                                ),
-                                BoxShadow(
-                                  color: Colors.white,
-                                  offset: Offset(-5.0, -5.0),
-                                  blurRadius: 3,
-                                ),
-                              ]),
-                          child: GestureDetector(
-                              onTap: () {
-                                _jobListProvider.resetFields();
-                                getApplicants(context);
-                              },
-                              child: Icon(Icons.restart_alt)))
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: InputShape(
-                            child: DropdownButtonFormField(
-                          isExpanded: true,
-                          value: _jobListProvider.selectItems,
-                          items: _jobListProvider.title.map((String value) {
-                            return DropdownMenuItem(
-                              value: value,
-                              child: Text(
-                                value,
+                              SizedBox(
+                                width: 20,
                               ),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            _jobListProvider.selectItems = value.toString();
-                            getApplicants(context);
-                            _jobListProvider.notifyListeners();
-                          },
-                          decoration: const InputDecoration(
-                            hintText: "Select Status",
-                            counterText: "",
-                            contentPadding: EdgeInsets.only(left: 10),
-                            enabled: true,
-                            border: InputBorder.none,
+                              Expanded(
+                                child: InputShape(
+                                    child: DropdownButtonFormField(
+                                  isExpanded: true,
+                                  value: value.selectRead,
+                                  items:
+                                  value.read.map((String value) {
+                                    return DropdownMenuItem(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (valu) {
+                                    value.selectRead =
+                                        valu.toString();
+                                    getApplicants(context);
+                                    value.notifyListeners();
+                                  },
+                                  decoration: const InputDecoration(
+                                    counterText: "",
+                                    contentPadding: EdgeInsets.only(left: 10),
+                                    enabled: true,
+                                    border: InputBorder.none,
+                                  ),
+                                  validator: (value) => value == null
+                                      ? 'Please select title'
+                                      : null,
+                                )),
+                              )
+                            ],
                           ),
-                          validator: (value) =>
-                              value == null ? 'Please select title' : null,
-                        )),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: InputShape(
-                            child: DropdownButtonFormField(
-                          isExpanded: true,
-                          value: _jobListProvider.selectRead,
-                          items: _jobListProvider.read.map((String value) {
-                            return DropdownMenuItem(
-                              value: value,
-                              child: Text(
-                                value,
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            _jobListProvider.selectRead = value.toString();
-                            getApplicants(context);
-                            _jobListProvider.notifyListeners();
-                          },
-                          decoration: const InputDecoration(
-                            counterText: "",
-                            contentPadding: EdgeInsets.only(left: 10),
-                            enabled: true,
-                            border: InputBorder.none,
-                          ),
-                          validator: (value) =>
-                              value == null ? 'Please select title' : null,
-                        )),
-                      )
-                    ],
-                  ),
-                ),
-                ApplicantsItem(jobId)
-              ],
-            )));
+                        ),
+                        ApplicantsItem(jobId)
+                      ],
+                    ))));
   }
 
   Future<void> getApplicants(BuildContext context) async {
