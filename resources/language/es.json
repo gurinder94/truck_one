@@ -1,6 +1,7 @@
 {
   "profileText": "ver tu perfil",
   "Help & Support": "Servicio de asistencia",
+  "My Plans": "My Plans",
   "Setting & Privacy": "Configuración y privacidad",
   "LogOut": "Cerrar sesión",
   "Change Password": "Cambia la contraseña",
@@ -439,5 +440,5 @@
   "Attachment": "Adjunto",
   "SellerRating": "Calificación del vendedor",
   "Participants": "Las participantes",
-  "UnAnswer Queries":"Consultas sin respuesta"
+  "UnAnswer Queries": "Consultas sin respuesta"
 }

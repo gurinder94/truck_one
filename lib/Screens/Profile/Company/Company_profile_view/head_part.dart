@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
+import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:my_truck_dot_one/Screens/Profile/Company/CompanyProfile.dart';
 import 'package:my_truck_dot_one/Screens/Profile/Company/provider/ProfileProvider.dart';
-import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/custom_image_network.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/custom_image_network_profile.dart';
 import 'package:provider/provider.dart';
@@ -33,59 +33,59 @@ class HeadPart extends StatelessWidget {
                 height: 300)),
         Padding(
           padding: EdgeInsets.only(top: 20),
-
-
           child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 80,
+            width: MediaQuery.of(context).size.width,
+            height: 80,
             padding: EdgeInsets.all(14),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                      )),
-                  Text(
-                    AppLocalizations.instance.text('Profile'),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  PopupMenuButton(
-                    onSelected: (value) {
-                      switch (value) {
-                        case 1:
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChangeNotifierProvider(create: (_) => ProfileProvider(),child: CompanyProfile(true))));
-                          break;
-                      }
-                    },
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: Text(AppLocalizations.instance.text('Edit')),
-                        value: 1,
-                      ),
-                    ],
-                    child: Icon(
-                      Icons.more_vert,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(
+                      Icons.arrow_back,
                       color: Colors.white,
+                    )),
+                Text(
+                  AppLocalizations.instance.text('Profile'),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                PopupMenuButton(
+                  onSelected: (value) {
+                    switch (value) {
+                      case 1:
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChangeNotifierProvider(
+                                    create: (_) => ProfileProvider(),
+                                    child: CompanyProfile(true))));
+                        break;
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Text(AppLocalizations.instance.text('Edit')),
+                      value: 1,
                     ),
-                  )
-                ],
-              ),
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Colors.transparent,
-                    Color(0x4B525050),
-                    Colors.transparent,
-                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),),
+                  ],
+                  child: Icon(
+                    Icons.more_vert,
+                    color: Colors.white,
+                  ),
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Colors.transparent,
+              Color(0x4B525050),
+              Colors.transparent,
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+          ),
         ),
         LowerPart(companyViewProvider),
         Positioned(

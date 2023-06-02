@@ -11,6 +11,7 @@
   "What is you query related to": "What is you query related to ?",
   "Subscription Plan": "Subscription Plan",
   "Other": "Other",
+  "My Plans": "My Plans",
   "Fleet Manager": "Fleet Manager",
   "Name": "Name",
   "Vehicle Type": "Vehicle Type",
@@ -450,4 +451,3 @@
   "Participants": "Participants",
   "UnAnswer Queries": "UnAnswer Queries"
 }
-

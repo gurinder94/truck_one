@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 
 baseServicePost(String url, Map<String, dynamic> map) async {
-  print("SERVER_URL + url${SERVER_URL + url}");
+  print("SERVER_URL + url ${SERVER_URL + url}");
   var res = await http
       .post(Uri.parse(SERVER_URL + url),
           headers: <String, String>{
@@ -17,13 +17,13 @@ baseServicePost(String url, Map<String, dynamic> map) async {
 }
 
 baseServicePosts(String url, Map<String, dynamic> map) async {
-  print("SERVER_URL + url ${ url}");
-  var res = await http.get(Uri.parse(url),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          )
-      .timeout(Duration(seconds: 40));
+  print("SERVER_URL + url ${url}");
+  var res = await http.get(
+    Uri.parse(url),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  ).timeout(Duration(seconds: 40));
 
   return res;
 }

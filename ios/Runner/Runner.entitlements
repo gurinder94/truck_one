@@ -11,6 +11,7 @@
 	<key>com.apple.developer.in-app-payments</key>
 	<array>
 		<string>merchant.my-truck-dot-one</string>
+		<string>merchant.com.my-truck-dot-one</string>
 	</array>
 </dict>
 </plist>

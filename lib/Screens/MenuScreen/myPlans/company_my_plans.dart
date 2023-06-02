@@ -2,28 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
+import 'package:my_truck_dot_one/Screens/MenuScreen/myPlans/my_plan_list_item.dart';
+import 'package:my_truck_dot_one/Screens/MenuScreen/myPlans/my_plan_list_provider.dart';
+import 'package:my_truck_dot_one/Screens/PricingScreen/component/PriceTabber.dart';
 import 'package:my_truck_dot_one/Screens/PrivacyPolicyScreen/privacy_policy_page.dart';
 import 'package:my_truck_dot_one/Screens/PrivacyPolicyScreen/privacy_policy_provider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Custom_App_Bar_Widget.dart';
+import 'package:my_truck_dot_one/Screens/commanWidget/comman_rich_text.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../commanWidget/comman_rich_text.dart';
-import 'Provider/Pricing_provider.dart';
-import 'component/PriceTabber.dart';
-import 'component/Pricing_item_Page.dart';
-
-class PricingScreen extends StatefulWidget {
-  const PricingScreen({Key? key}) : super(key: key);
+class MyPlansScreen extends StatefulWidget {
+  const MyPlansScreen({Key? key}) : super(key: key);
 
   @override
-  State<PricingScreen> createState() => _PricingScreenState();
+  State<MyPlansScreen> createState() => _MyPlansScreenState();
 }
 
-class _PricingScreenState extends State<PricingScreen> {
+class _MyPlansScreenState extends State<MyPlansScreen> {
   @override
   int pageChanged = 0;
-  late PriceProvider _provider;
+  late MyPlanListProvider _provider;
   int count = 1;
 
   Map<String, PurchaseDetails> purchases = {};
@@ -31,7 +30,7 @@ class _PricingScreenState extends State<PricingScreen> {
   @override
   void initState() {
     // if (mounted) {
-    _provider = context.read<PriceProvider>();
+    _provider = context.read<MyPlanListProvider>();
     _provider.initData();
     // _provider.getmyPlan();
     // }
@@ -64,19 +63,19 @@ class _PricingScreenState extends State<PricingScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  PriceTabber(
+                  MyPlanTabber(
                     pos: 0,
-                    title: 'GPS',
+                    title: 'Monthly',
                     onTabHit: (value) {
-                      Provider.of<PriceProvider>(context, listen: false)
+                      Provider.of<MyPlanListProvider>(context, listen: false)
                           .setMenuClick(value, context);
                     },
                   ),
-                  PriceTabber(
+                  MyPlanTabber(
                     pos: 1,
-                    title: 'WEATHER',
+                    title: 'Yearly',
                     onTabHit: (value) {
-                      Provider.of<PriceProvider>(context, listen: false)
+                      Provider.of<MyPlanListProvider>(context, listen: false)
                           .setMenuClick(value, context);
                     },
                   )
@@ -84,7 +83,7 @@ class _PricingScreenState extends State<PricingScreen> {
               ),
             ),
             Expanded(
-              child: Consumer<PriceProvider>(builder: (_, proData, __) {
+              child: Consumer<MyPlanListProvider>(builder: (_, proData, __) {
                 if (proData.loading) {
                   return Center(
                     child: CircularProgressIndicator.adaptive(),
@@ -107,7 +106,7 @@ class _PricingScreenState extends State<PricingScreen> {
                 else
                   purchases = Map<String, PurchaseDetails>.fromEntries(
                       proData.purchases.map((PurchaseDetails purchase) {
-                    print("874327hjfdhjjhhjfdshrr943929${purchase.productID}");
+                    print("874327hjfdhjjhhjfdshrr943929 ${purchase.productID}");
                     if (purchase.pendingCompletePurchase) {
                       InAppPurchase.instance.completePurchase(purchase);
                     }
@@ -125,10 +124,8 @@ class _PricingScreenState extends State<PricingScreen> {
                                   (index) {
                                 final PurchaseDetails? previousPurchase =
                                     purchases[proData.products[index].id];
-                                return PricingItem(proData.products[index],
-                                    index, previousPurchase, proData, [
-                                  /*proData.constant.data==null?[]:proData.constant.data![0].group*/
-                                ]);
+                                return MyPlanListItem(proData.products[index],
+                                    index, previousPurchase, proData, []);
                               }),
                             ),
                             Padding(
