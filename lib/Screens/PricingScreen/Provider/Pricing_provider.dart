@@ -130,6 +130,7 @@ class PriceProvider extends ChangeNotifier {
 
   //listener
   void initData() async {
+    kProductIds = _GpsSubscriptionId;
     ProductDetailsResponse productDetailResponse =
         await _inAppPurchase.queryProductDetails(kProductIds.toSet());
     setListener();
@@ -338,7 +339,8 @@ class PriceProvider extends ChangeNotifier {
       var response = json.decode(res.body);
 
       log("deliverProduct>> res ${response}");
-      validateReceiptIosModel = await ValidateReceiptIosModel.fromJson(response);
+      validateReceiptIosModel =
+          await ValidateReceiptIosModel.fromJson(response);
       log("Receipts>> Length ${validateReceiptIosModel.latestReceiptInfo.length}");
       // log("Receipts>> latest" + response['latest_receipt_info']);
 

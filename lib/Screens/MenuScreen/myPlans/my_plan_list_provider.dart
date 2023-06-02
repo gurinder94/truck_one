@@ -138,6 +138,7 @@ class MyPlanListProvider extends ChangeNotifier {
   //listener
   void initData() async {
     print("kProductIds.toSet()>> ${kProductIds.toSet()}");
+    kProductIds = _monthlySubscriptionId;
     ProductDetailsResponse productDetailResponse =
         await _inAppPurchase.queryProductDetails(kProductIds.toSet());
     setListener();
