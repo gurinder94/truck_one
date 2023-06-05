@@ -11,55 +11,54 @@ import 'component/fleet_manager_item.dart';
 class FleetManagerList extends StatelessWidget {
   ViewFleetManagerProvider viewFleetManagerProvider;
   FleetManagerProvider fleetManagerProvider;
-  FleetManagerList(this.viewFleetManagerProvider,this.fleetManagerProvider );
+
+  FleetManagerList(this.viewFleetManagerProvider, this.fleetManagerProvider);
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<FleetManagerProvider>(builder: (_, proData, __) {
       if (proData.loading) {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
-      }
-      else if (proData.fleetManagerModel==null)
-            return Center(
-        child: CircularProgressIndicator(),
-      );
-      else if(proData.FleetMangerList.length==0)
-    return Center(child: Text(AppLocalizations.instance.text('No Record Found')));
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (proData.fleetManagerModel == null)
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      else if (proData.FleetMangerList.length == 0)
+        return Center(
+            child: Text(AppLocalizations.instance.text('No Record Found')));
       else {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-              itemCount: proData.FleetMangerList.length,
-              padding: EdgeInsets.zero,
-              controller: fleetManagerProvider.scrollController,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  child: FeetManagerItem(proData.FleetMangerList[index],proData),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>  ChangeNotifierProvider(
-                              create: (_) => ViewFleetManagerProvider(),
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                  itemCount: proData.FleetMangerList.length,
+                  padding: EdgeInsets.zero,
+                  controller: fleetManagerProvider.scrollController,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      child: FeetManagerItem(
+                          proData.FleetMangerList[index], proData),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChangeNotifierProvider(
+                                      create: (_) => ViewFleetManagerProvider(),
+                                      child: FleetDetail(proData
+                                          .FleetMangerList[index].id
+                                          .toString()),
+                                    )));
 
-                              child: FleetDetail(proData
-                                  .FleetMangerList[index].id
-                                  .toString()),
-                            )));
-
-                    // ViewFleetManagerProvider
-                  },
-                );
-              }),
-        ),
-
-        PaginationWidget(proData.PaginationLoader)
-      ],
-    );
+                        // ViewFleetManagerProvider
+                      },
+                    );
+                  }),
+            ),
+            PaginationWidget(proData.PaginationLoader)
+          ],
+        );
       }
     });
   }

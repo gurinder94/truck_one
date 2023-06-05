@@ -146,7 +146,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                             ),
                             onChanged: (val) {
                               if (noti.vin.text.length == 17) {
-                                noti.hitVehicleData();
+                                noti.hitVehicleData("truck");
                               }
                             },
                             validator: (value) {

@@ -26,6 +26,7 @@ class AddTripProvider extends ChangeNotifier {
   TruckListModel? truckListModel;
   TextEditingController chooseSource = TextEditingController();
   TextEditingController chooseDestination = TextEditingController();
+  TextEditingController choose1Destination = TextEditingController();
   TextEditingController startDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
   TextEditingController endTime = TextEditingController(
@@ -63,6 +64,8 @@ class AddTripProvider extends ChangeNotifier {
   List<Datum> histryLocation = [];
   late TripHistoryModel historyModel;
   Map<PolylineId, Polyline> _polyline = <PolylineId, Polyline>{};
+
+  TextEditingController displayNewTextField = TextEditingController();
 
   Map<PolylineId, Polyline> get polyline => _polyline;
   Completer<GoogleMapController> _controller = Completer();
@@ -194,12 +197,7 @@ class AddTripProvider extends ChangeNotifier {
       "createdById": getId,
       "companyId": getId,
       "date_Time": "${startDate.text}T${p}:00.000Z",
-      "destination": {
-        "location": {
-          "coordinates": [DestinationLatitude, DestinationLongitude]
-        },
-        "address": chooseDestination.text,
-      },
+      "destination": addAddressData,
       "grossWeight": grossWeight.text,
       "loadType": HazmatLoadValue,
       "planTitle": "GPS",
@@ -220,7 +218,6 @@ class AddTripProvider extends ChangeNotifier {
     print(map);
     try {
       responseModel = await hitTripCreateApi(map);
-
       getMarkerRouteList("${startDate.text}T${p}:20.000Z");
       notifyListeners();
     } on Exception catch (e) {
@@ -286,7 +283,6 @@ class AddTripProvider extends ChangeNotifier {
 
       notifyListeners();
       // getMarkerRouteList("${startDate.text}T${p}:20.000Z");
-
     } on Exception catch (e) {
       print(e.toString());
       if ("Exception: No Route Found" == e.toString()) {
@@ -405,7 +401,7 @@ class AddTripProvider extends ChangeNotifier {
             builder: (context) => ChangeNotifierProvider(
                 create: (context) => UserNavigationProvider(),
                 child: UserMapNavigation(_polyline, turns, model.routes![index],
-                    markers, weatherMarkers,routePoints[0]))));
+                    markers, weatherMarkers, routePoints[0]))));
   }
 
   Future<void> addWeatherMarker(List<LatLng> routePoints) async {
@@ -428,7 +424,6 @@ class AddTripProvider extends ChangeNotifier {
           position: routePoints[val],
           infoWindow: InfoWindow(title: 'weather'),
           onTap: () {
-
             weatherplan == true
                 ? weatherMarkerClick(MarkerId('weather$i'))
                 : SizedBox();
@@ -446,7 +441,7 @@ class AddTripProvider extends ChangeNotifier {
   void resetValue() {
     truckListModel;
     chooseSource.text = '';
-    chooseDestination.text = '';
+    addAddressData.clear();
     startDate = TextEditingController(
         text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
     endTime = TextEditingController(
@@ -498,6 +493,20 @@ class AddTripProvider extends ChangeNotifier {
   void setvalueDestinationTextEditer(String value) {
     chooseDestination.text = value;
 
+    polyline.clear();
+    polyline.clear();
+    weatherName = [];
+    _markers.clear();
+    model.routes = null;
+
+    _turns = [];
+    weatherMarkers = [];
+    _routePoints = [];
+    notifyListeners();
+  }
+
+  void setvalueDestinationsTextEditer(String value) {
+    choose1Destination.text = value;
     polyline.clear();
     polyline.clear();
     weatherName = [];
@@ -571,6 +580,16 @@ class AddTripProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<Map<String, dynamic>> addAddressData = [];
+
+  void setAddressesDestination(value) {
+    addAddressData.add(value);
+    print(addAddressData);
+    notifyListeners();
+  }
+
+  List<String> destinationAdd = [];
+
   setResetRoute() {
     polyline.clear();
     polyline.clear();
@@ -595,9 +614,7 @@ class AddTripProvider extends ChangeNotifier {
     try {
       historyModel = await hitrTripHistoryApi(map);
       histryLocation.addAll(historyModel.data!);
-
       setDefautFeeltManager(histryLocation);
-
       getLoading = false;
       notifyListeners();
     } on Exception catch (e) {
@@ -609,7 +626,6 @@ class AddTripProvider extends ChangeNotifier {
   setDefaultValueTruck(String id, String truckName, var width, var height) {
     truckId = id.toString();
     this.truckName = truckName;
-
     notifyListeners();
     truckWidth = width;
     truckHeight = height;
@@ -620,7 +636,6 @@ class AddTripProvider extends ChangeNotifier {
   setDefaultValueTrailer(String id, String trailerName, var width, var height) {
     trailerId = id.toString();
     this.trailerName = trailerName;
-
     trailerWidth = width;
     trailerHeight = height;
     notifyListeners();

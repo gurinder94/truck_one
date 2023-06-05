@@ -11,7 +11,8 @@ import 'Provider/route_add_marker_provider.dart';
 
 class AddStoppageMap extends StatefulWidget {
   TripPlannerModel data;
-   AddStoppageMap(this.data);
+
+  AddStoppageMap(this.data);
 
   @override
   _AddStoppageMapState createState() => _AddStoppageMapState(data);
@@ -24,21 +25,22 @@ class _AddStoppageMapState extends State<AddStoppageMap> {
   );
   TripPlannerModel data;
 
-  _AddStoppageMapState(this. data);
-
-
+  _AddStoppageMapState(this.data);
 
   late RouteMarkerProvider _provider;
+
   @override
   void initState() {
-    var   _routeMarkerProvider = Provider.of<RouteMarkerProvider>(context, listen: false);
+    var _routeMarkerProvider =
+        Provider.of<RouteMarkerProvider>(context, listen: false);
     _routeMarkerProvider.resetRoute();
   }
 
   @override
   Widget build(BuildContext context) {
     _provider = context.read<RouteMarkerProvider>();
-  var   _routeMarkerProvider = Provider.of<RouteMarkerProvider>(context, listen: false);
+    var _routeMarkerProvider =
+        Provider.of<RouteMarkerProvider>(context, listen: false);
     _routeMarkerProvider.setContext(context);
 
     getData(context);
@@ -69,16 +71,12 @@ class _AddStoppageMapState extends State<AddStoppageMap> {
                     onMapCreated: (GoogleMapController controller) {
                       noti.controller.complete(controller);
                     },
-                   onTap: (latLng)
-                    {
+                    onTap: (latLng) {
                       showDialog(
-                          context: context,
-
-                          builder: (context) =>
-                          AddMarkerList(latLng,data.id,_routeMarkerProvider),
-
-                              );
-
+                        context: context,
+                        builder: (context) => AddMarkerList(
+                            latLng, data.id, _routeMarkerProvider),
+                      );
                     },
                   ),
                 )),
@@ -91,6 +89,6 @@ class _AddStoppageMapState extends State<AddStoppageMap> {
   }
 
   void getData(BuildContext context) {
-    _provider.getMarkerRouteList(data,context);
+    _provider.getMarkerRouteList(data, context);
   }
 }

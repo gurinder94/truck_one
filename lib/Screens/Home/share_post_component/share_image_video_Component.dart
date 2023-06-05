@@ -69,9 +69,9 @@ class _ShareImageVideoComponentState extends State<ShareImageVideoComponent> {
                           },
                           errorBuilder: (a, b, c) => Center(
                               child: Image.asset(
-                            'icons/defaultImage.jpg',
+                            'assets/default.png',
                             width: double.infinity,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                           )),
                         ))
                     : VideoView(_media.name!);

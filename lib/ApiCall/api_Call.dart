@@ -807,7 +807,7 @@ hitUserProfileUpdateApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/v1/endUser/update', map);
     if (response.statusCode == 200) {
-      // print('Response body: ${response.body}');
+       print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         return parseData['message']; // throw Exception(parseData['message']);
@@ -3576,7 +3576,6 @@ Future hitSubscriptionPlanPayment(Map<String, dynamic> map) async {
     var response =
         await baseServicePost('/api/mobile/subscriptionplan/payment', map);
     print("0000000000000000000000${response.body}");
-
     if (response.statusCode == 200) {
       print('sub: ${response.body}');
       var parseData = json.decode(response.body);

@@ -21,6 +21,7 @@ class AddFleetManagerProvider extends ChangeNotifier {
   ResponseModel? _responseModel;
   VinModel? vinModel;
   TextEditingController name = TextEditingController();
+  TextEditingController length = TextEditingController();
   TextEditingController weight = TextEditingController();
   TextEditingController height = TextEditingController();
   TextEditingController width = TextEditingController();
@@ -126,6 +127,8 @@ class AddFleetManagerProvider extends ChangeNotifier {
             "planTitle": "TRIPPLAN",
             "roleTitle": roleTitle,
             "trailerType": trailerName,
+            "trailerVinNumber": vin.text,
+            "length": length.text,
             "vehicleType": "TRAILER",
             "weight": weight.text,
             "width": width.text,
@@ -159,8 +162,8 @@ class AddFleetManagerProvider extends ChangeNotifier {
             "otherbrand": brandvalue == null
                 ? null
                 : brandvalue!.id == "12345"
-                    ? ""
-                    : brand.text,
+                    ? brand.text
+                    : "",
             "OtherTyre": tyreenter.text
           };
     print(map);
@@ -180,14 +183,14 @@ class AddFleetManagerProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> hitVehicleData() async {
+  Future<void> hitVehicleData(String type) async {
     vinLoad = true;
     notifyListeners();
     Map<String, dynamic> map = {};
     print(map);
     try {
       vinModel = await hitAddVehiclesApi(map, vin.text);
-      showData();
+      type == "trailer" ? showTrailerData() : showData();
       vinLoad = false;
       notifyListeners();
     } on Exception catch (e) {
@@ -290,12 +293,21 @@ class AddFleetManagerProvider extends ChangeNotifier {
         ? "Gas"
         : vinModel!.results![0]["FuelTypePrimary"] == ""
             ? "Gas"
-            : vinModel!.results![0]["FuelTypePrimary"];
+            : vinModel!.results![0]["FuelTypePrimary"] == "Not Applicable"
+                ? "Gas"
+                : vinModel!.results![0]["FuelTypePrimary"];
     weight.text = vinModel!.results![0]["TrackWidth"].toString();
     /*tyre = vinModel!.results![0]["Wheels"] == ""
         ? "4"
         : vinModel!.results![0]["Wheels"];*/
     power.text = vinModel!.results![0]["EngineHP"].toString();
     modelNumber.text = vinModel!.results![0]['Model'].toString();
+  }
+
+  void showTrailerData() {
+    weight.text = vinModel!.results![0]["TrackWidth"].toString();
+    length.text = vinModel!.results![0]["TrailerLength"] == null
+        ? ""
+        : vinModel!.results![0]["TrailerLength"].toString();
   }
 }

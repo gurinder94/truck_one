@@ -316,22 +316,13 @@ class _UserFormState extends State<UserForm> {
               height: 20,
             ),
             InputTextField(
-              child: TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                controller: _userProfileProvider.experienceController,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter Your experience *',
-                  hintStyle: TextStyle(fontSize: 17),
-                  contentPadding: EdgeInsets.all(10),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please Enter Your Experience';
-                  }
-                  return null;
-                },
-              ),
+              child: ExperienceDrop(),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            InputTextField(
+              child: MonthExperience(),
             ),
             SizedBox(
               height: 20,

@@ -157,11 +157,7 @@ class _UserMenuPageState extends State<UserMenuPage> {
     );
   }
 
-  listOfOptions(
-    String title,
-    String path,
-    int i,
-  ) {
+  listOfOptions(String title, String path, int i) {
     return Padding(
       padding: const EdgeInsets.only(left: 5, right: 5),
       child: GestureDetector(

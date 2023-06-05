@@ -64,12 +64,16 @@ class _EditTrailerManagerState extends State<EditTrailerManager> {
                             Container(
                                 height: 200,
                                 width: double.infinity,
-                                child:noti.imageLoder==true?Center(child: CircularProgressIndicator()): CustomImage(
-                                  image: noti.image == null ? "" : noti.image,
-                                  height: 200,
-                                  width: double.infinity,
-                                  boxFit: BoxFit.fill,
-                                )),
+                                child: noti.imageLoder == true
+                                    ? Center(child: CircularProgressIndicator())
+                                    : CustomImage(
+                                        image: noti.image == null
+                                            ? ""
+                                            : noti.image,
+                                        height: 200,
+                                        width: double.infinity,
+                                        boxFit: BoxFit.fill,
+                                      )),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: GestureDetector(
@@ -91,28 +95,90 @@ class _EditTrailerManagerState extends State<EditTrailerManager> {
                           ],
                         ),
                         SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 10,
+                          height: 20,
                         ),
                         InputTextField(
                           child: TextFormField(
                             controller: noti.name,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             textInputAction: TextInputAction.next,
                             inputFormatters: <TextInputFormatter>[
                               LengthLimitingTextInputFormatter(15),
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: AppLocalizations.instance.text("Enter Your Nick Name"),
+                              hintText: AppLocalizations.instance
+                                  .text("Enter Your Nick Name"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return 'Please enter nick name';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        InputTextField(
+                          child: TextFormField(
+                            controller: noti.vin,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            textInputAction: TextInputAction.next,
+                            inputFormatters: <TextInputFormatter>[
+                              LengthLimitingTextInputFormatter(17),
+                            ],
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Enter Your VIN",
+                              hintStyle: TextStyle(fontSize: 17),
+                              contentPadding: EdgeInsets.all(10),
+                            ),
+                            onChanged: (val) {
+                              if (noti.vin.text.length == 17) {
+                                noti.hitVehicleData("trailer");
+                              }
+                            },
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return 'Please enter VIN';
+                              } else if (value.length < 17) {
+                                return 'Please Enter Your VIN';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        InputTextField(
+                          child: TextFormField(
+                            readOnly: true,
+                            controller: noti.length,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            textInputAction: TextInputAction.next,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(6),
+                            ],
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Enter Your length",
+                              hintStyle: TextStyle(fontSize: 17),
+                              contentPadding: EdgeInsets.all(10),
+                            ),
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return 'Please enter length';
                               } else {
                                 return null;
                               }
@@ -134,7 +200,8 @@ class _EditTrailerManagerState extends State<EditTrailerManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: AppLocalizations.instance.text("Enter Your Weight(lbs)"),
+                              hintText: AppLocalizations.instance
+                                  .text("Enter Your Weight(lbs)"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),
@@ -162,7 +229,8 @@ class _EditTrailerManagerState extends State<EditTrailerManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: AppLocalizations.instance.text("Enter Your Height(in)"),
+                              hintText: AppLocalizations.instance
+                                  .text("Enter Your Height(in)"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),
@@ -190,15 +258,15 @@ class _EditTrailerManagerState extends State<EditTrailerManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: AppLocalizations.instance.text("Enter Your Width(in)"),
+                              hintText: AppLocalizations.instance
+                                  .text("Enter Your Width(in)"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return 'Please enter width(in)';
-                              } else
-                              {
+                              } else {
                                 return null;
                               }
                             },
@@ -208,7 +276,8 @@ class _EditTrailerManagerState extends State<EditTrailerManager> {
                           height: 20,
                         ),
                         CommanDrop(
-                          title:AppLocalizations.instance.text("Please select Trailer name"),
+                          title: AppLocalizations.instance
+                              .text("Please select Trailer name"),
                           onChangedFunction: (String newValue) {
                             noti.setTrailerValue(newValue);
                           },
@@ -237,7 +306,8 @@ class _EditTrailerManagerState extends State<EditTrailerManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText:AppLocalizations.instance.text("Enter Your Load Capacity(lbs)"),
+                              hintText: AppLocalizations.instance
+                                  .text("Enter Your Load Capacity(lbs)"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),

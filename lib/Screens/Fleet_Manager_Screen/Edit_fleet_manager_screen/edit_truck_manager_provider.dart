@@ -35,6 +35,7 @@ class EditTruckManagerProvider extends ChangeNotifier {
   TextEditingController power = TextEditingController();
   TextEditingController brand = TextEditingController();
   TextEditingController tyreenter = TextEditingController();
+  TextEditingController length = TextEditingController();
   bool isDelete = false;
   String isDeleteName = "Unarchived";
   var trailerName;
@@ -231,6 +232,8 @@ class EditTruckManagerProvider extends ChangeNotifier {
     height.text = truckDetail.height!.toInt().toString();
     width.text = truckDetail.width!.toInt().toString();
     trailerName = truckDetail.trailerType.toString();
+    vin.text=truckDetail.trailerVinNumber.toString();
+    length.text=truckDetail.length.toString();
     capacity.text = truckDetail.loadCapacity.toString();
     image = truckDetail.image;
     image = image == null ? "" : Base_Url_Fleet_trailer + image;
@@ -296,14 +299,14 @@ class EditTruckManagerProvider extends ChangeNotifier {
     isDelete = truckDetail.isDeleted!;
   }
 
-  Future<void> hitVehicleData() async {
+  Future<void> hitVehicleData(var data) async {
     vinLoad = true;
     notifyListeners();
     Map<String, dynamic> map = {};
     print(map);
     try {
       vinModel = await hitAddVehiclesApi(map, vin.text);
-      showData();
+      data == "truck" ? showData() : showTrailerData();
       vinLoad = false;
       notifyListeners();
     } on Exception catch (e) {
@@ -356,7 +359,7 @@ class EditTruckManagerProvider extends ChangeNotifier {
             "wheelbase": wheelbase.text,
             "width": width.text,
             "_id": id,
-            "OtherTyre": tyreenter.text
+            "OtherTyre": tyre == "Other" ? tyreenter.text : ""
           }
         : {
             "createdById": getId,
@@ -365,6 +368,8 @@ class EditTruckManagerProvider extends ChangeNotifier {
                 ? null
                 : image.toString().replaceAll(Base_Url_Fleet_trailer, ''),
             "isDeleted": isDelete,
+            "trailerVinNumber": vin.text,
+            "length": length.text,
             "loadCapacity": capacity.text,
             "name": name.text,
             "trailerType": trailerName,
@@ -392,5 +397,12 @@ class EditTruckManagerProvider extends ChangeNotifier {
     isDelete = newValue == "Archived" ? true : false;
     isDeleteName = newValue;
     notifyListeners();
+  }
+
+  void showTrailerData() {
+    weight.text = vinModel.results![0]["TrackWidth"].toString();
+    length.text = vinModel.results![0]["TrailerLength"] == null
+        ? ""
+        : vinModel.results![0]["TrailerLength"].toString();
   }
 }

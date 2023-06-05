@@ -234,8 +234,8 @@ class FleetDetail extends StatelessWidget {
                                     : CircularProgressIndicator.adaptive();
                               },
                               errorBuilder: (a, b, c) => Image.asset(
-                                    'icons/productimage.png',
-                                    fit: BoxFit.cover,
+                                    'assets/default.png',
+                                    fit: BoxFit.fill,
                                     width: double.infinity,
                                   )),
                         ),
@@ -252,6 +252,21 @@ class FleetDetail extends StatelessWidget {
                                     AppLocalizations.instance.text('Nick Name'),
                                     _viewFleetManagerProvider
                                         .fleetManagerDetailModel.data!.name
+                                        .toString(),
+                                    AppLocalizations.instance.text('VIN'),
+                                    _viewFleetManagerProvider
+                                        .fleetManagerDetailModel
+                                        .data!
+                                        .trailerVinNumber
+                                        .toString()),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Divider(),
+                                displayText(
+                                    'Length',
+                                    _viewFleetManagerProvider
+                                        .fleetManagerDetailModel.data!.length
                                         .toString(),
                                     AppLocalizations.instance
                                         .text('Trailer Type'),

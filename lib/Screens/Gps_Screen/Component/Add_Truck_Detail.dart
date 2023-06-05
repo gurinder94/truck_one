@@ -24,7 +24,6 @@ class _AddTruckDetailsState extends State<AddTruckDetails> {
   initState() {
     super.initState();
     _addTripProvider = context.read<AddTripProvider>();
-
     _addTripProvider.truckList.length == 0
         ? _addTripProvider.hitGetTruck(context)
         : valueModel = _addTripProvider.truckIndexValue;

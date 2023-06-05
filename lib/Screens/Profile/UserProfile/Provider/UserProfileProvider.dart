@@ -103,7 +103,7 @@ class UserProfileProvider extends ChangeNotifier {
   ];
   String? imageReal;
   var imageFile;
-
+  ResponseModel responseModel = ResponseModel();
   var imageUrl, image, imageLogo, imagebanner, imageviewBanner;
 
   List<String> _experience = [
@@ -302,10 +302,11 @@ class UserProfileProvider extends ChangeNotifier {
         : gender == ""
             ? "Male"
             : gender.toString();
-    experienceController.text = userProfile.experience.toString();
+    // valueExperience = userProfile.experience.toString();
     String? monthExperience = userProfile.monthsExperience.toString();
     valueExpMonth =
         monthExperience == "null" ? valueExpMonth : "${monthExperience} months";
+    String? experience = userProfile.experience.toString();
     valueExperience = experience == "null"
         ? valueExperience
         : "${experience.toString()} year";
@@ -508,7 +509,7 @@ class UserProfileProvider extends ChangeNotifier {
 
     print(map.toString());
     try {
-      ResponseModel res = await hitUserProfileUpdateApi(map);
+      responseModel = await hitUserProfileUpdateApi(map);
 
       if (profileComplete == false) {
         NavigationPage(roleName);
@@ -523,13 +524,12 @@ class UserProfileProvider extends ChangeNotifier {
 
       setProfileComplete(true);
       setProgressBar(percent.floor() == 99 ? 100 : percent.floor());
-      showMessage(res.message.toString());
+      showMessage(responseModel.message.toString());
       updateloder = false;
       setprofileInfo(imageLogo == null ? image : imageLogo);
       notifyListeners();
     } on Exception catch (e) {
       message = e.toString().replaceAll('Exception:', '');
-
       showMessage(message!);
       notifyListeners();
     }

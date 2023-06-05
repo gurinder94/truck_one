@@ -5,28 +5,16 @@ import 'package:provider/provider.dart';
 import '../../../AppUtils/constants.dart';
 import '../provider/choose_Source_Provider.dart';
 
-class DestinationAddress extends StatelessWidget {
-
+class DestinationsAddress extends StatelessWidget {
   AddTripProvider addTripProvider;
 
-  DestinationAddress( this.addTripProvider, {Key? key})
-      : super(key: key);
+  DestinationsAddress(this.addTripProvider, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: Consumer<ChooseSourceProvider>(builder: (_, proData, __) {
       print(proData.predictions.length);
-
-      // if (proData) {
-      //   return Center(
-      //     child: CircularProgressIndicator.adaptive(),
-      //   );
-      // }
-      // if (
-      //     proData.predictions.length == 0)
-      //   return Center(child: Text('No Record Found'));
-      // else
       return ListView.builder(
           itemCount: proData.predictions.length,
           padding: EdgeInsets.zero,
@@ -45,14 +33,22 @@ class DestinationAddress extends StatelessWidget {
                         proData.addressController.text =
                             proData.predictions[index].description!;
                         // proData.DestinationSearch(proData.addressController.text,context,addTripProvider);
-
+                        print(proData.addressController.text + "0000000");
                         addTripProvider.DestinationSearch(
                             proData.addressController.text,
                             context,
                             addTripProvider);
 
-                        addTripProvider.setAddressDestination(
-                            proData.predictions[index].description!);
+                        addTripProvider.setAddressesDestination({
+                          "location": {
+                            "coordinates": [
+                              addTripProvider.DestinationLatitude,
+                              addTripProvider.DestinationLongitude
+                            ]
+                          },
+                          "address":
+                          proData.addressController.text,
+                        });
                         Navigator.pop(navigatorKey.currentState!.context);
 
                         // debugPrint(proData.predictions[index].placeId);

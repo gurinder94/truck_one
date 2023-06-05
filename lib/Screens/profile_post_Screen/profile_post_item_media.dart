@@ -87,10 +87,10 @@ class _ProfilePostMediaPartState extends State<ProfilePostMediaPart> {
                         },
                         errorBuilder: (a, b, c) => Center(
                             child: Image.asset(
-                          'icons/defaultImage.jpg',
+                          'assets/default.png',
                           height: 300,
                           width: double.infinity,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                         )),
                       ))
                     : VideoView(_media.name!);

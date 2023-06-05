@@ -64,6 +64,8 @@ class TruckDetailModel {
     this.createdById,
     this.loadCapacity,
     this.vechicleType,
+    this.trailerVinNumber,
+    this.length,
     this.trailerType,
   });
 
@@ -88,6 +90,8 @@ class TruckDetailModel {
   String? createdById;
   int? loadCapacity;
   String? vechicleType;
+  var trailerVinNumber;
+  var length;
   dynamic trailerType;
 
   factory TruckDetailModel.fromJson(Map<String, dynamic> json) =>
@@ -115,6 +119,8 @@ class TruckDetailModel {
         createdById: json["createdById"],
         loadCapacity: json["loadCapacity"],
         vechicleType: json["vechicleType"],
+        trailerVinNumber: json["trailerVinNumber"],
+        length: json["length"],
         trailerType: json["trailerType"],
       );
 
@@ -138,8 +144,10 @@ class TruckDetailModel {
         "wheelbase": wheelbase,
         "power": power,
         "isActive": isActive,
+        "length": length,
         "isDeleted": isDeleted,
         "createdById": createdById,
+        "trailerVinNumber": trailerVinNumber,
         "loadCapacity": loadCapacity,
         "vechicleType": vechicleType,
         "trailerType": trailerType,

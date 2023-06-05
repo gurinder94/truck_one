@@ -32,7 +32,7 @@ class EventModel extends ChangeNotifier {
   String? eventTime = "timer";
   String? brandLogo;
   var page;
-  int? eventFee;
+  var eventFee;
   var days, seconds, hour, min;
   bool eventListLoad = false;
   bool? isBooked;
@@ -138,8 +138,7 @@ class EventModel extends ChangeNotifier {
       eventTime = getTimeDifference(startDate!, now);
     else if (endDate!.compareTo(now) > 0)
       eventTime = 'On-going';
-    else if (endDate!.compareTo(now) < 0)
-      eventTime = 'EXPIRED';
+    else if (endDate!.compareTo(now) < 0) eventTime = 'EXPIRED';
     Timer _timer = new Timer.periodic(Duration(seconds: 1), (Timer timer) {
       notifyListeners();
     });

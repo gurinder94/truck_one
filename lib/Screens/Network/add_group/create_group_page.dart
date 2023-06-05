@@ -26,8 +26,7 @@ class CreateUpdateGroup extends StatefulWidget {
 class _CreateUpdateGroupState extends State<CreateUpdateGroup> {
   final ImagePicker _picker = ImagePicker();
   bool uploadFile = false;
-  String profileImage = '',
-      coverImage= '';
+  String profileImage = '', coverImage = '';
   late CreateGroupProvider _provider;
   var title = TextEditingController();
   var description = TextEditingController();
@@ -38,16 +37,16 @@ class _CreateUpdateGroupState extends State<CreateUpdateGroup> {
     _provider.setContext(context);
 
     return CustomAppBarWidget(
-        title: AppLocalizations.instance.text('Create Group'),
-        leading: GestureDetector(
+      title: AppLocalizations.instance.text('Create Group'),
+      leading: GestureDetector(
         child: Icon(Icons.arrow_back),
-    onTap: () {
-    Navigator.pop(context);
-    },
-    ),
-    floatingActionWidget: SizedBox(),
-    actions: SizedBox(),
-    child: SingleChildScrollView(
+        onTap: () {
+          Navigator.pop(context);
+        },
+      ),
+      floatingActionWidget: SizedBox(),
+      actions: SizedBox(),
+      child: SingleChildScrollView(
         child: Column(
           children: [
             // Container(
@@ -235,115 +234,105 @@ class _CreateUpdateGroupState extends State<CreateUpdateGroup> {
             //   ),
             // ),
 
-
-    Container(
-      width: double.infinity,
-      height: 320,
-      child: Stack(
-        clipBehavior: Clip.antiAlias,
-        children: [
-          Container(
-            height: 270,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                image: coverImage==''?DecorationImage(
-                    image: AssetImage('icons/defaultImage.jpg'),
-                    fit: BoxFit.cover):DecorationImage(
-                    image:  NetworkImage(
-
-
-                      Base_Url_group +
-                          coverImage,
-                    ),
-                    fit: BoxFit.cover)),
-
-
-          ),
-
-          Positioned(
-            bottom: 3,
-            left: 10,
-            child:
-
             Container(
-                        height: 100,
+              width: double.infinity,
+              height: 320,
+              child: Stack(
+                clipBehavior: Clip.antiAlias,
+                children: [
+                  Container(
+                    height: 270,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        image: coverImage == ''
+                            ? DecorationImage(
+                                image: AssetImage('assets/default.png'),
+                                fit: BoxFit.fill)
+                            : DecorationImage(
+                                image: NetworkImage(
+                                  Base_Url_group + coverImage,
+                                ),
+                                fit: BoxFit.cover)),
+                  ),
+                  Positioned(
+                    bottom: 3,
+                    left: 10,
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 10,
+                                offset: Offset(0, 5))
+                          ]),
+                      child: Image.network(
+                        profileImage == "" ? '' : Base_Url_group + profileImage,
                         width: 100,
-                        clipBehavior: Clip.antiAlias,
-                        decoration:  BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10,
-                                  offset: Offset(0, 5))
-                            ]),
-                        child: Image.network(
-                     profileImage== ""?'':    Base_Url_group +
-                              profileImage,
-                          width: 100,
-
-                          height: 100,
-                          fit: BoxFit.fill,
-                          loadingBuilder: (context, child, progress) {
-                            return progress == null
-                                ? child
-                                : CircularProgressIndicator.adaptive();
-                          },
-                          errorBuilder: (a, b, c) => Center(
-                              child: Text(
-                                'G',
-                                style: TextStyle(
-                                    color: Colors.black.withOpacity(.2),
-                                    fontSize: 80,
-                                    shadows: [
-                                      BoxShadow(
-                                          color: Colors.black12,
-                                          offset: Offset(0, 5),
-                                          blurRadius: 20)
-                                    ]),
-                              )),
-                        ),
+                        height: 100,
+                        fit: BoxFit.fill,
+                        loadingBuilder: (context, child, progress) {
+                          return progress == null
+                              ? child
+                              : CircularProgressIndicator.adaptive();
+                        },
+                        errorBuilder: (a, b, c) => Center(
+                            child: Text(
+                          'G',
+                          style: TextStyle(
+                              color: Colors.black.withOpacity(.2),
+                              fontSize: 80,
+                              shadows: [
+                                BoxShadow(
+                                    color: Colors.black12,
+                                    offset: Offset(0, 5),
+                                    blurRadius: 20)
+                              ]),
+                        )),
                       ),
-          ),
-                Positioned(
-                    bottom: 10,
-                    left: 95,
-
-                    child: GestureDetector(
-                      onTap: () {
-                        getImageForProfile();
-                      },
-                      child: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: const BoxDecoration(
-                              color: Colors.white, shape: BoxShape.circle),
-                          child: Icon(
-                            Icons.edit,
-                            size: 20,
-                            color: Colors.black,
-                          )),
-                    )),
-                Positioned(
-                    bottom: 80,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        getImageForCover();
-                      },
-                      child: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: const BoxDecoration(
-                              color: Colors.white, shape: BoxShape.circle),
-                          child: Icon(
-                            Icons.edit,
-                            size: 20,
-                            color: Colors.black,
-                          )),
-                    )),
-              ],
+                    ),
+                  ),
+                  Positioned(
+                      bottom: 10,
+                      left: 95,
+                      child: GestureDetector(
+                        onTap: () {
+                          getImageForProfile();
+                        },
+                        child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: const BoxDecoration(
+                                color: Colors.white, shape: BoxShape.circle),
+                            child: Icon(
+                              Icons.edit,
+                              size: 20,
+                              color: Colors.black,
+                            )),
+                      )),
+                  Positioned(
+                      bottom: 80,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          getImageForCover();
+                        },
+                        child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: const BoxDecoration(
+                                color: Colors.white, shape: BoxShape.circle),
+                            child: Icon(
+                              Icons.edit,
+                              size: 20,
+                              color: Colors.black,
+                            )),
+                      )),
+                ],
+              ),
             ),
-          ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -383,7 +372,8 @@ class _CreateUpdateGroupState extends State<CreateUpdateGroup> {
                         maxLength: 1500,
                         decoration: InputDecoration(
                             counterText: '',
-                            hintText: AppLocalizations.instance.text('Description'),
+                            hintText:
+                                AppLocalizations.instance.text('Description'),
                             border: InputBorder.none),
                       ),
                     ),
@@ -394,7 +384,6 @@ class _CreateUpdateGroupState extends State<CreateUpdateGroup> {
                   InputShape(
                     child: DropVisibility(),
                   ),
-
                   SizedBox(
                     height: 20,
                   ),
@@ -403,14 +392,14 @@ class _CreateUpdateGroupState extends State<CreateUpdateGroup> {
                       builder: (context, loder, child) {
                         return CommanButtonWidget(
                           title: AppLocalizations.instance.text('Create'),
-                          buttonColor:PrimaryColor ,
-                          titleColor:APP_BG ,
+                          buttonColor: PrimaryColor,
+                          titleColor: APP_BG,
                           onDoneFuction: () async {
                             if (title.text.toString().trim().isEmpty)
                               showMessage('Please enter group title');
                             else if (description.text.toString().trim().isEmpty)
                               showMessage('Please enter group description');
-                            else if(_provider.visibility==null)
+                            else if (_provider.visibility == null)
                               showMessage('Please select  visibility');
                             else {
                               var getid = await getUserId();
@@ -428,14 +417,11 @@ class _CreateUpdateGroupState extends State<CreateUpdateGroup> {
                           loder: loder,
                         );
                       }),
-
                 ],
               ),
             ),
-        ],
-      ),
-
-
+          ],
+        ),
       ),
     );
   }
@@ -463,7 +449,7 @@ class _CreateUpdateGroupState extends State<CreateUpdateGroup> {
       uploadFile = true;
     });
     try {
-      var postUri = Uri.parse(SERVER_URL+'/api/v1/event/uploads');
+      var postUri = Uri.parse(SERVER_URL + '/api/v1/event/uploads');
       var request = new http.MultipartRequest("POST", postUri);
       request.fields.addAll({"type": 'GROUPIMAGE'});
       request.files.add(http.MultipartFile(
@@ -501,5 +487,4 @@ class _CreateUpdateGroupState extends State<CreateUpdateGroup> {
       showMessage('Network Issue !!');
     }
   }
-
 }

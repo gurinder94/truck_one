@@ -59,6 +59,8 @@ class Data {
     this.createdById,
     this.loadCapacity,
     this.vechicleType,
+    this.length,
+    this.trailerVinNumber,
     this.trailerType,
   });
 
@@ -85,6 +87,8 @@ class Data {
   String ?createdById;
   int? loadCapacity;
   String ?vechicleType;
+  var trailerVinNumber;
+  var length;
   dynamic trailerType;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -110,6 +114,8 @@ class Data {
     isDeleted: json["isDeleted"],
     createdById: json["createdById"],
     loadCapacity: json["loadCapacity"],
+    trailerVinNumber: json["trailerVinNumber"],
+    length: json["length"],
     vechicleType: json["vechicleType"],
     trailerType: json["trailerType"],
   );
@@ -137,6 +143,8 @@ class Data {
     "isDeleted": isDeleted,
     "createdById": createdById,
     "loadCapacity": loadCapacity,
+    "length": length,
+    "trailerVinNumber": trailerVinNumber,
     "vechicleType": vechicleType,
     "trailerType": trailerType,
   };

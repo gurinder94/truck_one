@@ -52,7 +52,7 @@ class Datum {
   String? id;
 
   Destination? source;
-  Destination? destination;
+  List<Destination>? destination;
   DateTime? dateTime;
   String? routeFlag;
   Data? truckData;
@@ -61,7 +61,8 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["_id"],
         source: Destination.fromJson(json["source"]),
-        destination: Destination.fromJson(json["destination"]),
+        destination: List<Destination>.from(
+            json["destination"].map((x) => Destination.fromJson(x))),
         dateTime: json["date_Time"] == null
             ? null
             : DateTime.parse(json["date_Time"]),
@@ -73,7 +74,7 @@ class Datum {
   Map<String, dynamic> toJson() => {
         "_id": id,
         "source": source!.toJson(),
-        "destination": destination!.toJson(),
+        "destination": List<dynamic>.from(destination!.map((x) => x.toJson())),
         "date_Time": dateTime == null ? null : dateTime!.toIso8601String(),
         "routeFlag": routeFlag == null ? null : routeFlag,
         "truckData": truckData!.toJson(),

@@ -195,8 +195,7 @@ class UserEventDetail extends StatelessWidget {
                   Expanded(
                     flex: 10,
                     child: Text(
-                      _eventViewProvider.eventModel!.currency.toString() +
-                          _eventViewProvider.eventModel!.eventFee.toString(),
+                      "${_eventViewProvider.eventModel!.currency.toString()} ${_eventViewProvider.value.format(double.parse(_eventViewProvider.eventModel!.eventFee.toString()))}",
                     ),
                   ),
                 ],

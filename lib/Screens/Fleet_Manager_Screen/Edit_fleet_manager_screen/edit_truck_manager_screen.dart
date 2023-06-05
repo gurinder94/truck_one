@@ -29,7 +29,6 @@ class _EditTruckManagerState extends State<EditTruckManager> {
     _editTruckManagerProvider =
         Provider.of<EditTruckManagerProvider>(context, listen: false);
     _editTruckManagerProvider.getBrandList();
-    print(_editTruckManagerProvider.brandvalue.id.toString() + "000000");
   }
 
   @override
@@ -135,7 +134,7 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                           child: TextFormField(
                             onChanged: (val) {
                               if (noti.vin.text.length == 17) {
-                                noti.hitVehicleData();
+                                noti.hitVehicleData("truck");
                               }
                             },
                             controller: noti.vin,
@@ -448,7 +447,7 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                         SizedBox(
                           height: 20,
                         ),
-                        noti.tyre == "Others"
+                        noti.tyre == "Other"
                             ? Column(
                                 children: [
                                   InputTextField(
@@ -494,8 +493,7 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: AppLocalizations.instance
-                                  .text('Enter Your Wheelbase'),
+                              hintText: 'Enter Your Wheelbase',
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),

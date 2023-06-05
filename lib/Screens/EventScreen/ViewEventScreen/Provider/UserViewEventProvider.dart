@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Model/EventModel 2.dart';
@@ -13,7 +14,7 @@ class UserEventViewProvider extends ChangeNotifier {
   EventModel? _eventModel;
 
   EventModel? get eventModel => _eventModel;
-
+  final value = new NumberFormat("#,##0.00", "en_US");
   setMenuClick(int pos) {
     menuClick = pos;
     notifyListeners();

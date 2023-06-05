@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/AppUtils/data_items.dart';
 import 'package:my_truck_dot_one/Screens/BottomMenu/Provider/bottom_provider.dart';
-import 'package:my_truck_dot_one/Screens/ContactUsScreen/contact_us_Screen.dart';
 import 'package:my_truck_dot_one/Screens/DeactivateAccountScreen/Provider/Deactivate_provider.dart';
 import 'package:my_truck_dot_one/Screens/Ecommerce_Screen/e-commerce_category_Screen/Provider/category_provider.dart';
 import 'package:my_truck_dot_one/Screens/Ecommerce_Screen/e-commerce_category_Screen/home_page_ecommerce.dart';
@@ -11,21 +10,19 @@ import 'package:my_truck_dot_one/Screens/Ecommerce_Screen/wishlist_screen/Provid
 import 'package:my_truck_dot_one/Screens/Ecommerce_Screen/wishlist_screen/wishList_screen.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/EventListScreen/EventList.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/UserEventScreen/EventListScreen/Provider/UserEventTabBarProvider.dart';
-import 'package:my_truck_dot_one/Screens/Fleet_Manager_Screen/CompanyFleetManager/company_fleet_manager_screen.dart';
 import 'package:my_truck_dot_one/Screens/Fleet_Manager_Screen/Provider/fleet_manager_provider.dart';
+import 'package:my_truck_dot_one/Screens/Fleet_Manager_Screen/CompanyFleetManager/company_fleet_manager_screen.dart';
 import 'package:my_truck_dot_one/Screens/Fleet_Manager_Screen/view_fleet_Screen/Provider/View_fleet_Manger_Provider.dart';
 import 'package:my_truck_dot_one/Screens/MenuScreen/company_setting_screen.dart';
-import 'package:my_truck_dot_one/Screens/MenuScreen/myPlans/company_my_plans.dart';
-import 'package:my_truck_dot_one/Screens/MenuScreen/myPlans/my_plan_list_provider.dart';
-import 'package:my_truck_dot_one/Screens/Network/network_page/network_page.dart';
+import 'package:my_truck_dot_one/Screens/ContactUsScreen/contact_us_Screen.dart';
 import 'package:my_truck_dot_one/Screens/Network/network_page/network_provider.dart';
+import 'package:my_truck_dot_one/Screens/Network/network_page/network_page.dart';
 import 'package:my_truck_dot_one/Screens/Profile/Company/provider/ProfileProvider.dart';
 import 'package:my_truck_dot_one/Screens/ServiceScreen/Company/Provider/service_provider_list.dart';
 import 'package:my_truck_dot_one/Screens/ServiceScreen/Company/service_page.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:my_truck_dot_one/Screens/team_manage_Screen%20/company_team_manage/company_team_mange_component/team_manage_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../ChatScreen/chat_home_Page.dart';
 import '../ChatScreen/provider/chat_home_provider.dart';
 import '../ContactUsScreen/provider/contact_us_provider.dart';
@@ -78,10 +75,6 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
               height: 10,
             ),
             gridMenuList(context),
-            SizedBox(
-              height: 10,
-            ),
-            listOfOptions('My Plans', 'Company_menu_image/shopping.svg', 0),
             SizedBox(
               height: 10,
             ),
@@ -228,9 +221,6 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
                         create: (_) => ContactProvider(),
                         child: ContactPage())));
           }
-          if (i == 0) {
-            showPopUpMenu(context);
-          }
         },
       ),
     );
@@ -317,53 +307,5 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
       "App Version: ${AppversionName.toString()}",
       style: TextStyle(color: Colors.black54, fontSize: 14),
     );
-  }
-
-  void showPopUpMenu(BuildContext context) {
-    DialogUtils.showMySuccessful(context,
-        child: AlertDialog(
-          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
-          title: Column(
-            children: [
-              Text(
-                "Purchase",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 6,
-              ),
-              Text(
-                  "We would like you to enable in app purchase from your device setting."
-                  "\nGo to Settings>Screen Time > Content & Privacy Restriction > Enable."
-                  "Now click on iTunes & App Store Purchases > In-app Purchase> Allow.",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal)),
-            ],
-          ),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                splashColor: PrimaryColor,
-                highlightColor: Colors.white,
-                child: Text(
-                  "Ok",
-                  style: TextStyle(color: Colors.black, fontSize: 16),
-                ),
-                onTap: () async {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(
-                              create: (_) => MyPlanListProvider(),
-                              child: MyPlansScreen())));
-                },
-              ),
-            ),
-          ],
-        ));
   }
 }

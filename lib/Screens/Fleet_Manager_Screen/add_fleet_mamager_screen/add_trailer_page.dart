@@ -10,7 +10,6 @@ import 'package:my_truck_dot_one/Screens/commanWidget/comman_drop.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/custom_image_network.dart';
 import 'package:provider/provider.dart';
 
-
 class AddTrailerPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
@@ -22,8 +21,7 @@ class AddTrailerPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         toolbarHeight: 55,
-        title: Text( AppLocalizations.instance
-            .text("Add Trailer")),
+        title: Text(AppLocalizations.instance.text("Add Trailer")),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -50,12 +48,16 @@ class AddTrailerPage extends StatelessWidget {
                             Container(
                                 height: 200,
                                 width: double.infinity,
-                                child:noti.imageloder==true?Center(child: CircularProgressIndicator()): CustomImage(
-                                  image: noti.image == null ? "" : noti.image,
-                                  height: 200,
-                                  width: double.infinity,
-                                  boxFit: BoxFit.fill,
-                                )),
+                                child: noti.imageloder == true
+                                    ? Center(child: CircularProgressIndicator())
+                                    : CustomImage(
+                                        image: noti.image == null
+                                            ? ""
+                                            : noti.image,
+                                        height: 200,
+                                        width: double.infinity,
+                                        boxFit: BoxFit.fill,
+                                      )),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: GestureDetector(
@@ -93,8 +95,8 @@ class AddTrailerPage extends StatelessWidget {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText:AppLocalizations.instance
-                                  .text("Enter Your Nick Name") ,
+                              hintText: AppLocalizations.instance
+                                  .text("Enter Your Nick Name"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),
@@ -112,6 +114,95 @@ class AddTrailerPage extends StatelessWidget {
                         ),
                         InputTextField(
                           child: TextFormField(
+                            controller: noti.vin,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            textInputAction: TextInputAction.next,
+                            inputFormatters: <TextInputFormatter>[
+                              LengthLimitingTextInputFormatter(17),
+                            ],
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Enter Your VIN",
+                              hintStyle: TextStyle(fontSize: 17),
+                              contentPadding: EdgeInsets.all(10),
+                            ),
+                            onChanged: (val) {
+                              if (noti.vin.text.length == 17) {
+                                noti.hitVehicleData("trailer");
+                              }
+                            },
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return 'Please enter VIN';
+                              } else if (value.length < 17) {
+                                return 'Please Enter Your VIN';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        noti.length.text == null
+                            ? InputTextField(
+                                child: TextFormField(
+                                  controller: noti.length,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(6),
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter Your length",
+                                    hintStyle: TextStyle(fontSize: 17),
+                                    contentPadding: EdgeInsets.all(10),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.trim().isEmpty) {
+                                      return 'Please enter length';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                              )
+                            : InputTextField(
+                                child: TextFormField(
+                                  readOnly: true,
+                                  controller: noti.length,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(6),
+                                  ],
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Enter Your length",
+                                    hintStyle: TextStyle(fontSize: 17),
+                                    contentPadding: EdgeInsets.all(10),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.trim().isEmpty) {
+                                      return 'Please enter length';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                              ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        InputTextField(
+                          child: TextFormField(
                             controller: noti.weight,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -123,7 +214,7 @@ class AddTrailerPage extends StatelessWidget {
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: AppLocalizations.instance
-                                  .text("Enter Your Weight(lbs)") ,
+                                  .text("Enter Your Weight(lbs)"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),
@@ -151,8 +242,8 @@ class AddTrailerPage extends StatelessWidget {
                             ],
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText:AppLocalizations.instance
-                                  .text("Enter Your Height(in)") ,
+                              hintText: AppLocalizations.instance
+                                  .text("Enter Your Height(in)"),
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),
@@ -214,7 +305,7 @@ class AddTrailerPage extends StatelessWidget {
                             noti.setTrailerValue(newValue);
                           },
                           selectValue: noti.trailerName,
-                          title:AppLocalizations.instance
+                          title: AppLocalizations.instance
                               .text("Please Select Trailer Name"),
                           itemsList: trailerType.map<DropdownMenuItem<String>>(
                             (final String value) {
@@ -269,7 +360,7 @@ class AddTrailerPage extends StatelessWidget {
                                 noti.hitAddFleetManager("trailer");
                             }
                           },
-                          loder:  noti.loder,
+                          loder: noti.loder,
                         ),
                         SizedBox(
                           height: 10,

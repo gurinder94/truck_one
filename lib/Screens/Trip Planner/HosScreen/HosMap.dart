@@ -64,8 +64,6 @@ class HosMap extends StatelessWidget {
 
     print(model.menuClick);
     switch (model.menuClick) {
-
-
        case 0:
          return MetricComponent(data,index);
       case 1:

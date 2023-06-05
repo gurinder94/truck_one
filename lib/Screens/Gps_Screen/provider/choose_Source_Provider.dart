@@ -27,6 +27,7 @@ class ChooseSourceProvider extends ChangeNotifier {
   late StreamSubscription<Position> positionStream;
   var valueItemSelected = "Arrive By";
   TextEditingController addressController = TextEditingController(text: "");
+  TextEditingController addressNextController = TextEditingController(text: "");
 
   Future<void> autoCompleteSearch(String value) async {
     if (value.length != 0) {
