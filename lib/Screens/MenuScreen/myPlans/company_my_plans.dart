@@ -44,6 +44,37 @@ class _MyPlansScreenState extends State<MyPlansScreen> {
     super.dispose();
   }
 
+  popUpMenuOptions() {
+    return PopupMenuButton(onSelected: (value) {
+      // your logic
+      print("onSelected> ${value.toString()}");
+      _provider.onPopUpMenuClickAction(value.toString());
+    }, itemBuilder: (BuildContext bc) {
+      return const [
+        PopupMenuItem(
+          child: Text("E-Commerce"),
+          value: 'ECOMMERCE',
+        ),
+        PopupMenuItem(
+          child: Text("Event"),
+          value: 'EVENT',
+        ),
+        PopupMenuItem(
+          child: Text("Job"),
+          value: 'JOB',
+        ),
+        PopupMenuItem(
+          child: Text("Service"),
+          value: 'SERVICE',
+        ),
+        PopupMenuItem(
+          child: Text("Trip-Planner"),
+          value: 'TRIP_PLANNER',
+        ),
+      ];
+    });
+  }
+
   Widget build(BuildContext context) {
     return CustomAppBarWidget(
         leading: IconButton(
@@ -52,7 +83,7 @@ class _MyPlansScreenState extends State<MyPlansScreen> {
             },
             icon: Icon(Icons.arrow_back)),
         title: "Subscription Plan",
-        actions: SizedBox(),
+        actions: popUpMenuOptions(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
