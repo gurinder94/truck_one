@@ -347,11 +347,11 @@ class AddTripProvider extends ChangeNotifier {
           _polyline[polyID]!.copyWith(pointsParam: _routePoints);
     }
     storeTurns(model.routes![index].guidance!.instructions!);
+    print("$routePoints" + "bbbbbb");
     await setStartEndMarker(
-        routePoints[0], routePoints[routePoints.length - 1]);
+        routePoints[0], routePoints[1], routePoints[routePoints.length - 1]);
     moveCamera(_routePoints[0]);
     addWeatherMarker(_routePoints);
-
     notifyListeners();
   }
 
@@ -363,9 +363,10 @@ class AddTripProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> setStartEndMarker(LatLng start, LatLng end) async {
+  Future<void> setStartEndMarker(LatLng start, LatLng mid, LatLng end) async {
     final Uint8List startIcon =
         await getBytesFromAsset('assets/start_flag.png', 100);
+    final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
     final Uint8List endIcon =
         await getBytesFromAsset('assets/end_flag.png', 100);
     markers[MarkerId('start')] = Marker(
@@ -375,6 +376,15 @@ class AddTripProvider extends ChangeNotifier {
       position: start,
       anchor: Offset(.5, .5),
       infoWindow: InfoWindow(title: 'Start'),
+      onTap: () {},
+    );
+    markers[MarkerId('mid')] = Marker(
+      markerId: MarkerId('mid'),
+      flat: true,
+      icon: BitmapDescriptor.fromBytes(midIcon),
+      position: mid,
+      anchor: Offset(.5, .5),
+      infoWindow: InfoWindow(title: 'Mid'),
       onTap: () {},
     );
     markers[MarkerId('end')] = Marker(

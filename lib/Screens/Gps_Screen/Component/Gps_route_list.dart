@@ -86,12 +86,6 @@ late   AddTripProvider _provider;
                               _provider.openNavigation(index,context);
                             },
                             child: Text('Navigate')),
-                        // roleName.toUpperCase()=="DRIVER"?     TextButton(
-                        //     onPressed: () {
-                        //       _provider.openNavigation(index,context);
-                        //     }, child: Text('Navigate')):TextButton(
-                        //     onPressed: () {
-                        //       _provider.openNavigation(index,context);
 
                       ],
                     )

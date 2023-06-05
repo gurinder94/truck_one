@@ -75,12 +75,9 @@ class _GpsScreenState extends State<GpsScreen> {
                   color: APP_BG,
                   height: MediaQuery.of(context).size.height / 7,
                   child: SafeArea(
-                    minimum: EdgeInsets.all(10),
+                    minimum: EdgeInsets.all(15),
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 25,
-                        ),
                         Row(
                           children: [
                             GestureDetector(
@@ -89,6 +86,7 @@ class _GpsScreenState extends State<GpsScreen> {
                                 Navigator.pop(context);
                               },
                             ),
+                            SizedBox(width: 10,),
                             Expanded(
                               child: Container(
                                   width: MediaQuery.of(context).size.width / 1,
