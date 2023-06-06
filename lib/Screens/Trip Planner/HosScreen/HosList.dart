@@ -229,7 +229,7 @@ class _HosListState extends State<HosList> {
                 color: Colors.green
             ),
           ),
-          title:Text(widget.data.destination!.address.toString()),
+          title:Text(widget.data.destination![0].address.toString()),
           subtitle:
          Text(DateFormat('EEEE, d MMM, yyyy').format(datee!.add( Duration(days:noti.days.length-1, hours: 0))),
           ),

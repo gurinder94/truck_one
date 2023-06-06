@@ -16,19 +16,20 @@ import 'package:my_truck_dot_one/Model/constant_model.dart';
 import '../../../AppUtils/constants.dart';
 import '../../../Model/validate_receipt_ios_model.dart';
 
-var _monthlySubscriptionId = [
-  "ECOMMERCE_MONTHLY_BASIC",
-  "ECOMMERCE_MONTHLY_PREMIUM"
-];
-var _yearlySubscriptionId = [
-  "ECOMMERCE_YEARLY_BASIC",
-  "ECOMMERCE_YEARLY_PREMIUM"
-];
-List<String> kProductIds = _monthlySubscriptionId;
-
 class MyPlanListProvider extends ChangeNotifier {
   int menuClick = 0;
 
+  // static var selectedPlanType = "ECOMMERCE";
+
+  var _monthlySubscriptionId = [
+    "ECOMMERCE_MONTHLY_BASIC",
+    "ECOMMERCE_MONTHLY_PREMIUM"
+  ];
+  var _yearlySubscriptionId = [
+    "ECOMMERCE_YEARLY_BASIC",
+    "ECOMMERCE_YEARLY_PREMIUM"
+  ];
+  List<String> kProductIds = [];
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   StreamSubscription<List<PurchaseDetails>>? subscription;
   List<String> notFoundIds = <String>[];
@@ -247,6 +248,69 @@ class MyPlanListProvider extends ChangeNotifier {
     print(menuClick);
   }
 
+  onPopUpMenuClickAction(
+    String type,
+  ) {
+    _monthlySubscriptionId = [];
+    _yearlySubscriptionId = [];
+    switch (type) {
+      case "ECOMMERCE":
+        _monthlySubscriptionId = [
+          "ECOMMERCE_MONTHLY_BASIC",
+          "ECOMMERCE_MONTHLY_PREMIUM"
+        ];
+        _yearlySubscriptionId = [
+          "ECOMMERCE_YEARLY_BASIC",
+          "ECOMMERCE_YEARLY_PREMIUM"
+        ];
+        break;
+
+      case "EVENT":
+        _monthlySubscriptionId = [
+          "EVENT_MONTHLY_BASIC",
+          "EVENT_MONTHLY_PREMIUM"
+        ];
+        _yearlySubscriptionId = ["EVENT_YEARLY_BASIC", "EVENT_YEARLY_PREMIUM"];
+        break;
+      case "JOB":
+        _monthlySubscriptionId = ["JOB_MONTHLY_BASIC", "JOB_MONTHLY_PREMIUM"];
+        _yearlySubscriptionId = ["JOB_YEARLY_BASIC", "JOB_YEARLY_PREMIUM"];
+        break;
+      case "SERVICE":
+        _monthlySubscriptionId = [
+          "SERVICE_MONTHLY_BASIC",
+          "SERVICE_MONTHLY_PREMIUM"
+        ];
+        _yearlySubscriptionId = [
+          "SERVICE_YEARLY_BASIC",
+          "SERVICE_YEARLY_PREMIUM"
+        ];
+        break;
+      case "TRIP_PLANNER":
+        _monthlySubscriptionId = [
+          "TRIP_PLANNER_MONTHLY_BASIC",
+          "TRIP_PLANNER_MONTHLY_PREMIUM"
+        ];
+        _yearlySubscriptionId = [
+          "TRIP_PLANNER_YEARLY_BASIC",
+          "TRIP_PLANNER_YEARLY_PREMIUM"
+        ];
+        break;
+    }
+    print("onPopUpMenuClickAction  ${_monthlySubscriptionId.toSet()}");
+    print("onPopUpMenuClickAction  ${_yearlySubscriptionId.toSet()}");
+    if (menuClick == 0) {
+      kProductIds = _monthlySubscriptionId;
+      initStoreInfo();
+      notifyListeners();
+    } else {
+      kProductIds = _yearlySubscriptionId;
+      initStoreInfo();
+      notifyListeners();
+    }
+    print(menuClick);
+  }
+
   void showPendingUI() {
     purchasePending = true;
     notifyListeners();
@@ -296,6 +360,7 @@ class MyPlanListProvider extends ChangeNotifier {
     } on Exception catch (e) {
       print("requestPurchase   ${e}");
       if (e is PlatformException) {
+        print(e.code + "e.code");
         if (e.code == 'storekit_duplicate_product_object') {
           ProductDetailsResponse productDetailResponse =
               await _inAppPurchase.queryProductDetails(kProductIds.toSet());
@@ -308,6 +373,7 @@ class MyPlanListProvider extends ChangeNotifier {
                 await _inAppPurchase.completePurchase(_purchaseDetails);
               }
             }
+            print("object requestPurchase${purchases.length}");
           }
           var paymentWrapper = SKPaymentQueueWrapper();
           var transactions = await paymentWrapper.transactions();
@@ -351,9 +417,6 @@ class MyPlanListProvider extends ChangeNotifier {
       validateReceiptIosModel =
           await ValidateReceiptIosModel.fromJson(response);
       log("Receipts>> Length ${validateReceiptIosModel.latestReceiptInfo.length}");
-      // log("Receipts>> latest" + response['latest_receipt_info']);
-
-      // log("Receipts>>" + response['receipt']['in_app']);
       print(getid);
 
       responseModel = await hitSubscriptionPlanPayment({
@@ -369,12 +432,20 @@ class MyPlanListProvider extends ChangeNotifier {
       });
       inApp.addAll(validateReceiptIosModel.latestReceiptInfo);
       buyProductLoder = false;
+
       notifyListeners();
       purchasePending = false;
     } on Exception catch (e) {
       print(e);
     }
   }
+
+  void requestOfferCode(ProductDetails product)async{
+    InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
+    InAppPurchase.instance.getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+    iosPlatformAddition.presentCodeRedemptionSheet();
+  }
+
 }
 
 Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {

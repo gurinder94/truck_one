@@ -90,7 +90,7 @@ class RouteMarkerListProvider extends ChangeNotifier {
     _loading = true;
     notifyListeners();
     var url =
-        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}:${data.destination!.location!.coordinates![0]},${data.destination!.location!.coordinates![1]}/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=FAwecAoL8qcVNzRyX18RPYKkcfrGTvdB&routeType=eco&traffic=true&avoid=unpavedRoads&arriveAt=${DateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'").format(data.endDate!)}&travelMode=truck&vehicleEngineType=${"combustion"}&vehicleWeight=${data.grossWeight ~/ 2.2046}&vehicleWidth=${data.width ~/ 39.37}&vehicleHeight=${data.height ~/ 39.37}&vehicleCommercial=true";
+        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}:${data.destination![0].location!.coordinates![0]},${data.destination![0].location!.coordinates![1]}/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=FAwecAoL8qcVNzRyX18RPYKkcfrGTvdB&routeType=eco&traffic=true&avoid=unpavedRoads&arriveAt=${DateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'").format(data.endDate!)}&travelMode=truck&vehicleEngineType=${"combustion"}&vehicleWeight=${data.grossWeight ~/ 2.2046}&vehicleWidth=${data.width ~/ 39.37}&vehicleHeight=${data.height ~/ 39.37}&vehicleCommercial=true";
     var response = await http.get(Uri.parse(url));
     var jsonRes = json.decode(response.body);
     _model = RouteModel.fromJson(jsonRes);

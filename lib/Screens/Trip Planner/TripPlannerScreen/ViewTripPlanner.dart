@@ -99,23 +99,33 @@ class ViewTripPlanner extends StatelessWidget {
       case 0:
         return _listProvider.loading == true
             ? Center(child: CustomLoder())
-            : TripDetails();
+            : _listProvider.tripViewDetails!.data == null
+                ? null
+                : TripDetails();
       case 1:
         return _listProvider.loading == true
             ? Center(child: CustomLoder())
-            : DriverDetails();
+            : _listProvider.tripViewDetails!.data == null
+                ? null
+                : DriverDetails();
       case 2:
         return _listProvider.loading == true
             ? Center(child: CustomLoder())
-            : TruckDetails();
+            : _listProvider.tripViewDetails!.data == null
+                ? null
+                : TruckDetails();
       case 3:
         return _listProvider.loading == true
             ? Center(child: CustomLoder())
-            : TrailerDetails();
+            : _listProvider.tripViewDetails!.data == null
+                ? null
+                : TrailerDetails();
       case 4:
         return _listProvider.loading == true
             ? Center(child: CustomLoder())
-            : TeamDetails();
+            : _listProvider.tripViewDetails!.data == null
+                ? null
+                : TeamDetails();
     }
   }
 }

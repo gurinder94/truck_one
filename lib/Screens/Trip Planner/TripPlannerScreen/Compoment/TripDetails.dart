@@ -14,11 +14,11 @@ class TripDetails extends StatelessWidget {
 
   Widget build(BuildContext context) {
     Size = MediaQuery.of(context).size;
-
     _listProvider = context.watch<TripPlannerListProvider>();
     var formatter = new DateFormat('yyyy-MMM-dd');
     String dateToString =
         formatter.format(_listProvider.tripViewDetails!.data!.dateTime!);
+
     return Container(
       width: double.infinity,
       child: Column(
@@ -84,7 +84,7 @@ class TripDetails extends StatelessWidget {
                 Container(
                     width: Size.width * 0.40,
                     child: Text(
-                      _listProvider.tripViewDetails!.data!.destination!.address
+                      _listProvider.tripViewDetails!.data!.destination![0].address
                           .toString(),
                       style: TextStyle(fontSize: 12),
                     )),

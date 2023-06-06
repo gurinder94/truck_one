@@ -15,7 +15,7 @@ import 'package:my_truck_dot_one/Model/constant_model.dart';
 
 import '../../../AppUtils/constants.dart';
 import '../../../Model/validate_receipt_ios_model.dart';
-
+import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 var _GpsSubscriptionId = ["Gps_Plan_Monthly_6.99", "Gps_Plan_Yearly_69.99"];
 var _weatherSubscriptionId = ["Weather_Plan_Monthly_7.99"];
 List<String> kProductIds = _GpsSubscriptionId;
@@ -363,6 +363,12 @@ class PriceProvider extends ChangeNotifier {
     } on Exception catch (e) {
       print(e);
     }
+  }
+
+  void requestOfferCode(ProductDetails product)async{
+    InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
+    InAppPurchase.instance.getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+    iosPlatformAddition.presentCodeRedemptionSheet();
   }
 }
 

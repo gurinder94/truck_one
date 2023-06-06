@@ -3591,8 +3591,7 @@ Future hitSubscriptionPlanPayment(Map<String, dynamic> map) async {
 
 hitMyPlan(Map<String, dynamic> map) async {
   try {
-    var response =
-        await baseServicePost('/api/v1/subscriptionplan/myPlan', map);
+    var response = await baseServicePost('/api/v1/subscriptionplan/myPlan', map);
     if (response.statusCode == 200) {
       print('myPlan: ${response.body}');
       var parseData = json.decode(response.body);

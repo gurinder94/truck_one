@@ -68,14 +68,14 @@ class _PricingScreenState extends State<PricingScreen> {
                     pos: 0,
                     title: 'GPS',
                     onTabHit: (value) {
-                      // _provider.hitGetSubscriptionPlan("GPS");
+                       _provider.setMenuClick(0,context);
                     },
                   ),
                   PriceTabber(
                     pos: 1,
                     title: 'WEATHER',
                     onTabHit: (value) {
-                      // _provider.hitGetSubscriptionPlan("WEATHER");
+                      _provider.setMenuClick(1,context);
                     },
                   )
                 ],

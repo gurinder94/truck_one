@@ -34,7 +34,7 @@ class _ImperialHosState extends State<ImperialHos> {
 
   void initState() {
     sourceOrigin.text = data!.source!.address.toString();
-    destinationOrigin.text = data!.destination!.address.toString();
+    destinationOrigin.text = data!.destination![0].address.toString();
   }
 
   Widget build(BuildContext context) {

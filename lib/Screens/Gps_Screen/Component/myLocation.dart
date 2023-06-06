@@ -44,7 +44,7 @@ class MyLocation extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: 130,
+                  height: 100,
                 ),
                 Row(
                   children: [

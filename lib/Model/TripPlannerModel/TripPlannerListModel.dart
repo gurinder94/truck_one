@@ -85,7 +85,7 @@ class TripPlannerModel  extends ChangeNotifier{
   var alternateRoots;
   var grossWeight;
   Destination ?source;
-  Destination? destination;
+  List<Destination>? destination;
   bool ?hoursOfServices;
   String ?runningStatus;
   dynamic cancelReason;
@@ -111,7 +111,7 @@ class TripPlannerModel  extends ChangeNotifier{
     vehicleType: json["vehicleType"],
     alternateRoots: json["alternateRoots"],
     source: Destination.fromJson(json["source"]),
-    destination: Destination.fromJson(json["destination"]),
+    destination: List<Destination>.from(json["destination"].map((x) => Destination.fromJson(x))),
     hoursOfServices: json["hoursOfServices"],
     runningStatus: json["runningStatus"],
     cancelReason: json["cancelReason"],
@@ -138,7 +138,7 @@ class TripPlannerModel  extends ChangeNotifier{
     "vehicleType": vehicleType,
     "alternateRoots": alternateRoots,
     "source": source!.toJson(),
-    "destination": destination!.toJson(),
+    "destination": List<dynamic>.from(destination!.map((x) => x.toJson())),
     "hoursOfServices": hoursOfServices,
     "runningStatus": runningStatus,
     "cancelReason": cancelReason,

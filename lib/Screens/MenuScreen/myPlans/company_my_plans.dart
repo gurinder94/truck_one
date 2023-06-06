@@ -44,6 +44,37 @@ class _MyPlansScreenState extends State<MyPlansScreen> {
     super.dispose();
   }
 
+  popUpMenuOptions() {
+    return PopupMenuButton(onSelected: (value) {
+      // your logic
+      print("onSelected> ${value.toString()}");
+      _provider.onPopUpMenuClickAction(value.toString());
+    }, itemBuilder: (BuildContext bc) {
+      return const [
+        PopupMenuItem(
+          child: Text("E-Commerce"),
+          value: 'ECOMMERCE',
+        ),
+        PopupMenuItem(
+          child: Text("Event"),
+          value: 'EVENT',
+        ),
+        PopupMenuItem(
+          child: Text("Job"),
+          value: 'JOB',
+        ),
+        PopupMenuItem(
+          child: Text("Service"),
+          value: 'SERVICE',
+        ),
+        PopupMenuItem(
+          child: Text("Trip-Planner"),
+          value: 'TRIP_PLANNER',
+        ),
+      ];
+    });
+  }
+
   Widget build(BuildContext context) {
     return CustomAppBarWidget(
         leading: IconButton(
@@ -52,7 +83,7 @@ class _MyPlansScreenState extends State<MyPlansScreen> {
             },
             icon: Icon(Icons.arrow_back)),
         title: "Subscription Plan",
-        actions: SizedBox(),
+        actions: popUpMenuOptions(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -97,8 +128,8 @@ class _MyPlansScreenState extends State<MyPlansScreen> {
                   return Center(
                       child: Text(
                           "We would like you to enable in app purchase from your device setting."
-                          " Settings>Screen Time > Content & Privacy Restriction > Enable."
-                          "Now click on iTunes & App Store Purchases > In-app Purchase> Allow."));
+                              " Settings>Screen Time > Content & Privacy Restriction > Enable."
+                              "Now click on iTunes & App Store Purchases > In-app Purchase> Allow."));
                 else if (proData.products.isEmpty)
                   return Center(
                       child: Text(
@@ -106,93 +137,93 @@ class _MyPlansScreenState extends State<MyPlansScreen> {
                 else
                   purchases = Map<String, PurchaseDetails>.fromEntries(
                       proData.purchases.map((PurchaseDetails purchase) {
-                    print("874327hjfdhjjhhjfdshrr943929 ${purchase.productID}");
-                    if (purchase.pendingCompletePurchase) {
-                      InAppPurchase.instance.completePurchase(purchase);
-                    }
+                        print("874327hjfdhjjhhjfdshrr943929 ${purchase.productID}");
+                        if (purchase.pendingCompletePurchase) {
+                          InAppPurchase.instance.completePurchase(purchase);
+                        }
 
-                    return MapEntry<String, PurchaseDetails>(
-                        purchase.productID, purchase);
-                  }));
+                        return MapEntry<String, PurchaseDetails>(
+                            purchase.productID, purchase);
+                      }));
                 return SingleChildScrollView(
                   child: proData.purchasePending
                       ? Center(child: CircularProgressIndicator())
                       : Column(
-                          children: [
-                            Column(
-                              children: List.generate(proData.products.length,
-                                  (index) {
-                                final PurchaseDetails? previousPurchase =
-                                    purchases[proData.products[index].id];
-                                return MyPlanListItem(proData.products[index],
-                                    index, previousPurchase, proData, []);
-                              }),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(14.0),
-                              child: CommonRichText(
-                                richText1: "Subscription Info ",
-                                style1: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.4,
-                                    color: Colors.black,
-                                    fontSize: 14),
-                                richText2:
-                                    "Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto - renew is turned off at least 24 hours before the end of the current period.Account will be charged for renewal within 24 hours prior to the end of the current period, and identify the cost of the renewal.Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase. ",
-                                style2: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 12),
+                    children: [
+                      Column(
+                        children: List.generate(proData.products.length,
+                                (index) {
+                              final PurchaseDetails? previousPurchase =
+                              purchases[proData.products[index].id];
+                              return MyPlanListItem(proData.products[index],
+                                  index, previousPurchase, proData, []);
+                            }),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: CommonRichText(
+                          richText1: "Subscription Info ",
+                          style1: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              height: 1.4,
+                              color: Colors.black,
+                              fontSize: 14),
+                          richText2:
+                          "Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically renews unless auto - renew is turned off at least 24 hours before the end of the current period.Account will be charged for renewal within 24 hours prior to the end of the current period, and identify the cost of the renewal.Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase. ",
+                          style2: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChangeNotifierProvider(
+                                            create: (_) =>
+                                                PrivacyPolicyProvider(),
+                                            child: PrivacyPolicyPage(
+                                              type: "POLICY",
+                                            )))),
+                            child: Text(
+                              "Privacy Policy |",
+                              style: TextStyle(
+                                color: PrimaryColor,
+                                fontSize: 14,
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ChangeNotifierProvider(
-                                                  create: (_) =>
-                                                      PrivacyPolicyProvider(),
-                                                  child: PrivacyPolicyPage(
-                                                    type: "POLICY",
-                                                  )))),
-                                  child: Text(
-                                    "Privacy Policy |",
-                                    style: TextStyle(
-                                      color: PrimaryColor,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ChangeNotifierProvider(
-                                                  create: (_) =>
-                                                      PrivacyPolicyProvider(),
-                                                  child: PrivacyPolicyPage(
-                                                    type: "TERMSUSE",
-                                                  )))),
-                                  child: Text(
-                                    "Terms of Use",
-                                    style: TextStyle(
-                                      color: PrimaryColor,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChangeNotifierProvider(
+                                            create: (_) =>
+                                                PrivacyPolicyProvider(),
+                                            child: PrivacyPolicyPage(
+                                              type: "TERMSUSE",
+                                            )))),
+                            child: Text(
+                              "Terms of Use",
+                              style: TextStyle(
+                                color: PrimaryColor,
+                                fontSize: 14,
+                              ),
                             ),
-                            SizedBox(
-                              height: 30,
-                            )
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ],
+                  ),
                 );
                 // return ListView.builder(
                 //     itemCount: proData.products.length,

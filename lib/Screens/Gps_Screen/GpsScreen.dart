@@ -62,9 +62,7 @@ class _GpsScreenState extends State<GpsScreen> {
                 markers: Set<Marker>.of(noti.markers.values),
                 onMapCreated: (GoogleMapController controller) {
                   noti.controller.complete(controller);
-                  setState(() {
-
-                  });
+                  setState(() {});
                 },
                 initialCameraPosition: GpsScreen.intialPos,
               ),
@@ -76,100 +74,98 @@ class _GpsScreenState extends State<GpsScreen> {
                   height: MediaQuery.of(context).size.height / 7,
                   child: SafeArea(
                     minimum: EdgeInsets.all(15),
-                    child: Column(
+                    child: Row(
                       children: [
-                        Row(
-                          children: [
-                            GestureDetector(
-                              child: Icon(Icons.arrow_back),
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            SizedBox(width: 10,),
-                            Expanded(
-                              child: Container(
-                                  width: MediaQuery.of(context).size.width / 1,
-                                  height: 30,
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      itemCount: List.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return GestureDetector(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: [
-                                                  Text(List[index]),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  index == 3
-                                                      ? Tooltip(
-                                                          key: tooltipkey,
-                                                          message:
-                                                              'Hazmat stands for hazardous materialsand can include a wide range of substances such as explosives, flammable gases and liquids, poisons, radioactive materials, infectious substances, and other dangerous goods.',
-                                                          child:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              tooltipkey
-                                                                  .currentState
-                                                                  ?.ensureTooltipVisible();
-                                                            },
-                                                            child: Icon(Icons
-                                                                .info_rounded),
-                                                          ),
-                                                        )
-                                                      : SizedBox()
-                                                ],
+                        GestureDetector(
+                          child: Icon(Icons.arrow_back),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Container(
+                              width: MediaQuery.of(context).size.width / 1,
+                              height: 60,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: List.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return GestureDetector(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Text(List[index]),
+                                              SizedBox(
+                                                width: 10,
                                               ),
-                                            ),
-                                            onTap: () {
-                                              switch (index) {
-                                                case 0:
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              MyLocation()));
-                                                  break;
-                                                case 1:
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              AddTruckDetails()));
-                                                  break;
-                                                case 2:
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              AddTrailerDetail()));
-                                                  break;
+                                              index == 3
+                                                  ? Tooltip(
+                                                      key: tooltipkey,
+                                                      message:
+                                                          'Hazmat stands for hazardous materialsand can include a wide range of substances such as explosives, flammable gases and liquids, poisons, radioactive materials, infectious substances, and other dangerous goods.',
+                                                      child:
+                                                          GestureDetector(
+                                                        onTap: () {
+                                                          tooltipkey
+                                                              .currentState!
+                                                              .ensureTooltipVisible();
+                                                        },
+                                                        child: Icon(Icons
+                                                            .info_rounded),
+                                                      ),
+                                                    )
+                                                  : SizedBox()
+                                            ],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          switch (index) {
+                                            case 0:
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MyLocation()));
+                                              break;
+                                            case 1:
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AddTruckDetails()));
+                                              break;
+                                            case 2:
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AddTrailerDetail()));
+                                              break;
 
-                                                case 3:
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              AddHazmatLoad()));
-                                                  break;
-                                                case 4:
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              BasicTripDetail()));
-                                                  break;
-                                              }
-                                            });
-                                      })),
-                            ),
-                          ],
+                                            case 3:
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AddHazmatLoad()));
+                                              break;
+                                            case 4:
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          BasicTripDetail()));
+                                              break;
+                                          }
+                                        });
+                                  })),
                         ),
                       ],
                     ),

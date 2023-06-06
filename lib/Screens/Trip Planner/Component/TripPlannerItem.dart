@@ -36,7 +36,7 @@ class TripItem extends StatelessWidget {
                 padding: EdgeInsets.all(4.0),
                 width: Size.width * 0.25,
                 child:
-                Center(child: Text(data.destination!.address.toString())),
+                Center(child: Text(data.destination![0].address.toString())),
               ),
               Container(
                 padding: EdgeInsets.all(4.0),

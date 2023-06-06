@@ -29,7 +29,7 @@ class ValidateReceiptIosModel {
 
   factory ValidateReceiptIosModel.fromJson(Map<String, dynamic> json) =>
       ValidateReceiptIosModel(
-        environment: json["environment"],
+        environment: json["environment"]==null?"":json["environment"],
         receipt: Receipt.fromJson(json["receipt"]),
         latestReceiptInfo: List<LatestReceiptInfo>.from(
             json["latest_receipt_info"]

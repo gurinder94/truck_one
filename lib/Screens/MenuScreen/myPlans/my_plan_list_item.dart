@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
+
 // import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
-import 'package:my_truck_dot_one/Screens/PricingScreen/Provider/Pricing_provider.dart';
+import 'package:my_truck_dot_one/Screens/MenuScreen/myPlans/my_plan_list_provider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/comman_rich_text.dart';
 
 import '../../../AppUtils/constants.dart';
 import '../../commanWidget/commanButton.dart';
 
-class PricingItem extends StatelessWidget {
+class MyPlanListItem extends StatelessWidget {
   ProductDetails product;
   int index;
-  PriceProvider proData;
+  MyPlanListProvider proData;
   PurchaseDetails? previousPurchase;
   List<Group>? group;
 
-  PricingItem(
+  MyPlanListItem(
       this.product, this.index, this.previousPurchase, this.proData, this.group,
       {Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("00000000${product.title.contains("Yearly") ? "" : product.title}");
     return Padding(
       padding: const EdgeInsets.all(14.0),
       child: Container(
@@ -36,30 +38,22 @@ class PricingItem extends StatelessWidget {
                 ),
                 product.title.contains("Yearly")
                     ? Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Text(
-                    product.title.replaceAll('_', ' '),
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  ),
-                )
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          product.title.replaceAll('_', ' '),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      )
                     : Text(
-                  capitalize(product.title
-                      .replaceAll('_', ' ')
-                      .contains("Weather Plan Monthly")
-                      ? "Weather Monthly Plan"
-                      : product.title
-                      .replaceAll('_', ' ')
-                      .contains("GPS Plan Monthly")
-                      ? "GPS Monthly Plan"
-                      : product.title.replaceAll('_', ' ')),
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600),
-                ),
+                        capitalize(product.title),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      ),
                 SizedBox(
                   height: 15,
                 ),
@@ -115,13 +109,8 @@ class PricingItem extends StatelessWidget {
                               : "Purchased",
                           buttonColor: PrimaryColor,
                           titleColor: APP_BG,
-                          onDoneFuction: () {
-
-                            print(previousPurchase);
+                          onDoneFuction: ()  {
                             proData.requestPurchase(product);
-
-
-
                           },
                           loder: false,
                         ),
@@ -156,52 +145,52 @@ class PricingItem extends StatelessWidget {
                 top: 25,
                 child: product.title.contains("Yearly")
                     ? Transform(
-                  child: Container(
-                      width: 250,
-                      padding: EdgeInsets.all(10),
-                      child: Padding(
-                        padding:
-                        const EdgeInsets.only(left: 35, right: 35),
-                        child: new Text(
-                          "RECOMMENDED",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      color: Color(0xFFEDBC48)),
-                  alignment: FractionalOffset.center,
-                  transform: new Matrix4.identity()
-                    ..rotateZ(-25 * 4.1415927 / 180),
-                )
+                        child: Container(
+                            width: 250,
+                            padding: EdgeInsets.all(10),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 35, right: 35),
+                              child: new Text(
+                                "RECOMMENDED",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            color: Color(0xFFEDBC48)),
+                        alignment: FractionalOffset.center,
+                        transform: new Matrix4.identity()
+                          ..rotateZ(-25 * 4.1415927 / 180),
+                      )
                     : SizedBox())
           ],
         ),
         decoration: product.title.contains("Yearly")
             ? BoxDecoration(
-            color: Color(0xFFEEEEEE),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: [
-              BoxShadow(
-                  color: Color(0xFFEDBC48),
-                  blurRadius: 1,
-                  offset: Offset(-2, -2)),
-              BoxShadow(
-                  color: Color(0xFFEDBC48),
-                  blurRadius: 1,
-                  offset: Offset(2, 2)),
-            ])
+                color: Color(0xFFEEEEEE),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                    BoxShadow(
+                        color: Color(0xFFEDBC48),
+                        blurRadius: 1,
+                        offset: Offset(-2, -2)),
+                    BoxShadow(
+                        color: Color(0xFFEDBC48),
+                        blurRadius: 1,
+                        offset: Offset(2, 2)),
+                  ])
             : BoxDecoration(
-            color: Color(0xFFEEEEEE),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.white,
-                  blurRadius: 5,
-                  offset: Offset(-5, -5)),
-              BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 1,
-                  offset: Offset(5, 5)),
-            ]),
+                color: Color(0xFFEEEEEE),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                    BoxShadow(
+                        color: Colors.white,
+                        blurRadius: 5,
+                        offset: Offset(-5, -5)),
+                    BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 1,
+                        offset: Offset(5, 5)),
+                  ]),
       ),
     );
   }
@@ -214,51 +203,51 @@ class PricingItem extends StatelessWidget {
         children: [
           Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '$name',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    '$value',
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                ],
-              )),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '$name',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Text(
+                '$value',
+                style: TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            ],
+          )),
           SizedBox(
             width: 20,
           ),
           Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '$name2',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    '$value2',
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                ],
-              )),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '$name2',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Text(
+                '$value2',
+                style: TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            ],
+          )),
         ],
       ),
     );

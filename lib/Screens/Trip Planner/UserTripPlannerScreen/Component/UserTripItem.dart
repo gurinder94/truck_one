@@ -225,7 +225,7 @@ class DriverTripItem extends StatelessWidget {
                   width: 20,
                 ),
                 Expanded(
-                  child: Text(data.destination!.address.toString(),
+                  child: Text(data.destination![0].address.toString(),
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 )
               ],

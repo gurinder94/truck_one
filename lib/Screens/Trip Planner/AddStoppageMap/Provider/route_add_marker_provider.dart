@@ -67,11 +67,11 @@ class RouteMarkerProvider extends ChangeNotifier {
     _loading = true;
     notifyListeners();
     var url =
-        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}:${data.destination!.location!.coordinates![0]},${data.destination!.location!.coordinates![1]}/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=zc9hdsTH7XOx170MeAyMSWU0MBXLGhrH&routeType=eco&avoid=unpavedRoads&travelMode=truck&vehicleWeight=${data.weight}&vehicleWidth=${data.width}&vehicleHeight=${data.height}&vehicleCommercial=true";
+        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}:${data.destination![0].location!.coordinates![0]},${data.destination![0].location!.coordinates![1]}/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=zc9hdsTH7XOx170MeAyMSWU0MBXLGhrH&routeType=eco&avoid=unpavedRoads&travelMode=truck&vehicleWeight=${data.weight}&vehicleWidth=${data.width}&vehicleHeight=${data.height}&vehicleCommercial=true";
     var response = await http.get(Uri.parse(url));
     var jsonRes = json.decode(response.body);
     if (jsonRes["error"] != null) {
-      print(jsonRes);
+      print(jsonRes+"hruighfughuh");
 
       showMessage(jsonRes["error"]);
     } else {

@@ -33,7 +33,7 @@ class _MetricComponentState extends State<MetricComponent> {
   void initState() {
     provider = Provider.of<RouteMarkerProvider>(context, listen: false);
     sourceOrigin.text = data!.source!.address.toString();
-    destinationOrigin.text = data!.destination!.address.toString();
+    destinationOrigin.text = data!.destination![0].address.toString();
   }
 
   Widget build(BuildContext context) {

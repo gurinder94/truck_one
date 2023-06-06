@@ -44,7 +44,7 @@ class Data {
   TruckData? truckData;
   DriverData? driverData;
   Destination? source;
-  Destination? destination;
+  List<Destination>? destination;
   TrailerDataClass? trailerData;
   AnotherDriver? anotherDriverData;
   List<dynamic>? stoppage;
@@ -89,7 +89,7 @@ class Data {
         truckData: TruckData.fromJson(json["truckData"]),
         driverData: DriverData.fromJson(json["driverData"]),
         source: Destination.fromJson(json["source"]),
-        destination: Destination.fromJson(json["destination"]),
+        destination: List<Destination>.from(json["destination"].map((x) => Destination.fromJson(x))),
         trailerData: json["trailerData"] == null
             ? null
             : TrailerDataClass.fromJson(json["trailerData"]),
@@ -116,7 +116,7 @@ class Data {
         "truckData": truckData!.toJson(),
         "driverData": driverData!.toJson(),
         "source": source!.toJson(),
-        "destination": destination!.toJson(),
+        "destination": List<dynamic>.from(destination!.map((x) => x)),
         "anotherDriverData": anotherDriverData!.toJson(),
         "trailerData": trailerData!.toJson(),
         "stoppage": List<dynamic>.from(stoppage!.map((x) => x)),
