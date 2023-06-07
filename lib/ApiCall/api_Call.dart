@@ -3575,7 +3575,7 @@ Future hitSubscriptionPlanPayment(Map<String, dynamic> map) async {
     log("hitSubscriptionPlanPayment>> $map");
     var response =
         await baseServicePost('/api/mobile/subscriptionplan/payment', map);
-    print("0000000000000000000000${response.body}");
+    print("0000000000000000000000 ${response.body}");
     if (response.statusCode == 200) {
       print('sub: ${response.body}');
       var parseData = json.decode(response.body);

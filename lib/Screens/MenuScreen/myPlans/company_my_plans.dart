@@ -20,10 +20,10 @@ class MyPlansScreen extends StatefulWidget {
 }
 
 class _MyPlansScreenState extends State<MyPlansScreen> {
-  @override
+  // @override
   int pageChanged = 0;
   late MyPlanListProvider _provider;
-  int count = 1;
+  // int count = 1;
 
   Map<String, PurchaseDetails> purchases = {};
 

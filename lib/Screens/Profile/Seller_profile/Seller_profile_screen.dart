@@ -245,12 +245,12 @@ class SellerProfile extends StatelessWidget {
                                           children: [
                                             Text(
                                               !value.obscureText
-                                                  ? _sellerProfileProvider
-                                                  .sellerProfileModel
-                                                  .data!
-                                                  .sellerData!
-                                                  .ssnNumber!.replaceAll(
-                                                      RegExp(r'\d'), '*')
+                                                  ? value.convertToAsterisks(
+                                                      _sellerProfileProvider
+                                                          .sellerProfileModel
+                                                          .data!
+                                                          .sellerData!
+                                                          .ssnNumber!)
                                                   : _sellerProfileProvider
                                                       .sellerProfileModel
                                                       .data!

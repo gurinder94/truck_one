@@ -348,7 +348,7 @@ class MyPlanListProvider extends ChangeNotifier {
     // transactions.forEach((skPaymentTransactionWrapper) {
     //   SKPaymentQueueWrapper().finishTransaction(skPaymentTransactionWrapper);
     // });
-    print("requestPurchase  dff");
+    print("requestPurchase  dff ${product.id }");
     late PurchaseParam purchaseParam;
     try {
       purchaseParam =
@@ -418,7 +418,7 @@ class MyPlanListProvider extends ChangeNotifier {
           await ValidateReceiptIosModel.fromJson(response);
       log("Receipts>> Length ${validateReceiptIosModel.latestReceiptInfo.length}");
       print(getid);
-
+      log("Receipts>> validateReceiptIosModel ${jsonEncode(validateReceiptIosModel.latestReceiptInfo)}");
       responseModel = await hitSubscriptionPlanPayment({
         "userId": getid,
         "paymentData":
@@ -440,12 +440,12 @@ class MyPlanListProvider extends ChangeNotifier {
     }
   }
 
-  void requestOfferCode(ProductDetails product)async{
-    InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
-    InAppPurchase.instance.getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+  void requestOfferCode(ProductDetails product) async {
+    InAppPurchaseStoreKitPlatformAddition iosPlatformAddition = InAppPurchase
+        .instance
+        .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
     iosPlatformAddition.presentCodeRedemptionSheet();
   }
-
 }
 
 Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {

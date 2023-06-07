@@ -70,7 +70,7 @@ class SellerManageTeam {
   String ?personName;
   dynamic driverImage;
   List<Skill>? skills;
-  int ?experience;
+  var experience;
   dynamic city;
   bool? isDeleted;
   bool ?isActive;

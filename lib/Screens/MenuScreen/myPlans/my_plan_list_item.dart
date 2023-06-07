@@ -109,7 +109,7 @@ class MyPlanListItem extends StatelessWidget {
                               : "Purchased",
                           buttonColor: PrimaryColor,
                           titleColor: APP_BG,
-                          onDoneFuction: ()  {
+                          onDoneFuction: () {
                             proData.requestPurchase(product);
                           },
                           loder: false,
@@ -117,20 +117,17 @@ class MyPlanListItem extends StatelessWidget {
                       ),
                       AbsorbPointer(
                         absorbing: previousPurchase != null,
-                        child: CommanButton(
-                          title: previousPurchase == null
-                              ? "Redeem code"
-                              : "",
-                          buttonColor: PrimaryColor,
-                          titleColor: APP_BG,
-                          onDoneFuction: () {
-
-                            proData.requestOfferCode(product);
-
-
-                          },
-                          loder: false,
-                        ),
+                        child: previousPurchase == null
+                            ? CommanButton(
+                                title: "Redeem code",
+                                buttonColor: PrimaryColor,
+                                titleColor: APP_BG,
+                                onDoneFuction: () {
+                                  proData.requestOfferCode(product);
+                                },
+                                loder: false,
+                              )
+                            : SizedBox(),
                       ),
                     ],
                   ),

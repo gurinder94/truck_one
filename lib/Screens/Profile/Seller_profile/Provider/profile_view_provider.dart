@@ -12,6 +12,10 @@ class SellerProfileProvider extends ChangeNotifier {
 
   bool obscureText = false;
 
+  String convertToAsterisks(String value) {
+    return '*'.padLeft(value.length, '*');
+  }
+
   hitSellerProfile(BuildContext context) async {
     var getId = await getUserId();
     Map<String, String> map = {
