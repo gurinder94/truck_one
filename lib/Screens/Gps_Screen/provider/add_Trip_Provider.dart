@@ -378,7 +378,7 @@ class AddTripProvider extends ChangeNotifier {
       infoWindow: InfoWindow(title: 'Start'),
       onTap: () {},
     );
-    markers[MarkerId('mid')] = Marker(
+    /*markers[MarkerId('mid')] = Marker(
       markerId: MarkerId('mid'),
       flat: true,
       icon: BitmapDescriptor.fromBytes(midIcon),
@@ -386,7 +386,7 @@ class AddTripProvider extends ChangeNotifier {
       anchor: Offset(.5, .5),
       infoWindow: InfoWindow(title: 'Mid'),
       onTap: () {},
-    );
+    );*/
     markers[MarkerId('end')] = Marker(
       markerId: MarkerId('end'),
       flat: true,

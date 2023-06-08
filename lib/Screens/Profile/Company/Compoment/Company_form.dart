@@ -98,13 +98,6 @@ class _CompanyFormState extends State<CompanyForm> {
                   hintStyle: TextStyle(fontSize: 17),
                   contentPadding: EdgeInsets.all(10),
                 ),
-                validator: (value) {
-                  if (value!.trim().length == 0) {
-                    return 'Please enter middle name';
-                  } else {
-                    return null;
-                  }
-                },
               ),
             ),
             SizedBox(

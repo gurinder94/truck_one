@@ -340,9 +340,6 @@ class PriceProvider extends ChangeNotifier {
       log("deliverProduct>> res ${response}");
       validateReceiptIosModel = await ValidateReceiptIosModel.fromJson(response);
       log("Receipts>> Length ${validateReceiptIosModel.latestReceiptInfo.length}");
-      // log("Receipts>> latest" + response['latest_receipt_info']);
-
-      // log("Receipts>>" + response['receipt']['in_app']);
       print(getid);
 
       responseModel = await hitSubscriptionPlanPayment({
