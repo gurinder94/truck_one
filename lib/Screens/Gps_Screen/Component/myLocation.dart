@@ -167,15 +167,6 @@ class MyLocation extends StatelessWidget {
                             noti.notifyListeners();
                           },
                         ),
-                        // child: ListView.builder(
-                        //   shrinkWrap: true,
-                        //   padding: EdgeInsets.all(0),
-                        //   physics: RangeMaintainingScrollPhysics(),
-                        //   itemCount: noti.addAddressData.length,
-                        //   itemBuilder: (context, i) => Visibility(
-                        //       visible: noti.addAddressData.length > 0,
-                        //       child: locationItemView(noti: noti, context: context)),
-                        // ),
                       )
                     : Container(),
                 SizedBox(
@@ -204,9 +195,14 @@ class MyLocation extends StatelessWidget {
                             if (_addTripProvider.chooseSource.text == "") {
                               showMessage("Please choose start point");
                             } else {
+                              _addTripProvider.addAddressData
+                                  .forEach((element) {
+                                print("element>>> ${element}");
+                              });
                               Navigator.of(context).pop({
-                                _addTripProvider.chooseSource.text,
-                                _addTripProvider.addAddressData
+                                "start_point":
+                                    _addTripProvider.chooseSource.text,
+                                "location_list": _addTripProvider.addAddressData
                               });
                             }
                           }
@@ -230,20 +226,34 @@ class MyLocation extends StatelessWidget {
       required int i}) {
     return ListTile(
       key: Key('$i'),
+      trailing: GestureDetector(
+          onTap: () {
+            if (noti.addAddressData.length > 0) noti.addAddressData.removeAt(i);
+
+            noti.notifyListeners();
+          },
+          child: SizedBox(
+            height: 50,
+            width: 32,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+              alignment: Alignment.center,
+              child: Icon(Icons.clear),
+            ),
+          )),
       title: Column(
         children: [
           SizedBox(
-            height: 12,
+            height: 10,
           ),
           Row(
             children: [
               Icon(Icons.location_on, size: 30),
               SizedBox(
-                width: 10,
+                width: 8,
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 1.4,
-                height: 40,
+              Expanded(
                 child: InputShape(
                   child: IgnorePointer(
                     child: TextFormField(
@@ -251,19 +261,13 @@ class MyLocation extends StatelessWidget {
                         // enabled: false,
                         showCursor: false,
                         decoration: InputDecoration(
-                            labelText: noti.addAddressData[i]["address"],
-                            hintText: AppLocalizations.instance
-                                .text('Choose Destination'),
-                            border: InputBorder.none,
-                            prefixIcon: Icon(Icons.search),
-                            suffixIcon: GestureDetector(
-                                onTap: () {
-                                  if (noti.addAddressData.length > 0)
-                                    noti.addAddressData.removeAt(i);
-
-                                  noti.notifyListeners();
-                                },
-                                child: Icon(Icons.clear))),
+                          labelText: noti.addAddressData[i]["address"],
+                          hintText: AppLocalizations.instance
+                              .text('Choose Destination'),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(vertical: 8),
+                          prefixIcon: Icon(Icons.search),
+                        ),
                         onTap: () {}),
                   ),
                 ),
@@ -271,7 +275,7 @@ class MyLocation extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 12,
+            height: 10,
           ),
         ],
       ),
