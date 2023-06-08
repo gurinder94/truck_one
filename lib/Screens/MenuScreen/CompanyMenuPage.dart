@@ -253,8 +253,9 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ChangeNotifierProvider(
-                    create: (_) => NetworkProvider(), child: NetworkPage(0))));
+              builder: (context) => ChangeNotifierProvider(
+                  create: (_) => NetworkProvider(), child: NetworkPage(0)),
+            ));
         break;
       case 1:
         Navigator.push(
