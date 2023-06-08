@@ -2,20 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:my_truck_dot_one/Screens/Gps_Screen/Component/choose_destination_dart.dart';
 import 'package:my_truck_dot_one/Screens/Gps_Screen/provider/add_Trip_Provider.dart';
-import 'package:my_truck_dot_one/Screens/Gps_Screen/provider/choose_Source_Provider.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../AppUtils/constants.dart';
-import '../commanWidget/input_shape.dart';
 import 'Component/Add_Hazmat_load.dart';
 import 'Component/Add_Trailer_Detail.dart';
 import 'Component/Add_Truck_Detail.dart';
 import 'Component/Basic_Trip_detail.dart';
 import 'Component/Gps_route_list.dart';
-import 'Component/choose_source.dart';
 import 'Component/myLocation.dart';
 
 class GpsScreen extends StatefulWidget {
@@ -62,7 +58,7 @@ class _GpsScreenState extends State<GpsScreen> {
                 markers: Set<Marker>.of(noti.markers.values),
                 onMapCreated: (GoogleMapController controller) {
                   noti.controller.complete(controller);
-                  setState(() {});
+                  if (mounted) setState(() {});
                 },
                 initialCameraPosition: GpsScreen.intialPos,
               ),
@@ -97,8 +93,7 @@ class _GpsScreenState extends State<GpsScreen> {
                                       (BuildContext context, int index) {
                                     return GestureDetector(
                                         child: Padding(
-                                          padding:
-                                              const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Row(
                                             children: [
                                               Text(List[index]),
@@ -110,29 +105,29 @@ class _GpsScreenState extends State<GpsScreen> {
                                                       key: tooltipkey,
                                                       message:
                                                           'Hazmat stands for hazardous materialsand can include a wide range of substances such as explosives, flammable gases and liquids, poisons, radioactive materials, infectious substances, and other dangerous goods.',
-                                                      child:
-                                                          GestureDetector(
+                                                      child: GestureDetector(
                                                         onTap: () {
                                                           tooltipkey
                                                               .currentState!
                                                               .ensureTooltipVisible();
                                                         },
-                                                        child: Icon(Icons
-                                                            .info_rounded),
+                                                        child: Icon(
+                                                            Icons.info_rounded),
                                                       ),
                                                     )
                                                   : SizedBox()
                                             ],
                                           ),
                                         ),
-                                        onTap: () {
+                                        onTap: () async {
                                           switch (index) {
                                             case 0:
-                                              Navigator.push(
+                                              var data = await Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           MyLocation()));
+                                              print("data>>> ${data}");
                                               break;
                                             case 1:
                                               Navigator.push(
@@ -218,9 +213,6 @@ class BottomButton extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w800),
                               ),
-
-                              // Text(
-
                               Expanded(
                                   child: Text(noti.chooseSource.text,
                                       style: TextStyle(
@@ -231,28 +223,6 @@ class BottomButton extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          /* Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                AppLocalizations.instance.text('Destination') +
-                                    " : ",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w800),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                  child: Text(noti.chooseDestination.text,
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500)))
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),*/
                           noti.addAddressData.length == 0
                               ? SizedBox()
                               : SizedBox(
@@ -267,39 +237,10 @@ class BottomButton extends StatelessWidget {
                                     itemCount: noti.addAddressData.length,
                                     itemBuilder:
                                         (BuildContext context, int index) =>
-                                            Column(
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              AppLocalizations.instance
-                                                      .text('Destination') +
-                                                  " : ",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w800),
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                  noti.addAddressData[index]
-                                                      ['address']!,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500)),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        )
-                                      ],
-                                    ),
+                                            listItemView(
+                                                noti: noti,
+                                                index: index,
+                                                context: context),
                                   ),
                                 ),
                           SizedBox(
@@ -319,10 +260,6 @@ class BottomButton extends StatelessWidget {
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    // Text(
-                                    //   noti.chooseDestination.text,
-                                    //   style: TextStyle(
-                                    //       fontSize: 14, fontWeight: FontWeight.w500),
                                     Expanded(
                                         child: Text(noti.hazmatName,
                                             style: TextStyle(
@@ -366,10 +303,6 @@ class BottomButton extends StatelessWidget {
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        // Text(
-                                        //   noti.chooseDestination.text,
-                                        //   style: TextStyle(
-                                        //       fontSize: 14, fontWeight: FontWeight.w500),
                                         Expanded(
                                             child: Text(
                                                 ": " +
@@ -387,64 +320,8 @@ class BottomButton extends StatelessWidget {
                           ),
                           noti.routeStart == true
                               ? CircularProgressIndicator()
-                              : GestureDetector(
-                                  child: Container(
-                                    alignment: Alignment.topRight,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3,
-                                    height: 30,
-                                    child: Center(
-                                      child: Text(
-                                        AppLocalizations.instance
-                                            .text('Direction'),
-                                        style: TextStyle(
-                                            fontSize: 18, color: Colors.white),
-                                      ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                        color: PrimaryColor,
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                  ),
-                                  onTap: () {
-                                    // DateTime tempDate = new DateFormat("H:mm").parse(noti.endTime.text.toString());
-                                    // var startTime =
-                                    //     DateFormat.Hm().format(tempDate);
-
-                                    var date = noti.startDate.text +
-                                        ' ' +
-                                        noti.endTime.text.toString();
-
-                                    final to12hours =
-                                        DateFormat('yyyy-MM-dd hh:mm aa')
-                                            .format(DateTime.now());
-                                    DateTime now =
-                                        DateFormat("yyyy-MM-dd hh:mm aa")
-                                            .parse(to12hours);
-                                    DateTime now5 =
-                                        new DateFormat("yyyy-MM-dd hh:mm aa")
-                                            .parse(date.toString());
-
-                                    //
-                                    if (noti.chooseSource.text == "")
-                                      showMessage('Please select source ');
-                                    else if (noti.truckId.toString() == "null")
-                                      showMessage('Please add Truck');
-                                    else if (noti.trailerId.toString() ==
-                                        "null")
-                                      showMessage('Please add Trailer');
-                                    else if (noti.startDate.text == '' &&
-                                        noti.endTime.text == '' &&
-                                        noti.grossWeight.text == '')
-                                      showMessage("Please Basic Detail");
-                                    else if (now5.compareTo(now) == 0 ||
-                                        now5.compareTo(now) < 0)
-                                      showMessage("Please check Time");
-                                    else {
-                                      addTripProvider.hitTripCreate();
-                                    }
-                                  },
-                                ),
+                              : directionButtonView(
+                                  noti: noti, context: context),
                         ],
                       ),
                     ),
@@ -457,5 +334,83 @@ class BottomButton extends StatelessWidget {
       } else
         return SizedBox();
     });
+  }
+
+  Widget listItemView(
+      {required AddTripProvider noti,
+      required int index,
+      required BuildContext context}) {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              AppLocalizations.instance.text('Destination') + " : ",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Text(noti.addAddressData[index]['address'] ?? "",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+            )
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        )
+      ],
+    );
+  }
+
+  Widget directionButtonView(
+      {required AddTripProvider noti, required BuildContext context}) {
+    return GestureDetector(
+      child: Container(
+        alignment: Alignment.topRight,
+        width: MediaQuery.of(context).size.width / 3,
+        height: 30,
+        child: Center(
+          child: Text(
+            AppLocalizations.instance.text('Direction'),
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
+        ),
+        decoration: BoxDecoration(
+            color: PrimaryColor, borderRadius: BorderRadius.circular(30)),
+      ),
+      onTap: () {
+        // DateTime tempDate = new DateFormat("H:mm").parse(noti.endTime.text.toString());
+        // var startTime =
+        //     DateFormat.Hm().format(tempDate);
+
+        var date = noti.startDate.text + ' ' + noti.endTime.text.toString();
+
+        final to12hours =
+            DateFormat('yyyy-MM-dd hh:mm aa').format(DateTime.now());
+        DateTime now = DateFormat("yyyy-MM-dd hh:mm aa").parse(to12hours);
+        DateTime now5 =
+            new DateFormat("yyyy-MM-dd hh:mm aa").parse(date.toString());
+
+        //
+        if (noti.chooseSource.text == "")
+          showMessage('Please select source ');
+        else if (noti.truckId.toString() == "null")
+          showMessage('Please add Truck');
+        else if (noti.trailerId.toString() == "null")
+          showMessage('Please add Trailer');
+        else if (noti.startDate.text == '' &&
+            noti.endTime.text == '' &&
+            noti.grossWeight.text == '')
+          showMessage("Please Basic Detail");
+        else if (now5.compareTo(now) == 0 || now5.compareTo(now) < 0)
+          showMessage("Please check Time");
+        else {
+          addTripProvider.hitTripCreate();
+        }
+      },
+    );
   }
 }

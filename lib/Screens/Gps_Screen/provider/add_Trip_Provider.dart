@@ -1,16 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
-import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/error_message_Alert_box.dart';
 import 'package:provider/provider.dart';
+
 import '../../../ApiCall/api_Call.dart';
 import '../../../AppUtils/constants.dart';
 import '../../../Model/TripPlannerModel/RouteModel.dart';
@@ -215,7 +214,8 @@ class AddTripProvider extends ChangeNotifier {
 
     routeStart = true;
     notifyListeners();
-    print(map);
+    print("hitTripCreate>  $map");
+
     try {
       responseModel = await hitTripCreateApi(map);
       getMarkerRouteList("${startDate.text}T${p}:20.000Z");
@@ -363,7 +363,7 @@ class AddTripProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> setStartEndMarker(LatLng start,  LatLng end) async {
+  Future<void> setStartEndMarker(LatLng start, LatLng end) async {
     final Uint8List startIcon =
         await getBytesFromAsset('assets/start_flag.png', 100);
     final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);

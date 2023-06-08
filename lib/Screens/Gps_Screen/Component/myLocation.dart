@@ -128,157 +128,50 @@ class MyLocation extends StatelessWidget {
                 SizedBox(
                   height: 15,
                 ),
-                /*     Row(
-                  children: [
-                    Icon(Icons.location_on, size: 30),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.4,
-                      height: 40,
-                      child: InputShape(
-                        child: TextFormField(
-                            readOnly: true,
-                            controller: _addTripProvider.chooseDestination,
-                            decoration: InputDecoration(
-                              hintText: AppLocalizations.instance
-                                  .text('Choose  Destination'),
-                              border: InputBorder.none,
-                              prefixIcon: Icon(Icons.search),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ChangeNotifierProvider(
-                                              create: (_) =>
-                                                  ChooseSourceProvider(),
-                                              child: ChooseDestination(
-                                                  _addTripProvider
-                                                      .chooseDestination,
-                                                  _addTripProvider))));
-                            }),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    noti.addAddressData.length > 0
-                        ? SizedBox()
-                        : Container(
-                            padding: EdgeInsets.all(7),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.white,
-                                      blurRadius: 5,
-                                      offset: Offset(5, 5)),
-                                  BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 1,
-                                      offset: Offset(-1, -1)),
-                                ]),
-                            child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ChangeNotifierProvider(
-                                                  create: (_) =>
-                                                      ChooseSourceProvider(),
-                                                  child: ChooseNextDestination(
-                                                      _addTripProvider
-                                                          .choose1Destination,
-                                                      _addTripProvider))));
-                                },
-                                child: Icon(Icons.add)))
-                  ],
-                ),*/
-                ListView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(0),
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: noti.addAddressData.length,
-                  itemBuilder: (context, i) => Visibility(
-                      visible: noti.addAddressData.length > 0,
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.location_on, size: 30),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width / 1.4,
-                                height: 40,
-                                child: InputShape(
-                                  child: TextFormField(
-                                      readOnly: true,
-                                      decoration: InputDecoration(
-                                          labelText: noti.addAddressData[i]["address"],
-                                          hintText: AppLocalizations.instance
-                                              .text('Choose Destination'),
-                                          border: InputBorder.none,
-                                          prefixIcon: Icon(Icons.search),
-                                          suffixIcon: GestureDetector(
-                                              onTap: () {
-                                                if (noti.addAddressData.length >
-                                                    0)
-                                                  noti.addAddressData
-                                                      .removeAt(i);
+                noti.addAddressData != null && noti.addAddressData.length > 0
+                    ? Expanded(
+                        child: ReorderableListView(
+                          children: List<Widget>.generate(
+                              noti.addAddressData.length,
+                              (index) => locationItemView(
+                                  noti: noti,
+                                  item: noti.addAddressData[index],
+                                  context: context,
+                                  i: index)).toList(),
+                          onReorder: (int start, int current) {
+                            // dragging from top to bottom
+                            if (start < current) {
+                              int end = current - 1;
+                              Map<String, dynamic> startItem =
+                                  noti.addAddressData[start];
+                              int i = 0;
+                              int local = start;
+                              do {
+                                noti.addAddressData[local] =
+                                    noti.addAddressData[++local];
+                                i++;
+                              } while (i < end - start);
+                              noti.addAddressData[end] = startItem;
+                            }
+                            // dragging from bottom to top
+                            else if (start > current) {
+                              Map<String, dynamic> startItem =
+                                  noti.addAddressData[start];
+                              for (int i = start; i > current; i--) {
+                                noti.addAddressData[i] =
+                                    noti.addAddressData[i - 1];
+                              }
+                              noti.addAddressData[current] = startItem;
+                            }
 
-                                                noti.notifyListeners();
-                                              },
-                                              child: Icon(Icons.clear))),
-                                      onTap: () {}),
-                                ),
-                              ),
-                              /*  SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                  padding: EdgeInsets.all(7),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.white,
-                                            blurRadius: 5,
-                                            offset: Offset(5, 5)),
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            blurRadius: 1,
-                                            offset: Offset(-1, -1)),
-                                      ]),
-                                  child: InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ChangeNotifierProvider(
-                                                        create: (_) =>
-                                                            ChooseSourceProvider(),
-                                                        child: ChooseNextDestination(
-                                                            _addTripProvider
-                                                                .choose1Destination,
-                                                            _addTripProvider))));
-                                      },
-                                      child: Icon(Icons.add)))*/
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                        ],
-                      )),
+                            noti.notifyListeners();
+                          },
+                        ),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 12,
                 ),
-                Spacer(),
                 noti.routeStart == true
                     ? CircularProgressIndicator()
                     : GestureDetector(
@@ -302,9 +195,14 @@ class MyLocation extends StatelessWidget {
                             if (_addTripProvider.chooseSource.text == "") {
                               showMessage("Please choose start point");
                             } else {
+                              _addTripProvider.addAddressData
+                                  .forEach((element) {
+                                print("element>>> ${element}");
+                              });
                               Navigator.of(context).pop({
-                                _addTripProvider.chooseSource.text,
-                                _addTripProvider.addAddressData
+                                "start_point":
+                                    _addTripProvider.chooseSource.text,
+                                "location_list": _addTripProvider.addAddressData
                               });
                             }
                           }
@@ -317,6 +215,69 @@ class MyLocation extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  locationItemView(
+      {required AddTripProvider noti,
+      required BuildContext context,
+      required item,
+      required int i}) {
+    return ListTile(
+      key: Key('$i'),
+      trailing: GestureDetector(
+          onTap: () {
+            if (noti.addAddressData.length > 0) noti.addAddressData.removeAt(i);
+
+            noti.notifyListeners();
+          },
+          child: SizedBox(
+            height: 50,
+            width: 32,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+              alignment: Alignment.center,
+              child: Icon(Icons.clear),
+            ),
+          )),
+      title: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Icon(Icons.location_on, size: 30),
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: InputShape(
+                  child: IgnorePointer(
+                    child: TextFormField(
+                        readOnly: true,
+                        // enabled: false,
+                        showCursor: false,
+                        decoration: InputDecoration(
+                          labelText: noti.addAddressData[i]["address"],
+                          hintText: AppLocalizations.instance
+                              .text('Choose Destination'),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(vertical: 8),
+                          prefixIcon: Icon(Icons.search),
+                        ),
+                        onTap: () {}),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
       ),
     );
   }
