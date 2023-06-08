@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 // import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
@@ -118,7 +117,9 @@ class PricingItem extends StatelessWidget {
                           titleColor: APP_BG,
                           onDoneFuction: () {
                             print(previousPurchase);
+
                             proData.requestPurchase(product);
+                            // previousPurchase.verificationData.localVerificationData
                           },
                           loder: false,
                         ),
