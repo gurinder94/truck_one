@@ -216,21 +216,18 @@ class AddTripProvider extends ChangeNotifier {
     notifyListeners();
     print("hitTripCreate>  $map");
 
-    routeStart = false;
+    try {
+      responseModel = await hitTripCreateApi(map);
+      getMarkerRouteList("${startDate.text}T${p}:20.000Z");
+      notifyListeners();
+    } on Exception catch (e) {
+      showMessage(e.toString());
+      print(e.toString());
 
-    notifyListeners();
-    // try {
-    //   responseModel = await hitTripCreateApi(map);
-    //   getMarkerRouteList("${startDate.text}T${p}:20.000Z");
-    //   notifyListeners();
-    // } on Exception catch (e) {
-    //   showMessage(e.toString());
-    //   print(e.toString());
+      routeStart = false;
 
-    //   routeStart = false;
-
-    //   notifyListeners();
-    // }
+      notifyListeners();
+    }
   }
 
   void setHazmatLoad(String loadType, String typeName, String index) {
