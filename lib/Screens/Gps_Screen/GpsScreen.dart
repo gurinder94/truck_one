@@ -62,7 +62,7 @@ class _GpsScreenState extends State<GpsScreen> {
                 markers: Set<Marker>.of(noti.markers.values),
                 onMapCreated: (GoogleMapController controller) {
                   noti.controller.complete(controller);
-                  setState(() {});
+                  if (mounted) setState(() {});
                 },
                 initialCameraPosition: GpsScreen.intialPos,
               ),
@@ -97,8 +97,7 @@ class _GpsScreenState extends State<GpsScreen> {
                                       (BuildContext context, int index) {
                                     return GestureDetector(
                                         child: Padding(
-                                          padding:
-                                              const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Row(
                                             children: [
                                               Text(List[index]),
@@ -110,15 +109,14 @@ class _GpsScreenState extends State<GpsScreen> {
                                                       key: tooltipkey,
                                                       message:
                                                           'Hazmat stands for hazardous materialsand can include a wide range of substances such as explosives, flammable gases and liquids, poisons, radioactive materials, infectious substances, and other dangerous goods.',
-                                                      child:
-                                                          GestureDetector(
+                                                      child: GestureDetector(
                                                         onTap: () {
                                                           tooltipkey
                                                               .currentState!
                                                               .ensureTooltipVisible();
                                                         },
-                                                        child: Icon(Icons
-                                                            .info_rounded),
+                                                        child: Icon(
+                                                            Icons.info_rounded),
                                                       ),
                                                     )
                                                   : SizedBox()
