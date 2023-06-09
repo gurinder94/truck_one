@@ -807,7 +807,7 @@ hitUserProfileUpdateApi(Map<String, dynamic> map) async {
   try {
     var response = await baseServicePost('/api/v1/endUser/update', map);
     if (response.statusCode == 200) {
-       print('Response body: ${response.body}');
+      print('Response body: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         return parseData['message']; // throw Exception(parseData['message']);
@@ -3223,8 +3223,8 @@ hitTomAPi(
     String date,
     double sourceLatitude,
     double sourceLongitude,
-    double destinationLatitude,
-    double destinationLongitude,
+    String destinatioAddress,
+    // double destinationLongitude,
     String datearrive,
     tomWidth,
     tomWeight,
@@ -3232,7 +3232,8 @@ hitTomAPi(
     HazmatLoadValue) async {
   try {
     var url =
-        "https://api.tomtom.com/routing/1/calculateRoute/${sourceLatitude},${sourceLongitude}:${destinationLatitude},${destinationLongitude}/json?maxAlternatives=1&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=FAwecAoL8qcVNzRyX18RPYKkcfrGTvdB&routeType=eco&traffic=true&${datearrive}&avoid=unpavedRoads&travelMode=truck&vehicleEngineType=combustion&vehicleWeight=${tomWeight}&vehicleWidth=${tomWidth}&vehicleHeight=${tomheight}&vehicleCommercial=true${HazmatLoadValue == null ? '' : '&vehicleLoadType=' "${HazmatLoadValue}"}";
+        "https://api.tomtom.com/routing/1/calculateRoute/${sourceLatitude},${sourceLongitude}${destinatioAddress}/json?maxAlternatives=1&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=FAwecAoL8qcVNzRyX18RPYKkcfrGTvdB&routeType=eco&traffic=true&${datearrive}&avoid=unpavedRoads&travelMode=truck&vehicleEngineType=combustion&vehicleWeight=${tomWeight}&vehicleWidth=${tomWidth}&vehicleHeight=${tomheight}&vehicleCommercial=true${HazmatLoadValue == null ? '' : '&vehicleLoadType=' "${HazmatLoadValue}"}";
+    log("url>> $url");
     var response = await http.get(Uri.parse(url));
     print(response.body);
     if (response.statusCode == 200) {
@@ -3591,7 +3592,8 @@ Future hitSubscriptionPlanPayment(Map<String, dynamic> map) async {
 
 hitMyPlan(Map<String, dynamic> map) async {
   try {
-    var response = await baseServicePost('/api/v1/subscriptionplan/myPlan', map);
+    var response =
+        await baseServicePost('/api/v1/subscriptionplan/myPlan', map);
     if (response.statusCode == 200) {
       print('myPlan: ${response.body}');
       var parseData = json.decode(response.body);

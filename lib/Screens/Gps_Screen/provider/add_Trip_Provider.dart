@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -63,6 +65,13 @@ class AddTripProvider extends ChangeNotifier {
   List<Datum> histryLocation = [];
   late TripHistoryModel historyModel;
   Map<PolylineId, Polyline> _polyline = <PolylineId, Polyline>{};
+  // this will hold the generated polylines
+  // Set<Polyline> _polylines = {};
+// this will hold each polyline coordinate as Lat and Lng pairs
+  // List<LatLng> polylineCoordinates = [];
+// this is the key object - the PolylinePoints
+// which generates every polyline between start and finish
+  PolylinePoints polylinePoints = PolylinePoints();
 
   TextEditingController displayNewTextField = TextEditingController();
 
@@ -268,12 +277,20 @@ class AddTripProvider extends ChangeNotifier {
     var datearrive =
         routeFlag == "Arrive By" ? "arriveAt=${date}" : "departAt=${date}";
     try {
+      var destinationLatitude = "";
+
+      addAddressData.forEach((element) {
+        print("element>> ${element}");
+        destinationLatitude +=
+            "$destinationLatitude:${element['location']['coordinates'][0]},${element['location']['coordinates'][1]}";
+      });
+      print("destinationLatitude>> $destinationLatitude");
       model = await hitTomAPi(
           date,
           sourceLatitude,
           sourceLongitude,
-          DestinationLatitude,
-          DestinationLongitude,
+          destinationLatitude,
+          // DestinationLongitude,
           datearrive,
           tomWidth,
           tomWeight,
@@ -325,34 +342,88 @@ class AddTripProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> applyRoute(int index) async {
+  Polyline? mpolyline;
+  Future<void> applyRoute() async {
     _markers.clear();
     _routePoints = [];
     weatherMarkers = [];
-    List<Point>? data = model.routes![index].legs![0].points;
-    for (int i = 0; i < data!.length; i++) {
-      _routePoints.add(LatLng(data[i].latitude!, data[i].longitude!));
-    }
-    var polyID = PolylineId('route');
-    if (_polyline.length == 0) {
+
+    final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
+
+    model.routes![0].legs?.forEach((element) {
+      element.points?.forEach((melement) {
+        _routePoints.add(LatLng(
+          melement.latitude ?? 0.0,
+          melement.longitude ?? 0.0,
+        ));
+      });
+
+      var polyID = PolylineId('route');
+      // if (_polyline.isEmpty) {
       _polyline[polyID] = Polyline(
         polylineId: polyID,
         visible: true,
         points: _routePoints,
         width: 5,
-        color: Colors.deepPurpleAccent,
+        color: Colors.blue,
       );
-    } else {
-      _polyline[polyID] =
-          _polyline[polyID]!.copyWith(pointsParam: _routePoints);
+    });
+
+    if (_routePoints.length > 0) {
+      moveCamera(_routePoints[0]);
+      var no = Random().nextInt(100);
+      _markers[MarkerId('weather')] = Marker(
+        markerId: MarkerId('weather$no'),
+        icon: BitmapDescriptor.fromBytes(midIcon),
+        position: LatLng(sourceLatitude, sourceLongitude),
+        infoWindow: InfoWindow(title: 'weather'),
+        onTap: () {
+          // weatherplan == true
+          //     ? weatherMarkerClick(MarkerId('weather$i'))
+          //     : SizedBox();
+        },
+      );
+      addAddressData.forEach((element) {
+        print("element>> ${element}");
+        // destinationLatitude +=
+        // "$destinationLatitude:${element['location']['coordinates'][0]},${element['location']['coordinates'][1]}";
+        no = Random().nextInt(100);
+        _markers[MarkerId('weather$no')] = Marker(
+          markerId: MarkerId('weather$no'),
+          icon: BitmapDescriptor.fromBytes(midIcon),
+          position: LatLng(element['location']['coordinates'][0],
+              element['location']['coordinates'][1]),
+          infoWindow: InfoWindow(title: 'weather'),
+          onTap: () {
+            // weatherplan == true
+            //     ? weatherMarkerClick(MarkerId('weather$i'))
+            //     : SizedBox();
+          },
+        );
+      });
+
+      notifyListeners();
     }
-    storeTurns(model.routes![index].guidance!.instructions!);
-    print("${routePoints[routePoints.length - 1]}" + "bbbbbb");
-    await setStartEndMarker(
-        routePoints[0], routePoints[routePoints.length - 1]);
-    moveCamera(_routePoints[0]);
-    addWeatherMarker(_routePoints);
-    notifyListeners();
+    // Future.forEach(model.routes!, (RoutePath routeData) async {
+
+    //   //storeTurns(routeData.guidance!.instructions!);
+    // }).then((x) async {
+    //   // addWeatherMarker(_routePoints);
+    //   //var no = Random().nextInt(100);
+    //   // markers[MarkerId('start$no')] = Marker(
+    //   //   markerId: MarkerId('start$no'),
+    //   //   flat: true,
+    //   //   icon: BitmapDescriptor.fromBytes(midIcon),
+    //   //   position: LatLng(routePoints[0].latitude,
+    //   //       routePoints[routePoints.length - 1].longitude),
+    //   //   anchor: Offset(.5, .5),
+    //   //   infoWindow: InfoWindow(title: 'Start'),
+    //   //   onTap: () {},
+    //   // );
+    // });
+    // if (_polyline.length > 1) {
+    //   // setStartEndMarker(routePoints[0], routePoints[routePoints.length - 1]);
+    // }
   }
 
   void storeTurns(List<Instruction> instructions) {
@@ -425,8 +496,8 @@ class AddTripProvider extends ChangeNotifier {
 
       val = routePoints.length > 900 ? val + 1000 : val + 100;
       print(routePoints.length);
-      print("cxjkhjdsjhdsajh${routePoints}");
-      print("weather ${routePoints[val]}");
+      // print("cxjkhjdsjhdsajh${routePoints}");
+      // print("weather ${routePoints[val]}");
       if (routePoints[val] != null) {
         markers[MarkerId('weather$i')] = Marker(
           markerId: MarkerId('weather$i'),
