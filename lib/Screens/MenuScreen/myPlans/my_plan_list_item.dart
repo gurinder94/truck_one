@@ -23,7 +23,6 @@ class MyPlanListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("00000000${product.title.contains("Yearly") ? "" : product.title}");
     return Padding(
       padding: const EdgeInsets.all(14.0),
       child: Container(
@@ -143,20 +142,20 @@ class MyPlanListItem extends StatelessWidget {
                 child: product.title.contains("Yearly")
                     ? Transform(
                         child: Container(
-                            width: 250,
-                            padding: EdgeInsets.all(10),
+                            width: 200,
+                             padding: EdgeInsets.all(10),
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(left: 35, right: 35),
                               child: new Text(
                                 "RECOMMENDED",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.white,fontSize: 12),
                               ),
                             ),
                             color: Color(0xFFEDBC48)),
                         alignment: FractionalOffset.center,
                         transform: new Matrix4.identity()
-                          ..rotateZ(-25 * 4.1415927 / 180),
+                          ..rotateZ(-25 * 4.4415927 / 180),
                       )
                     : SizedBox())
           ],

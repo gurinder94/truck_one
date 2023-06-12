@@ -7,10 +7,17 @@ class ExperienceDrop extends StatelessWidget {
   Widget build(final BuildContext context) {
     return Consumer<UserProfileProvider>(
       builder: (context, notif, __) {
-        return DropdownButton<String>(
+        return DropdownButtonFormField<String>(
           hint: const Text("Experience *"),
           isExpanded: true,
-          underline: Container(),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter experience';
+            }
+            return null;
+          },
+          decoration: InputDecoration(border: InputBorder.none),
           value: notif.valueExperience,
           onChanged: (value) {
             notif.setSelectedExperience(value.toString());

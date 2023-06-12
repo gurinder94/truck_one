@@ -146,7 +146,7 @@ class AddTrailerPage extends StatelessWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        noti.length.text == null
+                        noti.length.text == ""
                             ? InputTextField(
                                 child: TextFormField(
                                   controller: noti.length,

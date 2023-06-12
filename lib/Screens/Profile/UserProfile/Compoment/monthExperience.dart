@@ -20,7 +20,7 @@ class _MonthExperienceState extends State<MonthExperience> {
           isExpanded: true,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter marital status';
+              return 'Please enter month experience';
             }
             return null;
           },

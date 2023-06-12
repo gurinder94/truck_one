@@ -65,7 +65,16 @@ class CompanyTeamManageScreen extends StatelessWidget {
                                 child: InviteFriends()),
                           ),
                         )
-                      : DialogUtils.showMySuccessful(context,
+                      : DialogUtils.showMyDialog(
+                          context,
+                          onDoneFunction: () async {
+                            Navigator.pop(context);
+                          },
+                          oncancelFunction: () => Navigator.pop(context),
+                          title: 'Buy Event Plan!',
+                          alertTitle: 'Pricing Price',
+                          btnText: "Done",
+                        ); /*DialogUtils.showMySuccessful(context,
                           child: AlertDialog(
                             shape: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16.0)),
@@ -96,7 +105,7 @@ class CompanyTeamManageScreen extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          ));
+                          ));*/
                 },
                 child: Icon(
                   Icons.add,

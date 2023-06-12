@@ -229,7 +229,6 @@ class MyLocation extends StatelessWidget {
       trailing: GestureDetector(
           onTap: () {
             if (noti.addAddressData.length > 0) noti.addAddressData.removeAt(i);
-
             noti.notifyListeners();
           },
           child: SizedBox(

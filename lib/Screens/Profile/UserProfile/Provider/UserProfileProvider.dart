@@ -140,7 +140,7 @@ class UserProfileProvider extends ChangeNotifier {
     "11 months",
     "12 months",
   ];
-  List<String> _maritalStatus = ["Married", "Single", "Others"];
+  List<String> _maritalStatus = ["Married", "Single"];
 
   Map<String, bool> mutipleLanguage = {
     'Arabic': false,
@@ -452,7 +452,7 @@ class UserProfileProvider extends ChangeNotifier {
             'mobileNumber': mobile.text,
             'gender': valueItemSelected,
             'dateOfBirth': dateofbirth.text,
-            'experience': experienceController.text,
+            'experience': valueExperience.toString().substring(0, 1),
             'maritalStatus': valueMaritalStatus,
             'workPlace': workplace.text,
             'designation': designation.text,
@@ -485,7 +485,7 @@ class UserProfileProvider extends ChangeNotifier {
             'mobileNumber': mobile.text,
             'gender': valueItemSelected,
             'dateOfBirth': dateofbirth.text,
-            'experience': experienceController.text,
+            'experience': valueExperience.toString().substring(0, 1),
             'otherQualification': otherQualification(),
             'maritalStatus': valueMaritalStatus,
             "monthsExperience": valueExpMonth.toString().substring(0, 1),

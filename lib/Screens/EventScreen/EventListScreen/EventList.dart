@@ -84,7 +84,6 @@ class _EventListState extends State<EventList> {
         },
       ),
       actions: SizedBox(),
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -233,13 +232,16 @@ class _EventListState extends State<EventList> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>   ChangeNotifierProvider(create: (_) => UserEventViewProvider(),
-                                              child: UserViewEvent(
-                                                proData.eventListModel!
-                                                    .data![index].id
-                                                    .toString()),
-                                            )));
-
+                                            builder: (context) =>
+                                                ChangeNotifierProvider(
+                                                  create: (_) =>
+                                                      UserEventViewProvider(),
+                                                  child: UserViewEvent(proData
+                                                      .eventListModel!
+                                                      .data![index]
+                                                      .id
+                                                      .toString()),
+                                                )));
                                   },
                                 )),
                       );
@@ -276,7 +278,16 @@ class _EventListState extends State<EventList> {
                   builder: (context) => ChangeNotifierProvider(
                       create: (_) => AddEventProvider(), child: AddEvent())));
         } else {
-          return DialogUtils.showMySuccessful(context,
+          return DialogUtils.showMyDialog(
+            context,
+            onDoneFunction: () async {
+              Navigator.pop(context);
+            },
+            oncancelFunction: () => Navigator.pop(context),
+            title: 'Buy Event Plan!',
+            alertTitle: 'Pricing Price',
+            btnText: "Done",
+          ); /*DialogUtils.showMySuccessful(context,
               child: AlertDialog(
                 shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16.0)),
@@ -303,7 +314,7 @@ class _EventListState extends State<EventList> {
                     ),
                   ),
                 ],
-              ));
+              ));*/
         }
         // if (roleName.toString().toUpperCase() == "COMPANY")
         //   return SizedBox();
@@ -398,10 +409,19 @@ class _EventListState extends State<EventList> {
         //   // );
         // }
 
-        return DialogUtils.showMySuccessful(context,
+        return DialogUtils.showMyDialog(
+          context,
+          onDoneFunction: () async {
+            Navigator.pop(context);
+          },
+          oncancelFunction: () => Navigator.pop(context),
+          title: 'Buy Event Plan!',
+          alertTitle: 'Pricing Price',
+          btnText: "Done",
+        );/*DialogUtils.showMySuccessful(context,
             child: AlertDialog(
-              shape: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16.0)),
+              shape:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
               title: Column(
                 children: [
                   Text(
@@ -418,20 +438,23 @@ class _EventListState extends State<EventList> {
                   child: InkWell(
                     splashColor: PrimaryColor,
                     highlightColor: Colors.white,
-                    child: Text("Yes",style: TextStyle(color: Colors.black,fontSize: 16),),
+                    child: Text(
+                      "Yes",
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
                     onTap: () async {
                       Navigator.pop(context);
                     },
                   ),
                 ),
               ],
-            ));
+            ))*/
       }
     } else {
       return DialogUtils.showMySuccessful(context,
           child: AlertDialog(
-            shape: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.0)),
+            shape:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
             title: Column(
               children: [
                 Text(
@@ -448,7 +471,10 @@ class _EventListState extends State<EventList> {
                 child: InkWell(
                   splashColor: PrimaryColor,
                   highlightColor: Colors.white,
-                  child: Text("Yes",style: TextStyle(color: Colors.black,fontSize: 16),),
+                  child: Text(
+                    "Yes",
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
                   onTap: () async {
                     Navigator.pop(context);
                   },
@@ -458,6 +484,4 @@ class _EventListState extends State<EventList> {
           ));
     }
   }
-
-
 }
