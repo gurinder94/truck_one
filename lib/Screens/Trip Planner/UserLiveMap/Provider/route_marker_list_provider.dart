@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/TripPlannerModel/GetServiceMarker.dart';
 import 'package:my_truck_dot_one/Model/TripPlannerModel/RouteModel.dart';
-import 'package:http/http.dart' as http;
 import 'package:my_truck_dot_one/Model/TripPlannerModel/TripPlannerListModel.dart';
 import 'package:my_truck_dot_one/Model/WeatherModel/forecast_weather_model.dart';
 import 'package:my_truck_dot_one/Model/WeatherModel/preciptaion_waether_model.dart';
@@ -74,7 +76,7 @@ class RouteMarkerListProvider extends ChangeNotifier {
   var ThunderRemoveList = [];
   var forecastRemoveList = [];
   var precipitationtRemoveList = [];
-
+  TripPlannerModel? tripPlannerData;
   Completer<GoogleMapController> get controller => _controller;
 
   List<LatLng> _turns = [];
@@ -87,10 +89,20 @@ class RouteMarkerListProvider extends ChangeNotifier {
   Map<MarkerId, Marker> get markers => _markers;
 
   Future<void> getMarkerRouteList(TripPlannerModel data) async {
+    this.tripPlannerData = data;
     _loading = true;
     notifyListeners();
+
+    var destinationLatitude = "";
+
+    data.destination?.forEach((element) {
+      print("element>> ${element}");
+      destinationLatitude +=
+          "$destinationLatitude:${element.location!.coordinates![0]},${element.location!.coordinates![1]}";
+    });
+
     var url =
-        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}:${data.destination![0].location!.coordinates![0]},${data.destination![0].location!.coordinates![1]}/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=FAwecAoL8qcVNzRyX18RPYKkcfrGTvdB&routeType=eco&traffic=true&avoid=unpavedRoads&arriveAt=${DateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'").format(data.endDate!)}&travelMode=truck&vehicleEngineType=${"combustion"}&vehicleWeight=${data.grossWeight ~/ 2.2046}&vehicleWidth=${data.width ~/ 39.37}&vehicleHeight=${data.height ~/ 39.37}&vehicleCommercial=true";
+        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}$destinationLatitude/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=FAwecAoL8qcVNzRyX18RPYKkcfrGTvdB&routeType=eco&traffic=true&avoid=unpavedRoads&arriveAt=${DateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'").format(data.endDate!)}&travelMode=truck&vehicleEngineType=${"combustion"}&vehicleWeight=${data.grossWeight ~/ 2.2046}&vehicleWidth=${data.width ~/ 39.37}&vehicleHeight=${data.height ~/ 39.37}&vehicleCommercial=true";
     var response = await http.get(Uri.parse(url));
     var jsonRes = json.decode(response.body);
     _model = RouteModel.fromJson(jsonRes);
@@ -105,13 +117,36 @@ class RouteMarkerListProvider extends ChangeNotifier {
     weatherMarkers.clear();
     _routePoints = [];
     List<Point>? data = routeModel.routes![index].legs![0].points;
-    for (int i = 0; i < data!.length; i++) {
-      _routePoints.add(LatLng(data[i].latitude!, data[i].longitude!));
-      notifyListeners();
-    }
+    // for (int i = 0; i < data!.length; i++) {
+    //   _routePoints.add(LatLng(data[i].latitude!, data[i].longitude!));
+    //   notifyListeners();
+    // }
 
-    var polyID = PolylineId('route');
-    if (_polyline.length == 0) {
+    // var polyID = PolylineId('route');
+
+    // if (_polyline.length == 0) {
+    //   _polyline[polyID] = Polyline(
+    //     polylineId: polyID,
+    //     visible: true,
+    //     points: _routePoints,
+    //     width: 5,
+    //     color: Colors.deepPurpleAccent,
+    //   );
+    // } else {
+    //   _polyline[polyID] =
+    //       _polyline[polyID]!.copyWith(pointsParam: _routePoints);
+    // }
+
+    routeModel.routes![0].legs?.forEach((element) {
+      element.points?.forEach((melement) {
+        _routePoints.add(LatLng(
+          melement.latitude ?? 0.0,
+          melement.longitude ?? 0.0,
+        ));
+      });
+
+      var polyID = PolylineId('route');
+      // if (_polyline.isEmpty) {
       _polyline[polyID] = Polyline(
         polylineId: polyID,
         visible: true,
@@ -119,13 +154,14 @@ class RouteMarkerListProvider extends ChangeNotifier {
         width: 5,
         color: Colors.deepPurpleAccent,
       );
-    } else {
-      _polyline[polyID] =
-          _polyline[polyID]!.copyWith(pointsParam: _routePoints);
-    }
+    });
+
     storeTurns(routeModel.routes![index].guidance!.instructions!);
+
     await setStartEndMarker(
         routePoints[0], routePoints[routePoints.length - 1]);
+
+    // _markers.clear();
     moveCamera(_routePoints[0]);
     addWeatherMarker(_routePoints);
     addServiceMarkers(serviceMarkerModel.data!, index);
@@ -181,7 +217,7 @@ class RouteMarkerListProvider extends ChangeNotifier {
         await getBytesFromAsset('assets/start_flag.png', 100);
     final Uint8List endIcon =
         await getBytesFromAsset('assets/end_flag.png', 100);
-    markers[MarkerId('start')] = Marker(
+    _markers[MarkerId('start')] = Marker(
       markerId: MarkerId('start'),
       flat: true,
       icon: BitmapDescriptor.fromBytes(startIcon),
@@ -190,15 +226,54 @@ class RouteMarkerListProvider extends ChangeNotifier {
       infoWindow: InfoWindow(title: 'Start'),
       onTap: () {},
     );
-    markers[MarkerId('end')] = Marker(
-      markerId: MarkerId('end'),
-      flat: true,
-      icon: BitmapDescriptor.fromBytes(endIcon),
-      position: end,
-      anchor: Offset(.5, .5),
-      infoWindow: InfoWindow(title: 'End'),
-      onTap: () {},
-    );
+
+    // _markers[MarkerId('weather')] = Marker(
+    //   markerId: MarkerId('weather$no'),
+    //   icon: BitmapDescriptor.fromBytes(startIcon),
+    //   position: LatLng(sourceLatitude, sourceLongitude),
+    //   infoWindow: InfoWindow(title: 'weather'),
+    //   onTap: () {
+    //     // weatherplan == true
+    //     //     ? weatherMarkerClick(MarkerId('weather$i'))
+    //     //     : SizedBox();
+    //   },
+    // );
+    final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
+    //  data.destination?.forEach((element) {
+    //   print("element>> ${element}");
+    //   destinationLatitude +=
+    //       "$destinationLatitude:${element.location!.coordinates![0]},${element.location!.coordinates![1]}";
+    // });
+    tripPlannerData?.destination?.forEach((melement) {
+      print(
+          "tripPlannerData>> ${melement.location?.coordinates} ${melement.address}");
+      // destinationLatitude +=
+      // "$destinationLatitude:${element['location']['coordinates'][0]},${element['location']['coordinates'][1]}";
+      var no = Random().nextInt(100);
+      _markers[MarkerId('weather$no')] = Marker(
+        markerId: MarkerId('weather$no'),
+        icon: BitmapDescriptor.fromBytes(midIcon),
+        position: LatLng(melement.location?.coordinates![0] ?? 0.0,
+            melement.location!.coordinates![1]),
+        infoWindow: InfoWindow(title: '${melement.address}'),
+        onTap: () {
+          // weatherplan == true
+          //     ? weatherMarkerClick(MarkerId('weather$i'))
+          //     : SizedBox();
+        },
+      );
+    });
+
+    // _markers[MarkerId('end')] = Marker(
+    //   markerId: MarkerId('end'),
+    //   flat: true,
+    //   icon: BitmapDescriptor.fromBytes(endIcon),
+    //   position: end,
+    //   anchor: Offset(.5, .5),
+    //   infoWindow: InfoWindow(title: 'End'),
+    //   onTap: () {},
+    // );
+    notifyListeners();
   }
 
   Future<void> addWeatherMarker(List<LatLng> routePoints) async {
@@ -226,9 +301,7 @@ class RouteMarkerListProvider extends ChangeNotifier {
       } else
         break;
     }
-    Future.delayed(Duration(seconds: 2), () {
-      notifyListeners();
-    });
+    notifyListeners();
   }
 
   Future<void> addServiceMarkers(List<Datum> data, int index) async {

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/TripPlannerModel/TripPlannerListModel.dart';
+import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:my_truck_dot_one/Screens/Trip%20Planner/UserLiveMap/Component/route_list_widget.dart';
 import 'package:my_truck_dot_one/Screens/Trip%20Planner/UserLiveMap/Provider/route_marker_list_provider.dart';
-import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:provider/provider.dart';
 
 class UserRouteMap extends StatefulWidget {
-
   ///TripPlannerModel
   TripPlannerModel data;
   String roleType;
