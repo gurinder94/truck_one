@@ -5,6 +5,7 @@ import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/TripPlannerModel/RouteModel.dart';
 import 'package:my_truck_dot_one/Screens/Trip%20Planner/UserLiveMap/Provider/user_navigation_provider.dart';
 import 'package:provider/provider.dart';
+
 import 'Component/instruction_widget.dart';
 import 'Component/speed_widget.dart';
 
@@ -18,7 +19,7 @@ class UserMapNavigation extends StatefulWidget {
   LatLng routePoint;
 
   UserMapNavigation(this.polyline, this.turns, this.routePath, this.markers,
-      this.weatherMarkers, this. routePoint);
+      this.weatherMarkers, this.routePoint);
 
   @override
   _UserMapNavigationState createState() => _UserMapNavigationState(
@@ -46,12 +47,13 @@ class _UserMapNavigationState extends State<UserMapNavigation> {
     // TODO: implement initState
     super.initState();
     _provider = context.read<UserNavigationProvider>();
-    _provider.savePath(polyline, turns, routePath, markers, weatherMarkers,widget.routePoint);
+    _provider.savePath(
+        polyline, turns, routePath, markers, weatherMarkers, widget.routePoint);
     _provider.setContext(context);
     _provider.hitgetWazeList();
     _provider.getMarkerWazeMap();
     _provider.listenWaze(context);
-_provider. setWeatherMarkers(weatherMarkers);
+    _provider.setWeatherMarkers(weatherMarkers);
   }
 
   @override
@@ -128,11 +130,13 @@ _provider. setWeatherMarkers(weatherMarkers);
                   zoomControlsEnabled: false,
                   initialCameraPosition: intialPos,
                   trafficEnabled: true,
-                  onCameraMove: (pos){
+                  onCameraMove: (pos) {
                     _provider.animateMaker(pos);
                   },
                   polylines: Set<Polyline>.of(polyline.values),
-                  markers: Set<Marker>.of(_provider.markers.values,),
+                  markers: Set<Marker>.of(
+                    _provider.markers.values,
+                  ),
                   onMapCreated: (GoogleMapController controller) {
                     _provider.controller.complete(controller);
                   },
@@ -219,7 +223,6 @@ _provider. setWeatherMarkers(weatherMarkers);
                                     height: 35,
                                   )),
                               onTap: () {
-
                                 _provider.setReportMarkers(
                                   _provider.wazeModel.data![index].iconName
                                       .toString(),

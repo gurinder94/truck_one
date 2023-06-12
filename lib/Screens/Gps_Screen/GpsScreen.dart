@@ -185,7 +185,9 @@ class BottomButton extends StatelessWidget {
       if (noti.addAddressData.isNotEmpty && noti.chooseSource.text.isNotEmpty) {
         return Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 3,
+            height: noti.model.routes == null
+                ? MediaQuery.of(context).size.height / 3
+                : 80,
             child: noti.model.routes == null
                 ? Container(
                     padding: EdgeInsets.all(10),

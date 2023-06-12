@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
@@ -19,8 +20,6 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../AppUtils/chat_socket_connection.dart';
-import '../../../Language_Screen/application_localizations.dart';
-import '../../../commanWidget/Comman_Alert_box.dart';
 import '../Listeners/waze_remove_marker_Listeners.dart';
 
 class UserNavigationProvider extends ChangeNotifier
