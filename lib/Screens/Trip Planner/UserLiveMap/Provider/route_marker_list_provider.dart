@@ -104,7 +104,6 @@ class RouteMarkerListProvider extends ChangeNotifier {
     _markers.clear();
     weatherMarkers.clear();
     _routePoints = [];
-
     List<Point>? data = routeModel.routes![index].legs![0].points;
     for (int i = 0; i < data!.length; i++) {
       _routePoints.add(LatLng(data[i].latitude!, data[i].longitude!));

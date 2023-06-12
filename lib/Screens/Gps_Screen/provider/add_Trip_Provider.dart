@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -65,6 +64,7 @@ class AddTripProvider extends ChangeNotifier {
   List<Datum> histryLocation = [];
   late TripHistoryModel historyModel;
   Map<PolylineId, Polyline> _polyline = <PolylineId, Polyline>{};
+
   // this will hold the generated polylines
   // Set<Polyline> _polylines = {};
 // this will hold each polyline coordinate as Lat and Lng pairs
@@ -262,14 +262,9 @@ class AddTripProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setDestinationAddress(
-    longitude,
-    latitude,
-  ) {
+  void setDestinationAddress(longitude, latitude) {
     DestinationLatitude = latitude;
-
     DestinationLongitude = longitude;
-
     notifyListeners();
   }
 
@@ -343,12 +338,17 @@ class AddTripProvider extends ChangeNotifier {
   }
 
   Polyline? mpolyline;
+
   Future<void> applyRoute() async {
     _markers.clear();
     _routePoints = [];
     weatherMarkers = [];
 
     final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
+    final Uint8List startIcon =
+        await getBytesFromAsset('assets/start_flag.png', 100);
+    final Uint8List endIcon =
+        await getBytesFromAsset('assets/end_flag.png', 100);
 
     model.routes![0].legs?.forEach((element) {
       element.points?.forEach((melement) {
@@ -374,7 +374,7 @@ class AddTripProvider extends ChangeNotifier {
       var no = Random().nextInt(100);
       _markers[MarkerId('weather')] = Marker(
         markerId: MarkerId('weather$no'),
-        icon: BitmapDescriptor.fromBytes(midIcon),
+        icon: BitmapDescriptor.fromBytes(startIcon),
         position: LatLng(sourceLatitude, sourceLongitude),
         infoWindow: InfoWindow(title: 'weather'),
         onTap: () {
@@ -640,13 +640,15 @@ class AddTripProvider extends ChangeNotifier {
           /*  placeMarks.forEach((placeMark) {
               addPlace();
             });*/
-
-          print(query);
+          DestinationLatitude = location.latitude;
+          DestinationLongitude = location.longitude;
+          setAddressesDestination({
+            "location": {
+              "coordinates": [DestinationLatitude, DestinationLongitude]
+            },
+            "address": query,
+          });
           notifyListeners();
-          addTripProvider.setDestinationAddress(
-            location.longitude,
-            location.latitude,
-          );
         });
       } on Exception catch (e) {
         print(e);

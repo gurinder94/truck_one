@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class RouteMarkerProvider extends ChangeNotifier {
     var response = await http.get(Uri.parse(url));
     var jsonRes = json.decode(response.body);
     if (jsonRes["error"] != null) {
-      print(jsonRes+"hruighfughuh");
+      print(jsonRes + "hruighfughuh");
 
       showMessage(jsonRes["error"]);
     } else {
@@ -84,6 +85,92 @@ class RouteMarkerProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  /* Future<void> applyRoute(
+      int index, BuildContext context, RouteMarkerProvider provider) async {
+    _markers.clear();
+    _routePoints = [];
+    List<Point>? data = routeModel.routes![index].legs![0].points;
+    final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
+    final Uint8List startIcon =
+        await getBytesFromAsset('assets/start_flag.png', 100);
+    final Uint8List endIcon =
+        await getBytesFromAsset('assets/end_flag.png', 100);
+
+    routeModel.routes![index].legs?.forEach((element) {
+      element.points?.forEach((melement) {
+        _routePoints.add(LatLng(
+          melement.latitude ?? 0.0,
+          melement.longitude ?? 0.0,
+        ));
+      });
+
+      var polyID = PolylineId('route');
+      // if (_polyline.isEmpty) {
+      _polyline[polyID] = Polyline(
+        polylineId: polyID,
+        visible: true,
+        points: _routePoints,
+        width: 5,
+        color: Colors.blue,
+      );
+    });
+
+    if (_routePoints.length > 0) {
+      moveCamera(_routePoints[0]);
+      var no = Random().nextInt(100);
+      _markers[MarkerId('weather')] = Marker(
+        markerId: MarkerId('weather$no'),
+        icon: BitmapDescriptor.fromBytes(startIcon),
+        position: LatLng(data![0].latitude!, data[0].longitude!),
+        infoWindow: InfoWindow(title: 'weather'),
+        onTap: () {
+          // weatherplan == true
+          //     ? weatherMarkerClick(MarkerId('weather$i'))
+          //     : SizedBox();
+        },
+      );
+      _routePoints.forEach((element) {
+        print("element>> ${element}");
+        // destinationLatitude +=
+        // "$destinationLatitude:${element['location']['coordinates'][0]},${element['location']['coordinates'][1]}";
+        no = Random().nextInt(100);
+        _markers[MarkerId('weather$no')] = Marker(
+          markerId: MarkerId('weather$no'),
+          icon: BitmapDescriptor.fromBytes(midIcon),
+          position: LatLng(element.latitude, element.longitude),
+          infoWindow: InfoWindow(title: 'weather'),
+          onTap: () {
+            // weatherplan == true
+            //     ? weatherMarkerClick(MarkerId('weather$i'))
+            //     : SizedBox();
+          },
+        );
+      });
+
+      notifyListeners();
+    }
+    // Future.forEach(model.routes!, (RoutePath routeData) async {
+
+    //   //storeTurns(routeData.guidance!.instructions!);
+    // }).then((x) async {
+    //   // addWeatherMarker(_routePoints);
+    //   //var no = Random().nextInt(100);
+    //   // markers[MarkerId('start$no')] = Marker(
+    //   //   markerId: MarkerId('start$no'),
+    //   //   flat: true,
+    //   //   icon: BitmapDescriptor.fromBytes(midIcon),
+    //   //   position: LatLng(routePoints[0].latitude,
+    //   //       routePoints[routePoints.length - 1].longitude),
+    //   //   anchor: Offset(.5, .5),
+    //   //   infoWindow: InfoWindow(title: 'Start'),
+    //   //   onTap: () {},
+    //   // );
+    // });
+    // if (_polyline.length > 1) {
+    //   // setStartEndMarker(routePoints[0], routePoints[routePoints.length - 1]);
+    // }
+  }*/
 
   Future<void> applyRoute(
       int index, BuildContext context, RouteMarkerProvider provider) async {

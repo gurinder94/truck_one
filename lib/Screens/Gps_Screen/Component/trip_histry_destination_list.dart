@@ -5,16 +5,16 @@ import 'package:provider/provider.dart';
 import '../../../AppUtils/constants.dart';
 import '../provider/choose_Source_Provider.dart';
 
-class DestinationsTripHistry extends StatefulWidget {
+class DestinationTripHistry extends StatefulWidget {
   AddTripProvider addTripProvider;
 
-  DestinationsTripHistry(this.addTripProvider, {Key? key}) : super(key: key);
+  DestinationTripHistry(this.addTripProvider, {Key? key}) : super(key: key);
 
   @override
-  State<DestinationsTripHistry> createState() => _DestinationsTripHistryState();
+  State<DestinationTripHistry> createState() => _DestinationTripHistryState();
 }
 
-class _DestinationsTripHistryState extends State<DestinationsTripHistry> {
+class _DestinationTripHistryState extends State<DestinationTripHistry> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -44,23 +44,12 @@ class _DestinationsTripHistryState extends State<DestinationsTripHistry> {
                   proData.addressController.text = proData
                       .histryLocation[index].destination![0].address
                       .toString();
-                  print(proData.addressController.text +
-                      "0000000");
+
                   widget.addTripProvider.DestinationSearch(
                       proData.addressController.text,
                       context,
                       widget.addTripProvider);
 
-                  widget.addTripProvider.setAddressesDestination({
-                    "location": {
-                      "coordinates": [
-                        widget.addTripProvider.DestinationLatitude,
-                        widget.addTripProvider.DestinationLongitude
-                      ]
-                    },
-                    "address":
-                    proData.addressController.text,
-                  });
                   Navigator.pop(navigatorKey.currentState!.context);
                 }));
     }));

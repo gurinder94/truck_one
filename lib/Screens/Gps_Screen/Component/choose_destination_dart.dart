@@ -7,6 +7,7 @@ import '../../../AppUtils/constants.dart';
 import '../../commanWidget/input_shape.dart';
 import '../provider/choose_Source_Provider.dart';
 import 'destination_Address_list.dart';
+
 class ChooseNextDestination extends StatefulWidget {
   TextEditingController chooseDestination;
   AddTripProvider addTripProvider;
@@ -24,7 +25,8 @@ class _ChooseNextDestinationState extends State<ChooseNextDestination> {
     // TODO: implement initState
     super.initState();
     _chooseSourceProvider = context.read<ChooseSourceProvider>();
-    _chooseSourceProvider.addressController.text = widget.chooseDestination.text;
+    _chooseSourceProvider.addressController.text =
+        widget.chooseDestination.text;
     _chooseSourceProvider.hitTripHistry();
   }
 
@@ -74,8 +76,8 @@ class _ChooseNextDestinationState extends State<ChooseNextDestination> {
               selector: (_, provider) => provider.addressController.text,
               builder: (context, paginationLoading, child) {
                 return paginationLoading == ""
-                    ? DestinationsTripHistry(widget.addTripProvider)
-                    : DestinationsAddress(widget.addTripProvider);
+                    ? DestinationTripHistry(widget.addTripProvider)
+                    : DestinationAddress(widget.addTripProvider);
               }),
         ]),
       ),

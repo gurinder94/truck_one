@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import '../../../AppUtils/constants.dart';
 import '../provider/choose_Source_Provider.dart';
 
-class DestinationsAddress extends StatelessWidget {
+class DestinationAddress extends StatelessWidget {
   AddTripProvider addTripProvider;
 
-  DestinationsAddress(this.addTripProvider, {Key? key}) : super(key: key);
+  DestinationAddress(this.addTripProvider, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,22 +33,12 @@ class DestinationsAddress extends StatelessWidget {
                         proData.addressController.text =
                             proData.predictions[index].description!;
                         // proData.DestinationSearch(proData.addressController.text,context,addTripProvider);
-                        print(proData.addressController.text + "0000000");
+
                         addTripProvider.DestinationSearch(
                             proData.addressController.text,
                             context,
                             addTripProvider);
 
-                        addTripProvider.setAddressesDestination({
-                          "location": {
-                            "coordinates": [
-                              addTripProvider.DestinationLatitude,
-                              addTripProvider.DestinationLongitude
-                            ]
-                          },
-                          "address":
-                          proData.addressController.text,
-                        });
                         Navigator.pop(navigatorKey.currentState!.context);
 
                         // debugPrint(proData.predictions[index].placeId);

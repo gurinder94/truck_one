@@ -200,8 +200,7 @@ class MyLocation extends StatelessWidget {
                                 print("element>>> ${element}");
                               });
                               Navigator.of(context).pop({
-                                "start_point":
-                                    _addTripProvider.chooseSource.text,
+                                "start_point": _addTripProvider.chooseSource.text,
                                 "location_list": _addTripProvider.addAddressData
                               });
                             }
@@ -262,7 +261,7 @@ class MyLocation extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: noti.addAddressData[i]["address"],
                           hintText: AppLocalizations.instance
-                              .text('Choose Destination'),
+                              .text('Choose Destination Data'),
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(vertical: 8),
                           prefixIcon: Icon(Icons.search),

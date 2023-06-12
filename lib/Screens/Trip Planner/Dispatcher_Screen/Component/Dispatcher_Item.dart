@@ -379,13 +379,19 @@ class DispatcherItem extends StatelessWidget {
                   width: 20,
                 ),
                 Expanded(
-                  child: Text(data.destination![0].address.toString(),
-                      maxLines: 3,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      )),
+                  child: ListView.builder(
+                    padding: EdgeInsets.all(0),
+                    shrinkWrap: true,
+                    itemCount: data.destination!.length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        Text("${data.destination![index].address.toString()}, ",
+                            maxLines: 3,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
+                  ),
                 )
               ],
             ),
@@ -476,10 +482,9 @@ class DispatcherItem extends StatelessWidget {
   }
 
   getAddStoppage(TripPlannerModel data, BuildContext context) async {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>  AddStoppageMap(data))).then((_) {
+    Navigator.push(context,
+            MaterialPageRoute(builder: (context) => AddStoppageMap(data)))
+        .then((_) {
       listProvider.resetList();
       listProvider.hitTripList(type.toUpperCase(), "");
     });
