@@ -27,9 +27,7 @@ class DialogUtils {
                     shape: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0)),
                     title: Text(
-                      title.toString() == "null"
-                          ? ''
-                          : AppLocalizations.instance.text(title.toString()),
+                      title.toString() == "null" ? '' : title.toString(),
                     ),
                     content: Text(
                       AppLocalizations.instance.text(alertTitle.toString()),
@@ -111,7 +109,8 @@ class DialogUtils {
                         borderRadius: BorderRadius.circular(16.0)),
                     title: Text(
                         title.toString() == "null" ? '' : title.toString()),
-                    content: Text(alertTitle.toString(),textAlign: TextAlign.left),
+                    content:
+                        Text(alertTitle.toString(), textAlign: TextAlign.left),
                     actions: <Widget>[
                       secondBtnText.toString() == "null"
                           ? SizedBox()
@@ -128,7 +127,10 @@ class DialogUtils {
                         child: InkWell(
                           splashColor: PrimaryColor,
                           highlightColor: Colors.white,
-                          child: Text(buttonTitle.toString(),style: TextStyle(color: Colors.black,fontSize: 16),),
+                          child: Text(
+                            buttonTitle.toString(),
+                            style: TextStyle(color: Colors.black, fontSize: 16),
+                          ),
                           onTap: () async {
                             onDoneFunction();
                           },
@@ -150,24 +152,18 @@ class DialogUtils {
           );
         });
   }
-  static Future<dynamic> showMySuccessful(
-      BuildContext context, {
 
-        required  Widget child,
-      }) {
+  static Future<dynamic> showMySuccessful(
+    BuildContext context, {
+    required Widget child,
+  }) {
     return showGeneralDialog(
         barrierColor: Colors.black.withOpacity(0.5),
         transitionBuilder: (context, a1, a2, widget) {
           final curvedValue = Curves.easeInOutBack.transform(a1.value) - 1.0;
           return Transform(
               transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-              child: Opacity(
-                  opacity: a1.value,
-                  child: child
-              )
-
-
-          );
+              child: Opacity(opacity: a1.value, child: child));
         },
         transitionDuration: Duration(milliseconds: 200),
         barrierDismissible: true,
@@ -182,6 +178,7 @@ class DialogUtils {
           );
         });
   }
+
   static Future WarningMesaage(
     BuildContext context, {
     required Widget? childd,
