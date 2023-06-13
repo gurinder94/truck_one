@@ -28,7 +28,7 @@ class _MyLocationState extends State<MyLocation> {
   @override
   Widget build(BuildContext context) {
     _addTripProvider = context.read<AddTripProvider>();
-    _addTripProvider.chooseDestination = '';
+
     return CustomAppBarWidget(
       leading: GestureDetector(
         child: Icon(Icons.arrow_back),
@@ -114,115 +114,39 @@ class _MyLocationState extends State<MyLocation> {
                     SizedBox(
                       width: 15,
                     ),
-                    // noti.addAddressData.length > 2
-                    //     ? SizedBox()
-                    //     : Container(
-                    //         padding: EdgeInsets.all(7),
-                    //         decoration: BoxDecoration(
-                    //             shape: BoxShape.circle,
-                    //             boxShadow: [
-                    //               BoxShadow(
-                    //                   color: Colors.white,
-                    //                   blurRadius: 5,
-                    //                   offset: Offset(5, 5)),
-                    //               BoxShadow(
-                    //                   color: Colors.black12,
-                    //                   blurRadius: 1,
-                    //                   offset: Offset(-1, -1)),
-                    //             ]),
-                    //         child: InkWell(
-                    //             onTap: () {
-                    //               Navigator.push(
-                    //                   context,
-                    //                   MaterialPageRoute(
-                    //                       builder: (context) =>
-                    //                           ChangeNotifierProvider(
-                    //                               create: (_) =>
-                    //                                   ChooseSourceProvider(),
-                    //                               child: ChooseNextDestination(
-                    //                                   _addTripProvider
-                    //                                       .chooseDestination,
-                    //                                   _addTripProvider))));
-                    //             },
-                    //             child: Icon(Icons.add)))
+                    noti.addAddressData.length > 2
+                        ? SizedBox()
+                        : Container(
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.white,
+                                      blurRadius: 5,
+                                      offset: Offset(5, 5)),
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 1,
+                                      offset: Offset(-1, -1)),
+                                ]),
+                            child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChangeNotifierProvider(
+                                                  create: (_) =>
+                                                      ChooseSourceProvider(),
+                                                  child: ChooseNextDestination(
+                                                      _addTripProvider
+                                                          .choose1Destination,
+                                                      _addTripProvider))));
+                                },
+                                child: Icon(Icons.add)))
                   ],
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(children: [
-                  Icon(Icons.location_on, size: 30),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ChangeNotifierProvider(
-                                  create: (_) => ChooseSourceProvider(),
-                                  child: ChooseNextDestination(
-                                      _addTripProvider.choose1Destination,
-                                      _addTripProvider))));
-                    },
-                    child: SizedBox(
-                      width: 300,
-                      child: InputShape(
-                        child: IgnorePointer(
-                          child: TextFormField(
-                              readOnly: true,
-                              // enabled: false,
-                              showCursor: false,
-                              decoration: InputDecoration(
-                                labelText: noti.chooseDestination,
-                                hintText: AppLocalizations.instance
-                                    .text('Choose Destination Data'),
-                                border: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 8),
-                                prefixIcon: Icon(Icons.search),
-                              ),
-                              onTap: () {}),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    width: 40,
-                    child: Row(children: [
-                      Container(
-                          padding: EdgeInsets.all(7),
-                          decoration:
-                              BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                            BoxShadow(
-                                color: Colors.white,
-                                blurRadius: 5,
-                                offset: Offset(5, 5)),
-                            BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 1,
-                                offset: Offset(-1, -1)),
-                          ]),
-                          child: InkWell(
-                              onTap: () {
-                                noti.setAddressesDestination({
-                                  "location": {
-                                    "coordinates": [
-                                      noti.DestinationLatitude,
-                                      noti.DestinationLongitude
-                                    ]
-                                  },
-                                  "address": noti.chooseDestination,
-                                });
-                              },
-                              child: Icon(Icons.add))),
-                    ]),
-                  ),
-                ]),
                 SizedBox(
                   height: 15,
                 ),
@@ -279,7 +203,7 @@ class _MyLocationState extends State<MyLocation> {
                           height: 40,
                           child: Center(
                             child: Text(
-                              AppLocalizations.instance.text('Submit'),
+                              AppLocalizations.instance.text('Search'),
                               style:
                                   TextStyle(fontSize: 18, color: Colors.white),
                             ),
@@ -290,15 +214,6 @@ class _MyLocationState extends State<MyLocation> {
                         ),
                         onTap: () {
                           if (globalKey.currentState!.validate()) {
-                            noti.setAddressesDestination({
-                              "location": {
-                                "coordinates": [
-                                  noti.DestinationLatitude,
-                                  noti.DestinationLongitude
-                                ]
-                              },
-                              "address": noti.chooseDestination,
-                            });
                             if (_addTripProvider.chooseSource.text == "") {
                               showMessage("Please choose start point");
                             } else {
@@ -306,7 +221,6 @@ class _MyLocationState extends State<MyLocation> {
                                   .forEach((element) {
                                 print("element>>> ${element}");
                               });
-
                               Navigator.of(context).pop({
                                 "start_point":
                                     _addTripProvider.chooseSource.text,
@@ -334,61 +248,57 @@ class _MyLocationState extends State<MyLocation> {
       required int i}) {
     return ListTile(
       key: Key('$i'),
-      leading: Icon(Icons.location_on, size: 30),
-      trailing: SizedBox(
-        width: 40,
-        child: Row(children: [
-          i >= 0
-              ? GestureDetector(
-                  onTap: () {
-                    if (noti.addAddressData.length > 1)
-                      noti.addAddressData.removeAt(i);
-                    noti.notifyListeners();
-                  },
-                  child: SizedBox(
-                    height: 50,
-                    width: 32,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.3),
-                          shape: BoxShape.circle),
-                      alignment: Alignment.center,
-                      child: Icon(Icons.clear),
-                    ),
-                  ))
-              : SizedBox()
-        ]),
-      ),
-      title: GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChangeNotifierProvider(
-                      create: (_) => ChooseSourceProvider(),
-                      child: ChooseNextDestination(
-                          _addTripProvider.choose1Destination,
-                          _addTripProvider))));
-        },
-        child: InputShape(
-          child: IgnorePointer(
-            child: TextFormField(
-                readOnly: true,
-                // enabled: false,
-                showCursor: false,
-                decoration: InputDecoration(
-                  labelText: noti.addAddressData.length == 1
-                      ? ""
-                      : noti.addAddressData[i]['address'],
-                  hintText:
-                      AppLocalizations.instance.text('Choose Destination Data'),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 8),
-                  prefixIcon: Icon(Icons.search),
-                ),
-                onTap: () {}),
+      trailing: GestureDetector(
+          onTap: () {
+            if (noti.addAddressData.length > 0) noti.addAddressData.removeAt(i);
+            noti.notifyListeners();
+          },
+          child: SizedBox(
+            height: 50,
+            width: 32,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+              alignment: Alignment.center,
+              child: Icon(Icons.clear),
+            ),
+          )),
+      title: Column(
+        children: [
+          SizedBox(
+            height: 10,
           ),
-        ),
+          Row(
+            children: [
+              Icon(Icons.location_on, size: 30),
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: InputShape(
+                  child: IgnorePointer(
+                    child: TextFormField(
+                        readOnly: true,
+                        // enabled: false,
+                        showCursor: false,
+                        decoration: InputDecoration(
+                          labelText: noti.addAddressData[i]["address"],
+                          hintText: AppLocalizations.instance
+                              .text('Choose Destination Data'),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(vertical: 8),
+                          prefixIcon: Icon(Icons.search),
+                        ),
+                        onTap: () {}),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
       ),
     );
   }

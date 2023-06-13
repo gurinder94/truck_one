@@ -118,7 +118,7 @@ class PricingItem extends StatelessWidget {
                     : Container(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 1.0,
-                  child: Row(
+                  child: endDate==""?Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AbsorbPointer(
@@ -153,7 +153,7 @@ class PricingItem extends StatelessWidget {
                             : SizedBox(),
                       ),
                     ],
-                  ),
+                  ):SizedBox(height: 50,),
                 ),
                 SizedBox(
                   height: 15,

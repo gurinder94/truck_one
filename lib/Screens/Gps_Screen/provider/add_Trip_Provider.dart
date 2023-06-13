@@ -26,8 +26,7 @@ class AddTripProvider extends ChangeNotifier {
   var long, lat;
   TruckListModel? truckListModel;
   TextEditingController chooseSource = TextEditingController();
-  var chooseDestination ;
-
+  TextEditingController chooseDestination = TextEditingController();
   TextEditingController choose1Destination = TextEditingController();
   TextEditingController startDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
@@ -588,6 +587,20 @@ class AddTripProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setvalueDestinationsTextEditer(String value) {
+    choose1Destination.text = value;
+    polyline.clear();
+    polyline.clear();
+    weatherName = [];
+    _markers.clear();
+    model.routes = null;
+
+    _turns = [];
+    weatherMarkers = [];
+    _routePoints = [];
+    notifyListeners();
+  }
+
   setAddressChooseSource(String value) {
     chooseSource.text = value;
     notifyListeners();
@@ -630,7 +643,12 @@ class AddTripProvider extends ChangeNotifier {
             });*/
           DestinationLatitude = location.latitude;
           DestinationLongitude = location.longitude;
-          chooseDestination= query;
+          setAddressesDestination({
+            "location": {
+              "coordinates": [DestinationLatitude, DestinationLongitude]
+            },
+            "address": query,
+          });
           notifyListeners();
         });
       } on Exception catch (e) {
@@ -650,7 +668,7 @@ class AddTripProvider extends ChangeNotifier {
 
   void setAddressesDestination(value) {
     addAddressData.add(value);
-    print("${addAddressData}gufsdu");
+    print(addAddressData);
     notifyListeners();
   }
 
