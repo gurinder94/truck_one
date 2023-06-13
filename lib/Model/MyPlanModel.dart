@@ -4,74 +4,122 @@
 
 import 'dart:convert';
 
-MyPlanModel myPlanModelFromJson(String str) => MyPlanModel.fromJson(json.decode(str));
+MyPlanModel myPlanModelFromJson(String str) =>
+    MyPlanModel.fromJson(json.decode(str));
 
 String myPlanModelToJson(MyPlanModel data) => json.encode(data.toJson());
 
 class MyPlanModel {
+  int? code;
+  String? message;
+  List<Datum>? data;
+  DateTime? startDate;
+  bool? planRefunded;
+  List<dynamic>? promocode;
+
   MyPlanModel({
     this.code,
     this.message,
-    this.group,
+    this.data,
     this.startDate,
+    this.planRefunded,
     this.promocode,
   });
 
-  int ?code;
-  String ?message;
-  List<Group>? group;
-  DateTime ?startDate;
-  List<dynamic> ?promocode;
-
   factory MyPlanModel.fromJson(Map<String, dynamic> json) => MyPlanModel(
-    code: json["code"],
-    message: json["message"],
-    group: List<Group>.from(json["group"].map((x) => Group.fromJson(x))),
-    startDate: DateTime.parse(json["startDate"]),
-    // promocode:json["promocode"]==[] List<dynamic>.from(json["promocode"].map((x) => x)),
-  );
+        code: json["code"],
+        message: json["message"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        startDate: DateTime.parse(json["startDate"]),
+        planRefunded: json["planRefunded"],
+        promocode: List<dynamic>.from(json["promocode"].map((x) => x)),
+      );
 
   Map<String, dynamic> toJson() => {
-    "code": code,
-    "message": message,
-    "group": List<dynamic>.from(group!.map((x) => x.toJson())),
-    "startDate": startDate!.toIso8601String(),
-    // "promocode": List<dynamic>.from(promocode!.map((x) => x)),
-  };
+        "code": code,
+        "message": message,
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+        "startDate": startDate!.toIso8601String(),
+        "planRefunded": planRefunded,
+        "promocode": List<dynamic>.from(promocode!.map((x) => x)),
+      };
+}
+
+class Datum {
+  List<Group>? group;
+
+  Datum({
+    this.group,
+  });
+
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        group: List<Group>.from(json["group"].map((x) => Group.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "group": List<dynamic>.from(group!.map((x) => x.toJson())),
+      };
 }
 
 class Group {
+  String? startDate;
+  String? endDate;
+  Data? data;
+  dynamic isInstallments;
+  String? paymentMode;
+
   Group({
-    this.chargeId,
     this.startDate,
     this.endDate,
     this.data,
-
+    this.isInstallments,
+    this.paymentMode,
   });
 
-  String ?chargeId;
-  String ?startDate;
-  String ?endDate;
-  Data ?data;
-  bool isActive=false;
-  bool isChecked=false;
-
   factory Group.fromJson(Map<String, dynamic> json) => Group(
-    chargeId: json["chargeId"],
-    startDate: json["startDate"],
-    endDate: json["endDate"],
-    data: Data.fromJson(json["data"]),
-  );
+        startDate: json["startDate"],
+        endDate: json["endDate"],
+        data: Data.fromJson(json["data"]),
+        isInstallments: json["isInstallments"],
+        paymentMode: json["paymentMode"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "chargeId": chargeId,
-    "startDate": startDate,
-    "endDate": endDate,
-    "data": data!.toJson(),
-  };
+        "startDate": startDate,
+        "endDate": endDate,
+        "data": data!.toJson(),
+        "isInstallments": isInstallments,
+        "paymentMode": paymentMode,
+      };
 }
 
 class Data {
+  String? id;
+  String? planName;
+  String? description;
+  String? heading;
+  String? title;
+  String? validity;
+  double? planPrice;
+  double? finalPrice;
+  bool? isActive;
+  String? discountType;
+  var discountValue;
+  dynamic maxDiscountValue;
+  String? createdBy;
+  DateTime? createdDate;
+  List<Feature>? features;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  var v;
+  dynamic androidPercent;
+  dynamic iphonePercent;
+  String? planType;
+  var androidPrice;
+  String? appKey;
+  List<InstallmentPercent>? installmentPercent;
+  var iphonePrice;
+
   Data({
     this.id,
     this.planName,
@@ -91,79 +139,82 @@ class Data {
     this.createdAt,
     this.updatedAt,
     this.v,
-    this.iphone_price,
-    this.android_price
+    this.androidPercent,
+    this.iphonePercent,
+    this.planType,
+    this.androidPrice,
+    this.appKey,
+    this.installmentPercent,
+    this.iphonePrice,
   });
 
-  String ?id;
-  String ?planName;
-  String ?description;
-  String ?heading;
-  String ?title;
-  String ?validity;
- var planPrice;
-  var  finalPrice;
-  bool ?isActive;
-  String ?discountType;
-  dynamic discountValue;
-  dynamic maxDiscountValue;
-  String ?createdBy;
-  DateTime? createdDate;
-  List<Feature> ?features;
-  DateTime ?createdAt;
-  DateTime ?updatedAt;
-  int ?v;
-  var iphone_price;
-  var android_price;
-
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json["_id"],
-    planName: json["plan_name"],
-    description: json["description"],
-    heading: json["heading"],
-    title: json["title"],
-    validity: json["validity"],
-    planPrice: json["planPrice"],
-    finalPrice: json["finalPrice"],
-    isActive: json["isActive"],
-    discountType: json["discountType"],
-    discountValue: json["discountValue"],
-    maxDiscountValue: json["maxDiscountValue"],
-    createdBy: json["createdBy"],
-    createdDate: DateTime.parse(json["createdDate"]),
-    features: List<Feature>.from(json["features"].map((x) => Feature.fromJson(x))),
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    v: json["__v"],
-    iphone_price:json["iphone_price"],
-      android_price:json["android_price"],
-  );
+        id: json["_id"],
+        planName: json["plan_name"],
+        description: json["description"],
+        heading: json["heading"],
+        title: json["title"],
+        validity: json["validity"],
+        planPrice: json["planPrice"].toDouble(),
+        finalPrice: json["finalPrice"].toDouble(),
+        isActive: json["isActive"],
+        discountType: json["discountType"],
+        discountValue: json["discountValue"],
+        maxDiscountValue: json["maxDiscountValue"],
+        createdBy: json["createdBy"],
+        createdDate: DateTime.parse(json["createdDate"]),
+        features: List<Feature>.from(
+            json["features"].map((x) => Feature.fromJson(x))),
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        v: json["__v"],
+        androidPercent: json["android_percent"],
+        iphonePercent: json["iphone_percent"],
+        planType: json["planType"],
+        androidPrice: json["android_price"],
+        appKey: json["appKey"],
+        installmentPercent: List<InstallmentPercent>.from(
+            json["installmentPercent"]
+                .map((x) => InstallmentPercent.fromJson(x))),
+        iphonePrice: json["iphone_price"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "plan_name": planName,
-    "description": description,
-    "heading": heading,
-    "title": title,
-    "validity": validity,
-    "planPrice": planPrice,
-    "finalPrice": finalPrice,
-    "isActive": isActive,
-    "discountType": discountType,
-    "discountValue": discountValue,
-    "maxDiscountValue": maxDiscountValue,
-    "createdBy": createdBy,
-    "createdDate": createdDate!.toIso8601String(),
-    "features": List<dynamic>.from(features!.map((x) => x.toJson())),
-    "createdAt": createdAt!.toIso8601String(),
-    "updatedAt": updatedAt!.toIso8601String(),
-    "__v": v,
-    "iphone_price":iphone_price,
-    "android_price":android_price,
-  };
+        "_id": id,
+        "plan_name": planName,
+        "description": description,
+        "heading": heading,
+        "title": title,
+        "validity": validity,
+        "planPrice": planPrice,
+        "finalPrice": finalPrice,
+        "isActive": isActive,
+        "discountType": discountType,
+        "discountValue": discountValue,
+        "maxDiscountValue": maxDiscountValue,
+        "createdBy": createdBy,
+        "createdDate": createdDate!.toIso8601String(),
+        "features": List<dynamic>.from(features!.map((x) => x.toJson())),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "__v": v,
+        "android_percent": androidPercent,
+        "iphone_percent": iphonePercent,
+        "planType": planType,
+        "android_price": androidPrice,
+        "appKey": appKey,
+        "installmentPercent":
+            List<dynamic>.from(installmentPercent!.map((x) => x.toJson())),
+        "iphone_price": iphonePrice,
+      };
 }
 
 class Feature {
+  String? keyName;
+  String? constName;
+  var keyValue;
+  String? id;
+
   Feature({
     this.keyName,
     this.constName,
@@ -171,22 +222,42 @@ class Feature {
     this.id,
   });
 
-  String ?keyName;
-  String ?constName;
-  int ?keyValue;
-  String ?id;
-
   factory Feature.fromJson(Map<String, dynamic> json) => Feature(
-    keyName: json["keyName"],
-    constName: json["constName"],
-    keyValue: json["keyValue"],
-    id: json["_id"],
-  );
+        keyName: json["keyName"],
+        constName: json["constName"],
+        keyValue: json["keyValue"],
+        id: json["_id"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "keyName": keyName,
-    "constName": constName,
-    "keyValue": keyValue,
-    "_id": id,
-  };
+        "keyName": keyName,
+        "constName": constName,
+        "keyValue": keyValue,
+        "_id": id,
+      };
+}
+
+class InstallmentPercent {
+  bool? checked;
+  var value;
+  String? number;
+
+  InstallmentPercent({
+    this.checked,
+    this.value,
+    this.number,
+  });
+
+  factory InstallmentPercent.fromJson(Map<String, dynamic> json) =>
+      InstallmentPercent(
+        checked: json["checked"],
+        value: json["value"],
+        number: json["number"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "checked": checked,
+        "value": value,
+        "number": number,
+      };
 }

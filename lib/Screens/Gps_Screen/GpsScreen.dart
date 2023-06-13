@@ -348,7 +348,8 @@ class BottomButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              AppLocalizations.instance.text('Destination') + " : ",
+              '${index == 2 ? "Final " : ""}Destination${index == 2 ? "" : index + 1}' +
+                  " : ",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
             ),
             SizedBox(

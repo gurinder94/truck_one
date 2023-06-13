@@ -23,9 +23,11 @@ import '../../Trip Planner/UserLiveMap/user_map_navigation.dart';
 class AddTripProvider extends ChangeNotifier {
   bool getLoading = false;
   bool routeStart = false;
+  var long, lat;
   TruckListModel? truckListModel;
   TextEditingController chooseSource = TextEditingController();
-  TextEditingController chooseDestination = TextEditingController();
+  var chooseDestination ;
+
   TextEditingController choose1Destination = TextEditingController();
   TextEditingController startDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
@@ -586,20 +588,6 @@ class AddTripProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setvalueDestinationsTextEditer(String value) {
-    choose1Destination.text = value;
-    polyline.clear();
-    polyline.clear();
-    weatherName = [];
-    _markers.clear();
-    model.routes = null;
-
-    _turns = [];
-    weatherMarkers = [];
-    _routePoints = [];
-    notifyListeners();
-  }
-
   setAddressChooseSource(String value) {
     chooseSource.text = value;
     notifyListeners();
@@ -642,12 +630,7 @@ class AddTripProvider extends ChangeNotifier {
             });*/
           DestinationLatitude = location.latitude;
           DestinationLongitude = location.longitude;
-          setAddressesDestination({
-            "location": {
-              "coordinates": [DestinationLatitude, DestinationLongitude]
-            },
-            "address": query,
-          });
+          chooseDestination= query;
           notifyListeners();
         });
       } on Exception catch (e) {
@@ -667,7 +650,7 @@ class AddTripProvider extends ChangeNotifier {
 
   void setAddressesDestination(value) {
     addAddressData.add(value);
-    print(addAddressData);
+    print("${addAddressData}gufsdu");
     notifyListeners();
   }
 

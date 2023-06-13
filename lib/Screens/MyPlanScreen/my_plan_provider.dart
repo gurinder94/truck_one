@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -120,8 +121,9 @@ class MyPlanProvider extends ChangeNotifier {
   }
 
   void setActive(MyPlanModel myPlanModel) {
-    for (int i = 1; i < myPlanModel.group!.length; i++) {
-      print(i);
+    // for (int i = 1; i < myPlanModel.group!.length; i++) {
+   */
+/*   print(i);
       if (myPlanModel.group![0].chargeId == myPlanModel.group![i].chargeId) {
         myPlanModel.group![0].isActive = false;
         myPlanModel.group![i].isActive = false;
@@ -131,10 +133,12 @@ class MyPlanProvider extends ChangeNotifier {
         myPlanModel.group![i].isActive = true;
         notifyListeners();
       }
-    }
+    }*//*
+
   }
 
-  void setPlanDataValue(Group group) {
+*/
+/*  void setPlanDataValue(Group group) {
     planData = {};
     dataObject = {};
 
@@ -151,7 +155,8 @@ class MyPlanProvider extends ChangeNotifier {
     addListItem(planData);
 
     PlanRefundPrice(group);
-  }
+  }*//*
+
 
   void addListItem(Map<dynamic, dynamic> planData) {
     productMap.add(planData);
@@ -198,4 +203,4 @@ class MyPlanProvider extends ChangeNotifier {
     productMap = [];
     notifyListeners();
   }
-}
+}*/

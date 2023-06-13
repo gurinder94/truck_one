@@ -3468,7 +3468,7 @@ hitPaymentSuccessApi(Map<String, dynamic> map) async {
 hitMyPlanApi(Map<String, dynamic> map) async {
   try {
     var response =
-        await baseServicePost('/api/v1/subscriptionplan/myMobilePlan', map);
+        await baseServicePost('/api/v1/subscriptionplan/myPlan', map);
     if (response.statusCode == 200) {
       print('sub: ${response.body}');
       var parseData = json.decode(response.body);

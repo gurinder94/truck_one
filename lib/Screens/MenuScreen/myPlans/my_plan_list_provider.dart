@@ -14,13 +14,14 @@ import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
 
 import '../../../AppUtils/constants.dart';
+import '../../../Model/MyPlanModel.dart';
 import '../../../Model/validate_receipt_ios_model.dart';
 
 class MyPlanListProvider extends ChangeNotifier {
   int menuClick = 0;
 
   // static var selectedPlanType = "ECOMMERCE";
-
+  MyPlanModel myPlanModel = MyPlanModel();
   var _monthlySubscriptionId = [
     "ECOMMERCE_MONTHLY_BASIC",
     "ECOMMERCE_MONTHLY_PREMIUM"
@@ -316,6 +317,30 @@ class MyPlanListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+/*  myPlan() async {
+    var userId = await getUserId();
+    loading = true;
+    notifyListeners();
+    Map<String, dynamic> map = {
+      "userId": userId,
+      "deviceType": Platform.isIOS == true ? "IOS" : "ANDROID"
+    };
+
+    print(map);
+    try {
+      myPlanModel = await hitMyPlanApi(map);
+      getPlan();
+      notifyListeners();
+      loading = false;
+    } on Exception catch (e) {
+      var message = e.toString().replaceAll('Exception:', '');
+      showMessage(message.toString());
+      loading = false;
+      print(e.toString());
+      notifyListeners();
+    }
+  }*/
+
   void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
     print("_handleInvalidPurchase");
     purchasePending = false;
@@ -348,7 +373,7 @@ class MyPlanListProvider extends ChangeNotifier {
     // transactions.forEach((skPaymentTransactionWrapper) {
     //   SKPaymentQueueWrapper().finishTransaction(skPaymentTransactionWrapper);
     // });
-    print("requestPurchase  dff ${product.id }");
+    print("requestPurchase  dff ${product.id}");
     late PurchaseParam purchaseParam;
     try {
       purchaseParam =
@@ -446,6 +471,7 @@ class MyPlanListProvider extends ChangeNotifier {
         .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
     iosPlatformAddition.presentCodeRedemptionSheet();
   }
+
 }
 
 Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {

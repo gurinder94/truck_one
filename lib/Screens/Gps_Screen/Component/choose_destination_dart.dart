@@ -66,7 +66,7 @@ class _ChooseNextDestinationState extends State<ChooseNextDestination> {
 
                         widget.chooseDestination.text = "";
                         widget.addTripProvider
-                            .setvalueDestinationsTextEditer("");
+                            .setvalueDestinationTextEditer("");
                       },
                       icon: Icon(Icons.close))),
             ),
