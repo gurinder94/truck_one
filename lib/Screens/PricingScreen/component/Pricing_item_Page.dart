@@ -22,6 +22,14 @@ class PricingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mdata = proData.myPlanList.where((element) {
+      return element['appKey'] == product.id;
+    });
+    var endDate = "";
+    if (mdata != null && mdata.length != null && mdata.length > 0) {
+      print("mdata>> endDate ${mdata.first['endDate']}");
+      endDate = mdata.first['endDate'];
+    }
     return Padding(
       padding: const EdgeInsets.all(14.0),
       child: Container(

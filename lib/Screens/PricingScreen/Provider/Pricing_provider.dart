@@ -126,6 +126,7 @@ class PriceProvider extends ChangeNotifier {
         previousPurchase = purch[productDetails.id];
       },
     ));
+    getmyPlan();
   }
 
   //listener
@@ -309,6 +310,7 @@ class PriceProvider extends ChangeNotifier {
     }
   }
 
+  List<Map<String, dynamic>> myPlanList = [];
   getmyPlan() async {
     var getid = await getUserId();
     Map<String, dynamic> map = {
@@ -317,6 +319,13 @@ class PriceProvider extends ChangeNotifier {
 
     try {
       constant = await hitMyPlan(map);
+      constant.data?.forEach((element) {
+        Map<String, dynamic> mdata = {};
+        mdata['endDate'] = "${element.group?[0].endDate}";
+        mdata['appKey'] = "${element.group?[0].data?.appKey}";
+        mdata['paymentMode'] = "${element.group?[0].paymentMode}";
+        myPlanList.add(mdata);
+      });
       notifyListeners();
     } on Exception catch (e) {
       message = e.toString().replaceAll('Exception:', '');
