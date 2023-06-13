@@ -108,8 +108,14 @@ class PricingItem extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
+                endDate != ""
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Expires on ${endDate}"),
+                      )
+                    : Container(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 1.0,
                   child: Row(
