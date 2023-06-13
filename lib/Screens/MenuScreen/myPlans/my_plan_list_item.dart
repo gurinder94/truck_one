@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 // import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
@@ -23,6 +22,15 @@ class MyPlanListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mdata = proData.myPlanList.where((element) {
+      return element['appKey'] == product.id;
+    });
+    var endDate = "";
+    if (mdata != null && mdata.length != null && mdata.length > 0) {
+      print("mdata>> endDate ${mdata.first['endDate']}");
+      endDate = mdata.first['endDate'];
+    }
+
     return Padding(
       padding: const EdgeInsets.all(14.0),
       child: Container(
@@ -93,8 +101,14 @@ class MyPlanListItem extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
+                endDate != ""
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Expires on ${endDate}"),
+                      )
+                    : Container(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 1.0,
                   child: Row(
@@ -143,13 +157,14 @@ class MyPlanListItem extends StatelessWidget {
                     ? Transform(
                         child: Container(
                             width: 200,
-                             padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(10),
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(left: 35, right: 35),
                               child: new Text(
                                 "RECOMMENDED",
-                                style: TextStyle(color: Colors.white,fontSize: 12),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
                               ),
                             ),
                             color: Color(0xFFEDBC48)),

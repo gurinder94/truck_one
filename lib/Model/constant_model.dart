@@ -86,6 +86,7 @@ class Data {
     this.finalPrice,
     this.isActive,
     this.discountType,
+    this.appKey,
     this.discountValue,
     this.maxDiscountValue,
     this.createdBy,
@@ -101,6 +102,7 @@ class Data {
   });
 
   String? id;
+  String? appKey;
   String? planName;
   String? description;
   String? heading;
@@ -124,30 +126,30 @@ class Data {
   int? iphonePrice;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["_id"],
-        planName: json["plan_name"],
-        description: json["description"],
-        heading: json["heading"],
-        title: json["title"],
-        validity: json["validity"],
-        planPrice: json["planPrice"],
-        finalPrice: json["finalPrice"],
-        isActive: json["isActive"],
-        discountType: json["discountType"],
-        discountValue: json["discountValue"],
-        maxDiscountValue: json["maxDiscountValue"],
-        createdBy: json["createdBy"],
-        createdDate: DateTime.parse(json["createdDate"]),
-        features: List<Feature>.from(
-            json["features"].map((x) => Feature.fromJson(x))),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
-        androidPercent: json["android_percent"]?.toDouble(),
-        iphonePercent: json["iphone_percent"],
-        androidPrice: json["android_price"]?.toDouble(),
-        iphonePrice: json["iphone_price"],
-      );
+      id: json["_id"],
+      planName: json["plan_name"],
+      description: json["description"],
+      heading: json["heading"],
+      title: json["title"],
+      validity: json["validity"],
+      planPrice: json["planPrice"],
+      finalPrice: json["finalPrice"],
+      isActive: json["isActive"],
+      discountType: json["discountType"],
+      discountValue: json["discountValue"],
+      maxDiscountValue: json["maxDiscountValue"],
+      createdBy: json["createdBy"],
+      createdDate: DateTime.parse(json["createdDate"]),
+      features:
+          List<Feature>.from(json["features"].map((x) => Feature.fromJson(x))),
+      createdAt: DateTime.parse(json["createdAt"]),
+      updatedAt: DateTime.parse(json["updatedAt"]),
+      v: json["__v"],
+      androidPercent: json["android_percent"]?.toDouble(),
+      iphonePercent: json["iphone_percent"],
+      androidPrice: json["android_price"]?.toDouble(),
+      iphonePrice: json["iphone_price"],
+      appKey: json['appKey']);
 
   Map<String, dynamic> toJson() => {
         "_id": id,
@@ -159,6 +161,7 @@ class Data {
         "planPrice": planPrice,
         "finalPrice": finalPrice,
         "isActive": isActive,
+        "appKey": appKey,
         "discountType": discountType,
         "discountValue": discountValue,
         "maxDiscountValue": maxDiscountValue,

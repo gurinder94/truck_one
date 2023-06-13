@@ -3470,7 +3470,7 @@ hitMyPlanApi(Map<String, dynamic> map) async {
     var response =
         await baseServicePost('/api/v1/subscriptionplan/myPlan', map);
     if (response.statusCode == 200) {
-      print('sub: ${response.body}');
+      print('hitMyPlanApi: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);
@@ -3595,7 +3595,7 @@ hitMyPlan(Map<String, dynamic> map) async {
     var response =
         await baseServicePost('/api/v1/subscriptionplan/myPlan', map);
     if (response.statusCode == 200) {
-      print('myPlan: ${response.body}');
+      log('myPlan: ${response.body}');
       var parseData = json.decode(response.body);
       if (parseData['code'] != 200)
         throw Exception(parseData['message']);

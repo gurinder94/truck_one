@@ -109,7 +109,8 @@ class MyPlanListProvider extends ChangeNotifier {
     purchasePending = false;
     loading = false;
     products.sort((b, a) => a.price.compareTo(b.price));
-    print(products[0].title);
+    //  print(products[0].title);
+    getmyPlan();
     notifyListeners();
   }
 
@@ -317,30 +318,6 @@ class MyPlanListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-/*  myPlan() async {
-    var userId = await getUserId();
-    loading = true;
-    notifyListeners();
-    Map<String, dynamic> map = {
-      "userId": userId,
-      "deviceType": Platform.isIOS == true ? "IOS" : "ANDROID"
-    };
-
-    print(map);
-    try {
-      myPlanModel = await hitMyPlanApi(map);
-      getPlan();
-      notifyListeners();
-      loading = false;
-    } on Exception catch (e) {
-      var message = e.toString().replaceAll('Exception:', '');
-      showMessage(message.toString());
-      loading = false;
-      print(e.toString());
-      notifyListeners();
-    }
-  }*/
-
   void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
     print("_handleInvalidPurchase");
     purchasePending = false;
@@ -412,6 +389,7 @@ class MyPlanListProvider extends ChangeNotifier {
     }
   }
 
+  List<Map<String, dynamic>> myPlanList = [];
   getmyPlan() async {
     var getid = await getUserId();
     Map<String, dynamic> map = {
@@ -420,6 +398,13 @@ class MyPlanListProvider extends ChangeNotifier {
 
     try {
       constant = await hitMyPlan(map);
+      constant.data?.forEach((element) {
+        Map<String, dynamic> mdata = {};
+        mdata['endDate'] = "${element.group?[0].endDate}";
+        mdata['appKey'] = "${element.group?[0].data?.appKey}";
+        mdata['paymentMode'] = "${element.group?[0].paymentMode}";
+        myPlanList.add(mdata);
+      });
       notifyListeners();
     } on Exception catch (e) {
       message = e.toString().replaceAll('Exception:', '');
@@ -471,7 +456,6 @@ class MyPlanListProvider extends ChangeNotifier {
         .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
     iosPlatformAddition.presentCodeRedemptionSheet();
   }
-
 }
 
 Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {
