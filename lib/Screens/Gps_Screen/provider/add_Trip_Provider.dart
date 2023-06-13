@@ -26,7 +26,8 @@ class AddTripProvider extends ChangeNotifier {
   var long, lat;
   TruckListModel? truckListModel;
   TextEditingController chooseSource = TextEditingController();
-  TextEditingController chooseDestination = TextEditingController();
+  var chooseDestination;
+
   TextEditingController choose1Destination = TextEditingController();
   TextEditingController startDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
@@ -643,7 +644,8 @@ class AddTripProvider extends ChangeNotifier {
             });*/
           DestinationLatitude = location.latitude;
           DestinationLongitude = location.longitude;
-          setAddressesDestination({
+          chooseDestination = query;
+              setAddressesDestination({
             "location": {
               "coordinates": [DestinationLatitude, DestinationLongitude]
             },
