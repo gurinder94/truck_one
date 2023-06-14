@@ -89,43 +89,43 @@ class _EventListState extends State<EventList> {
         children: [
           SizeConfig.screenHeight! < 1010
               ? SizedBox(
-                  height: Platform.isIOS
-                      ? SizeConfig.safeBlockVertical! * 15
-                      : SizeConfig.safeBlockVertical! * 12, //10 for example
-                )
+            height: Platform.isIOS
+                ? SizeConfig.safeBlockVertical! * 15
+                : SizeConfig.safeBlockVertical! * 12, //10 for example
+          )
               : SizedBox(
-                  height: Platform.isIOS
-                      ? SizeConfig.safeBlockVertical! * 9
-                      : SizeConfig.safeBlockVertical! * 9, //10 for example
-                ),
+            height: Platform.isIOS
+                ? SizeConfig.safeBlockVertical! * 9
+                : SizeConfig.safeBlockVertical! * 9, //10 for example
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: Row(
               children: [
                 Expanded(
                     child: CommanSearchBar(
-                  onTextChange: (val) {
-                    if (searchText == '') {
-                      searchText = val;
-                      page = 1;
-                    }
+                      onTextChange: (val) {
+                        if (searchText == '') {
+                          searchText = val;
+                          page = 1;
+                        }
 
-                    if (!_eventListProvider.loading) {
-                      Onserach = val;
-                      getEventList(context, 1, Onserach);
-                    }
-                  },
-                  IconName: GestureDetector(
-                    child: Icon(
-                      Icons.filter_list,
-                      color: Colors.black,
-                    ),
-                    onTap: () {
-                      CommanBottomSheet.ShowBottomSheet(context,
-                          child: FliterEvent(_eventListProvider, taber));
-                    },
-                  ),
-                )),
+                        if (!_eventListProvider.loading) {
+                          Onserach = val;
+                          getEventList(context, 1, Onserach);
+                        }
+                      },
+                      IconName: GestureDetector(
+                        child: Icon(
+                          Icons.filter_list,
+                          color: Colors.black,
+                        ),
+                        onTap: () {
+                          CommanBottomSheet.ShowBottomSheet(context,
+                              child: FliterEvent(_eventListProvider, taber));
+                        },
+                      ),
+                    )),
               ],
             ),
           ),
@@ -184,69 +184,69 @@ class _EventListState extends State<EventList> {
           ),
           taber == "Booked"
               ? Expanded(
-                  child: Consumer<EventListProvider>(builder: (_, proData, __) {
-                  if (proData.eventListLoad) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (proData.eventListModel == null ||
-                      proData.eventListModel!.data!.length == 0)
-                    return Center(
-                        child: Text(
-                            AppLocalizations.instance.text("No Record Found")));
-                  else
-                    return ListView.builder(
-                      itemCount: proData.eventListModel!.data!.length,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ChangeNotifierProvider<EventModel>.value(
-                            value: proData.eventListModel!.data![index],
-                            child: GestureDetector(
-                                child: EventItem(taber), onTap: () {}));
-                      },
-                    );
-                }))
+              child: Consumer<EventListProvider>(builder: (_, proData, __) {
+                if (proData.eventListLoad) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (proData.eventListModel == null ||
+                    proData.eventListModel!.data!.length == 0)
+                  return Center(
+                      child: Text(
+                          AppLocalizations.instance.text("No Record Found")));
+                else
+                  return ListView.builder(
+                    itemCount: proData.eventListModel!.data!.length,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ChangeNotifierProvider<EventModel>.value(
+                          value: proData.eventListModel!.data![index],
+                          child: GestureDetector(
+                              child: EventItem(taber), onTap: () {}));
+                    },
+                  );
+              }))
               : Expanded(
-                  child: Consumer<EventListProvider>(builder: (_, proData, __) {
-                    if (proData.eventListLoad) {
-                      return Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      );
-                    }
-                    if (proData.eventListModel == null ||
-                        proData.eventListModel!.data!.length == 0)
-                      return Center(
-                          child: Text(AppLocalizations.instance
-                              .text("No Record Found")));
-                    else
-                      return ListView.builder(
-                        itemCount: proData.eventListModel!.data!.length,
-                        padding: EdgeInsets.zero,
-                        itemBuilder: (BuildContext context, int index) =>
-                            ChangeNotifierProvider<EventModel>.value(
-                                value: proData.eventListModel!.data![index],
-                                child: GestureDetector(
-                                  child: EventItem(taber),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ChangeNotifierProvider(
-                                                  create: (_) =>
-                                                      UserEventViewProvider(),
-                                                  child: UserViewEvent(proData
-                                                      .eventListModel!
-                                                      .data![index]
-                                                      .id
-                                                      .toString()),
-                                                )));
-                                  },
-                                )),
-                      );
-                  }),
-                )
+            child: Consumer<EventListProvider>(builder: (_, proData, __) {
+              if (proData.eventListLoad) {
+                return Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
+              }
+              if (proData.eventListModel == null ||
+                  proData.eventListModel!.data!.length == 0)
+                return Center(
+                    child: Text(AppLocalizations.instance
+                        .text("No Record Found")));
+              else
+                return ListView.builder(
+                  itemCount: proData.eventListModel!.data!.length,
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (BuildContext context, int index) =>
+                  ChangeNotifierProvider<EventModel>.value(
+                      value: proData.eventListModel!.data![index],
+                      child: GestureDetector(
+                        child: EventItem(taber),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChangeNotifierProvider(
+                                        create: (_) =>
+                                            UserEventViewProvider(),
+                                        child: UserViewEvent(proData
+                                            .eventListModel!
+                                            .data![index]
+                                            .id
+                                            .toString()),
+                                      )));
+                        },
+                      )),
+                );
+            }),
+          )
         ],
       ),
     );
@@ -275,8 +275,10 @@ class _EventListState extends State<EventList> {
           return Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ChangeNotifierProvider(
-                      create: (_) => AddEventProvider(), child: AddEvent())));
+                  builder: (context) =>
+                      ChangeNotifierProvider(
+                          create: (_) => AddEventProvider(),
+                          child: AddEvent())));
         } else {
           return DialogUtils.showMyDialog(
             context,
@@ -418,7 +420,7 @@ class _EventListState extends State<EventList> {
           title: 'Buy Event Plan!',
           alertTitle: 'Pricing Price',
           btnText: "Done",
-        );/*DialogUtils.showMySuccessful(context,
+        ); /*DialogUtils.showMySuccessful(context,
             child: AlertDialog(
               shape:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
@@ -451,7 +453,17 @@ class _EventListState extends State<EventList> {
             ))*/
       }
     } else {
-      return DialogUtils.showMySuccessful(context,
+      return DialogUtils.showMyDialog(
+        context,
+        onDoneFunction: () async {
+          Navigator.pop(context);
+        },
+        oncancelFunction: () => Navigator.pop(context),
+        title: 'Buy Event Plan!',
+        alertTitle: 'Pricing Price',
+        btnText: "Done",
+      );
+      /* return DialogUtils.showMySuccessful(context,
           child: AlertDialog(
             shape:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
@@ -481,7 +493,7 @@ class _EventListState extends State<EventList> {
                 ),
               ),
             ],
-          ));
+          ));*/
     }
   }
 }

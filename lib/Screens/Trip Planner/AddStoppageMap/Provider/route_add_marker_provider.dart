@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/TripPlannerModel/GetServiceMarker.dart';
@@ -53,6 +54,7 @@ class RouteMarkerProvider extends ChangeNotifier {
   var calculateTime = [];
   var calculateDistance = [];
   var days = [];
+  TripPlannerModel? tripPlannerData;
   RouteMarkerProvider? provider;
   TextEditingController speed = TextEditingController(text: "64");
 
@@ -66,9 +68,18 @@ class RouteMarkerProvider extends ChangeNotifier {
       TripPlannerModel data, BuildContext context) async {
     tripId = data.id;
     _loading = true;
+
     notifyListeners();
+    var destinationLatitude = "";
+
+    data.destination?.forEach((element) {
+      print("element>> ${element}");
+      destinationLatitude +=
+          "$destinationLatitude:${element.location!.coordinates![0]},${element.location!.coordinates![1]}";
+    });
+
     var url =
-        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}:${data.destination![0].location!.coordinates![0]},${data.destination![0].location!.coordinates![1]}/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=zc9hdsTH7XOx170MeAyMSWU0MBXLGhrH&routeType=eco&avoid=unpavedRoads&travelMode=truck&vehicleWeight=${data.weight}&vehicleWidth=${data.width}&vehicleHeight=${data.height}&vehicleCommercial=true";
+        "https://api.tomtom.com/routing/1/calculateRoute/${data.source!.location!.coordinates![0]},${data.source!.location!.coordinates![1]}$destinationLatitude/json?maxAlternatives=${data.alternateRoots}&instructionsType=text&language=en-US&routeRepresentation=polyline&sectionType=travelMode&key=FAwecAoL8qcVNzRyX18RPYKkcfrGTvdB&routeType=eco&traffic=true&avoid=unpavedRoads&arriveAt=${DateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'").format(data.endDate!)}&travelMode=truck&vehicleEngineType=${"combustion"}&vehicleWeight=${data.grossWeight ~/ 2.2046}&vehicleWidth=${data.width ~/ 39.37}&vehicleHeight=${data.height ~/ 39.37}&vehicleCommercial=true";
     var response = await http.get(Uri.parse(url));
     var jsonRes = json.decode(response.body);
     if (jsonRes["error"] != null) {
@@ -263,10 +274,10 @@ class RouteMarkerProvider extends ChangeNotifier {
 
   Future<void> setStartEndMarker(LatLng start, LatLng end) async {
     final Uint8List startIcon =
-        await getBytesFromAsset('assets/start_flag.png', 100);
+    await getBytesFromAsset('assets/start_flag.png', 100);
     final Uint8List endIcon =
-        await getBytesFromAsset('assets/end_flag.png', 100);
-    markers[MarkerId('start')] = Marker(
+    await getBytesFromAsset('assets/end_flag.png', 100);
+    _markers[MarkerId('start')] = Marker(
       markerId: MarkerId('start'),
       flat: true,
       icon: BitmapDescriptor.fromBytes(startIcon),
@@ -275,16 +286,70 @@ class RouteMarkerProvider extends ChangeNotifier {
       infoWindow: InfoWindow(title: 'Start'),
       onTap: () {},
     );
-    markers[MarkerId('end')] = Marker(
-      markerId: MarkerId('end'),
-      flat: true,
-      icon: BitmapDescriptor.fromBytes(endIcon),
-      position: end,
-      anchor: Offset(.5, .5),
-      infoWindow: InfoWindow(title: 'End'),
-      onTap: () {},
-    );
+
+    // _markers[MarkerId('weather')] = Marker(
+    //   markerId: MarkerId('weather$no'),
+    //   icon: BitmapDescriptor.fromBytes(startIcon),
+    //   position: LatLng(sourceLatitude, sourceLongitude),
+    //   infoWindow: InfoWindow(title: 'weather'),
+    //   onTap: () {
+    //     // weatherplan == true
+    //     //     ? weatherMarkerClick(MarkerId('weather$i'))
+    //     //     : SizedBox();
+    //   },
+    // );
+    final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
+    //  data.destination?.forEach((element) {
+    //   print("element>> ${element}");
+    //   destinationLatitude +=
+    //       "$destinationLatitude:${element.location!.coordinates![0]},${element.location!.coordinates![1]}";
+    // });
+    tripPlannerData?.destination?.forEach((melement) {
+      print(
+          "tripPlannerData>> ${melement.location?.coordinates} ${melement
+              .address}");
+      // destinationLatitude +=
+      // "$destinationLatitude:${element['location']['coordinates'][0]},${element['location']['coordinates'][1]}";
+      var no = Random().nextInt(100);
+      _markers[MarkerId('weather$no')] = Marker(
+        markerId: MarkerId('weather$no'),
+        icon: BitmapDescriptor.fromBytes(midIcon),
+        position: LatLng(melement.location?.coordinates![0] ?? 0.0,
+            melement.location!.coordinates![1]),
+        infoWindow: InfoWindow(title: '${melement.address}'),
+        onTap: () {
+          // weatherplan == true
+          //     ? weatherMarkerClick(MarkerId('weather$i'))
+          //     : SizedBox();
+        },
+      );
+    });
   }
+
+  // Future<void> setStartEndMarker(LatLng start, LatLng end) async {
+  //   final Uint8List startIcon =
+  //       await getBytesFromAsset('assets/start_flag.png', 100);
+  //   final Uint8List endIcon =
+  //       await getBytesFromAsset('assets/end_flag.png', 100);
+  //   markers[MarkerId('start')] = Marker(
+  //     markerId: MarkerId('start'),
+  //     flat: true,
+  //     icon: BitmapDescriptor.fromBytes(startIcon),
+  //     position: start,
+  //     anchor: Offset(.5, .5),
+  //     infoWindow: InfoWindow(title: 'Start'),
+  //     onTap: () {},
+  //   );
+  //   markers[MarkerId('end')] = Marker(
+  //     markerId: MarkerId('end'),
+  //     flat: true,
+  //     icon: BitmapDescriptor.fromBytes(endIcon),
+  //     position: end,
+  //     anchor: Offset(.5, .5),
+  //     infoWindow: InfoWindow(title: 'End'),
+  //     onTap: () {},
+  //   );
+  // }
 
   Future<void> addWeatherMarker(List<LatLng> routePoints) async {
     final Uint8List endIcon = await getBytesFromAsset('assets/sun.png', 90);
