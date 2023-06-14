@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
@@ -187,37 +188,57 @@ class RouteMarkerProvider extends ChangeNotifier {
       int index, BuildContext context, RouteMarkerProvider provider) async {
     _markers.clear();
     _routePoints = [];
-    List<Point>? data = routeModel.routes![index].legs![0].points;
+    // List<Point>? data = routeModel.routes![index].legs![0].points;
 
-    for (int i = 0; i < data!.length; i++) {
-      _routePoints.add(LatLng(data[i].latitude!, data[i].longitude!));
-    }
-    var polyID = PolylineId('route');
-    if (_polyline.length == 0) {
+    // for (int i = 0; i < data!.length; i++) {
+    //   _routePoints.add(LatLng(data[i].latitude!, data[i].longitude!));
+    // }
+    // var polyID = PolylineId('route');
+    // if (_polyline.length == 0) {
+    //   _polyline[polyID] = Polyline(
+    //     polylineId: polyID,
+    //     visible: true,
+    //     points: _routePoints,
+    //     width: 5,
+    //     color: Colors.deepPurpleAccent,
+    //   );
+    // } else {
+    //   _polyline[polyID] =
+    //       _polyline[polyID]!.copyWith(pointsParam: _routePoints);
+    // }
+
+    routeModel.routes![0].legs?.forEach((element) {
+      element.points?.forEach((melement) {
+        _routePoints.add(LatLng(
+          melement.latitude ?? 0.0,
+          melement.longitude ?? 0.0,
+        ));
+      });
+
+      var polyID = PolylineId('route');
+      // if (_polyline.isEmpty) {
       _polyline[polyID] = Polyline(
         polylineId: polyID,
         visible: true,
         points: _routePoints,
         width: 5,
-        color: Colors.deepPurpleAccent,
+        color: Colors.blue,
       );
-    } else {
-      _polyline[polyID] =
-          _polyline[polyID]!.copyWith(pointsParam: _routePoints);
+    });
+    if (_polyline.length > 0) {
+      storeTurns(routeModel.routes![index].guidance!.instructions!);
+      await setStartEndMarker(
+          routePoints[0], routePoints[routePoints.length - 1]);
+      moveCamera(_routePoints[0]);
+      addWeatherMarker(_routePoints);
+      this.provider;
+      addServiceMarkers(
+        serviceMarkerModel.data!,
+        index,
+        provider,
+      );
+      no = index;
     }
-    storeTurns(routeModel.routes![index].guidance!.instructions!);
-    await setStartEndMarker(
-        routePoints[0], routePoints[routePoints.length - 1]);
-    moveCamera(_routePoints[0]);
-    addWeatherMarker(_routePoints);
-    this.provider;
-    addServiceMarkers(
-      serviceMarkerModel.data!,
-      index,
-      provider,
-    );
-    no = index;
-
     notifyListeners();
   }
 
@@ -274,9 +295,9 @@ class RouteMarkerProvider extends ChangeNotifier {
 
   Future<void> setStartEndMarker(LatLng start, LatLng end) async {
     final Uint8List startIcon =
-    await getBytesFromAsset('assets/start_flag.png', 100);
+        await getBytesFromAsset('assets/start_flag.png', 100);
     final Uint8List endIcon =
-    await getBytesFromAsset('assets/end_flag.png', 100);
+        await getBytesFromAsset('assets/end_flag.png', 100);
     _markers[MarkerId('start')] = Marker(
       markerId: MarkerId('start'),
       flat: true,
@@ -306,8 +327,7 @@ class RouteMarkerProvider extends ChangeNotifier {
     // });
     tripPlannerData?.destination?.forEach((melement) {
       print(
-          "tripPlannerData>> ${melement.location?.coordinates} ${melement
-              .address}");
+          "tripPlannerData>> ${melement.location?.coordinates} ${melement.address}");
       // destinationLatitude +=
       // "$destinationLatitude:${element['location']['coordinates'][0]},${element['location']['coordinates'][1]}";
       var no = Random().nextInt(100);

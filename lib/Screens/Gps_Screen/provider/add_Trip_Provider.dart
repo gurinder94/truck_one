@@ -645,7 +645,7 @@ class AddTripProvider extends ChangeNotifier {
           DestinationLatitude = location.latitude;
           DestinationLongitude = location.longitude;
           chooseDestination = query;
-              setAddressesDestination({
+          setAddressesDestination({
             "location": {
               "coordinates": [DestinationLatitude, DestinationLongitude]
             },
