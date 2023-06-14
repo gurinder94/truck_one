@@ -30,7 +30,7 @@ class DialogUtils {
                       title.toString() == "null" ? '' : title.toString(),
                     ),
                     content: Text(
-                      AppLocalizations.instance.text(alertTitle.toString()),
+                      alertTitle.toString(),
                       textAlign: TextAlign.justify,
                     ),
                     actions: <Widget>[

@@ -36,8 +36,8 @@ class ChangePasswordProvider extends ChangeNotifier {
 
   changePassword(BuildContext context) async {
     var getId = await getUserId();
-    var language=await getLanguage();
-    var  roleName=await getRoleInfo();
+    var language = await getLanguage();
+    var roleName = await getRoleInfo();
 
     Map<String, String> map = {
       'oldPassword': oldPassword.text,
@@ -55,8 +55,10 @@ class ChangePasswordProvider extends ChangeNotifier {
 
       showMessage(_responseModel.message.toString());
 
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) =>  ChangeNotifierProvider(create: (_) => DeactivateProvider(),child: CompanySettingPage(language))));
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CompanySettingPage(language)));
       notifyListeners();
     } on Exception catch (e) {
       message = e.toString().replaceAll('Exception:', '');

@@ -69,6 +69,7 @@ class RouteMarkerProvider extends ChangeNotifier {
       TripPlannerModel data, BuildContext context) async {
     tripId = data.id;
     _loading = true;
+    tripPlannerData=data;
 
     notifyListeners();
     var destinationLatitude = "";
@@ -98,114 +99,11 @@ class RouteMarkerProvider extends ChangeNotifier {
     }
   }
 
-  /* Future<void> applyRoute(
-      int index, BuildContext context, RouteMarkerProvider provider) async {
-    _markers.clear();
-    _routePoints = [];
-    List<Point>? data = routeModel.routes![index].legs![0].points;
-    final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
-    final Uint8List startIcon =
-        await getBytesFromAsset('assets/start_flag.png', 100);
-    final Uint8List endIcon =
-        await getBytesFromAsset('assets/end_flag.png', 100);
-
-    routeModel.routes![index].legs?.forEach((element) {
-      element.points?.forEach((melement) {
-        _routePoints.add(LatLng(
-          melement.latitude ?? 0.0,
-          melement.longitude ?? 0.0,
-        ));
-      });
-
-      var polyID = PolylineId('route');
-      // if (_polyline.isEmpty) {
-      _polyline[polyID] = Polyline(
-        polylineId: polyID,
-        visible: true,
-        points: _routePoints,
-        width: 5,
-        color: Colors.blue,
-      );
-    });
-
-    if (_routePoints.length > 0) {
-      moveCamera(_routePoints[0]);
-      var no = Random().nextInt(100);
-      _markers[MarkerId('weather')] = Marker(
-        markerId: MarkerId('weather$no'),
-        icon: BitmapDescriptor.fromBytes(startIcon),
-        position: LatLng(data![0].latitude!, data[0].longitude!),
-        infoWindow: InfoWindow(title: 'weather'),
-        onTap: () {
-          // weatherplan == true
-          //     ? weatherMarkerClick(MarkerId('weather$i'))
-          //     : SizedBox();
-        },
-      );
-      _routePoints.forEach((element) {
-        print("element>> ${element}");
-        // destinationLatitude +=
-        // "$destinationLatitude:${element['location']['coordinates'][0]},${element['location']['coordinates'][1]}";
-        no = Random().nextInt(100);
-        _markers[MarkerId('weather$no')] = Marker(
-          markerId: MarkerId('weather$no'),
-          icon: BitmapDescriptor.fromBytes(midIcon),
-          position: LatLng(element.latitude, element.longitude),
-          infoWindow: InfoWindow(title: 'weather'),
-          onTap: () {
-            // weatherplan == true
-            //     ? weatherMarkerClick(MarkerId('weather$i'))
-            //     : SizedBox();
-          },
-        );
-      });
-
-      notifyListeners();
-    }
-    // Future.forEach(model.routes!, (RoutePath routeData) async {
-
-    //   //storeTurns(routeData.guidance!.instructions!);
-    // }).then((x) async {
-    //   // addWeatherMarker(_routePoints);
-    //   //var no = Random().nextInt(100);
-    //   // markers[MarkerId('start$no')] = Marker(
-    //   //   markerId: MarkerId('start$no'),
-    //   //   flat: true,
-    //   //   icon: BitmapDescriptor.fromBytes(midIcon),
-    //   //   position: LatLng(routePoints[0].latitude,
-    //   //       routePoints[routePoints.length - 1].longitude),
-    //   //   anchor: Offset(.5, .5),
-    //   //   infoWindow: InfoWindow(title: 'Start'),
-    //   //   onTap: () {},
-    //   // );
-    // });
-    // if (_polyline.length > 1) {
-    //   // setStartEndMarker(routePoints[0], routePoints[routePoints.length - 1]);
-    // }
-  }*/
 
   Future<void> applyRoute(
       int index, BuildContext context, RouteMarkerProvider provider) async {
     _markers.clear();
     _routePoints = [];
-    // List<Point>? data = routeModel.routes![index].legs![0].points;
-
-    // for (int i = 0; i < data!.length; i++) {
-    //   _routePoints.add(LatLng(data[i].latitude!, data[i].longitude!));
-    // }
-    // var polyID = PolylineId('route');
-    // if (_polyline.length == 0) {
-    //   _polyline[polyID] = Polyline(
-    //     polylineId: polyID,
-    //     visible: true,
-    //     points: _routePoints,
-    //     width: 5,
-    //     color: Colors.deepPurpleAccent,
-    //   );
-    // } else {
-    //   _polyline[polyID] =
-    //       _polyline[polyID]!.copyWith(pointsParam: _routePoints);
-    // }
 
     routeModel.routes![0].legs?.forEach((element) {
       element.points?.forEach((melement) {
@@ -308,23 +206,9 @@ class RouteMarkerProvider extends ChangeNotifier {
       onTap: () {},
     );
 
-    // _markers[MarkerId('weather')] = Marker(
-    //   markerId: MarkerId('weather$no'),
-    //   icon: BitmapDescriptor.fromBytes(startIcon),
-    //   position: LatLng(sourceLatitude, sourceLongitude),
-    //   infoWindow: InfoWindow(title: 'weather'),
-    //   onTap: () {
-    //     // weatherplan == true
-    //     //     ? weatherMarkerClick(MarkerId('weather$i'))
-    //     //     : SizedBox();
-    //   },
-    // );
+
     final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
-    //  data.destination?.forEach((element) {
-    //   print("element>> ${element}");
-    //   destinationLatitude +=
-    //       "$destinationLatitude:${element.location!.coordinates![0]},${element.location!.coordinates![1]}";
-    // });
+
     tripPlannerData?.destination?.forEach((melement) {
       print(
           "tripPlannerData>> ${melement.location?.coordinates} ${melement.address}");
@@ -346,30 +230,6 @@ class RouteMarkerProvider extends ChangeNotifier {
     });
   }
 
-  // Future<void> setStartEndMarker(LatLng start, LatLng end) async {
-  //   final Uint8List startIcon =
-  //       await getBytesFromAsset('assets/start_flag.png', 100);
-  //   final Uint8List endIcon =
-  //       await getBytesFromAsset('assets/end_flag.png', 100);
-  //   markers[MarkerId('start')] = Marker(
-  //     markerId: MarkerId('start'),
-  //     flat: true,
-  //     icon: BitmapDescriptor.fromBytes(startIcon),
-  //     position: start,
-  //     anchor: Offset(.5, .5),
-  //     infoWindow: InfoWindow(title: 'Start'),
-  //     onTap: () {},
-  //   );
-  //   markers[MarkerId('end')] = Marker(
-  //     markerId: MarkerId('end'),
-  //     flat: true,
-  //     icon: BitmapDescriptor.fromBytes(endIcon),
-  //     position: end,
-  //     anchor: Offset(.5, .5),
-  //     infoWindow: InfoWindow(title: 'End'),
-  //     onTap: () {},
-  //   );
-  // }
 
   Future<void> addWeatherMarker(List<LatLng> routePoints) async {
     final Uint8List endIcon = await getBytesFromAsset('assets/sun.png', 90);

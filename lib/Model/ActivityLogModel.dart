@@ -85,7 +85,7 @@ class ListElement {
   DateTime ?logoutDate;
   int ?lat;
   int ?lng;
-  dynamic? address;
+  dynamic address;
   String ?userId;
   DateTime ?createdAt;
   DateTime ?updatedAt;

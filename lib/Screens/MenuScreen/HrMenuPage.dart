@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/AppUtils/data_items.dart';
+import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
 import 'package:my_truck_dot_one/Screens/BottomMenu/Provider/bottom_provider.dart';
 import 'package:my_truck_dot_one/Screens/ChatScreen/provider/chat_home_provider.dart';
 import 'package:my_truck_dot_one/Screens/DeactivateAccountScreen/Provider/Deactivate_provider.dart';
@@ -11,11 +12,15 @@ import 'package:my_truck_dot_one/Screens/Network/network_page/network_page.dart'
 import 'package:my_truck_dot_one/Screens/Profile/UserProfile/Provider/UserProfileProvider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../ApiCall/api_Call.dart';
+import '../../AppUtils/UserInfo.dart';
 import '../ChatScreen/chat_home_Page.dart';
 import '../ContactUsScreen/contact_us_Screen.dart';
 import '../ContactUsScreen/provider/contact_us_provider.dart';
 import '../EventScreen/EventListScreen/EventList.dart';
 import '../Language_Screen/application_localizations.dart';
+import '../LoginScreen/LoginScreen.dart';
 import 'Component/UserTopProfile.dart';
 import 'company_setting_screen.dart';
 
@@ -23,7 +28,9 @@ class HrMenuPage extends StatefulWidget {
   BottomProvider bottomProvider;
   String language;
   String roleName;
-   HrMenuPage(this.bottomProvider,this.language, this.roleName, {Key? key}) : super(key: key);
+
+  HrMenuPage(this.bottomProvider, this.language, this.roleName, {Key? key})
+      : super(key: key);
 
   @override
   _HrMenuPageState createState() => _HrMenuPageState();
@@ -33,46 +40,52 @@ class _HrMenuPageState extends State<HrMenuPage> {
   @override
   late Size size;
 
+  bool loading = false;
+
+  ResponseModel? _responseModel;
+
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery
-        .of(context)
-        .size;
+    size = MediaQuery.of(context).size;
     // TODO: implement build
     return Container(
         height: size.height,
         width: size.width,
         child: SingleChildScrollView(
             child: Column(children: [
-              SizedBox(
-                height: 40,
-              ),
-              ChangeNotifierProvider(
-                create: (_) => UserProfileProvider(),
-                child: UserTopProfileWidget(widget.roleName),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              gridMenuList(context),
-              SizedBox(
-                height: 10,
-              ),
-              listOfOptions('Help & Support', 'icons/help.svg', 1),
-              SizedBox(
-                height: 10,
-              ),
-              listOfOptions('Setting & Privacy', 'icons/settings.svg', 2),
-              SizedBox(
-                height: 10,
-              ),
-              listOfOptions('LogOut', 'icons/logout.svg', 3),
-              SizedBox(
-                height: 30,
-              ),
-              appVersionShow()
-            ])));
+          SizedBox(
+            height: 40,
+          ),
+          ChangeNotifierProvider(
+            create: (_) => UserProfileProvider(),
+            child: UserTopProfileWidget(widget.roleName),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          gridMenuList(context),
+          SizedBox(
+            height: 10,
+          ),
+          listOfOptions('Help & Support', 'icons/help.svg', 1),
+          SizedBox(
+            height: 10,
+          ),
+          listOfOptions('Setting & Privacy', 'icons/settings.svg', 2),
+          SizedBox(
+            height: 10,
+          ),
+          listOfOptions(
+              'Delete My Account', 'Company_menu_image/deleteAccount.svg', 3),
+          SizedBox(
+            height: 10,
+          ),
+          listOfOptions('LogOut', 'icons/logout.svg', 4),
+          SizedBox(
+            height: 30,
+          ),
+          appVersionShow()
+        ])));
   }
 
   gridMenuList(BuildContext context) {
@@ -100,16 +113,10 @@ class _HrMenuPageState extends State<HrMenuPage> {
             color: Color(0xFFEEEEEE),
             borderRadius: BorderRadius.all(Radius.circular(20)),
             boxShadow: [
-
               BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 5,
-                  offset: Offset(5, 5)),
+                  color: Colors.black12, blurRadius: 5, offset: Offset(5, 5)),
               BoxShadow(
-                  color: Colors.white,
-                  blurRadius: 2,
-                  offset: Offset(-3, -3))
-
+                  color: Colors.white, blurRadius: 2, offset: Offset(-3, -3))
             ]),
         child: Row(
           children: [
@@ -122,7 +129,6 @@ class _HrMenuPageState extends State<HrMenuPage> {
               width: 25,
               color: IconColor,
             ),
-
             SizedBox(
               width: 10,
             ),
@@ -130,11 +136,10 @@ class _HrMenuPageState extends State<HrMenuPage> {
               child: Text(
                 AppLocalizations.instance.text(userMenuItems[1]),
                 overflow: TextOverflow.ellipsis,
-                style:
-                TextStyle(fontWeight: FontWeight.w600, color: Colors.black54),
+                style: TextStyle(
+                    fontWeight: FontWeight.w600, color: Colors.black54),
               ),
             )
-
           ],
         ),
       ),
@@ -142,10 +147,10 @@ class _HrMenuPageState extends State<HrMenuPage> {
   }
 
   listOfOptions(
-      String title,
-      String path,
-      int i,
-      ) {
+    String title,
+    String path,
+    int i,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 5, right: 5),
       child: GestureDetector(
@@ -162,9 +167,10 @@ class _HrMenuPageState extends State<HrMenuPage> {
                   ),
                   Expanded(
                       child: Text(
-                        AppLocalizations.instance.text(title),
-                        style: TextStyle(fontWeight: FontWeight.w600,color: Colors.black54),
-                      )),
+                    AppLocalizations.instance.text(title),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: Colors.black54),
+                  )),
                   Icon(Icons.keyboard_arrow_right)
                 ],
               ),
@@ -173,7 +179,6 @@ class _HrMenuPageState extends State<HrMenuPage> {
                 color: Color(0xFFEEEEEE),
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 boxShadow: [
-
                   BoxShadow(
                       color: Colors.black12,
                       blurRadius: 5,
@@ -182,7 +187,6 @@ class _HrMenuPageState extends State<HrMenuPage> {
                       color: Colors.white,
                       blurRadius: 2,
                       offset: Offset(-3, -3))
-
                 ])),
         onTap: () async {
           if (i == 3) {
@@ -197,9 +201,24 @@ class _HrMenuPageState extends State<HrMenuPage> {
               btnText: "Done",
             );
           }
+          if (i == 3) {
+            DialogUtils.showMyDialog(
+              context,
+              onDoneFunction: () async {
+                Navigator.pop(context);
+                hitcDeactivateAccount();
+              },
+              oncancelFunction: () => Navigator.pop(context),
+              title: 'Delete account',
+              alertTitle: "Delete account message",
+              btnText: "Done",
+            );
+          }
           if (i == 2) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ChangeNotifierProvider(create: (_) => DeactivateProvider(),child: CompanySettingPage(widget.language))));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CompanySettingPage(widget.language)));
           }
 
           if (i == 1) {
@@ -215,6 +234,38 @@ class _HrMenuPageState extends State<HrMenuPage> {
     );
   }
 
+  hitcDeactivateAccount() async {
+    var userId = await getUserId();
+    Map<String, dynamic> map = {"id": userId};
+    loading = true;
+    setState(() {});
+
+    try {
+      print(map);
+      _responseModel = await hitDeactivateAccountApi(map);
+
+      showMessage('Account Delete Sucessfully');
+
+      Navigator.of(navigatorKey.currentState!.context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+          (Route<dynamic> route) => false);
+      final pref = await SharedPreferences.getInstance();
+      await pref.clear();
+
+      loading = false;
+      setState(() {});
+    } on Exception catch (e) {
+      var message = e.toString().replaceAll('Exception:', '');
+      showMessage(
+        message,
+      );
+      loading = false;
+      setState(() {});
+    }
+    loading = false;
+    setState(() {});
+  }
+
   openMenuItems(String title, BuildContext context) {
     switch (title) {
       case 'Events':
@@ -222,9 +273,9 @@ class _HrMenuPageState extends State<HrMenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MultiProvider(providers: [
-                  ChangeNotifierProvider(
-                      create: (_) => UserEventTabBarProvider()),
-                ], child: EventList())));
+                      ChangeNotifierProvider(
+                          create: (_) => UserEventTabBarProvider()),
+                    ], child: EventList())));
         break;
       // case 'Jobs':
       //   Navigator.push(
@@ -236,9 +287,8 @@ class _HrMenuPageState extends State<HrMenuPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    ChangeNotifierProvider(create: (_) => NetworkProvider(),
-                        child: NetworkPage(0))));
+                builder: (context) => ChangeNotifierProvider(
+                    create: (_) => NetworkProvider(), child: NetworkPage(0))));
 
         break;
       case 'Chat':
@@ -246,7 +296,8 @@ class _HrMenuPageState extends State<HrMenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => ChangeNotifierProvider(
-                    create: (_) => ChatHomeProvider(), child: ChatHomePage(0))));
+                    create: (_) => ChatHomeProvider(),
+                    child: ChatHomePage(0))));
         break;
       //
       //   break;
@@ -279,7 +330,11 @@ class _HrMenuPageState extends State<HrMenuPage> {
       //   break;
     }
   }
+
   appVersionShow() {
-    return Text("App Version: ${AppversionName.toString()}",style: TextStyle(color: Colors.black54,fontSize: 14),);
+    return Text(
+      "App Version: ${AppversionName.toString()}",
+      style: TextStyle(color: Colors.black54, fontSize: 14),
+    );
   }
 }

@@ -21,11 +21,11 @@ class CompanySettingPage extends StatelessWidget {
 
   CompanySettingPage(this.language);
 
-  late DeactivateProvider _deactivateProvider;
+  // late DeactivateProvider _deactivateProvider;
 
   @override
   Widget build(BuildContext context) {
-    _deactivateProvider = context.read<DeactivateProvider>();
+    // _deactivateProvider = context.read<DeactivateProvider>();
     return CustomAppBarWidget(
         title: AppLocalizations.instance.text("Setting & Privacy"),
         leading: IconButton(
@@ -52,7 +52,7 @@ class CompanySettingPage extends StatelessWidget {
                           index,
                           context,
                           language,
-                          _deactivateProvider);
+                          );
                     }))
           ],
         ));
@@ -65,7 +65,7 @@ listOfOptions(
   int i,
   BuildContext context,
   String language,
-  DeactivateProvider deactivateProvider,
+  // DeactivateProvider deactivateProvider,
 ) {
   return Padding(
     padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
@@ -126,7 +126,7 @@ listOfOptions(
                 barrierDismissible: true,
                 builder: (context) => LanguagePage(language));
             break;
-          case 3:
+          /*case 3:
             DialogUtils.showMyDialog(
               context,
               onDoneFunction: () async {
@@ -138,8 +138,8 @@ listOfOptions(
               alertTitle: "Delete account message",
               btnText: "Done",
             );
-            break;
-          case 4:
+            break;*/
+          case 3:
             Navigator.push(
                 context,
                 MaterialPageRoute(

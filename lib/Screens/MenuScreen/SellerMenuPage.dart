@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/AppUtils/data_items.dart';
+import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
 import 'package:my_truck_dot_one/Screens/BottomMenu/Provider/bottom_provider.dart';
 import 'package:my_truck_dot_one/Screens/ChatScreen/Seller_Chat_Screen/seller_chat_provider.dart';
 import 'package:my_truck_dot_one/Screens/ContactUsScreen/contact_us_Screen.dart';
@@ -15,10 +16,14 @@ import 'package:my_truck_dot_one/Screens/SellerScreen/seller_support_screen/Prov
 import 'package:my_truck_dot_one/Screens/SellerScreen/seller_support_screen/Seller_support_information.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../ApiCall/api_Call.dart';
+import '../../AppUtils/UserInfo.dart';
 import '../ChatScreen/provider/chat_home_provider.dart';
 import '../ChatScreen/seller_chat.dart';
 import '../ContactUsScreen/provider/contact_us_provider.dart';
 import '../Language_Screen/application_localizations.dart';
+import '../LoginScreen/LoginScreen.dart';
 import 'company_setting_screen.dart';
 
 class SellerMenuPage extends StatefulWidget {
@@ -35,6 +40,8 @@ class SellerMenuPage extends StatefulWidget {
 
 class _SellerMenuPageState extends State<SellerMenuPage> {
   late Size size;
+  ResponseModel? _responseModel;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +74,12 @@ class _SellerMenuPageState extends State<SellerMenuPage> {
           SizedBox(
             height: 10,
           ),
-          listOfOptions('LogOut', 'icons/logout.svg', 3),
+          listOfOptions(
+              'Delete My Account', 'Company_menu_image/deleteAccount.svg', 3),
+          SizedBox(
+            height: 10,
+          ),
+          listOfOptions('LogOut', 'icons/logout.svg', 4),
           SizedBox(
             height: 30,
           ),
@@ -175,7 +187,7 @@ class _SellerMenuPageState extends State<SellerMenuPage> {
                       offset: Offset(-3, -3))
                 ])),
         onTap: () async {
-          if (i == 3) {
+          if (i == 4) {
             DialogUtils.showMyDialog(
               context,
               onDoneFunction: () async {
@@ -187,13 +199,24 @@ class _SellerMenuPageState extends State<SellerMenuPage> {
               btnText: "Done",
             );
           }
+          if (i == 3) {
+            DialogUtils.showMyDialog(
+              context,
+              onDoneFunction: () async {
+                Navigator.pop(context);
+                hitcDeactivateAccount();
+              },
+              oncancelFunction: () => Navigator.pop(context),
+              title: 'Delete account',
+              alertTitle: "Delete account message",
+              btnText: "Done",
+            );
+          }
           if (i == 2) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                        create: (_) => DeactivateProvider(),
-                        child: CompanySettingPage(widget.language))));
+                    builder: (context) => CompanySettingPage(widget.language)));
           }
 
           if (i == 1) {
@@ -215,8 +238,10 @@ class _SellerMenuPageState extends State<SellerMenuPage> {
       case "Manage Products":
         // SellerProductListProvider,
 
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ManageProductScreen(false)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ManageProductScreen(false)));
         break;
 
       case "Q&A":
@@ -253,5 +278,37 @@ class _SellerMenuPageState extends State<SellerMenuPage> {
       "App Version: ${AppversionName.toString()}",
       style: TextStyle(color: Colors.black54, fontSize: 14),
     );
+  }
+
+  hitcDeactivateAccount() async {
+    var userId = await getUserId();
+    Map<String, dynamic> map = {"id": userId};
+    loading = true;
+    setState(() {});
+
+    try {
+      print(map);
+      _responseModel = await hitDeactivateAccountApi(map);
+
+      showMessage('Account Delete Sucessfully');
+
+      Navigator.of(navigatorKey.currentState!.context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+          (Route<dynamic> route) => false);
+      final pref = await SharedPreferences.getInstance();
+      await pref.clear();
+
+      loading = false;
+      setState(() {});
+    } on Exception catch (e) {
+      var message = e.toString().replaceAll('Exception:', '');
+      showMessage(
+        message,
+      );
+      loading = false;
+      setState(() {});
+    }
+    loading = false;
+    setState(() {});
   }
 }

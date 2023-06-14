@@ -16,7 +16,7 @@ List<List<String>> settingEnglish = [
   ['icons/changePassword.svg', 'Change Password'],
   ['icons/activity.svg', 'Activity'],
   ['Company_menu_image/language.svg', 'Default Profile Display Language'],
-  ['Company_menu_image/deleteAccount.svg', 'Delete My Account'],
+  // ['Company_menu_image/deleteAccount.svg', 'Delete My Account'],
   ['Company_menu_image/insurance.svg', 'Privacy Policy'],
 ];
 List<List<String>> settingPunjab = [
@@ -123,7 +123,6 @@ List<String> EventImages = [
   'https://envato-shoebox-0.imgix.net/5124/e9e4-6b84-4139-a940-fd738d5083ed/39438.jpg?auto=compress%2Cformat&fit=max&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark2.png&markalign=center%2Cmiddle&markalpha=18&w=700&s=6f7d4809a0a7fdb32cc8cfb66a429c10',
 ];
 
-
 List<List<dynamic>> activeAction = [
   [AppLocalizations.instance.text("Edit"), 1],
   [AppLocalizations.instance.text("Archived"), 2],
@@ -138,8 +137,6 @@ List<List<dynamic>> InActiveAction = [
   [AppLocalizations.instance.text("Unarchived"), 2],
   [AppLocalizations.instance.text('Active'), 3],
 ];
-
-
 
 List<String> MarkerList = [
   'serviceIcon/truckWashing.png',
@@ -227,7 +224,7 @@ var loadType = [
 //weather_monthly
 Set<String> ids = {"weather_monthly"};
 
-var fuelType = ["Electric", "Diesel","Gas"];
+var fuelType = ["Electric", "Diesel", "Gas"];
 
 var trailerType = [
   "Flat-bed",

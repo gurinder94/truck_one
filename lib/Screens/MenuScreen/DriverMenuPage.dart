@@ -21,10 +21,15 @@ import 'package:my_truck_dot_one/Screens/ServiceScreen/User/Provider/user_servic
 import 'package:my_truck_dot_one/Screens/ServiceScreen/User/service_page.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../ApiCall/api_Call.dart';
+import '../../AppUtils/UserInfo.dart';
+import '../../Model/NetworkModel/normal_response.dart';
 import '../ChatScreen/chat_home_Page.dart';
 import '../ChatScreen/provider/chat_home_provider.dart';
 import '../ContactUsScreen/provider/contact_us_provider.dart';
 import '../Language_Screen/application_localizations.dart';
+import '../LoginScreen/LoginScreen.dart';
 import 'Component/UserTopProfile.dart';
 import 'company_setting_screen.dart';
 
@@ -42,6 +47,8 @@ class DriverMenuPage extends StatefulWidget {
 
 class _DriverMenuPageState extends State<DriverMenuPage> {
   late Size size;
+  late ResponseModel _responseModel;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +81,11 @@ class _DriverMenuPageState extends State<DriverMenuPage> {
           SizedBox(
             height: 10,
           ),
-          listOfOptions('LogOut', 'icons/logout.svg', 3),
+          listOfOptions('Delete My Account', 'Company_menu_image/deleteAccount.svg', 3),
+          SizedBox(
+            height: 10,
+          ),
+          listOfOptions('LogOut', 'icons/logout.svg', 4),
           SizedBox(
             height: 30,
           ),
@@ -130,11 +141,10 @@ class _DriverMenuPageState extends State<DriverMenuPage> {
               child: Text(
                 AppLocalizations.instance.text(userMenuItems[1]),
                 overflow: TextOverflow.ellipsis,
-                style:
-                TextStyle(fontWeight: FontWeight.w600, color: Colors.black54),
+                style: TextStyle(
+                    fontWeight: FontWeight.w600, color: Colors.black54),
               ),
             )
-
           ],
         ),
       ),
@@ -184,7 +194,7 @@ class _DriverMenuPageState extends State<DriverMenuPage> {
                       offset: Offset(-3, -3))
                 ])),
         onTap: () async {
-          if (i == 3) {
+          if (i == 4) {
             DialogUtils.showMyDialog(
               context,
               onDoneFunction: () async {
@@ -196,11 +206,24 @@ class _DriverMenuPageState extends State<DriverMenuPage> {
               btnText: "Done",
             );
           }
+          if (i == 3) {
+            DialogUtils.showMyDialog(
+              context,
+              onDoneFunction: () async {
+                Navigator.pop(context);
+                hitcDeactivateAccount();
+              },
+              oncancelFunction: () => Navigator.pop(context),
+              title: 'Delete account',
+              alertTitle: "Delete account message",
+              btnText: "Done",
+            );
+          }
           if (i == 2) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(create: (_) => DeactivateProvider(),child:CompanySettingPage(widget.language))));
+                    builder: (context) => CompanySettingPage(widget.language)));
           }
 
           if (i == 1) {
@@ -223,12 +246,12 @@ class _DriverMenuPageState extends State<DriverMenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => MultiProvider(providers: [
-                  ChangeNotifierProvider(
-                      create: (_) => UserEventTabBarProvider()),
-                  ChangeNotifierProvider(
-                    create: (_) => UserEventListProvider(),
-                  ),
-                ], child: UserEventList())));
+                      ChangeNotifierProvider(
+                          create: (_) => UserEventTabBarProvider()),
+                      ChangeNotifierProvider(
+                        create: (_) => UserEventListProvider(),
+                      ),
+                    ], child: UserEventList())));
         break;
       case 'Jobs':
         Navigator.push(
@@ -279,7 +302,8 @@ class _DriverMenuPageState extends State<DriverMenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => ChangeNotifierProvider(
-                    create: (_) => ChatHomeProvider(), child: ChatHomePage(0))));
+                    create: (_) => ChatHomeProvider(),
+                    child: ChatHomePage(0))));
     }
   }
 
@@ -288,5 +312,37 @@ class _DriverMenuPageState extends State<DriverMenuPage> {
       "App Version: ${AppversionName.toString()}",
       style: TextStyle(color: Colors.black54, fontSize: 14),
     );
+  }
+
+  hitcDeactivateAccount() async {
+    var userId = await getUserId();
+    Map<String, dynamic> map = {"id": userId};
+    loading = true;
+    setState(() {});
+
+    try {
+      print(map);
+      _responseModel = await hitDeactivateAccountApi(map);
+
+      showMessage('Account Delete Sucessfully');
+
+      Navigator.of(navigatorKey.currentState!.context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+          (Route<dynamic> route) => false);
+      final pref = await SharedPreferences.getInstance();
+      await pref.clear();
+
+      loading = false;
+      setState(() {});
+    } on Exception catch (e) {
+      var message = e.toString().replaceAll('Exception:', '');
+      showMessage(
+        message,
+      );
+      loading = false;
+      setState(() {});
+    }
+    loading = false;
+    setState(() {});
   }
 }

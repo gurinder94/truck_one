@@ -25,11 +25,16 @@ import 'package:my_truck_dot_one/Screens/ServiceScreen/Company/service_page.dart
 import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:my_truck_dot_one/Screens/team_manage_Screen%20/company_team_manage/company_team_mange_component/team_manage_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ApiCall/api_Call.dart';
+import '../../AppUtils/UserInfo.dart';
+import '../../Model/NetworkModel/normal_response.dart';
 import '../ChatScreen/chat_home_Page.dart';
 import '../ChatScreen/provider/chat_home_provider.dart';
 import '../ContactUsScreen/provider/contact_us_provider.dart';
 import '../Language_Screen/application_localizations.dart';
+import '../LoginScreen/LoginScreen.dart';
 import '../team_manage_Screen /company_team_manage/Provider/team_manger_provider.dart';
 import 'Component/TopProfileWidget.dart';
 
@@ -51,6 +56,8 @@ class CompanyMenuPage extends StatefulWidget {
 
 class _CompanyMenuPage extends State<CompanyMenuPage> {
   late Size size;
+  bool loading = false;
+  late ResponseModel _responseModel;
 
   get checkBoxValue => true;
 
@@ -95,7 +102,12 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
             SizedBox(
               height: 10,
             ),
-            listOfOptions('LogOut', 'icons/logout.svg', 3),
+            listOfOptions(
+                'Delete My Account', 'Company_menu_image/deleteAccount.svg', 3),
+            SizedBox(
+              height: 10,
+            ),
+            listOfOptions('LogOut', 'icons/logout.svg', 4),
             SizedBox(
               height: 30,
             ),
@@ -201,7 +213,7 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
                       offset: Offset(-3, -3))
                 ])),
         onTap: () async {
-          if (i == 3) {
+          if (i == 4) {
             DialogUtils.showMyDialog(
               context,
               onDoneFunction: () async {
@@ -213,13 +225,24 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
               btnText: "Done",
             );
           }
+          if (i == 3) {
+            DialogUtils.showMyDialog(
+              context,
+              onDoneFunction: () async {
+                Navigator.pop(context);
+                hitcDeactivateAccount();
+              },
+              oncancelFunction: () => Navigator.pop(context),
+              title: 'Delete account',
+              alertTitle: "Delete account message",
+              btnText: "Done",
+            );
+          }
           if (i == 2) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                        create: (_) => DeactivateProvider(),
-                        child: CompanySettingPage(widget.language))));
+                    builder: (context) =>  CompanySettingPage(widget.language)));
           }
 
           if (i == 1) {
@@ -368,5 +391,37 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
             ),
           ],
         ));
+  }
+
+  hitcDeactivateAccount() async {
+    var userId = await getUserId();
+    Map<String, dynamic> map = {"id": userId};
+    loading = true;
+    setState(() {});
+
+    try {
+      print(map);
+      _responseModel = await hitDeactivateAccountApi(map);
+
+      showMessage('Account Delete Sucessfully');
+
+      Navigator.of(navigatorKey.currentState!.context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+          (Route<dynamic> route) => false);
+      final pref = await SharedPreferences.getInstance();
+      await pref.clear();
+
+      loading = false;
+      setState(() {});
+    } on Exception catch (e) {
+      var message = e.toString().replaceAll('Exception:', '');
+      showMessage(
+        message,
+      );
+      loading = false;
+      setState(() {});
+    }
+    loading = false;
+    setState(() {});
   }
 }

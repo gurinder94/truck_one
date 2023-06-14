@@ -20,13 +20,17 @@ import 'package:my_truck_dot_one/Screens/Network/network_page/network_page.dart'
 import 'package:my_truck_dot_one/Screens/Profile/UserProfile/Provider/UserProfileProvider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../ApiCall/api_Call.dart';
 import '../../AppUtils/UserInfo.dart';
+import '../../Model/NetworkModel/normal_response.dart';
 import '../ChatScreen/chat_home_Page.dart';
 import '../ChatScreen/provider/chat_home_provider.dart';
 import '../ContactUsScreen/provider/contact_us_provider.dart';
 import '../Fleet_Manager_Screen/CompanyFleetManager/company_fleet_manager_screen.dart';
 import '../Gps_Screen/GpsScreen.dart';
+import '../LoginScreen/LoginScreen.dart';
 import '../MyPlanScreen/my_plan_provider.dart';
 import '../MyPlanScreen/my_plan_screen.dart';
 import '../PricingScreen/Pricing_Screen.dart';
@@ -53,6 +57,8 @@ class UserMenuPage extends StatefulWidget {
 
 class _UserMenuPageState extends State<UserMenuPage> {
   late Size size;
+  bool loading = false;
+  late ResponseModel _responseModel;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +83,11 @@ class _UserMenuPageState extends State<UserMenuPage> {
           SizedBox(
             height: 10,
           ),
-          listOfOptions('Help & Support', 'icons/help.svg', 1),
+          listOfOptions(
+            'Help & Support',
+            'icons/help.svg',
+            1,
+          ),
           SizedBox(
             height: 10,
           ),
@@ -85,7 +95,11 @@ class _UserMenuPageState extends State<UserMenuPage> {
           SizedBox(
             height: 10,
           ),
-          listOfOptions('LogOut', 'icons/logout.svg', 3),
+          listOfOptions('Delete My Account', 'Company_menu_image/deleteAccount.svg', 3),
+          SizedBox(
+            height: 10,
+          ),
+          listOfOptions('LogOut', 'icons/logout.svg', 4),
           SizedBox(
             height: 30,
           ),
@@ -196,7 +210,7 @@ class _UserMenuPageState extends State<UserMenuPage> {
                       offset: Offset(-3, -3))
                 ])),
         onTap: () async {
-          if (i == 3) {
+          if (i == 4) {
             DialogUtils.showMyDialog(
               context,
               onDoneFunction: () async {
@@ -208,13 +222,24 @@ class _UserMenuPageState extends State<UserMenuPage> {
               btnText: "Done",
             );
           }
+          if (i == 3) {
+            DialogUtils.showMyDialog(
+              context,
+              onDoneFunction: () async {
+                Navigator.pop(context);
+                hitcDeactivateAccount();
+              },
+              oncancelFunction: () => Navigator.pop(context),
+              title: 'Delete account',
+              alertTitle: "Delete account message",
+              btnText: "Done",
+            );
+          }
           if (i == 2) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                        create: (_) => DeactivateProvider(),
-                        child: CompanySettingPage(widget.language))));
+                    builder: (context) => CompanySettingPage(widget.language)));
           }
 
           if (i == 1) {
@@ -411,6 +436,38 @@ class _UserMenuPageState extends State<UserMenuPage> {
       //           builder: (context) => ChangeNotifierProvider(
       //               create: (_) => MyPlanProvider(), child: MyPlanScreen())));
     }
+  }
+
+  hitcDeactivateAccount() async {
+    var userId = await getUserId();
+    Map<String, dynamic> map = {"id": userId};
+    loading = true;
+    setState(() {});
+
+    try {
+      print(map);
+      _responseModel = await hitDeactivateAccountApi(map);
+
+      showMessage('Account Delete Sucessfully');
+
+      Navigator.of(navigatorKey.currentState!.context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+          (Route<dynamic> route) => false);
+      final pref = await SharedPreferences.getInstance();
+      await pref.clear();
+
+      loading = false;
+      setState(() {});
+    } on Exception catch (e) {
+      var message = e.toString().replaceAll('Exception:', '');
+      showMessage(
+        message,
+      );
+      loading = false;
+      setState(() {});
+    }
+    loading = false;
+    setState(() {});
   }
 
   appVersionShow() {
