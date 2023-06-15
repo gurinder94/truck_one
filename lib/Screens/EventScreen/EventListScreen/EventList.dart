@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
@@ -13,8 +14,8 @@ import 'package:my_truck_dot_one/Screens/EventScreen/UserEventScreen/EventListSc
 import 'package:my_truck_dot_one/Screens/EventScreen/ViewEventScreen/Provider/UserViewEventProvider.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/ViewEventScreen/ViewEvent.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
-import 'package:my_truck_dot_one/Screens/commanWidget/Comman_Alert_box.dart';
 import 'package:provider/provider.dart';
+
 import '../../commanWidget/Custom_App_Bar_Widget.dart';
 import '../../commanWidget/Search_bar.dart';
 import '../../commanWidget/SizeConfig.dart';
@@ -89,43 +90,43 @@ class _EventListState extends State<EventList> {
         children: [
           SizeConfig.screenHeight! < 1010
               ? SizedBox(
-            height: Platform.isIOS
-                ? SizeConfig.safeBlockVertical! * 15
-                : SizeConfig.safeBlockVertical! * 12, //10 for example
-          )
+                  height: Platform.isIOS
+                      ? SizeConfig.safeBlockVertical! * 15
+                      : SizeConfig.safeBlockVertical! * 12, //10 for example
+                )
               : SizedBox(
-            height: Platform.isIOS
-                ? SizeConfig.safeBlockVertical! * 9
-                : SizeConfig.safeBlockVertical! * 9, //10 for example
-          ),
+                  height: Platform.isIOS
+                      ? SizeConfig.safeBlockVertical! * 9
+                      : SizeConfig.safeBlockVertical! * 9, //10 for example
+                ),
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: Row(
               children: [
                 Expanded(
                     child: CommanSearchBar(
-                      onTextChange: (val) {
-                        if (searchText == '') {
-                          searchText = val;
-                          page = 1;
-                        }
+                  onTextChange: (val) {
+                    if (searchText == '') {
+                      searchText = val;
+                      page = 1;
+                    }
 
-                        if (!_eventListProvider.loading) {
-                          Onserach = val;
-                          getEventList(context, 1, Onserach);
-                        }
-                      },
-                      IconName: GestureDetector(
-                        child: Icon(
-                          Icons.filter_list,
-                          color: Colors.black,
-                        ),
-                        onTap: () {
-                          CommanBottomSheet.ShowBottomSheet(context,
-                              child: FliterEvent(_eventListProvider, taber));
-                        },
-                      ),
-                    )),
+                    if (!_eventListProvider.loading) {
+                      Onserach = val;
+                      getEventList(context, 1, Onserach);
+                    }
+                  },
+                  IconName: GestureDetector(
+                    child: Icon(
+                      Icons.filter_list,
+                      color: Colors.black,
+                    ),
+                    onTap: () {
+                      CommanBottomSheet.ShowBottomSheet(context,
+                          child: FliterEvent(_eventListProvider, taber));
+                    },
+                  ),
+                )),
               ],
             ),
           ),
@@ -184,69 +185,69 @@ class _EventListState extends State<EventList> {
           ),
           taber == "Booked"
               ? Expanded(
-              child: Consumer<EventListProvider>(builder: (_, proData, __) {
-                if (proData.eventListLoad) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (proData.eventListModel == null ||
-                    proData.eventListModel!.data!.length == 0)
-                  return Center(
-                      child: Text(
-                          AppLocalizations.instance.text("No Record Found")));
-                else
-                  return ListView.builder(
-                    itemCount: proData.eventListModel!.data!.length,
-                    padding: EdgeInsets.zero,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ChangeNotifierProvider<EventModel>.value(
-                          value: proData.eventListModel!.data![index],
-                          child: GestureDetector(
-                              child: EventItem(taber), onTap: () {}));
-                    },
-                  );
-              }))
+                  child: Consumer<EventListProvider>(builder: (_, proData, __) {
+                  if (proData.eventListLoad) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (proData.eventListModel == null ||
+                      proData.eventListModel!.data!.length == 0)
+                    return Center(
+                        child: Text(
+                            AppLocalizations.instance.text("No Record Found")));
+                  else
+                    return ListView.builder(
+                      itemCount: proData.eventListModel!.data!.length,
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ChangeNotifierProvider<EventModel>.value(
+                            value: proData.eventListModel!.data![index],
+                            child: GestureDetector(
+                                child: EventItem(taber), onTap: () {}));
+                      },
+                    );
+                }))
               : Expanded(
-            child: Consumer<EventListProvider>(builder: (_, proData, __) {
-              if (proData.eventListLoad) {
-                return Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              }
-              if (proData.eventListModel == null ||
-                  proData.eventListModel!.data!.length == 0)
-                return Center(
-                    child: Text(AppLocalizations.instance
-                        .text("No Record Found")));
-              else
-                return ListView.builder(
-                  itemCount: proData.eventListModel!.data!.length,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (BuildContext context, int index) =>
-                  ChangeNotifierProvider<EventModel>.value(
-                      value: proData.eventListModel!.data![index],
-                      child: GestureDetector(
-                        child: EventItem(taber),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ChangeNotifierProvider(
-                                        create: (_) =>
-                                            UserEventViewProvider(),
-                                        child: UserViewEvent(proData
-                                            .eventListModel!
-                                            .data![index]
-                                            .id
-                                            .toString()),
-                                      )));
-                        },
-                      )),
-                );
-            }),
-          )
+                  child: Consumer<EventListProvider>(builder: (_, proData, __) {
+                    if (proData.eventListLoad) {
+                      return Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    }
+                    if (proData.eventListModel == null ||
+                        proData.eventListModel!.data!.length == 0)
+                      return Center(
+                          child: Text(AppLocalizations.instance
+                              .text("No Record Found")));
+                    else
+                      return ListView.builder(
+                        itemCount: proData.eventListModel!.data!.length,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (BuildContext context, int index) =>
+                            ChangeNotifierProvider<EventModel>.value(
+                                value: proData.eventListModel!.data![index],
+                                child: GestureDetector(
+                                  child: EventItem(taber),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ChangeNotifierProvider(
+                                                  create: (_) =>
+                                                      UserEventViewProvider(),
+                                                  child: UserViewEvent(proData
+                                                      .eventListModel!
+                                                      .data![index]
+                                                      .id
+                                                      .toString()),
+                                                )));
+                                  },
+                                )),
+                      );
+                  }),
+                )
         ],
       ),
     );
@@ -269,231 +270,10 @@ class _EventListState extends State<EventList> {
 
   planValidation(planDate, eventPlan, int totalNumberEvent, roleName,
       BuildContext context, int noEvent) {
-    if (planDate == true) {
-      if (eventPlan == true) {
-        if (totalNumberEvent != noEvent) {
-          return Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      ChangeNotifierProvider(
-                          create: (_) => AddEventProvider(),
-                          child: AddEvent())));
-        } else {
-          return DialogUtils.showMyDialog(
-            context,
-            onDoneFunction: () async {
-              Navigator.pop(context);
-            },
-            oncancelFunction: () => Navigator.pop(context),
-            title: 'Buy Event Plan!',
-            alertTitle: 'Pricing Price',
-            btnText: "Done",
-          ); /*DialogUtils.showMySuccessful(context,
-              child: AlertDialog(
-                shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16.0)),
-                title: Column(
-                  children: [
-                    Text(
-                        "You are logged in as a company, so this functionality is unavailable for purchase on the device. \nYou can access this functionality on web portal or contact support@mytruck.one",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal)),
-                  ],
-                ),
-                actions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      splashColor: PrimaryColor,
-                      highlightColor: Colors.white,
-                      child: Text("Yes",style: TextStyle(color: Colors.black,fontSize: 16),),
-                      onTap: () async {
-                       Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ],
-              ));*/
-        }
-        // if (roleName.toString().toUpperCase() == "COMPANY")
-        //   return SizedBox();
-        //company
-        // return DialogUtils.showMyDialog(
-        //   context,
-        //   onDoneFunction: () async {
-        //     Navigator.pop(context);
-        //     _launchURL();
-        //   },
-        //   oncancelFunction: () => Navigator.pop(context),
-        //   title: 'Plan upgrade !',
-        //   alertTitle:
-        //       "The maximum allowed limit of action your Company's plan is exceeded.Please get in touch with them.",
-        //   btnText: "Done",
-        // );
-        // else
-        //   //hr
-        //   return SizedBox();
-        // return DialogUtils.showMyDialog(
-        //   context,
-        //   onDoneFunction: () async {
-        //     Navigator.pop(context);
-        //     _launchURL();
-        //   },
-        //   oncancelFunction: () => Navigator.pop(context),
-        //   title: 'Plan upgrade !',
-        //   alertTitle:
-        //       "You have exceeded the maximum allowed limit of actions in your plan.the benefits Please upgrade your plan.",
-        //   btnText: "Done",
-        // );
-        //   }
-        // } else {
-        //   if (roleName.toString().toUpperCase() == "COMPANY") {
-        //     // return DialogUtils.showMyDialog(
-        //     //   context,
-        //     //   onDoneFunction: () async {
-        //     //     Navigator.pop(context);
-        //     //     _launchURL();
-        //     //   },
-        //     //   oncancelFunction: () => Navigator.pop(context),
-        //     //   title: 'Buy Plan !',
-        //     //   alertTitle:
-        //     //       "You Don't have any Plan yet. Please Click below to go on Pricing page.",
-        //     //   btnText: "Done",
-        //     // );
-        //     return SizedBox();
-        //   } else {
-        //     return SizedBox();
-        //     // return DialogUtils.showMyDialog(
-        //     //   context,
-        //     //   onDoneFunction: () async {
-        //     //     Navigator.pop(context);
-        //     //     _launchURL();
-        //     //   },
-        //     //   oncancelFunction: () => Navigator.pop(context),
-        //     //   title: 'Buy Plan !',
-        //     //   alertTitle:
-        //     //       "Your Company don't have any plan to access this action.Please get in touch with them",
-        //     //   btnText: "Done",
-        //     // );
-        //   }
-        // }
-      } else {
-        // if (roleName.toString().toUpperCase() == "COMPANY") {
-        //   return SizedBox();
-        //   // return DialogUtils.showMyDialog(
-        //   //   context,
-        //   //   onDoneFunction: () async {
-        //   //     Navigator.pop(context);
-        //   //     _launchURL();
-        //   //   },
-        //   //   oncancelFunction: () => Navigator.pop(context),
-        //   //   title: 'Buy Plan !',
-        //   //   alertTitle:
-        //   //       "You Don't have any Plan yet. Please Click below to go on Pricing page.",
-        //   //   btnText: "Done",
-        //   // );
-        // } else {
-        //   return SizedBox();
-        //   // return DialogUtils.showMyDialog(
-        //   //   context,
-        //   //   onDoneFunction: () async {
-        //   //     Navigator.pop(context);
-        //   //     _launchURL();
-        //   //   },
-        //   //   oncancelFunction: () => Navigator.pop(context),
-        //   //   title: 'Buy Plan !',
-        //   //   alertTitle:
-        //   //       "You Don't have any Plan yet. Please Click below to go on Pricing page.",
-        //   //   btnText: "Done",
-        //   // );
-        // }
-
-        return DialogUtils.showMyDialog(
-          context,
-          onDoneFunction: () async {
-            Navigator.pop(context);
-          },
-          oncancelFunction: () => Navigator.pop(context),
-          title: 'Buy Event Plan!',
-          alertTitle: 'Pricing Price',
-          btnText: "Done",
-        ); /*DialogUtils.showMySuccessful(context,
-            child: AlertDialog(
-              shape:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
-              title: Column(
-                children: [
-                  Text(
-                      "You are logged in as a company, so this functionality is unavailable for purchase on the device. \nYou can access this functionality on web portal or contact support@mytruck.one",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal)),
-                ],
-              ),
-              actions: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    splashColor: PrimaryColor,
-                    highlightColor: Colors.white,
-                    child: Text(
-                      "Yes",
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                    ),
-                    onTap: () async {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ],
-            ))*/
-      }
-    } else {
-      return DialogUtils.showMyDialog(
+    Navigator.push(
         context,
-        onDoneFunction: () async {
-          Navigator.pop(context);
-        },
-        oncancelFunction: () => Navigator.pop(context),
-        title: 'Buy Event Plan!',
-        alertTitle: 'Pricing Price',
-        btnText: "Done",
-      );
-      /* return DialogUtils.showMySuccessful(context,
-          child: AlertDialog(
-            shape:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
-            title: Column(
-              children: [
-                Text(
-                    "You are logged in as a company, so this functionality is unavailable for purchase on the device. \nYou can access this functionality on web portal or contact support@mytruck.one",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal)),
-              ],
-            ),
-            actions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  splashColor: PrimaryColor,
-                  highlightColor: Colors.white,
-                  child: Text(
-                    "Yes",
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  onTap: () async {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ],
-          ));*/
-    }
+        MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                create: (_) => AddEventProvider(), child: AddEvent())));
   }
 }

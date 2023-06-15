@@ -22,7 +22,6 @@ class _AddStoppageMapState extends State<AddStoppageMap> {
   static final CameraPosition intialPos = CameraPosition(
     target: LatLng(37.6, -95.665),
     zoom: 1,
-
   );
   TripPlannerModel data;
 
@@ -50,7 +49,7 @@ class _AddStoppageMapState extends State<AddStoppageMap> {
           centerTitle: true,
           elevation: 0,
           backgroundColor: APP_BAR_BG,
-          title: Text(AppLocalizations.instance.text('+Add Stoppage')),
+          title: Text(AppLocalizations.instance.text('Add Stoppage')),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(1),

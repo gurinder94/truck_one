@@ -49,24 +49,26 @@ dependencies:
   percent_indicator: ^4.0.0
   geolocator: ^9.0.0
   flutter_tts: ^3.2.2
-  device_info_plus: ^4.0.0
-  network_info_plus: ^2.1.2
-  flutter_svg: ^1.0.3
+  device_info_plus: ^8.2.2
+  network_info_plus: ^3.0.5
+  flutter_svg: ^2.0.7
   url_launcher: ^6.0.20
-  image_cropper: ^2.0.0
+  image_cropper: ^4.0.1
   firebase_core: ^2.7.0
   firebase_messaging: ^14.2.5
-  flutter_local_notifications: ^9.4.0
-  syncfusion_flutter_charts: ^20.1.51
+  flutter_local_notifications: ^14.1.1
+  syncfusion_flutter_charts: ^21.2.10
   new_version: ^0.3.0
-  package_info_plus: ^1.4.2
+  package_info_plus: any
   in_app_purchase: ^3.1.1
   flutter_polyline_points: any
   # flutter_inapp_purchase: ^5.3.1
   in_app_purchase_storekit: ^0.3.6+2
 
 
-
+dependency_overrides:
+  package_info_plus: any
+  
 
 dev_dependencies:
   flutter_test:

@@ -307,8 +307,8 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-final IOSInitializationSettings initializationSettingsIOS =
-    IOSInitializationSettings(
+final DarwinInitializationSettings initializationSettingsIOS =
+DarwinInitializationSettings(
   requestAlertPermission: false,
   requestBadgePermission: false,
   requestSoundPermission: false,
@@ -321,7 +321,7 @@ Future<void> notificationReceiver() async {
     iOS: initializationSettingsIOS,
   );
   await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: onSelectNotification);
+      onDidReceiveNotificationResponse: onSelectNotification);
 
   FirebaseMessaging.onMessage.listen((event) {
     RemoteNotification? notification = event.notification;
@@ -352,8 +352,8 @@ Future<void> notificationReceiver() async {
   });
 }
 
-onSelectNotification(payload) async {
-  onNotificationClick(payload);
+onSelectNotification(NotificationResponse payload) async {
+  onNotificationClick(payload.payload);
 }
 
 Future<void> onNotificationClick(String? payload) async {

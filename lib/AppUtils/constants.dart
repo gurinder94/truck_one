@@ -6,7 +6,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
@@ -32,9 +31,9 @@ final String Base_Url_group = SERVER_URL + '/uploads/group/';
 final Color PrimaryColor = Color(0xFF044a87);
 var AppversionName = "1.1.9";
 // final String SERVER_URL = "http://192.168.1.140:1339";
-final String SERVER_URL = "https://mytruck.one:1337";
+// final String SERVER_URL = "https://mytruck.one:1337";
 
-// final String SERVER_URL = 'https://zimotechnologies.in:4000';
+final String SERVER_URL = 'https://zimotechnologies.in:4000';
 final Color IconColor = Colors.black.withOpacity(0.5);
 String Base_URL_image = SERVER_URL + '/api/v1/post/uploadImage';
 final String Base_URL_group_image = SERVER_URL + '/uploads/post/image/';
@@ -118,29 +117,29 @@ Future<Uint8List> getBytesFromAsset(String path, int width) async {
       .asUint8List();
 }
 
-Future<BitmapDescriptor> bitmapDescriptorFromSvgAsset(
-    BuildContext context, String assetName) async {
-  // Read SVG file as String
-  String svgString = await DefaultAssetBundle.of(context).loadString(assetName);
-  // Create DrawableRoot from SVG String
-  DrawableRoot svgDrawableRoot = await svg.fromSvgString(svgString, "null");
-
-  // toPicture() and toImage() don't seem to be pixel ratio aware, so we calculate the actual sizes here
-  MediaQueryData queryData = MediaQuery.of(context);
-  double devicePixelRatio = queryData.devicePixelRatio;
-  double width = 32 * devicePixelRatio; // where 32 is your SVG's original width
-  double height = 32 * devicePixelRatio; // same thing
-
-  // Convert to ui.Picture
-  ui.Picture picture = svgDrawableRoot.toPicture(size: Size(width, height));
-
-  // Convert to ui.Image. toImage() takes width and height as parameters
-  // you need to find the best size to suit your needs and take into account the
-  // screen DPI
-  ui.Image image = await picture.toImage(width.toInt(), height.toInt());
-  ByteData? bytes = await image.toByteData(format: ui.ImageByteFormat.png);
-  return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
-}
+// Future<BitmapDescriptor> bitmapDescriptorFromSvgAsset(
+//     BuildContext context, String assetName) async {
+//   // Read SVG file as String
+//   String svgString = await DefaultAssetBundle.of(context).loadString(assetName);
+//   // Create DrawableRoot from SVG String
+//   DrawableRoot svgDrawableRoot = await svg.fromSvgString(svgString, "null");
+//
+//   // toPicture() and toImage() don't seem to be pixel ratio aware, so we calculate the actual sizes here
+//   MediaQueryData queryData = MediaQuery.of(context);
+//   double devicePixelRatio = queryData.devicePixelRatio;
+//   double width = 32 * devicePixelRatio; // where 32 is your SVG's original width
+//   double height = 32 * devicePixelRatio; // same thing
+//
+//   // Convert to ui.Picture
+//   ui.Picture picture = svgDrawableRoot.toPicture(size: Size(width, height));
+//
+//   // Convert to ui.Image. toImage() takes width and height as parameters
+//   // you need to find the best size to suit your needs and take into account the
+//   // screen DPI
+//   ui.Image image = await picture.toImage(width.toInt(), height.toInt());
+//   ByteData? bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+//   return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
+// }
 
 Color hexToColor(String code) {
   var p = code.length;

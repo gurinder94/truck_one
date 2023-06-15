@@ -127,12 +127,12 @@ class ChatSocketConnection extends ChangeNotifier {
 
   void initNotification() {
     var androidInitilize = AndroidInitializationSettings('@mipmap/ic_launcher');
-    var iOSinitilize = IOSInitializationSettings();
+    var iOSinitilize = DarwinInitializationSettings();
     var initilizationsSettings =
         InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
     fltrNotification = FlutterLocalNotificationsPlugin();
     fltrNotification.initialize(initilizationsSettings,
-        onSelectNotification: onSelectNotification);
+        onDidReceiveNotificationResponse: onSelectNotification);
   }
 
   Future showNotification(
@@ -142,7 +142,7 @@ class ChatSocketConnection extends ChangeNotifier {
     var androidDetails = const AndroidNotificationDetails(
         "Channel ID", "Channel name",
         importance: Importance.max, channelDescription: "Channel description");
-    var iSODetails = const IOSNotificationDetails();
+    var iSODetails = const DarwinNotificationDetails();
     var generalNotificationDetails =
         NotificationDetails(android: androidDetails, iOS: iSODetails);
 
@@ -183,8 +183,9 @@ class ChatSocketConnection extends ChangeNotifier {
     }
   }
 
-  void onSelectNotification(String? payload) {
-    print("notification ${payload}");
+  void onSelectNotification( NotificationResponse details) {
+    print("notification ${details.payload}");
+    var payload=details.payload;
     ChatConversationModelDetail conversationModel =
         ChatConversationModelDetail.fromJson(jsonDecode(payload!));
 
