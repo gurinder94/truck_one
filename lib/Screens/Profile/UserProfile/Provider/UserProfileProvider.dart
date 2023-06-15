@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,7 @@ import 'package:my_truck_dot_one/Screens/BottomMenu/bottom_menu.dart';
 import 'package:my_truck_dot_one/Screens/Profile/UserProfile/user_profile_view/provider/user_profile_provider.dart';
 import 'package:my_truck_dot_one/Screens/Profile/UserProfile/user_profile_view/user_profile_view.dart';
 import 'package:provider/provider.dart';
-import '../../../../Model/JobModel/JobViewList.dart';
+
 import '../../../../Model/NetworkModel/normal_response.dart';
 import '../../../../Model/ProfileModel/UserModel.dart';
 
@@ -274,12 +275,12 @@ class UserProfileProvider extends ChangeNotifier {
     var userProfile = userModel!.data!;
 
     firstName.text =
-        userProfile.firstName == null ? '' : userProfile.firstName.toString();
+        userProfile.firstName == null ? '' : userProfile.firstName ?? "";
     lastName.text =
-        userProfile.lastName == null ? '' : userProfile.lastName.toString();
+        userProfile.lastName == null ? '' : userProfile.lastName ?? "";
     email.text = userProfile.email!;
     mobile.text = userProfile.mobileNumber!;
-    educationQualification.text = userProfile.otherQualification.toString();
+    educationQualification.text = userProfile.otherQualification ?? "";
     permanentsaddress.text = userProfile.permAddress == null
         ? ''
         : userProfile.permAddress.toString();
@@ -287,7 +288,7 @@ class UserProfileProvider extends ChangeNotifier {
         ? ''
         : userProfile.corrAddress.toString();
     workplace.text =
-        userProfile.workPlace == null ? '' : userProfile.workPlace.toString();
+        userProfile.workPlace == null ? '' : userProfile.workPlace ?? "";
     designation.text = userProfile.designation == null
         ? ''
         : userProfile.designation.toString();
@@ -310,10 +311,9 @@ class UserProfileProvider extends ChangeNotifier {
     valueExperience = experience == "null"
         ? valueExperience
         : "${experience.toString()} year";
-    String? maritalStatus = userProfile.maritalStatus.toString();
-    marriedStatus.text = userProfile.otherSkill.toString();
-    valueMaritalStatus =
-        maritalStatus == "" ? "null" : maritalStatus.toString();
+    String? maritalStatus = userProfile.maritalStatus ?? "";
+    marriedStatus.text = userProfile.otherSkill ?? "";
+    valueMaritalStatus = maritalStatus == "" ? "null" : maritalStatus ?? "";
     getQualification();
     getLanguages();
     getSkill();
@@ -322,7 +322,7 @@ class UserProfileProvider extends ChangeNotifier {
 
     roleName == "DRIVER" ? getdocumentView(userProfile) : '';
     aboutUs.text =
-        userProfile.aboutUser == null ? '' : userProfile.aboutUser.toString();
+        userProfile.aboutUser == null ? '' : userProfile.aboutUser ?? "";
     notifyListeners();
   }
 
@@ -387,14 +387,14 @@ class UserProfileProvider extends ChangeNotifier {
     for (int j = 0; j < userList.length; j++) {
       for (int i = 0; i < listQualification.length; i++) {
         if (userList[j].qualification == listQualification[i].qualification) {
-          listQualification[i].isvalue = true;
+          //listQualification[i].isvalue = true;
           q.add(listQualification[i].qualification.toString());
           qualificationId.add(listQualification[i].id.toString());
         }
       }
     }
-    qualificationEditText.text =
-        q.toString().replaceAll('[', '').replaceAll(']', '');
+    // qualificationEditText.text =
+    //     q.toString().replaceAll('[', '').replaceAll(']', '');
   }
 
   void getLanguages() {
@@ -420,15 +420,16 @@ class UserProfileProvider extends ChangeNotifier {
       for (int i = 0; i < listSkill.length; i++) {
         {
           if (skillData[j].skill == listSkill[i].skill) {
-            listSkill[i].isValue = true;
-            print(listSkill[i].skill.toString());
+            // listSkill[i].isValue = true;
+            print("sdfdfdf ${listSkill[i].skill.toString()}");
             q.add(listSkill[i].skill.toString());
             skillId.add(listSkill[i].id.toString());
           }
         }
       }
     }
-    skillText.text = q.toString().replaceAll('[', '').replaceAll(']', '');
+    print("skillText.text>> q>> ${q}");
+    //.text = q.toString().replaceAll('[', '').replaceAll(']', '');
   }
 
   hitUserProfileUpdate(BuildContext context) async {
@@ -918,8 +919,9 @@ class UserProfileProvider extends ChangeNotifier {
   otherQualification() {
     var qualification;
     for (int i = 0; i < qualificationId.length; i++) {
+      print("qualificationId[i]>> ${qualificationId[i]}");
       if (qualificationId[i] == "12345") {
-        return qualification = educationQualification.text;
+        return qualification = educationQualification.text ?? "";
       } else
         return qualification = "";
     }

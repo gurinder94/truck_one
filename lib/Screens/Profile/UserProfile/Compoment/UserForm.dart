@@ -346,7 +346,7 @@ class _UserFormState extends State<UserForm> {
                 controller: _userProfileProvider.skillText,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Enter Your  Keys Skill',
+                  hintText: 'Enter Your Keys Skill',
                   hintStyle: TextStyle(fontSize: 17),
                   contentPadding: EdgeInsets.all(10),
                 ),

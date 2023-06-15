@@ -22,7 +22,6 @@ class _AddStoppageMapState extends State<AddStoppageMap> {
   static final CameraPosition intialPos = CameraPosition(
     target: LatLng(37.6, -95.665),
     zoom: 1,
-
   );
   TripPlannerModel data;
 

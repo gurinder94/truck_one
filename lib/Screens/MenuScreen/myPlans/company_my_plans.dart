@@ -47,34 +47,45 @@ class _MyPlansScreenState extends State<MyPlansScreen> {
   }
 
   popUpMenuOptions() {
-    return PopupMenuButton(onSelected: (value) {
-      // your logic
-      print("onSelected> ${value.toString()}");
-      _provider.onPopUpMenuClickAction(value.toString());
-    }, itemBuilder: (BuildContext bc) {
-      return const [
-        PopupMenuItem(
-          child: Text("E-Commerce"),
-          value: 'ECOMMERCE',
+    return PopupMenuButton(
+      onSelected: (value) {
+        // your logic
+        print("onSelected> ${value.toString()}");
+        _provider.onPopUpMenuClickAction(value.toString());
+      },
+      itemBuilder: (BuildContext bc) {
+        return const [
+          PopupMenuItem(
+            child: Text("E-Commerce"),
+            value: 'ECOMMERCE',
+          ),
+          PopupMenuItem(
+            child: Text("Event"),
+            value: 'EVENT',
+          ),
+          PopupMenuItem(
+            child: Text("Job"),
+            value: 'JOB',
+          ),
+          PopupMenuItem(
+            child: Text("Service"),
+            value: 'SERVICE',
+          ),
+          PopupMenuItem(
+            child: Text("Trip-Planner"),
+            value: 'TRIP_PLANNER',
+          ),
+        ];
+      },
+      child: Center(
+          child: Padding(
+        padding: const EdgeInsets.only(right: 20),
+        child: Text(
+          "Select Plan",
+          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
         ),
-        PopupMenuItem(
-          child: Text("Event"),
-          value: 'EVENT',
-        ),
-        PopupMenuItem(
-          child: Text("Job"),
-          value: 'JOB',
-        ),
-        PopupMenuItem(
-          child: Text("Service"),
-          value: 'SERVICE',
-        ),
-        PopupMenuItem(
-          child: Text("Trip-Planner"),
-          value: 'TRIP_PLANNER',
-        ),
-      ];
-    });
+      )),
+    );
   }
 
   Widget build(BuildContext context) {
