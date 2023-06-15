@@ -4,21 +4,18 @@ class ConstantModell {
     this.message,
     this.data,
     this.startDate,
-    this.promocode,
   });
 
   int? code;
   String? message;
   List<Datum>? data;
   DateTime? startDate;
-  List<dynamic>? promocode;
 
   factory ConstantModell.fromJson(Map<String, dynamic> json) => ConstantModell(
         code: json["code"],
         message: json["message"],
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
         startDate: DateTime.parse(json["startDate"]),
-        promocode: List<dynamic>.from(json["promocode"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -26,7 +23,6 @@ class ConstantModell {
         "message": message,
         "data": List<dynamic>.from(data!.map((x) => x.toJson())),
         "startDate": startDate!.toIso8601String(),
-        "promocode": List<dynamic>.from(promocode!.map((x) => x)),
       };
 }
 
@@ -112,7 +108,7 @@ class Data {
   var finalPrice;
   bool? isActive;
   String? discountType;
-  int? discountValue;
+  var discountValue;
   dynamic maxDiscountValue;
   String? createdBy;
   DateTime? createdDate;
@@ -120,10 +116,10 @@ class Data {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
-  double? androidPercent;
-  int? iphonePercent;
-  double? androidPrice;
-  int? iphonePrice;
+  var androidPercent;
+  var iphonePercent;
+  var androidPrice;
+  var iphonePrice;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
       id: json["_id"],

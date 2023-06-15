@@ -381,6 +381,7 @@ class DispatcherItem extends StatelessWidget {
                 Expanded(
                   child: ListView.builder(
                     padding: EdgeInsets.all(0),
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: data.destination!.length,
                     itemBuilder: (BuildContext context, int index) =>

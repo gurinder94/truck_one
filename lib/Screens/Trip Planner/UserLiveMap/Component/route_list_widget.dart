@@ -14,13 +14,14 @@ class RouteListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _provider = context.read<RouteMarkerListProvider>();
     return Container(
-        color: Colors.white,
+        color: Colors.grey.shade100,
         child: Consumer<RouteMarkerListProvider>(
           builder: (context, noti, child) => noti.loading
               ? Center(child: CircularProgressIndicator.adaptive())
               : noti.routeModel.routes == null
                   ? SizedBox()
                   : ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: noti.routeModel.routes!.length,
                       itemBuilder: (context, index) {
                         return Container(
@@ -30,7 +31,13 @@ class RouteListWidget extends StatelessWidget {
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Colors.black26, blurRadius: 10),
+                                      offset: Offset(2, 2),
+                                      blurRadius: 2,
+                                      color: Colors.black12),
+                                  BoxShadow(
+                                      offset: Offset(-2, -2),
+                                      blurRadius: 2,
+                                      color: Colors.black12)
                                 ],
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5))),
