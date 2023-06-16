@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -196,20 +197,36 @@ class RouteMarkerProvider extends ChangeNotifier {
         await getBytesFromAsset('assets/start_flag.png', 100);
     final Uint8List endIcon =
         await getBytesFromAsset('assets/end_flag.png', 100);
+    final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
+
+    List<Placemark>? placemarks;
+    var startAddress = "";
+    try {
+      placemarks =
+      await placemarkFromCoordinates(start.latitude, start.longitude);
+      if (placemarks != null &&
+          placemarks.first != null &&
+          placemarks.length > 0)
+        startAddress = placemarks.first.locality ?? "start";
+    } on Exception catch (e) {
+      startAddress = "start";
+    }
     _markers[MarkerId('start')] = Marker(
       markerId: MarkerId('start'),
       flat: true,
       icon: BitmapDescriptor.fromBytes(startIcon),
       position: start,
       anchor: Offset(.5, .5),
-      infoWindow: InfoWindow(title: 'Start'),
+      infoWindow: InfoWindow(title: startAddress),
       onTap: () {},
     );
 
 
-    final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
+
+    int count=0;
 
     tripPlannerData?.destination?.forEach((melement) {
+      count++;
       print(
           "tripPlannerData>> ${melement.location?.coordinates} ${melement.address}");
       // destinationLatitude +=
@@ -217,7 +234,7 @@ class RouteMarkerProvider extends ChangeNotifier {
       var no = Random().nextInt(100);
       _markers[MarkerId('weather$no')] = Marker(
         markerId: MarkerId('weather$no'),
-        icon: BitmapDescriptor.fromBytes(midIcon),
+        icon: BitmapDescriptor.fromBytes(count==tripPlannerData?.destination?.length?endIcon:midIcon),
         position: LatLng(melement.location?.coordinates![0] ?? 0.0,
             melement.location!.coordinates![1]),
         infoWindow: InfoWindow(title: '${melement.address}'),

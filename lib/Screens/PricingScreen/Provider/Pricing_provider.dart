@@ -32,7 +32,7 @@ class PriceProvider extends ChangeNotifier {
   List<LatestReceiptInfo> inApp = <LatestReceiptInfo>[];
   bool buyProductLoder = false;
   bool isAvailable = false;
-  bool isTest = false;
+  bool isTest = true;
   bool purchasePending = false;
   ResponseModel? responseModel;
   PurchaseDetails? previousPurchase;
