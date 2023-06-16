@@ -5,11 +5,9 @@ import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/ManageTeamModel/company_mange_team_model.dart';
 import 'package:my_truck_dot_one/Model/ManageTeamModel/user_left_company_model 2.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../commanWidget/Comman_Alert_box.dart';
-import '../company_team_mange_component/team_manage_screen.dart';
 
 class ManagerTeamProvider extends ChangeNotifier {
   int menuClick = 0;

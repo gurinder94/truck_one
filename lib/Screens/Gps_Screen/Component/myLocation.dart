@@ -152,6 +152,7 @@ class _MyLocationState extends State<MyLocation> {
                 noti.addAddressData != null && noti.addAddressData.length > 0
                     ? Expanded(
                         child: ReorderableListView(
+                          padding: EdgeInsets.zero,
                           children: List<Widget>.generate(
                               noti.addAddressData.length,
                               (index) => locationItemView(
@@ -254,7 +255,7 @@ class _MyLocationState extends State<MyLocation> {
           },
           child: SizedBox(
             height: 50,
-            width: 32,
+            width: 28,
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
@@ -269,9 +270,9 @@ class _MyLocationState extends State<MyLocation> {
           ),
           Row(
             children: [
-              Icon(Icons.location_on, size: 30),
+              Icon(Icons.location_on, size: 28),
               SizedBox(
-                width: 8,
+                width: 4,
               ),
               Expanded(
                 child: InputShape(

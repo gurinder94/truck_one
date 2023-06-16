@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -373,60 +374,50 @@ class AddTripProvider extends ChangeNotifier {
     });
 
     if (_routePoints.length > 0) {
+      List<Placemark>? placemarks;
+      var startAddress = "";
+      try {
+        placemarks =
+            await placemarkFromCoordinates(sourceLatitude, sourceLongitude);
+        if (placemarks != null &&
+            placemarks.first != null &&
+            placemarks.length > 0)
+          startAddress = placemarks.first.locality ?? "start";
+      } on Exception catch (e) {
+        startAddress = "start";
+      }
+
       moveCamera(_routePoints[0]);
       var no = Random().nextInt(100);
-      _markers[MarkerId('weather')] = Marker(
-        markerId: MarkerId('weather$no'),
+      _markers[MarkerId('marker')] = Marker(
+        markerId: MarkerId('marker$no'),
         icon: BitmapDescriptor.fromBytes(startIcon),
         position: LatLng(sourceLatitude, sourceLongitude),
-        infoWindow: InfoWindow(title: 'weather'),
-        onTap: () {
-          // weatherplan == true
-          //     ? weatherMarkerClick(MarkerId('weather$i'))
-          //     : SizedBox();
-        },
+        infoWindow: InfoWindow(title: startAddress),
+        onTap: () {},
       );
+      int count = 0;
+
       addAddressData.forEach((element) {
         print("element>> ${element}");
-        // destinationLatitude +=
-        // "$destinationLatitude:${element['location']['coordinates'][0]},${element['location']['coordinates'][1]}";
+
         no = Random().nextInt(100);
-        _markers[MarkerId('weather$no')] = Marker(
-          markerId: MarkerId('weather$no'),
-          icon: BitmapDescriptor.fromBytes(midIcon),
+        count++;
+        // if (count < addAddressData.length){
+        _markers[MarkerId('marker$no')] = Marker(
+          markerId: MarkerId('marker$no'),
+          icon: BitmapDescriptor.fromBytes(
+              count == addAddressData.length ? endIcon : midIcon),
           position: LatLng(element['location']['coordinates'][0],
               element['location']['coordinates'][1]),
-          infoWindow: InfoWindow(title: 'weather'),
-          onTap: () {
-            // weatherplan == true
-            //     ? weatherMarkerClick(MarkerId('weather$i'))
-            //     : SizedBox();
-          },
+          infoWindow: InfoWindow(title: element['address']),
+          onTap: () {},
         );
+        // }
       });
 
       notifyListeners();
     }
-    // Future.forEach(model.routes!, (RoutePath routeData) async {
-
-    //   //storeTurns(routeData.guidance!.instructions!);
-    // }).then((x) async {
-    //   // addWeatherMarker(_routePoints);
-    //   //var no = Random().nextInt(100);
-    //   // markers[MarkerId('start$no')] = Marker(
-    //   //   markerId: MarkerId('start$no'),
-    //   //   flat: true,
-    //   //   icon: BitmapDescriptor.fromBytes(midIcon),
-    //   //   position: LatLng(routePoints[0].latitude,
-    //   //       routePoints[routePoints.length - 1].longitude),
-    //   //   anchor: Offset(.5, .5),
-    //   //   infoWindow: InfoWindow(title: 'Start'),
-    //   //   onTap: () {},
-    //   // );
-    // });
-    // if (_polyline.length > 1) {
-    //   // setStartEndMarker(routePoints[0], routePoints[routePoints.length - 1]);
-    // }
   }
 
   void storeTurns(List<Instruction> instructions) {

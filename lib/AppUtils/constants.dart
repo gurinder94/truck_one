@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -27,10 +28,10 @@ final String Base_Url_group = SERVER_URL + '/uploads/group/';
 
 final Color PrimaryColor = Color(0xFF044a87);
 var AppversionName = "1.1.9";
-final String SERVER_URL = "http://192.168.1.140:1339";
+// final String SERVER_URL = "http://192.168.1.140:1339";
 // final String SERVER_URL = "https://mytruck.one:1337";
 
-// final String SERVER_URL = 'https://zimotechnologies.in:4000';
+final String SERVER_URL = 'https://zimotechnologies.in:4000';
 final Color IconColor = Colors.black.withOpacity(0.5);
 String Base_URL_image = SERVER_URL + '/api/v1/post/uploadImage';
 final String Base_URL_group_image = SERVER_URL + '/uploads/post/image/';
