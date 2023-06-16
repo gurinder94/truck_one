@@ -258,15 +258,15 @@ class AddTripProvider extends ChangeNotifier {
 
   void setAddress(double longitude, double latitude) {
     sourceLatitude = latitude;
-
     sourceLongitude = longitude;
-
+    print("826378${sourceLatitude},$sourceLongitude");
     notifyListeners();
   }
 
   void setDestinationAddress(longitude, latitude) {
     DestinationLatitude = latitude;
     DestinationLongitude = longitude;
+
     notifyListeners();
   }
 

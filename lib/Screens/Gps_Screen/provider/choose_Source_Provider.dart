@@ -134,9 +134,6 @@ class ChooseSourceProvider extends ChangeNotifier {
   }
 
   hitTripHistry() async {
-    // var dateValue = new DateFormat("yyyy-MM-ddTHH:mm:ssZ")
-    //     .parseUTC("${startDate.text}T${}:00.000Z");
-
     var getId = await getUserId();
     Map<String, dynamic> map = {
       "count": 6,
@@ -155,9 +152,7 @@ class ChooseSourceProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> getLocation(AddTripProvider addTripProvider) async {
-
-
+  Future<void> getLocation(AddTripProvider addTripProvider,chooseSource) async {
     positionStream = Geolocator.getPositionStream(
       locationSettings: LocationSettings(
         accuracy: LocationAccuracy.bestForNavigation,
@@ -167,6 +162,8 @@ class ChooseSourceProvider extends ChangeNotifier {
       addTripProvider.setAddress(position.longitude, position.latitude);
 
     });
+   addressController.text = "Your location";
+   chooseSource.text = "Your location";
     Navigator.pop(navigatorKey.currentState!.context);
     notifyListeners();
   }
