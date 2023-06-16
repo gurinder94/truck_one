@@ -310,7 +310,6 @@ class _MyLocationState extends State<MyLocation> {
     ).listen((Position position) {
       addTripProvider.setAddress(position.longitude, position.latitude);
     });
-    _addTripProvider.chooseSource.text = "Your location";
     setState(() {});
   }
 }

@@ -162,8 +162,6 @@ class ChooseSourceProvider extends ChangeNotifier {
       addTripProvider.setAddress(position.longitude, position.latitude);
 
     });
-   addressController.text = "Your location";
-   chooseSource.text = "Your location";
     Navigator.pop(navigatorKey.currentState!.context);
     notifyListeners();
   }
