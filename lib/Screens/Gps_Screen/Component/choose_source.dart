@@ -27,6 +27,7 @@ class _ChooseSourceState extends State<ChooseSource> {
     super.initState();
     _chooseSourceProvider = context.read<ChooseSourceProvider>();
     _chooseSourceProvider.addressController.text = widget.chooseSource.text;
+
     _chooseSourceProvider.hitTripHistry();
   }
 
@@ -55,6 +56,7 @@ class _ChooseSourceState extends State<ChooseSource> {
                     suffixIcon: IconButton(
                         onPressed: () {
                           _chooseSourceProvider.addressController.text = "";
+
                           widget.chooseSource.text = "";
                           widget.addTripProvider.setvalue("");
                         },
@@ -94,13 +96,13 @@ class _ChooseSourceState extends State<ChooseSource> {
                 ],
               ),
               onTap: () {
+                _chooseSourceProvider.addressController.text = "Your location";
+                widget.chooseSource.text = "Your location";
                 if (widget.addTripProvider.model.routes == null)
-                  _chooseSourceProvider.getLocation(
-                      widget.addTripProvider, widget.chooseSource);
+                  _chooseSourceProvider.getLocation(widget.addTripProvider);
                 else {
                   widget.addTripProvider.setResetRoute();
-                  _chooseSourceProvider.getLocation(
-                      widget.addTripProvider, widget.chooseSource);
+                  _chooseSourceProvider.getLocation(widget.addTripProvider);
                 }
               },
             ),

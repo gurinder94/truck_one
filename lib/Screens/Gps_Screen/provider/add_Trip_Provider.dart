@@ -260,8 +260,6 @@ class AddTripProvider extends ChangeNotifier {
   void setAddress(double longitude, double latitude) {
     sourceLatitude = latitude;
     sourceLongitude = longitude;
-    chooseSource.text = "Your location";
-    print("826378${sourceLatitude},$sourceLongitude");
     notifyListeners();
   }
 

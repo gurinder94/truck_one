@@ -95,7 +95,8 @@ class _UserMenuPageState extends State<UserMenuPage> {
           SizedBox(
             height: 10,
           ),
-          listOfOptions('Delete My Account', 'Company_menu_image/deleteAccount.svg', 3),
+          listOfOptions(
+              'Delete My Account', 'Company_menu_image/deleteAccount.svg', 3),
           SizedBox(
             height: 10,
           ),
@@ -368,10 +369,11 @@ class _UserMenuPageState extends State<UserMenuPage> {
                     ], child: CompanyFleetManagerPage())));
         break;
       case 'GPS Navigation':
-        GpsPlanuser == true
-            ? Navigator.push(
-                context, MaterialPageRoute(builder: (context) => GpsScreen()))
-            : DialogUtils.showMyDialog(
+        /* GpsPlanuser == true
+            ?*/
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => GpsScreen()));
+        /*: DialogUtils.showMyDialog(
                 context,
                 onDoneFunction: () async {
                   Navigator.pop(context);
@@ -380,7 +382,7 @@ class _UserMenuPageState extends State<UserMenuPage> {
                 title: 'Buy Plan!',
                 alertTitle: 'Pricing Price',
                 btnText: "Done",
-              );
+              );*/
         break;
       case 'Buy Now':
         return DialogUtils.showMySuccessful(context,

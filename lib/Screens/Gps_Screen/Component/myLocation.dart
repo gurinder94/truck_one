@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-
 import '../../../AppUtils/constants.dart';
 import '../../Language_Screen/application_localizations.dart';
 import '../../commanWidget/Custom_App_Bar_Widget.dart';
@@ -203,7 +201,7 @@ class _MyLocationState extends State<MyLocation> {
                           height: 40,
                           child: Center(
                             child: Text(
-                              AppLocalizations.instance.text('Submit'),
+                              AppLocalizations.instance.text('Search'),
                               style:
                                   TextStyle(fontSize: 18, color: Colors.white),
                             ),
@@ -216,6 +214,9 @@ class _MyLocationState extends State<MyLocation> {
                           if (globalKey.currentState!.validate()) {
                             if (_addTripProvider.chooseSource.text == "") {
                               showMessage("Please choose start point");
+                            } else if (_addTripProvider.addAddressData.length ==
+                                0) {
+                              showMessage("Please choose destination");
                             } else {
                               _addTripProvider.addAddressData
                                   .forEach((element) {
@@ -304,6 +305,7 @@ class _MyLocationState extends State<MyLocation> {
   }
 
   Future<void> getLocation(AddTripProvider addTripProvider) async {
+    _addTripProvider.chooseSource.text = "Your location";
     positionStream = Geolocator.getPositionStream(
       locationSettings: LocationSettings(
         accuracy: LocationAccuracy.bestForNavigation,

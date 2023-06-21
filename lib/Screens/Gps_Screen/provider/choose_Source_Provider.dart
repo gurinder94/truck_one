@@ -14,10 +14,10 @@ import '../../../Model/TripPlannerModel/trip_history_model.dart';
 
 class ChooseSourceProvider extends ChangeNotifier {
   static const country = 'country';
-  bool getLoading=false;
+  bool getLoading = false;
   List<AutocompletePrediction> predictions = [];
-  List<Datum> histryLocation=[];
- late  TripHistoryModel historyModel;
+  List<Datum> histryLocation = [];
+  late TripHistoryModel historyModel;
   double? Longitude;
   double? Latitude;
   List<String> items = [
@@ -70,7 +70,6 @@ class ChooseSourceProvider extends ChangeNotifier {
           print(query);
           notifyListeners();
           addTripProvider.setAddress(location.longitude, location.latitude);
-
         });
       } on Exception catch (e) {
         print(e);
@@ -109,7 +108,6 @@ class ChooseSourceProvider extends ChangeNotifier {
           addTripProvider.setDestinationAddress(
               location.longitude, location.latitude);
           Navigator.pop(navigatorKey.currentState!.context);
-
         });
       } on Exception catch (e) {
         print(e);
@@ -152,15 +150,14 @@ class ChooseSourceProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> getLocation(AddTripProvider addTripProvider,chooseSource) async {
+
+  Future<void> getLocation(AddTripProvider addTripProvider) async {
     positionStream = Geolocator.getPositionStream(
       locationSettings: LocationSettings(
         accuracy: LocationAccuracy.bestForNavigation,
       ),
     ).listen((Position position) {
-
       addTripProvider.setAddress(position.longitude, position.latitude);
-
     });
     Navigator.pop(navigatorKey.currentState!.context);
     notifyListeners();
