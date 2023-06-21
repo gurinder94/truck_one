@@ -27,6 +27,8 @@ class AddTripProvider extends ChangeNotifier {
   var long, lat;
   TruckListModel? truckListModel;
   TextEditingController chooseSource = TextEditingController();
+
+  TextEditingController destinationSource = TextEditingController();
   var chooseDestination;
 
   TextEditingController choose1Destination = TextEditingController();
@@ -192,11 +194,7 @@ class AddTripProvider extends ChangeNotifier {
   }
 
   hitTripCreate() async {
-    //
-
-    //
-    // var dateValue = new DateFormat("yyyy-MM-ddTHH:mm:ssZ")
-    //     .parseUTC("${startDate.text}T${p}.000Z");
+    print("hitTripCreate>>");
     getTruckDeatil();
     DateTime tempDate = new DateFormat("HH:mm").parse(endTime.text);
     var p = DateFormat.Hm().format(tempDate);
@@ -342,10 +340,13 @@ class AddTripProvider extends ChangeNotifier {
   Polyline? mpolyline;
 
   Future<void> applyRoute() async {
+    print("applyRoute>>");
     _markers.clear();
     _routePoints = [];
     weatherMarkers = [];
+    _polyline = {};
 
+    notifyListeners();
     final Uint8List midIcon = await getBytesFromAsset('assets/icons.png', 30);
     final Uint8List startIcon =
         await getBytesFromAsset('assets/start_flag.png', 100);
@@ -736,6 +737,16 @@ class AddTripProvider extends ChangeNotifier {
           histryLocation[0].trailerData!.width!,
           histryLocation[0].truckData!.height!);
     }
+    notifyListeners();
+  }
+
+  void resetDirectionModel() {
+    // model
+    _markers.clear();
+    _routePoints = [];
+    weatherMarkers = [];
+    _polyline = {};
+    model.routes = null;
     notifyListeners();
   }
 }
