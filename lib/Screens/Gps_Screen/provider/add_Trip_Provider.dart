@@ -27,6 +27,8 @@ class AddTripProvider extends ChangeNotifier {
   var long, lat;
   TruckListModel? truckListModel;
   TextEditingController chooseSource = TextEditingController();
+
+  TextEditingController destinationSource = TextEditingController();
   var chooseDestination;
 
   TextEditingController choose1Destination = TextEditingController();

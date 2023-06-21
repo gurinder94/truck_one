@@ -11,8 +11,9 @@ import '../provider/choose_Source_Provider.dart';
 class ChooseSource extends StatefulWidget {
   TextEditingController chooseSource;
   AddTripProvider addTripProvider;
+  String? title;
 
-  ChooseSource(this.chooseSource, this.addTripProvider);
+  ChooseSource(this.chooseSource, this.title, this.addTripProvider);
 
   @override
   State<ChooseSource> createState() => _ChooseSourceState();
@@ -46,7 +47,7 @@ class _ChooseSourceState extends State<ChooseSource> {
               child: TextFormField(
                 controller: _chooseSourceProvider.addressController,
                 decoration: InputDecoration(
-                    hintText: 'Choose start location',
+                    hintText: widget.title ?? 'Choose location',
                     border: InputBorder.none,
                     prefixIcon: GestureDetector(
                         onTap: () {

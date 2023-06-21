@@ -1,7 +1,10 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:my_truck_dot_one/Screens/Gps_Screen/Component/choose_source.dart';
 import 'package:provider/provider.dart';
+
 import '../../../AppUtils/constants.dart';
 import '../../Language_Screen/application_localizations.dart';
 import '../../commanWidget/Custom_App_Bar_Widget.dart';
@@ -9,7 +12,6 @@ import '../../commanWidget/input_shape.dart';
 import '../provider/add_Trip_Provider.dart';
 import '../provider/choose_Source_Provider.dart';
 import 'choose_destination_dart.dart';
-import 'choose_source.dart';
 
 class MyLocation extends StatefulWidget {
   @override
@@ -55,95 +57,19 @@ class _MyLocationState extends State<MyLocation> {
                 SizedBox(
                   height: 120,
                 ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (_addTripProvider.model.routes == null)
-                          getLocation(_addTripProvider);
-                        else {
-                          _addTripProvider.setResetRoute();
-                          getLocation(_addTripProvider);
-                        }
-                      },
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        child: Container(
-                          child: Icon(Icons.my_location_outlined,
-                              color: Colors.blue, size: 20),
-                        ),
-                        decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.2),
-                            shape: BoxShape.circle),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.4,
-                      height: 40,
-                      child: InputShape(
-                        child: TextFormField(
-                          controller: _addTripProvider.chooseSource,
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            hintText: 'Choose Starting point ',
-                            border: InputBorder.none,
-                            prefixIcon: Icon(Icons.search),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ChangeNotifierProvider(
-                                            create: (_) =>
-                                                ChooseSourceProvider(),
-                                            child: ChooseSource(
-                                                _addTripProvider.chooseSource,
-                                                _addTripProvider))));
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    noti.addAddressData.length > 2
-                        ? SizedBox()
-                        : Container(
-                            padding: EdgeInsets.all(7),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.white,
-                                      blurRadius: 5,
-                                      offset: Offset(5, 5)),
-                                  BoxShadow(
-                                      color: Colors.black12,
-                                      blurRadius: 1,
-                                      offset: Offset(-1, -1)),
-                                ]),
-                            child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ChangeNotifierProvider(
-                                                  create: (_) =>
-                                                      ChooseSourceProvider(),
-                                                  child: ChooseNextDestination(
-                                                      _addTripProvider
-                                                          .choose1Destination,
-                                                      _addTripProvider))));
-                                },
-                                child: Icon(Icons.add)))
-                  ],
+                startingPointSelectionItem(
+                    noti: noti,
+                    title: "Choose starting point",
+                    textcontroller: _addTripProvider.chooseSource),
+                SizedBox(
+                  height: 12,
                 ),
+                noti.addAddressData.length == 0
+                    ? startingPointSelectionItem(
+                        textcontroller: _addTripProvider.choose1Destination,
+                        noti: noti,
+                        title: "Choose destination Point")
+                    : Container(),
                 SizedBox(
                   height: 15,
                 ),
@@ -314,5 +240,114 @@ class _MyLocationState extends State<MyLocation> {
       addTripProvider.setAddress(position.longitude, position.latitude);
     });
     setState(() {});
+  }
+
+  startingPointSelectionItem(
+      {required AddTripProvider noti,
+      required String title,
+      required TextEditingController textcontroller}) {
+    return Row(
+      children: [
+        Opacity(
+          opacity: title == "Choose starting point" ? 1 : 0,
+          child: GestureDetector(
+            onTap: () {
+              if (title == "Choose starting point") {
+                if (_addTripProvider.model.routes == null)
+                  getLocation(_addTripProvider);
+                else {
+                  _addTripProvider.setResetRoute();
+                  getLocation(_addTripProvider);
+                }
+              } else {
+                navigateToChooseDestinationScreen();
+              }
+            },
+            child: yourLocationIcon(),
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 1.4,
+          height: 40,
+          child: InputShape(
+            child: TextFormField(
+              controller: textcontroller,
+              readOnly: true,
+              decoration: InputDecoration(
+                hintText: title,
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.search),
+              ),
+              onTap: () {
+                print("Gestt $title");
+                if (title == "Choose starting point") {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                              create: (_) => ChooseSourceProvider(),
+                              child: ChooseSource(_addTripProvider.chooseSource,
+                                  title, _addTripProvider))));
+                } else {
+                  navigateToChooseDestinationScreen();
+                }
+              },
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 15,
+        ),
+        noti.addAddressData.length > 2
+            ? SizedBox()
+            : Visibility(
+                visible: title == "Choose starting point",
+                child: Container(
+                    padding: EdgeInsets.all(7),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                      BoxShadow(
+                          color: Colors.white,
+                          blurRadius: 5,
+                          offset: Offset(5, 5)),
+                      BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 1,
+                          offset: Offset(-1, -1)),
+                    ]),
+                    child: InkWell(
+                        onTap: () {
+                          navigateToChooseDestinationScreen();
+                        },
+                        child: Icon(Icons.add))),
+              )
+      ],
+    );
+  }
+
+  void navigateToChooseDestinationScreen() async {
+    print("navigateToChooseDestinationScreen");
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                create: (_) => ChooseSourceProvider(),
+                child: ChooseNextDestination(
+                    _addTripProvider.choose1Destination, _addTripProvider))));
+  }
+
+  yourLocationIcon() {
+    return Container(
+      width: 30,
+      height: 30,
+      child: Container(
+        child: Icon(Icons.my_location_outlined, color: Colors.blue, size: 20),
+      ),
+      decoration: BoxDecoration(
+          color: Colors.blue.withOpacity(0.2), shape: BoxShape.circle),
+    );
   }
 }
