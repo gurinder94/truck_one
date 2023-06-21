@@ -3253,7 +3253,7 @@ hitTomAPi(
 hitDeactivateAccountApi(Map<String, dynamic> map) async {
   print(map);
   try {
-    var response = await baseServicePost('/api/v1/user/deleteUserAccount', map);
+    var response = await baseServicePost('/api/v1/user/remove', map);
     print('Response body: ${response.body}');
     if (response.statusCode == 200) {
       print('Response body: ${response.body}');
