@@ -128,6 +128,11 @@ class _GpsScreenState extends State<GpsScreen> {
                                                       builder: (context) =>
                                                           MyLocation()));
                                               print("data>>> ${data}");
+
+                                              if (data != null)
+                                                _addTripProvider
+                                                    .resetDirectionModel();
+
                                               break;
                                             case 1:
                                               Navigator.push(
