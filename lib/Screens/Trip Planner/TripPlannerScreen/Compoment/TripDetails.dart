@@ -76,17 +76,26 @@ class TripDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
+                    height: 60,
                     width: Size.width * 0.40,
                     child: Text("Final Destination" + " :",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600))),
                 Spacer(),
                 Container(
+                    height: 60,
                     width: Size.width * 0.40,
-                    child: Text(
-                      _listProvider.tripViewDetails!.data!.destination![0].address
-                          .toString(),
-                      style: TextStyle(fontSize: 12),
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: _listProvider
+                          .tripViewDetails!.data!.destination!.length,
+                      itemBuilder: (BuildContext context, int index) => Text(
+                        _listProvider
+                            .tripViewDetails!.data!.destination![index].address
+                            .toString(),
+                        style: TextStyle(fontSize: 12),
+                      ),
                     )),
               ],
             ),

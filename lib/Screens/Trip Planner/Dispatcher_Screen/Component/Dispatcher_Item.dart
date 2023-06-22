@@ -248,8 +248,7 @@ class DispatcherItem extends StatelessWidget {
                                 value: 2,
                               ),
                               PopupMenuItem(
-                                child: Text(AppLocalizations.instance
-                                    .text("Assign Driver")),
+                                child: Text("Assign Driver"),
                                 value: 3,
                               ),
                             ]),

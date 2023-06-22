@@ -87,9 +87,12 @@ class Data {
         dateTime: DateTime.parse(json["date_Time"]),
         routeFlag: json["routeFlag"],
         truckData: TruckData.fromJson(json["truckData"]),
-        driverData: DriverData.fromJson(json["driverData"]),
+        driverData: json["driverData"] == null
+            ? null
+            : DriverData.fromJson(json["driverData"]),
         source: Destination.fromJson(json["source"]),
-        destination: List<Destination>.from(json["destination"].map((x) => Destination.fromJson(x))),
+        destination: List<Destination>.from(
+            json["destination"].map((x) => Destination.fromJson(x))),
         trailerData: json["trailerData"] == null
             ? null
             : TrailerDataClass.fromJson(json["trailerData"]),

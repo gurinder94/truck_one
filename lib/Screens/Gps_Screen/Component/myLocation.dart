@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:my_truck_dot_one/Screens/Gps_Screen/Component/choose_source.dart';
 import 'package:provider/provider.dart';
-
 import '../../../AppUtils/constants.dart';
 import '../../Language_Screen/application_localizations.dart';
 import '../../commanWidget/Custom_App_Bar_Widget.dart';
@@ -76,6 +74,7 @@ class _MyLocationState extends State<MyLocation> {
                 noti.addAddressData != null && noti.addAddressData.length > 0
                     ? Expanded(
                         child: ReorderableListView(
+                          physics: NeverScrollableScrollPhysics(),
                           padding: EdgeInsets.zero,
                           children: List<Widget>.generate(
                               noti.addAddressData.length,

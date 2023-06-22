@@ -21,7 +21,6 @@ class RouteListWidget extends StatelessWidget {
               : noti.routeModel.routes == null
                   ? SizedBox()
                   : ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
                       itemCount: noti.routeModel.routes!.length,
                       itemBuilder: (context, index) {
                         return Container(
