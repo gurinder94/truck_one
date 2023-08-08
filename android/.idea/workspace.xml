@@ -5,40 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28224730-53a0-49e7-b3fe-cbb1669c4d0a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/truck_one.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/truck_one.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/Screens/Gps_Screen/provider/add_Trip_Provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/Gps_Screen/provider/add_Trip_Provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/Screens/Trip Planner/Dispatcher_Screen/Component/Dispatcher_Item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/Trip Planner/Dispatcher_Screen/Component/Dispatcher_Item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserLiveMap/Provider/route_marker_list_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserLiveMap/Provider/route_marker_list_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserLiveMap/Provider/user_navigation_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserLiveMap/Provider/user_navigation_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserLiveMap/user_map_navigation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserLiveMap/user_map_navigation.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserLiveMap/user_route_map.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserLiveMap/user_route_map.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserTripPlannerScreen/Component/UserTripItem.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/Trip Planner/UserTripPlannerScreen/Component/UserTripItem.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/Screens/Trip Planner/tracking_system.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/Trip Planner/tracking_system.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/SplashPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/SplashPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../windows/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/AppUtils/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/AppUtils/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/MenuScreen/myPlans/my_plan_list_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/MenuScreen/myPlans/my_plan_list_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/PricingScreen/Provider/Pricing_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/PricingScreen/Provider/Pricing_provider.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[1010f4ee0509]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/janak/.android/avd/Pixel_4_API_33.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
   </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="EXPORT_PRIVATE_KEY" value="false" />
+    <option name="KEY_STORE_PATH" value="$USER_HOME$/Desktop/TOne/tone.jks" />
+    <option name="KEY_ALIAS" value="toneupload" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2QXowubumvBvC4vnST3aAxTF84r" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -46,19 +45,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "BundleExportedModule": "android.app",
+    "ExportBundle.BundlePathForandroid.app": "/Users/janak/StudioProjects/truck_one/android/app",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_opened_file_path": "/Users/janak/StudioProjects/truck_one/android",
+    "memory.settings.postsync.last.time.stamp": "1690475459797",
+    "project.structure.last.edited": "Dependencies",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "show.migrate.to.gradle.popup": "false"
+  },
+  "keyToStringList": {
+    "ExportApk.BuildVariants": [
+      "release"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="android.app.main" />

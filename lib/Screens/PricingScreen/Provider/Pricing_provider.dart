@@ -32,7 +32,7 @@ class PriceProvider extends ChangeNotifier {
   List<LatestReceiptInfo> inApp = <LatestReceiptInfo>[];
   bool buyProductLoder = false;
   bool isAvailable = false;
-  bool isTest = true;
+  bool isTest = false;
   bool purchasePending = false;
   ResponseModel? responseModel;
   PurchaseDetails? previousPurchase;
@@ -311,6 +311,7 @@ class PriceProvider extends ChangeNotifier {
   }
 
   List<Map<String, dynamic>> myPlanList = [];
+
   getmyPlan() async {
     var getid = await getUserId();
     Map<String, dynamic> map = {
