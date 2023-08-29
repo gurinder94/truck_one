@@ -249,6 +249,7 @@ Future<void> initPlatformState() async {
     deviceName = androidInfo.device.toString();
     deviceVersion = androidInfo.version.toString();
     deviceModel = androidInfo.model.toString();
+    // androidInfo.
     deviceType = 'ANDROID';
     print('Running on $deviceId--- $deviceType'); // e.g. "Moto G (4)"
   } else if (Platform.isIOS) {
