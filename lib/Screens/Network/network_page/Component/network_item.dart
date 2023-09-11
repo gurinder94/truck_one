@@ -186,7 +186,7 @@ class NetworkItem extends StatelessWidget {
                                 },
                                 child: Container(
                                   height: 30,
-                                  width: 80,
+                                  width: _info.inConnection == false?85:115,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                       color: APP_BAR_BG,

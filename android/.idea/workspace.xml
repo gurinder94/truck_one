@@ -7,8 +7,17 @@
     <list default="true" id="28224730-53a0-49e7-b3fe-cbb1669c4d0a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/AppUtils/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/AppUtils/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/Language_Screen/language_Provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/Language_Screen/language_Provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/MenuScreen/CompanyMenuPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/MenuScreen/CompanyMenuPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/MenuScreen/UserMenuPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/MenuScreen/UserMenuPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/MenuScreen/myPlans/company_my_plans.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/MenuScreen/myPlans/company_my_plans.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/MenuScreen/myPlans/my_plan_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/MenuScreen/myPlans/my_plan_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/MenuScreen/myPlans/my_plan_list_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/MenuScreen/myPlans/my_plan_list_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/PricingScreen/Pricing_Screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/PricingScreen/Pricing_Screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/Screens/PricingScreen/Provider/Pricing_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/PricingScreen/Provider/Pricing_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Screens/PricingScreen/component/Pricing_item_Page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Screens/PricingScreen/component/Pricing_item_Page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
@@ -42,28 +51,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "BundleExportedModule": "android.app",
-    "ExportBundle.BundlePathForandroid.app": "/Users/janak/StudioProjects/truck_one/android/app",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "/Users/janak/StudioProjects/truck_one/android",
-    "memory.settings.postsync.last.time.stamp": "1692957648946",
-    "project.structure.last.edited": "Dependencies",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;BundleExportedModule&quot;: &quot;android.app&quot;,
+    &quot;ExportBundle.BundlePathForandroid.app&quot;: &quot;/Users/janak/StudioProjects/truck_one/android/app&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/janak/StudioProjects/truck_one/android&quot;,
+    &quot;memory.settings.postsync.last.time.stamp&quot;: &quot;1693481674707&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   },
-  "keyToStringList": {
-    "ExportApk.BuildVariants": [
-      "release"
+  &quot;keyToStringList&quot;: {
+    &quot;ExportApk.BuildVariants&quot;: [
+      &quot;release&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="android.app.main" />

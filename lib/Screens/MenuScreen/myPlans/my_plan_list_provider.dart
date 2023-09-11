@@ -16,6 +16,10 @@ import 'package:my_truck_dot_one/Model/constant_model.dart';
 import '../../../AppUtils/constants.dart';
 import '../../../Model/MyPlanModel.dart';
 import '../../../Model/validate_receipt_ios_model.dart';
+import 'package:in_app_purchase_android/billing_client_wrappers.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
+import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 
 class MyPlanListProvider extends ChangeNotifier {
   int menuClick = 0;
@@ -23,12 +27,12 @@ class MyPlanListProvider extends ChangeNotifier {
   // static var selectedPlanType = "ECOMMERCE";
   MyPlanModel myPlanModel = MyPlanModel();
   var _monthlySubscriptionId = [
-    "ECOMMERCE_MONTHLY_BASIC",
-    "ECOMMERCE_MONTHLY_PREMIUM"
+    "ecommercemonthlybasic",
+    "ecommercemonthlypremium"
   ];
   var _yearlySubscriptionId = [
-    "ECOMMERCE_YEARLY_BASIC",
-    "ECOMMERCE_YEARLY_PREMIUM"
+    "ecommerceyearlybasic",
+    "ecommerceyearlypremium"
   ];
   List<String> kProductIds = [];
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
@@ -109,18 +113,22 @@ class MyPlanListProvider extends ChangeNotifier {
     purchasePending = false;
     loading = false;
     products.sort((b, a) => a.price.compareTo(b.price));
-    //  print(products[0].title);
-    getmyPlan();
+    print("NAM#>> ${products[0].title}");
+    // getmyPlan();
+
     notifyListeners();
   }
 
-  setPurchase() async {
+  Future setPurchase() async {
     print("setPurchase>> ");
-    var paymentWrapper = SKPaymentQueueWrapper();
-    var transactions = await paymentWrapper.transactions();
-    transactions.forEach((transaction) async {
-      await paymentWrapper.finishTransaction(transaction);
-    });
+    if (Platform.isIOS) {
+      var paymentWrapper = SKPaymentQueueWrapper();
+      var transactions = await paymentWrapper.transactions();
+      transactions.forEach((transaction) async {
+        await paymentWrapper.finishTransaction(transaction);
+      });
+    }
+    restorePurchases();
     purch = Map<String, PurchaseDetails>.fromEntries(
         purchases.map((PurchaseDetails purchase) {
       if (purchase.pendingCompletePurchase) {
@@ -131,43 +139,19 @@ class MyPlanListProvider extends ChangeNotifier {
       }
       return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
     }));
-    productList.addAll(products.map(
-      (ProductDetails productDetails) {
-        previousPurchase = purch[productDetails.id];
-      },
-    ));
   }
 
   //listener
   void initData() async {
     print("kProductIds.toSet()>> ${kProductIds.toSet()}");
     kProductIds = _monthlySubscriptionId;
-    ProductDetailsResponse productDetailResponse =
-        await _inAppPurchase.queryProductDetails(kProductIds.toSet());
-    setListener();
+    await initStoreInfo();
 
-    if (productDetailResponse.error != null) {}
-    if (productDetailResponse.productDetails.isEmpty) {
-      final Map<String, PurchaseDetails> purch =
-          Map<String, PurchaseDetails>.fromEntries(
-              purchases.map((PurchaseDetails purchase) {
-        if (purchase.pendingCompletePurchase) {
-          _inAppPurchase.completePurchase(purchase);
-        }
-        return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
-      }));
-      for (var _purchaseDetails in purchases) {
-        if (_purchaseDetails.pendingCompletePurchase) {
-          await _inAppPurchase.completePurchase(_purchaseDetails);
-        }
-      }
-    }
-    initStoreInfo();
-    setPurchase();
-    notifyListeners();
+    await setListener();
+    _inAppPurchase.restorePurchases();
   }
 
-  setListener() {
+  setListener() async {
     subscription =
         purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
       listenToPurchaseUpdated(purchaseDetailsList);
@@ -178,6 +162,8 @@ class MyPlanListProvider extends ChangeNotifier {
       print(error);
       // handle error here.
     });
+
+    notifyListeners();
   }
 
   Future<void> listenToPurchaseUpdated(
@@ -192,43 +178,82 @@ class MyPlanListProvider extends ChangeNotifier {
           handleError(purchaseDetails.error!);
         } else if (purchaseDetails.status == PurchaseStatus.purchased) {
           final bool valid = await _verifyPurchase(purchaseDetails);
-          if (valid) {
-            print(
-                "sdjhsdjhksdjhkajhdsahjasdhjk    ${purchaseDetails.productID}");
-            //  final bool valid = await _verifyPurchase(purchaseDetails.productID);
-            var receiptBody = {
-              'receipt-data':
-                  purchaseDetails.verificationData.localVerificationData,
-              // receipt key you will receive in request purchase callback function
-              "exclude-old-transactions": true,
-              'password': '777b657dd5984c8d820b86f9ee25d868'
-            };
 
-            try {
-              var res = await hitValidateReceiptIos(
-                receiptBody,
-                isTest
-                    ? 'https://sandbox.itunes.apple.com/verifyReceipt'
-                    : 'https://buy.itunes.apple.com/verifyReceipt',
+          print('valid>> ${valid}');
+          if (valid) {
+            if (Platform.isIOS) {
+              print(
+                  "sdjhsdjhksdjhkajhdsahjasdhjk    ${purchaseDetails.productID}");
+              //  final bool valid = await _verifyPurchase(purchaseDetails.productID);
+              var receiptBody = {
+                'receipt-data':
+                    purchaseDetails.verificationData.localVerificationData,
+                // receipt key you will receive in request purchase callback function
+                "exclude-old-transactions": true,
+                'password': '777b657dd5984c8d820b86f9ee25d868'
+              };
+
+              try {
+                var res = await hitValidateReceiptIos(
+                  receiptBody,
+                  isTest
+                      ? 'https://sandbox.itunes.apple.com/verifyReceipt'
+                      : 'https://buy.itunes.apple.com/verifyReceipt',
+                );
+
+                deliverProduct(purchaseDetails, res);
+
+                break;
+              } on Exception catch (e) {
+                _handleInvalidPurchase(purchaseDetails);
+                notifyListeners();
+              }
+            } else {
+              purchases.add(purchaseDetails);
+              PurchaseWrapper billingClientPurchase =
+                  (purchaseDetails as GooglePlayPurchaseDetails)
+                      .billingClientPurchase;
+              print(
+                  "billingClientPurchase>> ${billingClientPurchase.originalJson}");
+              print(
+                  "billingClientPurchase>> ${billingClientPurchase.developerPayload}");
+              var googlePlayPurchaseDetails = GooglePlayPurchaseDetails(
+                productID: purchaseDetails.productID,
+                verificationData: purchaseDetails.verificationData,
+                transactionDate: purchaseDetails.transactionDate,
+                billingClientPurchase: billingClientPurchase,
+                purchaseID: billingClientPurchase.orderId,
+                status: purchaseDetails.status,
               );
 
-              deliverProduct(purchaseDetails, res);
-
-              break;
-            } on Exception catch (e) {
-              _handleInvalidPurchase(purchaseDetails);
               notifyListeners();
+              print(
+                  'googlePlayPurchaseDetails>> purchaseID ${googlePlayPurchaseDetails.purchaseID}');
+              print(
+                  'googlePlayPurchaseDetails>> purchaseToken ${billingClientPurchase.purchaseToken}');
+              print(
+                  'googlePlayPurchaseDetails>> status ${googlePlayPurchaseDetails.status.name}');
+              print(
+                  'googlePlayPurchaseDetails>>localVerificationData ${googlePlayPurchaseDetails.verificationData.localVerificationData}');
+              print(
+                  'googlePlayPurchaseDetails>> serverVerificationData ${googlePlayPurchaseDetails.verificationData.serverVerificationData}');
             }
           } else {
             _handleInvalidPurchase(purchaseDetails);
           }
         } else if (purchaseDetails.status == PurchaseStatus.restored) {
-          print("restore");
+          print("restore>> ${purchaseDetails.purchaseID}");
+          print(
+              "restore>>localVerificationData  ${purchaseDetails.verificationData.localVerificationData}");
+          print(
+              "restore>>serverVerificationData  ${purchaseDetails.verificationData.serverVerificationData}");
+          purchases.add(purchaseDetails);
+          notifyListeners();
         }
 
         if (purchaseDetails.pendingCompletePurchase) {
           purchasePending = false;
-          notifyListeners();
+          if (navigatorKey.currentContext!.mounted) notifyListeners();
           await _inAppPurchase.completePurchase(purchaseDetails);
         }
       }
@@ -258,40 +283,34 @@ class MyPlanListProvider extends ChangeNotifier {
     switch (type) {
       case "ECOMMERCE":
         _monthlySubscriptionId = [
-          "ECOMMERCE_MONTHLY_BASIC",
-          "ECOMMERCE_MONTHLY_PREMIUM"
+          "ecommercemonthlybasic",
+          "ecommercemonthlypremium"
         ];
         _yearlySubscriptionId = [
-          "ECOMMERCE_YEARLY_BASIC",
-          "ECOMMERCE_YEARLY_PREMIUM"
+          "ecommerceyearlybasic",
+          "ecommerceyearlypremium"
         ];
         break;
 
       case "EVENT":
-        _monthlySubscriptionId = [
-          "EVENT_MONTHLY_BASIC",
-          "EVENT_MONTHLY_PREMIUM"
-        ];
-        _yearlySubscriptionId = ["EVENT_YEARLY_BASIC", "EVENT_YEARLY_PREMIUM"];
+        _monthlySubscriptionId = ["eventmonthlybasic", "eventmonthlypremium"];
+        _yearlySubscriptionId = ["eventyearlybasic", "eventyearlypremium"];
         break;
       case "JOB":
-        _monthlySubscriptionId = ["JOB_MONTHLY_BASIC", "JOB_MONTHLY_PREMIUM"];
-        _yearlySubscriptionId = ["JOB_YEARLY_BASIC", "JOB_YEARLY_PREMIUM"];
+        _monthlySubscriptionId = ["jobmonthlybasic", "jobmonthlypremium"];
+        _yearlySubscriptionId = ["jobyearlybasic", "jobyearlypremium"];
         break;
       case "SERVICE":
         _monthlySubscriptionId = [
-          "SERVICE_MONTHLY_BASIC",
-          "SERVICE_MONTHLY_PREMIUM"
+          "servicemonthlybasic",
+          "servicemonthlypremium"
         ];
-        _yearlySubscriptionId = [
-          "SERVICE_YEARLY_BASIC",
-          "SERVICE_YEARLY_PREMIUM"
-        ];
+        _yearlySubscriptionId = ["serviceyearlybasic", "serviceyearlypremium"];
         break;
       case "TRIP_PLANNER":
         _monthlySubscriptionId = [
-          "TRIP_PLANNER_MONTHLY_BASIC",
-          "TRIP_PLANNER_MONTHLY_PREMIUM"
+          "tripplanneryearlybasic",
+          "tripplanneryearlypremium"
         ];
         _yearlySubscriptionId = [
           "TRIP_PLANNER_YEARLY_BASIC",
@@ -329,7 +348,7 @@ class MyPlanListProvider extends ChangeNotifier {
   void handleError(IAPError iapError) {
     purchasePending = false;
     print("iapError>>> ${iapError.message}");
-    notifyListeners();
+    // notifyListeners();
   }
 
   void disposee() {
@@ -390,6 +409,7 @@ class MyPlanListProvider extends ChangeNotifier {
   }
 
   List<Map<String, dynamic>> myPlanList = [];
+
   getmyPlan() async {
     var getid = await getUserId();
     Map<String, dynamic> map = {
@@ -455,6 +475,10 @@ class MyPlanListProvider extends ChangeNotifier {
         .instance
         .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
     iosPlatformAddition.presentCodeRedemptionSheet();
+  }
+
+  void restorePurchases() {
+    _inAppPurchase.restorePurchases();
   }
 }
 

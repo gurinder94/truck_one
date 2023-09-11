@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
@@ -242,7 +244,7 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>  CompanySettingPage(widget.language)));
+                    builder: (context) => CompanySettingPage(widget.language)));
           }
 
           if (i == 1) {
@@ -346,51 +348,63 @@ class _CompanyMenuPage extends State<CompanyMenuPage> {
   }
 
   void showPopUpMenu(BuildContext context) {
-    DialogUtils.showMySuccessful(context,
-        child: AlertDialog(
-          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
-          title: Column(
-            children: [
-              Text(
-                "Purchase",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 6,
-              ),
-              Text(
-                  "We would like you to enable in app purchase from your device setting."
-                  "\nGo to Settings>Screen Time > Content & Privacy Restriction > Enable."
-                  "Now click on iTunes & App Store Purchases > In-app Purchase> Allow.",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal)),
-            ],
-          ),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                splashColor: PrimaryColor,
-                highlightColor: Colors.white,
-                child: Text(
-                  "Ok",
-                  style: TextStyle(color: Colors.black, fontSize: 16),
+    if (Platform.isIOS) {
+      DialogUtils.showMySuccessful(context,
+          child: AlertDialog(
+            shape:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
+            title: Column(
+              children: [
+                Text(
+                  "Purchase",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
-                onTap: () async {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(
-                              create: (_) => MyPlanListProvider(),
-                              child: MyPlansScreen())));
-                },
-              ),
+                SizedBox(
+                  height: 6,
+                ),
+                Text(
+                    Platform.isIOS
+                        ? "We would like you to enable in app purchase from your device setting."
+                            "\nGo to Settings>Screen Time > Content & Privacy Restriction > Enable."
+                            "Now click on iTunes & App Store Purchases > In-app Purchase> Allow."
+                        : "no product found",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal)),
+              ],
             ),
-          ],
-        ));
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  splashColor: PrimaryColor,
+                  highlightColor: Colors.white,
+                  child: Text(
+                    "Ok",
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChangeNotifierProvider(
+                                create: (_) => MyPlanListProvider(),
+                                child: MyPlansScreen())));
+                  },
+                ),
+              ),
+            ],
+          ));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ChangeNotifierProvider(
+                  create: (_) => MyPlanListProvider(),
+                  child: MyPlansScreen())));
+    }
   }
 
   hitcDeactivateAccount() async {

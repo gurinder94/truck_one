@@ -20,13 +20,14 @@ class CustomImageProfile extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(5),
       clipBehavior: Clip.antiAlias,
-      child: Container(
+      child: image!=null&&image!='null'?Container(
         clipBehavior: Clip.antiAlias,
         child: Image.network(
           image,
           fit: boxFit,
           width: width,
           height: height,
+
           loadingBuilder: (context, child, progress) {
             return progress == null
                 ? child
@@ -52,7 +53,7 @@ class CustomImageProfile extends StatelessWidget {
           },
         ),
         decoration: nMbox,
-      ),
+      ):Container(),
       decoration: nMbox,
     );
   }

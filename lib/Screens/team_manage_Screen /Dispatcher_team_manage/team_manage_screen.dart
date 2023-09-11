@@ -49,7 +49,7 @@ class TeamManageScreen extends StatelessWidget {
                       : SizeConfig.safeBlockVertical! * 9, //10 for example
                 ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 24),
             child: Row(
               children: [
                 Expanded(
