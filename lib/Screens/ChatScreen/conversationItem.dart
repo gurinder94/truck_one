@@ -63,9 +63,12 @@ class ConversationItem extends StatelessWidget {
                     SizedBox(
                       height: 1,
                     ),
-                    Text(_conversationModel.lastMessages!.length == 0
-                        ? ''
-                        : _conversationModel.lastMessages![0].message!),
+                    Text(
+                        _conversationModel.lastMessages!.length == 0
+                            ? ''
+                            : _conversationModel.lastMessages![0].message!,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1),
                   ],
                 ),
               ),
@@ -99,9 +102,9 @@ class ConversationItem extends StatelessWidget {
                                   value: 1,
                                   child: _conversationModel.isBlocked == false
                                       ? Text(AppLocalizations.instance
-                                      .text("Block"))
+                                          .text("Block"))
                                       : Text(AppLocalizations.instance
-                                      .text("Un-Block"))),
+                                          .text("Un-Block"))),
                               PopupMenuItem(
                                   value: 2,
                                   child: Text(AppLocalizations.instance
@@ -163,16 +166,17 @@ class ConversationItem extends StatelessWidget {
                           _conversationModel.type.toString().toUpperCase(),
                           _conversationModel.isBlocked!),
                       child: ChatPage(
-                        conversationId:
-                            _conversationModel.conversation_id.toString(),
-                        image: _conversationModel.type == "INDIVIDUAL"
-                            ? IMG_URL + _conversationModel.image.toString()
-                            : SERVER_URL +
-                                '/uploads/event/brand_logo/' +
-                                _conversationModel.image.toString(),
-                        name: _conversationModel.name.toString(),
-                        userId: _conversationModel.userId==null?"":_conversationModel.userId!
-                      )))).then((value) {
+                          conversationId:
+                              _conversationModel.conversation_id.toString(),
+                          image: _conversationModel.type == "INDIVIDUAL"
+                              ? IMG_URL + _conversationModel.image.toString()
+                              : SERVER_URL +
+                                  '/uploads/event/brand_logo/' +
+                                  _conversationModel.image.toString(),
+                          name: _conversationModel.name.toString(),
+                          userId: _conversationModel.userId == null
+                              ? ""
+                              : _conversationModel.userId!)))).then((value) {
             proData.listenChat(context);
             proData.resetList();
 

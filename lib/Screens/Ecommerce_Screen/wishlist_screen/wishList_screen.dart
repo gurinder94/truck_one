@@ -33,16 +33,16 @@ class WishListScreen extends StatelessWidget {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
-
-
           },
         ),
         floatingActionWidget: SizedBox(),
         actions: SizedBox(),
-        child:  SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height:90,),
+              SizedBox(
+                height: 90,
+              ),
               WishList(_wishListProvider),
             ],
           ),

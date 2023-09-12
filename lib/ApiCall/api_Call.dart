@@ -320,6 +320,7 @@ hitEventsListAPI(Map<String, dynamic> map) async {
 
 hitUserEventsListAPI(Map<String, dynamic> map) async {
   try {
+    print('map>> hitUserEventsListAPI $map');
     var response = await baseServicePost('/api/mobile/event/allEvents', map);
     if (response.statusCode == 200) {
       // print('Response body: ${response.body}');

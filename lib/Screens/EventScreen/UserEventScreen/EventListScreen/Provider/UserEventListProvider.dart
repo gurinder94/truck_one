@@ -19,7 +19,6 @@ class UserEventListProvider extends ChangeNotifier {
   var long;
   List<EventModel> Event = [];
 
-
   hitGetEventsList(
     BuildContext context,
     value,
@@ -76,12 +75,6 @@ class UserEventListProvider extends ChangeNotifier {
     paginationLoading = false;
   }
 
-
-
-
-
-
-
   resetList() {
     Event = [];
   }
@@ -98,7 +91,9 @@ class UserEventListProvider extends ChangeNotifier {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       showMessage('Please Enable Location');
+
       return Future.error('Location services are disabled.');
+
     }
     permission = await Geolocator.checkPermission();
 

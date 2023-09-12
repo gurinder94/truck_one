@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 
 baseServicePost(String url, Map<String, dynamic> map) async {
-  print("SERVER_URL + url ${SERVER_URL + url}");
+  print("SERVER_URL + url ${SERVER_URL + url} map> $map");
   var res = await http
       .post(Uri.parse(SERVER_URL + url),
           headers: <String, String>{
