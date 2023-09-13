@@ -41,6 +41,7 @@ class Data {
   String? id;
   DateTime? dateTime;
   String? routeFlag;
+  String? brandData;
   TruckData? truckData;
   DriverData? driverData;
   Destination? source;
@@ -68,6 +69,7 @@ class Data {
     this.source,
     this.destination,
     this.trailerData,
+    this.brandData,
     this.anotherDriverData,
     this.stoppage,
     this.personName,
@@ -86,6 +88,7 @@ class Data {
         id: json["_id"],
         dateTime: DateTime.parse(json["date_Time"]),
         routeFlag: json["routeFlag"],
+    brandData: json["brandData"],
         truckData: TruckData.fromJson(json["truckData"]),
         driverData: json["driverData"] == null
             ? null
@@ -116,6 +119,7 @@ class Data {
         "_id": id,
         "date_Time": dateTime!.toIso8601String(),
         "routeFlag": routeFlag,
+        "brandData": brandData,
         "truckData": truckData!.toJson(),
         "driverData": driverData!.toJson(),
         "source": source!.toJson(),

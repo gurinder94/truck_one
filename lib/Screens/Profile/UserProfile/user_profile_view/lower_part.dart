@@ -165,9 +165,17 @@ class LowerPart extends StatelessWidget {
 
           Divider(),
           experienceCompany(
-              context,
-              proData.userModel!.data!.experience.toString(),
-              "Experience",proData.userModel!.data!.monthsExperience.toString(),),
+            context,
+            proData.userModel!.data!.experience
+                    .toString()
+                    .replaceAll('null', '') ??
+                "",
+            "Experience",
+            proData.userModel!.data!.monthsExperience
+                    .toString()
+                    .replaceAll('null', '') ??
+                "",
+          ),
           proData.checkRole == "DRIVER" ? Divider() : SizedBox(),
           proData.checkRole == "DRIVER"
               ? Companyy(context, "Documents", proData)
@@ -378,7 +386,8 @@ Companyy(
 experienceCompany(
   BuildContext context,
   String value,
-  String heading, String month,
+  String heading,
+  String month,
 ) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -407,7 +416,7 @@ experienceCompany(
               ),
               child: Chip(
                 label: Text(
-                  "$value year , $month month",
+                  month == '0' ? "$value year " : "$value year , $month month",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14,

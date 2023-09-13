@@ -87,7 +87,7 @@ class ServiceCompoment extends StatelessWidget {
           Container(
               width: 120,
               child: Text(
-                AppLocalizations.instance.text(head),
+                AppLocalizations.instance.text(head)+" : ",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,

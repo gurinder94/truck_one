@@ -121,23 +121,10 @@ class FleetDetail extends StatelessWidget {
                                     proData.fleetManagerDetailModel.data!.engine
                                         .toString(),
                                     AppLocalizations.instance.text('Brand'),
-                                    proData.fleetManagerDetailModel.data!.brand!
-                                                    .name
-                                                    .toString() ==
-                                                "null" &&
-                                            proData.fleetManagerDetailModel
-                                                    .data!.otherbrand
-                                                    .toString() ==
-                                                "null"
-                                        ? ""
-                                        : proData.fleetManagerDetailModel.data!
-                                                    .brand!.name
-                                                    .toString() ==
-                                                "null"
-                                            ? "Others"
-                                            : proData.fleetManagerDetailModel
-                                                .data!.brand!.name
-                                                .toString()),
+                                    proData
+                                        .fleetManagerDetailModel.data!.brandName
+                                        .toString()
+                                        .replaceAll('null', '')),
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -177,21 +164,28 @@ class FleetDetail extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Divider(),
-                                Text(
-                                  'Other Number Of Tyres',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
+                                proData.fleetManagerDetailModel.data!.OtherTyre
+                                            .toString()
+                                            .replaceAll('null', '')
+                                            .length >
+                                        0
+                                    ? Text(
+                                        'Other Number Of Tyres',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      )
+                                    : Container(),
                                 SizedBox(
                                   height: 8,
                                 ),
                                 Text(
                                   proData
                                       .fleetManagerDetailModel.data!.OtherTyre
-                                      .toString(),
+                                      .toString()
+                                      .replaceAll('null', ''),
                                   style: TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                   ),

@@ -38,6 +38,7 @@ class Data {
   Data({
     this.brand,
     this.otherbrand,
+    this.brandName,
     this.OtherTyre,
     this.userData,
     this.id,
@@ -66,6 +67,7 @@ class Data {
 
   var otherbrand;
   var OtherTyre;
+  var brandName;
   Brand ? brand;
   UserData ?userData;
   String ?id;
@@ -98,6 +100,7 @@ class Data {
     name: json["name"],
     OtherTyre: json["OtherTyre"],
     otherbrand: json["otherbrand"],
+    brandName: json["brandName"],
     number: json["number"],
     image: json["image"],
     modelNumber: json["modelNumber"],
@@ -129,6 +132,7 @@ class Data {
     "OtherTyre": OtherTyre,
     "image": image,
     "otherbrand": otherbrand,
+    "brandName": brandName,
     "modelNumber": modelNumber,
     "weight": weight,
     "height": height,
