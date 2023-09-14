@@ -9,7 +9,7 @@ import '../../Model/ChatModel/CreateSingleConversationModel.dart';
 
 class NewConversationProvider extends ChangeNotifier {
   bool loading = false, PaginationLoder = false;
-
+  bool newloading = false;
   NewConversationList _model = NewConversationList();
   SingleConversationChatListModel _singleConversationChatListModel =
       SingleConversationChatListModel();
@@ -66,6 +66,8 @@ class NewConversationProvider extends ChangeNotifier {
   }
 
   Future<void> addChatList(Datum list) async {
+    newloading = true;
+    notifyListeners();
     var uId = await getUserId();
     var roleName = await getRoleInfo();
 
@@ -81,12 +83,16 @@ class NewConversationProvider extends ChangeNotifier {
     };
     print(map);
     try {
+
       _singleConversationChatListModel = await hitCreateConversationApi(map);
+      newloading = false;
+      notifyListeners();
       Navigator.pop(navigatorKey.currentState!.context);
       notifyListeners();
     } on Exception catch (e) {
       var message = e.toString().replaceAll('Exception:', '');
       print(message);
+      newloading = false;
       notifyListeners();
     }
   }

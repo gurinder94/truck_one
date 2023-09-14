@@ -70,6 +70,7 @@ showApplyJobDialog(BuildContext context, String? id, userId, roleName,
                               bool isCameraOn =
                                   serviceStatus == ServiceStatus.enabled;
                               final status = await Permission.storage.request();
+                              print('status> ${status}');
                               if (status == PermissionStatus.granted) {
                                 print('Permission Granted');
                                 _jobApplyProvider.getFile();

@@ -108,8 +108,12 @@ class ChatHomeProvider extends ChangeNotifier with ChatListeners {
       _list.addAll(_model.data!);
       conversationId = _list[0].conversation_id!;
       paginationLoder = false;
-      _loading = false;
-      notifyListeners();
+      try{
+        _loading = false;
+        notifyListeners();
+      }catch(e){
+
+      }
     } on Exception catch (e) {
       message = e.toString().replaceAll('Exception:', '');
       _loading = false;
