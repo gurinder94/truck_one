@@ -64,22 +64,28 @@ showApplyJobDialog(BuildContext context, String? id, userId, roleName,
                               prefixIcon: Icon(Icons.upload_file),
                             ),
                             onTap: () async {
-                              final serviceStatus =
-                                  await Permission.storage.isGranted;
-
-                              bool isCameraOn =
-                                  serviceStatus == ServiceStatus.enabled;
-                              final status = await Permission.storage.request();
-                              print('status> ${status}');
-                              if (status == PermissionStatus.granted) {
-                                print('Permission Granted');
+                              if (Platform.isAndroid) {
                                 _jobApplyProvider.getFile();
-                              } else if (status == PermissionStatus.denied) {
-                                print('Permission denied');
-                              } else if (status ==
-                                  PermissionStatus.permanentlyDenied) {
-                                print('Permission Permanently Denied');
-                                await openAppSettings();
+                              } else {
+                                final serviceStatus =
+                                    await Permission.storage.isGranted;
+
+                                bool isCameraOn =
+                                    serviceStatus == ServiceStatus.enabled;
+                                final status =
+                                    await Permission.storage.request();
+                                print(
+                                    'status> serviceStatus> $serviceStatus ${status}');
+                                if (status == PermissionStatus.granted) {
+                                  print('Permission Granted');
+                                  _jobApplyProvider.getFile();
+                                } else if (status == PermissionStatus.denied) {
+                                  print('Permission denied');
+                                } else if (status ==
+                                    PermissionStatus.permanentlyDenied) {
+                                  print('Permission Permanently Denied');
+                                  await openAppSettings();
+                                }
                               }
 
                               // if (await Permission.storage.request().isGranted) {
@@ -169,7 +175,7 @@ showApplyJobDialog(BuildContext context, String? id, userId, roleName,
                   ),
                   Expanded(
                       child: CommanButtonWidget(
-                    title:AppLocalizations.instance.text("Update"),
+                    title: AppLocalizations.instance.text("Update"),
                     buttonColor: PrimaryColor,
                     titleColor: APP_BG,
                     onDoneFuction: () {

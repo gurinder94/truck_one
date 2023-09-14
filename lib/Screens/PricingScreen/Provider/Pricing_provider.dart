@@ -2,33 +2,22 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
-
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
-import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
-
 import '../../../AppUtils/constants.dart';
 import '../../../Model/validate_receipt_ios_model.dart';
 
-import 'package:in_app_purchase_android/billing_client_wrappers.dart';
-
-var _GpsSubscriptionId = ["Gps_Plan_Monthly_6.99", "Gps_Plan_Yearly_69.99"];
-var _weatherSubscriptionId = ["Weather_Plan_Monthly_7.99"];
+var _GpsSubscriptionId = ["gpsmonthlyplan", "gpsyearlyplan"];
+var _weatherSubscriptionId = ["weatherplanmonthly"];
 List<String> kProductIds = _GpsSubscriptionId;
 
 class PriceProvider extends ChangeNotifier {
@@ -43,7 +32,7 @@ class PriceProvider extends ChangeNotifier {
   List<LatestReceiptInfo> inApp = <LatestReceiptInfo>[];
   bool buyProductLoder = false;
   bool isAvailable = false;
-  bool isTest = true;
+  bool isTest = false;
   bool purchasePending = false;
   ResponseModel? responseModel;
   PurchaseDetails? previousPurchase;
@@ -114,17 +103,20 @@ class PriceProvider extends ChangeNotifier {
     purchasePending = false;
     loading = false;
     products.sort((b, a) => a.price.compareTo(b.price));
-    print(products[0].title);
+    print("PROO>>" + products[0].title);
     notifyListeners();
+    setPurchase();
   }
 
   setPurchase() async {
     print("setPurchase>> ");
-    var paymentWrapper = SKPaymentQueueWrapper();
-    var transactions = await paymentWrapper.transactions();
-    transactions.forEach((transaction) async {
-      await paymentWrapper.finishTransaction(transaction);
-    });
+    if(Platform.isIOS) {
+      var paymentWrapper = SKPaymentQueueWrapper();
+      var transactions = await paymentWrapper.transactions();
+      transactions.forEach((transaction) async {
+        await paymentWrapper.finishTransaction(transaction);
+      });
+    }
     purch = Map<String, PurchaseDetails>.fromEntries(
         purchases.map((PurchaseDetails purchase) {
       if (purchase.pendingCompletePurchase) {
@@ -135,19 +127,24 @@ class PriceProvider extends ChangeNotifier {
       }
       return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
     }));
+    print('purch>> purchases>> ${purchases.length}  mm  ${purch.length}');
     productList.addAll(products.map(
       (ProductDetails productDetails) {
+        print('productDetails.id. ${productDetails.id}');
         previousPurchase = purch[productDetails.id];
+
+        print('verificationData>> ${previousPurchase?.verificationData}');
       },
     ));
-    getmyPlan();
+    print('productList>> ${productList.length}');
+    // getmyPlan();
   }
 
   //listener
   void initData() async {
     ProductDetailsResponse productDetailResponse =
         await _inAppPurchase.queryProductDetails(kProductIds.toSet());
-    setListener();
+    await setListener();
 
     if (productDetailResponse.error != null) {}
     if (productDetailResponse.productDetails.isEmpty) {
@@ -165,9 +162,11 @@ class PriceProvider extends ChangeNotifier {
         }
       }
     }
-    initStoreInfo();
-    // setPurchase();
+    await initStoreInfo();
+
     notifyListeners();
+    _inAppPurchase.restorePurchases();
+
   }
 
   setListener() {
@@ -188,12 +187,14 @@ class PriceProvider extends ChangeNotifier {
     print(purchaseDetailsList.length);
 
     for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
+      print('purchaseDetails>> ${purchaseDetails.status}');
       if (purchaseDetails.status == PurchaseStatus.pending) {
         showPendingUI();
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
           handleError(purchaseDetails.error!);
-        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
+        }
+        else if (purchaseDetails.status == PurchaseStatus.purchased) {
           final bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             //  final bool valid = await _verifyPurchase(purchaseDetails.productID);
@@ -231,11 +232,13 @@ class PriceProvider extends ChangeNotifier {
                 print(skuDetails.introductoryPricePeriod);
               }*/
 
+              purchases.add(purchaseDetails);
               PurchaseWrapper billingClientPurchase =
                   (purchaseDetails as GooglePlayPurchaseDetails)
                       .billingClientPurchase;
               var googlePlayPurchaseDetails = GooglePlayPurchaseDetails(
                 productID: purchaseDetails.productID,
+                purchaseID: billingClientPurchase.orderId,
                 verificationData: purchaseDetails.verificationData,
                 transactionDate: purchaseDetails.transactionDate,
                 billingClientPurchase: billingClientPurchase,
@@ -257,7 +260,12 @@ class PriceProvider extends ChangeNotifier {
             _handleInvalidPurchase(purchaseDetails);
           }
         } else if (purchaseDetails.status == PurchaseStatus.restored) {
-          print("restore");
+          print("restore>> ${purchaseDetails.purchaseID}");
+          print("restore>>localVerificationData  ${purchaseDetails.verificationData.localVerificationData}");
+
+          purchases.add(purchaseDetails);
+          // getOldSubscription(productDetails, purchases)
+          notifyListeners();
         }
 
         if (purchaseDetails.pendingCompletePurchase) {
@@ -299,7 +307,7 @@ class PriceProvider extends ChangeNotifier {
   void handleError(IAPError iapError) {
     purchasePending = false;
     print("iapError>>> ${iapError.message}");
-    notifyListeners();
+    // notifyListeners();
   }
 
   void disposee() {
@@ -433,7 +441,7 @@ class PriceProvider extends ChangeNotifier {
     }
   }
 
-  GooglePlayPurchaseDetails? _getOldSubscription(
+  GooglePlayPurchaseDetails? getOldSubscription(
       ProductDetails productDetails, Map<String, PurchaseDetails> purchases) {
     // This is just to demonstrate a subscription upgrade or downgrade.
     // This method assumes that you have only 2 subscriptions under a group, 'subscription_silver' & 'subscription_gold'.
@@ -453,6 +461,7 @@ class PriceProvider extends ChangeNotifier {
     //   purchases[_kSilverSubscriptionId]! as GooglePlayPurchaseDetails;
     // }
     oldSubscription!.billingClientPurchase.purchaseToken ?? "";
+    // oldSubscription.billingClientPurchase.signature.;
     return oldSubscription;
   }
 }
