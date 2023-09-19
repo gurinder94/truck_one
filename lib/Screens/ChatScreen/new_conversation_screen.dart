@@ -130,6 +130,10 @@ class NewConversationScreen extends StatelessWidget {
                                               ]),
                                         ),
                                         onTap: () {
+                                          if (isRedundentClick(DateTime.now())) {
+                                            print('hold on, processing');
+                                            return;
+                                          }
                                           _newConversationProvider
                                               .addChatList(proData.list[index]);
                                           // chatHomeProvider.addChatConversation("conversationId", "image", [], "name", "type", 1);

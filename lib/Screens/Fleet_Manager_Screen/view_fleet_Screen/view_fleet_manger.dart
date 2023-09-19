@@ -74,7 +74,14 @@ class FleetDetail extends StatelessWidget {
                                   proData
                                       .fleetManagerDetailModel.data!.modelNumber
                                       .toString(),
-                                  'Other Brand',
+                                  proData.fleetManagerDetailModel.data!
+                                              .brandName
+                                              .toString()
+                                              .replaceAll('null', '')
+                                              .length ==
+                                          0
+                                      ? 'Other Brand'
+                                      : "",
                                   proData.fleetManagerDetailModel.data!
                                               .otherbrand
                                               .toString() ==
@@ -121,10 +128,17 @@ class FleetDetail extends StatelessWidget {
                                     proData.fleetManagerDetailModel.data!.engine
                                         .toString(),
                                     AppLocalizations.instance.text('Brand'),
-                                    proData
-                                        .fleetManagerDetailModel.data!.brandName
-                                        .toString()
-                                        .replaceAll('null', '')),
+                                    proData.fleetManagerDetailModel.data!
+                                                .brandName
+                                                .toString()
+                                                .replaceAll('null', '')
+                                                .length >
+                                            0
+                                        ? proData.fleetManagerDetailModel.data!
+                                            .brandName
+                                            .toString()
+                                            .replaceAll('null', '')
+                                        : "Others"),
                                 SizedBox(
                                   height: 10,
                                 ),
