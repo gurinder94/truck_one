@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
@@ -521,17 +523,21 @@ _launchURL(
 }
 
 openImagePicker(ChatProvider chatProvider) async {
-  final serviceStatus = await Permission.storage.isGranted;
-
-  bool isCameraOn = serviceStatus == ServiceStatus.enabled;
-  final status = await Permission.storage.request();
-  if (status == PermissionStatus.granted) {
-    print('Permission Granted');
+  if (Platform.isAndroid) {
     chatProvider.getChatAttachment();
-  } else if (status == PermissionStatus.denied) {
-    print('Permission denied');
-  } else if (status == PermissionStatus.permanentlyDenied) {
-    print('Permission Permanently Denied');
-    await openAppSettings();
+  } else {
+    final serviceStatus = await Permission.storage.isGranted;
+
+    bool isCameraOn = serviceStatus == ServiceStatus.enabled;
+    final status = await Permission.storage.request();
+    if (status == PermissionStatus.granted) {
+      print('Permission Granted');
+      chatProvider.getChatAttachment();
+    } else if (status == PermissionStatus.denied) {
+      print('Permission denied');
+    } else if (status == PermissionStatus.permanentlyDenied) {
+      print('Permission Permanently Denied');
+      await openAppSettings();
+    }
   }
 }

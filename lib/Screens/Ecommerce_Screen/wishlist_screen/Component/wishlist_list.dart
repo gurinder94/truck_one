@@ -50,7 +50,6 @@ class WishList extends StatelessWidget {
             GridView.builder(
               shrinkWrap: true,
               padding: EdgeInsets.zero,
-
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 300,
                 crossAxisSpacing: 1,
@@ -146,8 +145,7 @@ class WishList extends StatelessWidget {
                               height: 7,
                             ),
                             Text(
-                              noti.wishListModel.data![index].location
-                                  .toString(),
+                              noti.WishList[index].location.toString(),
                               softWrap: false,
                               maxLines: 1,
                               style: TextStyle(
@@ -164,10 +162,10 @@ class WishList extends StatelessWidget {
                             builder: (context) => ChangeNotifierProvider(
                                 create: (_) => ProductViewProvider(),
                                 child: ViewProduct(
-                                    noti.WishList[index].productId.toString(),
-                                    noti.WishList[index].categoryId.toString(),
-                                    )))).then((value) {
-                                      //"WishList"
+                                  noti.WishList[index].productId.toString(),
+                                  noti.WishList[index].categoryId.toString(),
+                                )))).then((value) {
+                      //"WishList"
                       wishListProvider.WishList = [];
                       wishListProvider.getWishList();
                     });

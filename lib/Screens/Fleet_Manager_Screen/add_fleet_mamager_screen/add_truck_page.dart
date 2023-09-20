@@ -54,6 +54,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
       body: SingleChildScrollView(
         child:
             Consumer<AddFleetManagerProvider>(builder: (context, noti, child) {
+              print('BrandName ${noti.textType}');
           return noti.loading
               ? Center(child: CircularProgressIndicator())
               : Form(
@@ -144,7 +145,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                               hintStyle: TextStyle(fontSize: 17),
                               contentPadding: EdgeInsets.all(10),
                             ),
-                            onChanged: (val) {
+                            onFieldSubmitted: (val) {
                               if (noti.vin.text.length == 17) {
                                 noti.hitVehicleData("truck");
                               }
@@ -185,7 +186,34 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                                   ),
                                 ],
                               )
-                            : SizedBox(),
+                            : Column(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            InputTextField(
+                              child: TextFormField(
+                                controller: noti.brand,
+                                autovalidateMode: AutovalidateMode
+                                    .onUserInteraction,
+                                textInputAction: TextInputAction.next,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Enter Brand Name",
+                                  hintStyle: TextStyle(fontSize: 17),
+                                  contentPadding: EdgeInsets.all(10),
+                                ),
+                                validator: (value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Enter Brand Name';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                         noti.brandName != "Others"
                             ? SizedBox()
                             : noti.textType != null || noti.textType != ""
