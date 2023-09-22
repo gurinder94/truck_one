@@ -54,7 +54,7 @@ class _AddTruckManagerState extends State<AddTruckManager> {
       body: SingleChildScrollView(
         child:
             Consumer<AddFleetManagerProvider>(builder: (context, noti, child) {
-              print('BrandName ${noti.textType}');
+          print('BrandName ${noti.textType}');
           return noti.loading
               ? Center(child: CircularProgressIndicator())
               : Form(
@@ -131,34 +131,40 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                           height: 20,
                         ),
                         InputTextField(
-                          child: TextFormField(
-                            controller: noti.vin,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: <TextInputFormatter>[
-                              LengthLimitingTextInputFormatter(17),
-                            ],
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Enter Your VIN",
-                              hintStyle: TextStyle(fontSize: 17),
-                              contentPadding: EdgeInsets.all(10),
-                            ),
-                            onFieldSubmitted: (val) {
-                              if (noti.vin.text.length == 17) {
+                          child: Focus(
+                            onFocusChange: (value) {
+                              if (noti.vin.text.length == 17)
                                 noti.hitVehicleData("truck");
-                              }
                             },
-                            validator: (value) {
-                              if (value!.trim().isEmpty) {
-                                return 'Please enter VIN';
-                              } else if (value.length < 17) {
-                                return 'Please Enter Your VIN';
-                              } else {
-                                return null;
-                              }
-                            },
+                            child: TextFormField(
+                              controller: noti.vin,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              textInputAction: TextInputAction.next,
+                              inputFormatters: <TextInputFormatter>[
+                                LengthLimitingTextInputFormatter(17),
+                              ],
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Enter Your VIN",
+                                hintStyle: TextStyle(fontSize: 17),
+                                contentPadding: EdgeInsets.all(10),
+                              ),
+                              onFieldSubmitted: (val) {
+                                if (noti.vin.text.length == 17) {
+                                  noti.hitVehicleData("truck");
+                                }
+                              },
+                              validator: (value) {
+                                if (value!.trim().isEmpty) {
+                                  return 'Please enter VIN';
+                                } else if (value.length < 17) {
+                                  return 'Please Enter Your VIN';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
                           ),
                         ),
                         noti.textType == null || noti.textType == ""
@@ -187,33 +193,33 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                                 ],
                               )
                             : Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            InputTextField(
-                              child: TextFormField(
-                                controller: noti.brand,
-                                autovalidateMode: AutovalidateMode
-                                    .onUserInteraction,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Enter Brand Name",
-                                  hintStyle: TextStyle(fontSize: 17),
-                                  contentPadding: EdgeInsets.all(10),
-                                ),
-                                validator: (value) {
-                                  if (value!.trim().isEmpty) {
-                                    return 'Enter Brand Name';
-                                  } else {
-                                    return null;
-                                  }
-                                },
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  InputTextField(
+                                    child: TextFormField(
+                                      controller: noti.brand,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      textInputAction: TextInputAction.next,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Enter Brand Name",
+                                        hintStyle: TextStyle(fontSize: 17),
+                                        contentPadding: EdgeInsets.all(10),
+                                      ),
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return 'Enter Brand Name';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                         noti.brandName != "Others"
                             ? SizedBox()
                             : noti.textType != null || noti.textType != ""
@@ -461,8 +467,8 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                         ),
                         noti.tyre == "Other"
                             ? Column(
-                              children: [
-                                InputTextField(
+                                children: [
+                                  InputTextField(
                                     child: TextFormField(
                                       controller: noti.tyreenter,
                                       autovalidateMode:
@@ -487,9 +493,11 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                                       },
                                     ),
                                   ),
-                                SizedBox(height: 20,)
-                              ],
-                            )
+                                  SizedBox(
+                                    height: 20,
+                                  )
+                                ],
+                              )
                             : SizedBox(),
                         InputTextField(
                           child: TextFormField(

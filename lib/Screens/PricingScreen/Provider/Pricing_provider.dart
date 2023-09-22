@@ -17,7 +17,9 @@ import '../../../AppUtils/constants.dart';
 import '../../../Model/validate_receipt_ios_model.dart';
 
 var _GpsSubscriptionId = ["gpsmonthlyplan", "gpsyearlyplan"];
+
 var _weatherSubscriptionId = ["weatherplanmonthly"];
+
 List<String> kProductIds = _GpsSubscriptionId;
 
 class PriceProvider extends ChangeNotifier {

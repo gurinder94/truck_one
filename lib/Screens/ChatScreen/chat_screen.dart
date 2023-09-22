@@ -280,11 +280,8 @@ class ChatPage extends StatelessWidget {
                                                         width: 50,
                                                         height: 50,
                                                         child: Center(
-                                                            child: LoadingWidget(
-                                                                ((progress.cumulativeBytesLoaded /
-                                                                            progress.expectedTotalBytes!) *
-                                                                        100)
-                                                                    .toInt())),
+                                                            child:
+                                                                CircularProgressIndicator()),
                                                       );
                                               },
                                               errorBuilder: (a, b, c) =>
