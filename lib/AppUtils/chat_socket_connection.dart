@@ -177,6 +177,7 @@ class ChatSocketConnection extends ChangeNotifier {
           ? "ENDUSER"
           : roleName.toString().toUpperCase()
     });
+    print("623558");
     if (conversationModel.code == 200 &&value["data"]["sender_id"]!=uId ) {
       MessageModel msg = conversationModel.data!.lastMessages![0];
       showNotification(msg, conversationModel);

@@ -44,7 +44,7 @@ class _FleetManagerScreenState extends State<FleetManagerScreen> {
 
     _viewFleetManagerProvider = context.read<ViewFleetManagerProvider>();
     _fleetManagerProvider.refresh();
-    _fleetManagerProvider.hitFLeetList(context);
+    // _fleetManagerProvider.hitFLeetList(context);
     super.initState();
   }
 

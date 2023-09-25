@@ -125,9 +125,7 @@ class CompanyFleetManagerPage extends StatelessWidget {
                     child: AddTrailerPage()),
               )).then((value) {
             _fleetManagerProvider.refresh();
-            _fleetManagerProvider.hitFLeetList(
-              context,
-            );
+            _fleetManagerProvider.hitFLeetList(context);
           });
         },
         tooltip: 'Trailer',
@@ -149,9 +147,7 @@ class CompanyFleetManagerPage extends StatelessWidget {
                     child: AddTruckManager()),
               )).then((value) {
             _fleetManagerProvider.refresh();
-            _fleetManagerProvider.hitFLeetList(
-              context,
-            );
+            _fleetManagerProvider.hitFLeetList(context);
           });
         },
         tooltip: 'Truck',

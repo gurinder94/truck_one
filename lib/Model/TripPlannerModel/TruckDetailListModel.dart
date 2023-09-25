@@ -42,6 +42,7 @@ class TruckDetailModel {
 
   TruckDetailModel({
     this.brand,
+    this.brandName,
     this.OtherTyre,
     this.userData,
     this.otherbrand,
@@ -70,6 +71,7 @@ class TruckDetailModel {
   });
 
   Brand? brand;
+  String? brandName;
   UserData? userData;
   String? id;
   String? name;
@@ -99,6 +101,7 @@ class TruckDetailModel {
         brand: Brand.fromJson(json["brand"]),
         userData: UserData.fromJson(json["userData"]),
         id: json["_id"],
+        brandName: json["brandName"],
         name: json["name"],
         OtherTyre: json["OtherTyre"],
         otherbrand: json["otherbrand"],
@@ -129,6 +132,7 @@ class TruckDetailModel {
         "userData": userData!.toJson(),
         "_id": id,
         "name": name,
+        "brandName": brandName,
         "OtherTyre": OtherTyre,
         "otherbrand": otherbrand,
         "number": number,

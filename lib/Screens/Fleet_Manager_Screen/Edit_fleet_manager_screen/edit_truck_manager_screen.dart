@@ -170,43 +170,65 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                         ),
                         Column(
                           children: [
-                            noti.brand.text == ""
-                                ? SizedBox()
-                                : noti.textType == null ||
-                                        noti.textType == "" &&
-                                            noti.brandName == null
-                                    ? Column(
-                                        children: [
-                                          CommanDrop(
-                                            title: "Please select brand value",
-                                            onChangedFunction:
-                                                (dynamic newValue) {
-                                              noti.setBrandValue(newValue);
-                                            },
-                                            selectValue: noti.brandvalue,
-                                            itemsList: noti.brandList
-                                                .map((Datum items) {
-                                              return DropdownMenuItem(
-                                                value: items,
-                                                child: Text(
-                                                    items.brand.toString()),
-                                              );
-                                            }).toList(),
+                            noti.textType == "null" || noti.textType == ""
+                                ? Column(
+                                    children: [
+                                      CommanDrop(
+                                        title: "Please select brand value",
+                                        onChangedFunction: (dynamic newValue) {
+                                          noti.setBrandValue(newValue);
+                                        },
+                                        selectValue: noti.brandvalue,
+                                        itemsList:
+                                            noti.brandList.map((Datum items) {
+                                          return DropdownMenuItem(
+                                            value: items,
+                                            child: Text(items.brand.toString()),
+                                          );
+                                        }).toList(),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox(),
+                            noti.brandName == "Others"
+                                ? Column(
+                                    children: [
+                                      InputTextField(
+                                        child: TextFormField(
+                                          controller: noti.brand,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          textInputAction: TextInputAction.next,
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: "Enter Brand Name",
+                                            hintStyle: TextStyle(fontSize: 17),
+                                            contentPadding: EdgeInsets.all(10),
                                           ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                        ],
-                                      )
-                                    : SizedBox(),
-                            noti.brandName != "Others" || noti.brandName == null
-                                ? SizedBox()
-                                : noti.textType != null || noti.textType != ""
+                                          validator: (value) {
+                                            if (value!.trim().isEmpty) {
+                                              return 'Enter Brand Name';
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
+                                  )
+                                : noti.textType != ""
                                     ? Column(
                                         children: [
                                           InputTextField(
                                             child: TextFormField(
-                                              controller: noti.brand,
+                                              controller:
+                                                  noti.brandNameController,
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
                                               textInputAction:
@@ -233,7 +255,7 @@ class _EditTruckManagerState extends State<EditTruckManager> {
                                           ),
                                         ],
                                       )
-                                    : SizedBox(),
+                                    : SizedBox()
                           ],
                         ),
                         InputTextField(
@@ -583,5 +605,67 @@ class _EditTruckManagerState extends State<EditTruckManager> {
         }),
       ),
     );
+  }
+
+  getBrand(EditTruckManagerProvider noti) {
+    if (noti.brandName == "Others") {
+      return Column(
+        children: [
+          InputTextField(
+            child: TextFormField(
+              controller: noti.brand,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Enter Brand Name",
+                hintStyle: TextStyle(fontSize: 17),
+                contentPadding: EdgeInsets.all(10),
+              ),
+              validator: (value) {
+                if (value!.trim().isEmpty) {
+                  return 'Enter Brand Name';
+                } else {
+                  return null;
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      );
+    } else if (noti.textType != "null") {
+      Column(
+        children: [
+          InputTextField(
+            child: TextFormField(
+              controller: noti.brandNameController,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Enter Brand Name",
+                hintStyle: TextStyle(fontSize: 17),
+                contentPadding: EdgeInsets.all(10),
+              ),
+              validator: (value) {
+                if (value!.trim().isEmpty) {
+                  return 'Enter Brand Name';
+                } else {
+                  return null;
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      );
+    } else {
+      return SizedBox();
+    }
   }
 }

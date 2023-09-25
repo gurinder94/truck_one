@@ -34,13 +34,17 @@ class EditTruckManagerProvider extends ChangeNotifier {
   TextEditingController wheelbase = TextEditingController();
   TextEditingController power = TextEditingController();
   TextEditingController brand = TextEditingController();
+  TextEditingController brandNameController = TextEditingController();
   TextEditingController tyreenter = TextEditingController();
   TextEditingController length = TextEditingController();
   bool isDelete = false;
   String isDeleteName = "Unarchived";
   var trailerName;
   var image;
+
   Datum brandvalue = Datum();
+
+  // var brandvalue;
   var fuelType;
   TruckDetailListModel? truckDetailModel;
   String fleetManagerId;
@@ -232,8 +236,8 @@ class EditTruckManagerProvider extends ChangeNotifier {
     height.text = truckDetail.height!.toInt().toString();
     width.text = truckDetail.width!.toInt().toString();
     trailerName = truckDetail.trailerType.toString();
-    vin.text=truckDetail.trailerVinNumber.toString();
-    length.text=truckDetail.length.toString();
+    vin.text = truckDetail.trailerVinNumber.toString();
+    length.text = truckDetail.length.toString();
     capacity.text = truckDetail.loadCapacity.toString();
     image = truckDetail.image;
     image = image == null ? "" : Base_Url_Fleet_trailer + image;
@@ -252,22 +256,7 @@ class EditTruckManagerProvider extends ChangeNotifier {
     modelNumber.text = truckDetail.modelNumber ?? "";
     engineNumber.text = truckDetail.engine ?? "";
     wheelbase.text = truckDetail.wheelbase.toString();
-    if (truckDetail.numOfTyres! % 2 == 0) {
-      if (truckDetail.numOfTyres! > 30) {
-        print('${truckDetail.numOfTyres = 30} is even');
-        tyre = "30";
-      } else {
-        tyre = truckDetail.numOfTyres.toString();
-      }
-    } else {
-      if (truckDetail.numOfTyres! > 30) {
-        print('${truckDetail.numOfTyres = 30} is not odd');
-        tyre = "30";
-      } else {
-        tyre = "${truckDetail.numOfTyres! + 1}";
-        print('${truckDetail.numOfTyres! + 1} is odd');
-      }
-    }
+
     tyre = truckDetail.numOfTyres.toString() == "0"
         ? "Other"
         : truckDetail.numOfTyres.toString();
@@ -279,14 +268,15 @@ class EditTruckManagerProvider extends ChangeNotifier {
             ? "Petrol"
             : "Diesel";
     image = truckDetail.image;
-    int index = brandList.indexWhere((item) =>
-        item.id ==
-        (truckDetail.brand!.id == null &&
-                truckDetail.otherbrand.toString() == "null"
-            ? ""
-            : truckDetail.brand!.id == null
-                ? "12345"
-                : truckDetail.brand!.id));
+    int index = brandList.indexWhere((item) {
+      return item.id ==
+          (truckDetail.brand!.id == null &&
+                  truckDetail.otherbrand.toString() == "null"
+              ? brandList[1].id
+              : truckDetail.brand!.id == null
+                  ? "12345"
+                  : truckDetail.brand!.id);
+    });
     vin.text = truckDetail.number.toString();
     if (index >= 0) {
       setBrandValue(brandList[index]);
@@ -294,6 +284,13 @@ class EditTruckManagerProvider extends ChangeNotifier {
     brand.text = truckDetail.otherbrand.toString() == "null"
         ? ""
         : truckDetail.otherbrand.toString();
+
+    textType = truckDetail.brandName.toString() == "null"
+        ? ""
+        : truckDetail.brandName.toString();
+    brandNameController.text = truckDetail.brandName.toString() == "null"
+        ? ""
+        : truckDetail.brandName.toString();
     image = image == null ? "" : Base_Url_Fleet_truck + truckDetail.image!;
     isDeleteName = truckDetail.isDeleted == true ? "Archived" : "Unarchived";
     isDelete = truckDetail.isDeleted!;
@@ -320,7 +317,8 @@ class EditTruckManagerProvider extends ChangeNotifier {
 
   void showData() {
     textType = vinModel.results![0]["EngineManufacturer"];
-    brand.text = vinModel.results![0]["EngineManufacturer"].toString();
+    brandNameController.text =
+        vinModel.results![0]["EngineManufacturer"].toString();
     fuelType = vinModel.results![0]["FuelTypePrimary"] == "Gasoline"
         ? "Gas"
         : vinModel.results![0]["FuelTypePrimary"] == ""
@@ -338,7 +336,10 @@ class EditTruckManagerProvider extends ChangeNotifier {
     Map<String, dynamic> map = type == "truck"
         ? {
             "brand": brandvalue.id,
-            "otherbrand": brandvalue.id != "12345" ? "" : brand.text,
+            "otherbrand": brandvalue.id != "12345" ? "" : brand.text.toString(),
+            "brandName": brandNameController.text.toString() == "null"
+                ? ""
+                : brandNameController.text.toString(),
             "createdById": getId,
             "engine": engineNumber.text,
             "fuelCapacity": capacity.text,

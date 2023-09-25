@@ -99,8 +99,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
                                 .then((value) {
                               _chatHomeProvider.listenChat(context);
                               _chatHomeProvider.resetList();
-                              _chatHomeProvider.getConversations(
-                                  '', false, _chatHomeProvider.page);
+                              _chatHomeProvider.getConversations('', false, _chatHomeProvider.page);
                             });
                         }
                       },

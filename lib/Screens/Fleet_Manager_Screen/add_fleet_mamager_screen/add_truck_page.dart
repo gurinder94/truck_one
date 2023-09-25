@@ -186,14 +186,41 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                                 ],
                               )
                             : SizedBox(),
-                        noti.brandName != "Others"
-                            ? SizedBox()
-                            : noti.textType != null || noti.textType != ""
+                        SizedBox(
+                          height: 20,
+                        ),
+                        noti.brandName == "Others"
+                            ? Column(
+                                children: [
+                                  InputTextField(
+                                    child: TextFormField(
+                                      controller: noti.brand,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      textInputAction: TextInputAction.next,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Enter Brand Name",
+                                        hintStyle: TextStyle(fontSize: 17),
+                                        contentPadding: EdgeInsets.all(10),
+                                      ),
+                                      validator: (value) {
+                                        if (value!.trim().isEmpty) {
+                                          return 'Enter Brand Name';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              )
+                            : noti.textType != ""
                                 ? Column(
                                     children: [
-                                      SizedBox(
-                                        height: 20,
-                                      ),
                                       InputTextField(
                                         child: TextFormField(
                                           controller: noti.brand,
@@ -215,12 +242,12 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                                           },
                                         ),
                                       ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
                                     ],
                                   )
                                 : SizedBox(),
-                        SizedBox(
-                          height: 20,
-                        ),
                         InputTextField(
                           child: TextFormField(
                             controller: noti.modelNumber,
@@ -433,8 +460,8 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                         ),
                         noti.tyre == "Other"
                             ? Column(
-                              children: [
-                                InputTextField(
+                                children: [
+                                  InputTextField(
                                     child: TextFormField(
                                       controller: noti.tyreenter,
                                       autovalidateMode:
@@ -459,9 +486,11 @@ class _AddTruckManagerState extends State<AddTruckManager> {
                                       },
                                     ),
                                   ),
-                                SizedBox(height: 20,)
-                              ],
-                            )
+                                  SizedBox(
+                                    height: 20,
+                                  )
+                                ],
+                              )
                             : SizedBox(),
                         InputTextField(
                           child: TextFormField(

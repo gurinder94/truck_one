@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
@@ -74,7 +76,7 @@ class SellerChatProvider extends ChangeNotifier with ChatListeners {
 
     _list = [];
     _list.addAll(_model.data!);
-    print(_list.length);
+    print("41235758${_model.data}");
     notifyListeners();
   }
 
@@ -136,7 +138,6 @@ class SellerChatProvider extends ChangeNotifier with ChatListeners {
           }
         }
         // Perform event when user reach at the end of list (e.g. do Api call)
-
       }
     });
   }

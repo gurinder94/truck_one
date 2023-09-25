@@ -72,7 +72,7 @@ class ChatHomeProvider extends ChangeNotifier with ChatListeners {
 
     _list = [];
     _list.addAll(_model.data!);
-    print(_list.length);
+    print("63258${_model.data!.length}");
     notifyListeners();
   }
 

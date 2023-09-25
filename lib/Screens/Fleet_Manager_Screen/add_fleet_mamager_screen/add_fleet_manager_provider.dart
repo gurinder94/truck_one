@@ -160,10 +160,11 @@ class AddFleetManagerProvider extends ChangeNotifier {
                 ? null
                 : image.toString().replaceAll(Base_Url_Fleet_truck, ''),
             "otherbrand": brandvalue == null
-                ? null
+                ? ""
                 : brandvalue!.id == "12345"
                     ? brand.text
                     : "",
+            "brandName": textType != "" ? brand.text : "",
             "OtherTyre": tyreenter.text
           };
     print(map);

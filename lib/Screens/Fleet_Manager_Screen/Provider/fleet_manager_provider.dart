@@ -53,6 +53,7 @@ class FleetManagerProvider extends ChangeNotifier {
     if (PaginationLoader == true) {
       PaginationLoader = true;
     } else {
+      FleetMangerList.clear();
       FleetMangerList = [];
       loading = true;
       pagee = 1;
