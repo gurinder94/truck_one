@@ -48,271 +48,411 @@ class UserProfile extends StatelessWidget {
                       SliverAppBar(
                         backgroundColor: APP_BAR_BG,
                         automaticallyImplyLeading: true,
+                        // titleSpacing: 200,
+
                         leading: IconButton(
                             icon: Icon(
                               Icons.arrow_back,
                               color: Colors.white,
                             ),
                             onPressed: () => Navigator.pop(context, false)),
-                        expandedHeight: 200.0,
+                        title: Text(
+                          capitalize(
+                            noti.model.data!.personName.toString(),
+                          ),
+                          style:
+                          TextStyle(color: Colors.white, fontSize: 18.0),
+                        ),
                         floating: false,
                         pinned: true,
-                        flexibleSpace: FlexibleSpaceBar(
-                          centerTitle: true,
-                          title: Text(
-                            capitalize(
-                              noti.model.data!.personName.toString(),
-                            ),
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 18.0),
-                          ),
-                          // ),
-                          background: Container(
-                            decoration: BoxDecoration(
-                              image: new DecorationImage(
-                                image: NetworkImage(
-                                    noti.model.data!.bannerImage == null
-                                        ? "https://www.google.com"
-                                        : profile_banner_url +
-                                            noti.model.data!.bannerImage
-                                                .toString()),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  height: 100,
-                                  width: 100,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            blurRadius: 10)
-                                      ]),
-                                  child: Image.network(
-                                    IMG_URL + noti.model.data!.image.toString(),
-                                    fit: BoxFit.fill,
-                                    loadingBuilder: (context, child, progress) {
-                                      return progress == null
-                                          ? child
-                                          : CircularProgressIndicator
-                                              .adaptive();
-                                    },
-                                    errorBuilder: (a, b, c) => Center(
-                                        child: Text(
-                                      noti.model.data!.personName!
-                                          .substring(0, 1)
-                                          .toString()
-                                          .toUpperCase(),
-                                      style: TextStyle(
-                                          color: Colors.black.withOpacity(.2),
-                                          fontSize: 80,
-                                          shadows: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                offset: Offset(0, 5),
-                                                blurRadius: 20)
-                                          ]),
-                                    )),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+
                       )
                     ];
                   },
-                  body: Column(children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                          color: Color(0xFFEEEEEE),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 5,
-                                offset: Offset(5, 5)),
-                            BoxShadow(
-                                color: Colors.white,
-                                blurRadius: 2,
-                                offset: Offset(-5, -5))
-                          ]),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
+                  body: Container(
+                    // color: Colors.red,
+                    child: Column(children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: APP_BAR_BG,
+                          image: new DecorationImage(
+                            image: NetworkImage(noti.model.data!.bannerImage ==
+                                    null
+                                ? "https://www.google.com"
+                                : profile_banner_url +
+                                    noti.model.data!.bannerImage.toString()),
+                            fit: BoxFit.cover,
                           ),
+                        ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              height: 80,
+                              width: 80,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black12, blurRadius: 10)
+                                  ]),
+                              child: Image.network(
+                                IMG_URL + noti.model.data!.image.toString(),
+                                fit: BoxFit.fill,
+                                loadingBuilder: (context, child, progress) {
+                                  return progress == null
+                                      ? child
+                                      : CircularProgressIndicator.adaptive();
+                                },
+                                errorBuilder: (a, b, c) => Center(
+                                    child: Text(
+                                  noti.model.data!.personName!
+                                      .substring(0, 1)
+                                      .toString()
+                                      .toUpperCase(),
+                                  style: TextStyle(
+                                      color: Colors.black.withOpacity(.2),
+                                      fontSize: 80,
+                                      shadows: [
+                                        BoxShadow(
+                                            color: Colors.black12,
+                                            offset: Offset(0, 5),
+                                            blurRadius: 20)
+                                      ]),
+                                )),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                            color: Color(0xFFEEEEEE),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 5,
+                                  offset: Offset(5, 5)),
+                              BoxShadow(
+                                  color: Colors.white,
+                                  blurRadius: 2,
+                                  offset: Offset(-5, -5))
+                            ]),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            _provider.model.data!.roleTitle == "COMPANY"
+                                ? SizedBox()
+                                : Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.work,
+                                        color: Colors.black87,
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          "${AppLocalizations.instance.text("Working At")} ${_provider.model.data!.workPlace.toString()}",
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                      _provider.model.data!.inConnection ==
+                                              "MYSELF"
+                                          ? SizedBox()
+                                          : Expanded(
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Spacer(),
+                                                  _provider.model.data!
+                                                              .inConnection ==
+                                                          "accept"
+                                                      ? SizedBox()
+                                                      : _provider.model.data!
+                                                                  .inConnection ==
+                                                              "false"
+                                                          ? GestureDetector(
+                                                              child: Container(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            10),
+                                                                decoration: BoxDecoration(
+                                                                    color:
+                                                                        APP_BAR_BG,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(20))),
+                                                                child: Text(
+                                                                  AppLocalizations
+                                                                      .instance
+                                                                      .text(
+                                                                          'Connect'),
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                              ),
+                                                              onTap: () async {
+                                                                var getid =
+                                                                    await getUserId();
+                                                                var userName =
+                                                                    await getNameInfo();
+                                                                var userimage =
+                                                                    await getprofileInfo();
 
-                          SizedBox(
-                            height: 10,
-                          ),
-                          _provider.model.data!.roleTitle == "COMPANY"
-                              ? SizedBox()
-                              : Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.work,
-                                      color: Colors.black87,
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "${AppLocalizations.instance.text("Working At")} ${_provider.model.data!.workPlace.toString()}",
+                                                                _provider
+                                                                    .connectUser(
+                                                                  {
+                                                                    "invitedBy":
+                                                                        getid,
+                                                                    "invitedTo":
+                                                                        _provider
+                                                                            .model
+                                                                            .data!
+                                                                            .id,
+                                                                    "userId":
+                                                                        getid,
+                                                                    "userName":
+                                                                        userName,
+                                                                    "userImage":
+                                                                        userimage,
+                                                                  },
+                                                                  context,
+                                                                );
+                                                              },
+                                                            )
+                                                          : _provider
+                                                                      .model
+                                                                      .data!
+                                                                      .inConnection ==
+                                                                  "pending"
+                                                              ? Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceAround,
+                                                                  children: [
+                                                                    GestureDetector(
+                                                                      child:
+                                                                          Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(5),
+                                                                        alignment:
+                                                                            Alignment.center,
+                                                                        decoration: BoxDecoration(
+                                                                            color:
+                                                                                Color(0xFFEEEEEE),
+                                                                            shape: BoxShape.circle,
+                                                                            boxShadow: [
+                                                                              BoxShadow(color: Colors.black12, blurRadius: 3, offset: Offset(5, 5)),
+                                                                              BoxShadow(color: Colors.white, blurRadius: 3, offset: Offset(-5, -5))
+                                                                            ]),
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .check,
+                                                                          color:
+                                                                              Colors.green,
+                                                                        ),
+                                                                      ),
+                                                                      onTap:
+                                                                          () async {
+                                                                        var getid =
+                                                                            await getUserId();
+                                                                        var userName =
+                                                                            await getNameInfo();
+                                                                        var userimage =
+                                                                            await getprofileInfo();
+
+                                                                        _provider
+                                                                            .getAccept(
+                                                                          {
+                                                                            "invitationId":
+                                                                                _provider.model.data!.invitationId,
+                                                                            "userId":
+                                                                                getid,
+                                                                            "userName":
+                                                                                userName,
+                                                                            "userImage":
+                                                                                userimage,
+                                                                          },
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 15,
+                                                                    ),
+                                                                    GestureDetector(
+                                                                        child:
+                                                                            Container(
+                                                                          padding:
+                                                                              EdgeInsets.all(5),
+                                                                          alignment:
+                                                                              Alignment.center,
+                                                                          decoration: BoxDecoration(
+                                                                              color: Color(0xFFEEEEEE),
+                                                                              shape: BoxShape.circle,
+                                                                              boxShadow: [
+                                                                                BoxShadow(color: Colors.black12, blurRadius: 3, offset: Offset(5, 5)),
+                                                                                BoxShadow(color: Colors.white, blurRadius: 3, offset: Offset(-5, -5))
+                                                                              ]),
+                                                                          child:
+                                                                              Icon(
+                                                                            Icons.cancel_outlined,
+                                                                            color:
+                                                                                Colors.red,
+                                                                          ),
+                                                                        ),
+                                                                        onTap:
+                                                                            () async {
+                                                                          var getid =
+                                                                              await getUserId();
+                                                                          var userName =
+                                                                              await getNameInfo();
+                                                                          var userimage =
+                                                                              await getprofileInfo();
+
+                                                                          _provider
+                                                                              .getInviteDecline(
+                                                                            {
+                                                                              "invitationId": _provider.model.data!.invitationId.toString(),
+                                                                              "userId": getid,
+                                                                              "userName": userName,
+                                                                              "userImage": userimage,
+                                                                            },
+                                                                          );
+                                                                        }),
+                                                                    SizedBox(
+                                                                      width: 5,
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              : SizedBox(),
+                                                ],
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                            _provider.model.data!.roleTitle == "COMPANY"
+                                ? SizedBox()
+                                : Divider(),
+                            _provider.model.data!.roleTitle == "COMPANY"
+                                ? Row(
+                                    children: [
+                                      Icon(
+                                        Icons.email,
+                                        color: Colors.black87,
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        _provider.model.data!.email.toString(),
                                         style: TextStyle(
                                             color: Colors.black87,
-                                            fontSize: 17,
+                                            fontSize: 16,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                    ),
-                                    _provider.model.data!.inConnection ==
-                                            "MYSELF"
-                                        ? SizedBox()
-                                        : Expanded(
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Spacer(),
-                                                _provider.model.data!
-                                                            .inConnection ==
-                                                        "accept"
-                                                    ? SizedBox()
-                                                    : _provider.model.data!
-                                                                .inConnection ==
-                                                            "false"
-                                                        ? GestureDetector(
-                                                            child: Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(10),
-                                                              decoration: BoxDecoration(
-                                                                  color:
-                                                                      APP_BAR_BG,
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              20))),
-                                                              child: Text(
-                                                                AppLocalizations
-                                                                    .instance
-                                                                    .text(
-                                                                        'Connect'),
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white),
+                                      _provider.model.data!.inConnection ==
+                                              "MYSELF"
+                                          ? SizedBox()
+                                          : Expanded(
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Spacer(),
+                                                  _provider.model.data!
+                                                              .inConnection ==
+                                                          "accept"
+                                                      ? SizedBox()
+                                                      : _provider.model.data!
+                                                                  .inConnection ==
+                                                              "false"
+                                                          ? GestureDetector(
+                                                              child: Container(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            10),
+                                                                decoration: BoxDecoration(
+                                                                    color:
+                                                                        APP_BAR_BG,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(20))),
+                                                                child: Text(
+                                                                  AppLocalizations
+                                                                      .instance
+                                                                      .text(
+                                                                          "Connect"),
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
                                                               ),
-                                                            ),
-                                                            onTap: () async {
-                                                              var getid =
-                                                                  await getUserId();
-                                                              var userName =
-                                                                  await getNameInfo();
-                                                              var userimage =
-                                                                  await getprofileInfo();
+                                                              onTap: () async {
+                                                                var getid =
+                                                                    await getUserId();
+                                                                var userName =
+                                                                    await getNameInfo();
+                                                                var userimage =
+                                                                    await getprofileInfo();
 
-                                                              _provider
-                                                                  .connectUser(
-                                                                {
-                                                                  "invitedBy":
-                                                                      getid,
-                                                                  "invitedTo":
-                                                                      _provider
-                                                                          .model
-                                                                          .data!
-                                                                          .id,
-                                                                  "userId":
-                                                                      getid,
-                                                                  "userName":
-                                                                      userName,
-                                                                  "userImage":
-                                                                      userimage,
-                                                                },
-                                                                context,
-                                                              );
-                                                            },
-                                                          )
-                                                        : _provider.model.data!
-                                                                    .inConnection ==
-                                                                "pending"
-                                                            ? Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceAround,
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    child:
-                                                                        Container(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              5),
-                                                                      alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                      decoration: BoxDecoration(
-                                                                          color: Color(
-                                                                              0xFFEEEEEE),
-                                                                          shape:
-                                                                              BoxShape.circle,
-                                                                          boxShadow: [
-                                                                            BoxShadow(
-                                                                                color: Colors.black12,
-                                                                                blurRadius: 3,
-                                                                                offset: Offset(5, 5)),
-                                                                            BoxShadow(
-                                                                                color: Colors.white,
-                                                                                blurRadius: 3,
-                                                                                offset: Offset(-5, -5))
-                                                                          ]),
-                                                                      child:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .check,
-                                                                        color: Colors
-                                                                            .green,
-                                                                      ),
-                                                                    ),
-                                                                    onTap:
-                                                                        () async {
-                                                                      var getid =
-                                                                          await getUserId();
-                                                                      var userName =
-                                                                          await getNameInfo();
-                                                                      var userimage =
-                                                                          await getprofileInfo();
-
-                                                                      _provider
-                                                                          .getAccept(
-                                                                        {
-                                                                          "invitationId": _provider
-                                                                              .model
-                                                                              .data!
-                                                                              .invitationId,
-                                                                          "userId":
-                                                                              getid,
-                                                                          "userName":
-                                                                              userName,
-                                                                          "userImage":
-                                                                              userimage,
-                                                                        },
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 15,
-                                                                  ),
-                                                                  GestureDetector(
+                                                                _provider
+                                                                    .connectUser(
+                                                                  {
+                                                                    "invitedBy":
+                                                                        getid,
+                                                                    "invitedTo":
+                                                                        _provider
+                                                                            .model
+                                                                            .data!
+                                                                            .id,
+                                                                    "userId":
+                                                                        getid,
+                                                                    "userName":
+                                                                        userName,
+                                                                    "userImage":
+                                                                        userimage,
+                                                                  },
+                                                                  context,
+                                                                );
+                                                              },
+                                                            )
+                                                          : _provider
+                                                                      .model
+                                                                      .data!
+                                                                      .inConnection ==
+                                                                  "pending"
+                                                              ? Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceAround,
+                                                                  children: [
+                                                                    GestureDetector(
                                                                       child:
                                                                           Container(
                                                                         padding:
@@ -330,9 +470,9 @@ class UserProfile extends StatelessWidget {
                                                                         child:
                                                                             Icon(
                                                                           Icons
-                                                                              .cancel_outlined,
+                                                                              .check,
                                                                           color:
-                                                                              Colors.red,
+                                                                              Colors.green,
                                                                         ),
                                                                       ),
                                                                       onTap:
@@ -345,10 +485,10 @@ class UserProfile extends StatelessWidget {
                                                                             await getprofileInfo();
 
                                                                         _provider
-                                                                            .getInviteDecline(
+                                                                            .getAccept(
                                                                           {
                                                                             "invitationId":
-                                                                                _provider.model.data!.invitationId.toString(),
+                                                                                _provider.model.data!.invitationId,
                                                                             "userId":
                                                                                 getid,
                                                                             "userName":
@@ -357,306 +497,133 @@ class UserProfile extends StatelessWidget {
                                                                                 userimage,
                                                                           },
                                                                         );
-                                                                      }),
-                                                                  SizedBox(
-                                                                    width: 5,
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            : SizedBox(),
-                                              ],
-                                            ),
-                                          ),
-                                  ],
-                                ),
-
-                          _provider.model.data!.roleTitle == "COMPANY"
-                              ? SizedBox()
-                              : Divider(),
-
-                          _provider.model.data!.roleTitle == "COMPANY"
-                              ? Row(
-                                  children: [
-                                    Icon(
-                                      Icons.email,
-                                      color: Colors.black87,
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      _provider.model.data!.email.toString(),
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    _provider.model.data!.inConnection ==
-                                            "MYSELF"
-                                        ? SizedBox()
-                                        : Expanded(
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Spacer(),
-                                                _provider.model.data!
-                                                            .inConnection ==
-                                                        "accept"
-                                                    ? SizedBox()
-                                                    : _provider.model.data!
-                                                                .inConnection ==
-                                                            "false"
-                                                        ? GestureDetector(
-                                                            child: Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(10),
-                                                              decoration: BoxDecoration(
-                                                                  color:
-                                                                      APP_BAR_BG,
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              20))),
-                                                              child: Text(
-                                                                AppLocalizations
-                                                                    .instance
-                                                                    .text(
-                                                                        "Connect"),
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
-                                                            ),
-                                                            onTap: () async {
-                                                              var getid =
-                                                                  await getUserId();
-                                                              var userName =
-                                                                  await getNameInfo();
-                                                              var userimage =
-                                                                  await getprofileInfo();
-
-                                                              _provider
-                                                                  .connectUser(
-                                                                {
-                                                                  "invitedBy":
-                                                                      getid,
-                                                                  "invitedTo":
-                                                                      _provider
-                                                                          .model
-                                                                          .data!
-                                                                          .id,
-                                                                  "userId":
-                                                                      getid,
-                                                                  "userName":
-                                                                      userName,
-                                                                  "userImage":
-                                                                      userimage,
-                                                                },
-                                                                context,
-                                                              );
-                                                            },
-                                                          )
-                                                        : _provider.model.data!
-                                                                    .inConnection ==
-                                                                "pending"
-                                                            ? Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceAround,
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    child:
-                                                                        Container(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              5),
-                                                                      alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                      decoration: BoxDecoration(
-                                                                          color: Color(
-                                                                              0xFFEEEEEE),
-                                                                          shape:
-                                                                              BoxShape.circle,
-                                                                          boxShadow: [
-                                                                            BoxShadow(
-                                                                                color: Colors.black12,
-                                                                                blurRadius: 3,
-                                                                                offset: Offset(5, 5)),
-                                                                            BoxShadow(
-                                                                                color: Colors.white,
-                                                                                blurRadius: 3,
-                                                                                offset: Offset(-5, -5))
-                                                                          ]),
-                                                                      child:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .check,
-                                                                        color: Colors
-                                                                            .green,
-                                                                      ),
+                                                                      },
                                                                     ),
-                                                                    onTap:
-                                                                        () async {
-                                                                      var getid =
-                                                                          await getUserId();
-                                                                      var userName =
-                                                                          await getNameInfo();
-                                                                      var userimage =
-                                                                          await getprofileInfo();
-
-                                                                      _provider
-                                                                          .getAccept(
-                                                                        {
-                                                                          "invitationId": _provider
-                                                                              .model
-                                                                              .data!
-                                                                              .invitationId,
-                                                                          "userId":
-                                                                              getid,
-                                                                          "userName":
-                                                                              userName,
-                                                                          "userImage":
-                                                                              userimage,
-                                                                        },
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 15,
-                                                                  ),
-                                                                  GestureDetector(
-                                                                      child:
-                                                                          Container(
-                                                                        padding:
-                                                                            EdgeInsets.all(5),
-                                                                        alignment:
-                                                                            Alignment.center,
-                                                                        decoration: BoxDecoration(
-                                                                            color:
-                                                                                Color(0xFFEEEEEE),
-                                                                            shape: BoxShape.circle,
-                                                                            boxShadow: [
-                                                                              BoxShadow(color: Colors.black12, blurRadius: 3, offset: Offset(5, 5)),
-                                                                              BoxShadow(color: Colors.white, blurRadius: 3, offset: Offset(-5, -5))
-                                                                            ]),
+                                                                    SizedBox(
+                                                                      width: 15,
+                                                                    ),
+                                                                    GestureDetector(
                                                                         child:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .cancel_outlined,
-                                                                          color:
-                                                                              Colors.red,
+                                                                            Container(
+                                                                          padding:
+                                                                              EdgeInsets.all(5),
+                                                                          alignment:
+                                                                              Alignment.center,
+                                                                          decoration: BoxDecoration(
+                                                                              color: Color(0xFFEEEEEE),
+                                                                              shape: BoxShape.circle,
+                                                                              boxShadow: [
+                                                                                BoxShadow(color: Colors.black12, blurRadius: 3, offset: Offset(5, 5)),
+                                                                                BoxShadow(color: Colors.white, blurRadius: 3, offset: Offset(-5, -5))
+                                                                              ]),
+                                                                          child:
+                                                                              Icon(
+                                                                            Icons.cancel_outlined,
+                                                                            color:
+                                                                                Colors.red,
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                      onTap:
-                                                                          () async {
-                                                                        var getid =
-                                                                            await getUserId();
-                                                                        var userName =
-                                                                            await getNameInfo();
-                                                                        var userimage =
-                                                                            await getprofileInfo();
+                                                                        onTap:
+                                                                            () async {
+                                                                          var getid =
+                                                                              await getUserId();
+                                                                          var userName =
+                                                                              await getNameInfo();
+                                                                          var userimage =
+                                                                              await getprofileInfo();
 
-                                                                        _provider
-                                                                            .getInviteDecline(
-                                                                          {
-                                                                            "invitationId":
-                                                                                _provider.model.data!.invitationId.toString(),
-                                                                            "userId":
-                                                                                getid,
-                                                                            "userName":
-                                                                                userName,
-                                                                            "userImage":
-                                                                                userimage,
-                                                                          },
-                                                                        );
-                                                                      }),
-                                                                  SizedBox(
-                                                                    width: 5,
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            : SizedBox(),
-                                              ],
+                                                                          _provider
+                                                                              .getInviteDecline(
+                                                                            {
+                                                                              "invitationId": _provider.model.data!.invitationId.toString(),
+                                                                              "userId": getid,
+                                                                              "userName": userName,
+                                                                              "userImage": userimage,
+                                                                            },
+                                                                          );
+                                                                        }),
+                                                                    SizedBox(
+                                                                      width: 5,
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              : SizedBox(),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                  ],
-                                )
-                              : Row(
-                                  children: [
-                                    Icon(
-                                      Icons.email,
-                                      color: Colors.black87,
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      _provider.model.data!.email.toString(),
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-
-                          Divider(),
-                          _provider.model.data!.roleTitle == "COMPANY"
-                              ? Row(
-                                  children: [
-                                    Icon(
-                                      Icons.location_city,
-                                      color: Colors.black87,
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      "${_provider.model.data!.city.toString()}",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          color: Colors.black87,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  ],
-                                )
-                              : SizedBox(),
-                          _provider.model.data!.roleTitle == "COMPANY"
-                              ? Divider()
-                              : SizedBox(),
-
-                          ProfileAbout(_provider),
-                        ],
-                      ),
-                    ),
-                    Expanded(child:
-                        Consumer<UserDetailProvider>(builder: (_, proData, __) {
-                      if (proData.loading) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: proData.userPostList.length,
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            return ChangeNotifierProvider<PostDatum>.value(
-                                value: proData.userPostList[index],
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: UserPostItem(
-                                    position: index,
-                                    userDetailProvider: _provider,
+                                    ],
+                                  )
+                                : Row(
+                                    children: [
+                                      Icon(
+                                        Icons.email,
+                                        color: Colors.black87,
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        _provider.model.data!.email.toString(),
+                                        style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
                                   ),
-                                ));
-                          });
-                    }))
-                  ]),
+                            Divider(),
+                            _provider.model.data!.roleTitle == "COMPANY"
+                                ? Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_city,
+                                        color: Colors.black87,
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        "${_provider.model.data!.city.toString()}",
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox(),
+                            _provider.model.data!.roleTitle == "COMPANY"
+                                ? Divider()
+                                : SizedBox(),
+                            ProfileAbout(_provider),
+                          ],
+                        ),
+                      ),
+                      Expanded(child: Consumer<UserDetailProvider>(
+                          builder: (_, proData, __) {
+                        if (proData.loading) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: proData.userPostList.length,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              return ChangeNotifierProvider<PostDatum>.value(
+                                  value: proData.userPostList[index],
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: UserPostItem(
+                                      position: index,
+                                      userDetailProvider: _provider,
+                                    ),
+                                  ));
+                            });
+                      }))
+                    ]),
+                  ),
                 );
             },
           ),

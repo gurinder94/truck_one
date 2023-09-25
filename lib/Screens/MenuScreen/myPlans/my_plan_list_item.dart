@@ -1,10 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
+//import for GooglePlayProductDetails
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+
+//import for SkuDetailsWrapper
+import 'package:in_app_purchase_android/billing_client_wrappers.dart';
+
 // import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
 import 'package:my_truck_dot_one/Screens/MenuScreen/myPlans/my_plan_list_provider.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/comman_rich_text.dart';
 
+//import for GooglePlayProductDetails
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+
+//import for SkuDetailsWrapper
+import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import '../../../AppUtils/constants.dart';
 import '../../commanWidget/commanButton.dart';
 
@@ -26,10 +40,13 @@ class MyPlanListItem extends StatelessWidget {
       return element['appKey'] == product.id;
     });
     var endDate = "";
-    if (mdata != null && mdata.length != null && mdata.length > 0) {
+    if (mdata.length > 0) {
       print("mdata>> endDate ${mdata.first['endDate']}");
       endDate = mdata.first['endDate'];
     }
+
+    print('Title>> ${product.title}');
+    print('Title>>  previousPurchase ${previousPurchase}');
 
     return Padding(
       padding: const EdgeInsets.all(14.0),
@@ -47,7 +64,8 @@ class MyPlanListItem extends StatelessWidget {
                     ? Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
-                          product.title.replaceAll('_', ' '),
+                          product.title.replaceAll(
+                              '(MyTruck.one: truck jobs, maps)', ' '),
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
@@ -55,7 +73,10 @@ class MyPlanListItem extends StatelessWidget {
                         ),
                       )
                     : Text(
-                        capitalize(product.title),
+                        capitalize(
+                          product.title.replaceAll(
+                              '(MyTruck.one: truck jobs, maps)', ' '),
+                        ),
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -111,39 +132,55 @@ class MyPlanListItem extends StatelessWidget {
                     : Container(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 1.0,
-                  child:endDate==""?Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AbsorbPointer(
-                        absorbing: previousPurchase != null,
-                        child: CommanButton(
-                          title: previousPurchase == null
-                              ? "BUY NOW"
-                              : "Purchased",
-                          buttonColor: PrimaryColor,
-                          titleColor: APP_BG,
-                          onDoneFuction: () {
-                            proData.requestPurchase(product);
-                          },
-                          loder: false,
-                        ),
-                      ),
-                      AbsorbPointer(
-                        absorbing: previousPurchase != null,
-                        child: previousPurchase == null
-                            ? CommanButton(
-                                title: "Redeem code",
+                  child: endDate == ""
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AbsorbPointer(
+                              absorbing: previousPurchase != null,
+                              child: CommanButton(
+                                title: previousPurchase == null
+                                    ? "Buy Now"
+                                    : "Purchased",
                                 buttonColor: PrimaryColor,
                                 titleColor: APP_BG,
                                 onDoneFuction: () {
-                                  proData.requestOfferCode(product);
+                                  // proData.initData();
+                                  proData.requestPurchase(product);
+
+                                  // final PurchaseDetails oldPurchaseDetails = ;
+                                  // PurchaseParam purchaseParam = GooglePlayPurchaseParam(
+                                  // productDetails: pr,
+                                  // changeSubscriptionParam: ChangeSubscriptionParam(
+                                  // oldPurchaseDetails: oldPurchaseDetails,
+                                  // prorationMode: ProrationMode.immediateWithTimeProration));
+                                  // InAppPurchase.instance
+                                  //     .buyNonConsumable(purchaseParam: purchaseParam);
                                 },
                                 loder: false,
-                              )
-                            : SizedBox(),
-                      ),
-                    ],
-                  ):SizedBox(height: 50,),
+                              ),
+                            ),
+                            Platform.isIOS
+                                ? AbsorbPointer(
+                                    absorbing: previousPurchase != null,
+                                    child: previousPurchase == null
+                                        ? CommanButton(
+                                            title: "Redeem code",
+                                            buttonColor: PrimaryColor,
+                                            titleColor: APP_BG,
+                                            onDoneFuction: () {
+                                              proData.requestOfferCode(product);
+                                            },
+                                            loder: false,
+                                          )
+                                        : SizedBox(),
+                                  )
+                                : Container(),
+                          ],
+                        )
+                      : SizedBox(
+                          height: 50,
+                        ),
                 ),
                 SizedBox(
                   height: 15,

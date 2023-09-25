@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-FleetManagerDetailModel fleetManagerDetailModelFromJson(String str) =>
-    FleetManagerDetailModel.fromJson(json.decode(str));
+FleetManagerDetailModel fleetManagerDetailModelFromJson(String str) => FleetManagerDetailModel.fromJson(json.decode(str));
 
-String fleetManagerDetailModelToJson(FleetManagerDetailModel data) =>
-    json.encode(data.toJson());
+String fleetManagerDetailModelToJson(FleetManagerDetailModel data) => json.encode(data.toJson());
 
 class FleetManagerDetailModel {
   FleetManagerDetailModel({
@@ -17,25 +15,26 @@ class FleetManagerDetailModel {
     this.data,
   });
 
-  int? code;
-  String? message;
-  Data? data;
+  int ?code;
+  String ?message;
+  Data ?data;
 
-  factory FleetManagerDetailModel.fromJson(Map<String, dynamic> json) =>
-      FleetManagerDetailModel(
-        code: json["code"],
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
-      );
+  factory FleetManagerDetailModel.fromJson(Map<String, dynamic> json) => FleetManagerDetailModel(
+    code: json["code"],
+    message: json["message"],
+    data: Data.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": message,
-        "data": data!.toJson(),
-      };
+    "code": code,
+    "message": message,
+    "data": data!.toJson(),
+  };
 }
 
 class Data {
+
+
   Data({
     this.brand,
     this.otherbrand,
@@ -43,7 +42,6 @@ class Data {
     this.userData,
     this.id,
     this.name,
-    this.brandName,
     this.number,
     this.image,
     this.modelNumber,
@@ -68,91 +66,88 @@ class Data {
 
   var otherbrand;
   var OtherTyre;
-  Brand? brand;
-  UserData? userData;
-  String? id;
-  String? brandName;
-  String? name;
-  String? number;
+  Brand ? brand;
+  UserData ?userData;
+  String ?id;
+  String ?name;
+  String ?number;
   dynamic image;
-  String? modelNumber;
-  int? weight;
-  int? height;
-  int? width;
+  String ?modelNumber;
+  int ?weight;
+  int ?height;
+  int ?width;
   String? fuelType;
-  String? engine;
-  int? fuelCapacity;
-  int? numOfTyres;
-  int? wheelbase;
-  int? power;
+  String ?engine;
+  int ?fuelCapacity;
+  int ?numOfTyres;
+  int ?wheelbase;
+  int ?power;
   bool? isActive;
-  bool? isDeleted;
-  String? createdById;
+  bool ?isDeleted;
+  String ?createdById;
   int? loadCapacity;
-  String? vechicleType;
+  String ?vechicleType;
   var trailerVinNumber;
   var length;
   dynamic trailerType;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        brand: Brand.fromJson(json["brand"]),
-        userData: UserData.fromJson(json["userData"]),
-        id: json["_id"],
-        name: json["name"],
-        OtherTyre: json["OtherTyre"],
-        brandName: json["brandName"],
-        otherbrand: json["otherbrand"],
-        number: json["number"],
-        image: json["image"],
-        modelNumber: json["modelNumber"],
-        weight: json["weight"],
-        height: json["height"],
-        width: json["width"],
-        fuelType: json["fuelType"],
-        engine: json["engine"],
-        fuelCapacity: json["fuelCapacity"],
-        numOfTyres: json["numOfTyres"],
-        wheelbase: json["wheelbase"],
-        power: json["power"],
-        isActive: json["isActive"],
-        isDeleted: json["isDeleted"],
-        createdById: json["createdById"],
-        loadCapacity: json["loadCapacity"],
-        trailerVinNumber: json["trailerVinNumber"],
-        length: json["length"],
-        vechicleType: json["vechicleType"],
-        trailerType: json["trailerType"],
-      );
+    brand: Brand.fromJson(json["brand"]),
+    userData: UserData.fromJson(json["userData"]),
+    id: json["_id"],
+    name: json["name"],
+    OtherTyre: json["OtherTyre"],
+    otherbrand: json["otherbrand"],
+    number: json["number"],
+    image: json["image"],
+    modelNumber: json["modelNumber"],
+    weight: json["weight"],
+    height: json["height"],
+    width: json["width"],
+    fuelType: json["fuelType"],
+    engine: json["engine"],
+    fuelCapacity: json["fuelCapacity"],
+    numOfTyres: json["numOfTyres"],
+    wheelbase: json["wheelbase"],
+    power: json["power"],
+    isActive: json["isActive"],
+    isDeleted: json["isDeleted"],
+    createdById: json["createdById"],
+    loadCapacity: json["loadCapacity"],
+    trailerVinNumber: json["trailerVinNumber"],
+    length: json["length"],
+    vechicleType: json["vechicleType"],
+    trailerType: json["trailerType"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "brand": brand!.toJson(),
-        "userData": userData!.toJson(),
-        "_id": id,
-        "name": name,
-        "number": number,
-        "OtherTyre": OtherTyre,
-        "brandName": brandName,
-        "image": image,
-        "otherbrand": otherbrand,
-        "modelNumber": modelNumber,
-        "weight": weight,
-        "height": height,
-        "width": width,
-        "fuelType": fuelType,
-        "engine": engine,
-        "fuelCapacity": fuelCapacity,
-        "numOfTyres": numOfTyres,
-        "wheelbase": wheelbase,
-        "power": power,
-        "isActive": isActive,
-        "isDeleted": isDeleted,
-        "createdById": createdById,
-        "loadCapacity": loadCapacity,
-        "length": length,
-        "trailerVinNumber": trailerVinNumber,
-        "vechicleType": vechicleType,
-        "trailerType": trailerType,
-      };
+    "brand": brand!.toJson(),
+    "userData": userData!.toJson(),
+    "_id": id,
+    "name": name,
+    "number": number,
+    "OtherTyre": OtherTyre,
+    "image": image,
+    "otherbrand": otherbrand,
+    "modelNumber": modelNumber,
+    "weight": weight,
+    "height": height,
+    "width": width,
+    "fuelType": fuelType,
+    "engine": engine,
+    "fuelCapacity": fuelCapacity,
+    "numOfTyres": numOfTyres,
+    "wheelbase": wheelbase,
+    "power": power,
+    "isActive": isActive,
+    "isDeleted": isDeleted,
+    "createdById": createdById,
+    "loadCapacity": loadCapacity,
+    "length": length,
+    "trailerVinNumber": trailerVinNumber,
+    "vechicleType": vechicleType,
+    "trailerType": trailerType,
+  };
 }
 
 class Brand {
@@ -161,18 +156,18 @@ class Brand {
     this.name,
   });
 
-  String? id;
-  String? name;
+  String ?id;
+  String ?name;
 
   factory Brand.fromJson(Map<String, dynamic> json) => Brand(
-        id: json["_id"],
-        name: json["name"],
-      );
+    id: json["_id"],
+    name: json["name"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-      };
+    "_id": id,
+    "name": name,
+  };
 }
 
 class UserData {
@@ -182,15 +177,15 @@ class UserData {
   });
 
   String? id;
-  String? personName;
+  String ?personName;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-        id: json["_id"],
-        personName: json["personName"],
-      );
+    id: json["_id"],
+    personName: json["personName"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "personName": personName,
-      };
+    "_id": id,
+    "personName": personName,
+  };
 }

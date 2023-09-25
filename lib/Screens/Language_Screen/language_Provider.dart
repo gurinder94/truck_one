@@ -67,7 +67,6 @@ class LanguageChangeNotifierProvider with ChangeNotifier {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => SplashPage()),
           (Route<dynamic> route) => false);
-      runApp(MyApp());
 
       loading = false;
       Language_PAGE_OPEN = false;

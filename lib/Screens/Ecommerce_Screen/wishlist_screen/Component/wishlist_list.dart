@@ -50,6 +50,7 @@ class WishList extends StatelessWidget {
             GridView.builder(
               shrinkWrap: true,
               padding: EdgeInsets.zero,
+
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 300,
                 crossAxisSpacing: 1,
@@ -60,6 +61,7 @@ class WishList extends StatelessWidget {
               ),
               scrollDirection: Axis.vertical,
               itemCount: noti.WishList.length,
+              physics: NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   child: Container(
@@ -172,6 +174,9 @@ class WishList extends StatelessWidget {
                   },
                 );
               },
+            ),
+            SizedBox(
+              height: 40,
             ),
           ],
         );

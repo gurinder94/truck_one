@@ -64,6 +64,11 @@ showApplyJobDialog(BuildContext context, String? id, userId, roleName,
                               prefixIcon: Icon(Icons.upload_file),
                             ),
                             onTap: () async {
+                              if (Platform.isAndroid) {
+                                _jobApplyProvider.getFile();
+
+                                return;
+                              }
                               final serviceStatus =
                                   await Permission.storage.isGranted;
 
@@ -168,7 +173,7 @@ showApplyJobDialog(BuildContext context, String? id, userId, roleName,
                   ),
                   Expanded(
                       child: CommanButtonWidget(
-                    title:AppLocalizations.instance.text("Update"),
+                    title: AppLocalizations.instance.text("Update"),
                     buttonColor: PrimaryColor,
                     titleColor: APP_BG,
                     onDoneFuction: () {

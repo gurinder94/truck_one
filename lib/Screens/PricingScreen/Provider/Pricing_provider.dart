@@ -2,22 +2,22 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:in_app_purchase_android/billing_client_wrappers.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
+import 'package:flutter/services.dart';
 import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Model/NetworkModel/normal_response.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
-
 import '../../../AppUtils/constants.dart';
 import '../../../Model/validate_receipt_ios_model.dart';
 
-var _GpsSubscriptionId = ["Gps_Plan_Monthly_6.99", "Gps_Plan_Yearly_69.99"];
-var _weatherSubscriptionId = ["Weather_Plan_Monthly_7.99"];
+var _GpsSubscriptionId = ["gpsmonthlyplan", "gpsyearlyplan"];
+var _weatherSubscriptionId = ["weatherplanmonthly"];
 List<String> kProductIds = _GpsSubscriptionId;
 
 class PriceProvider extends ChangeNotifier {
@@ -65,6 +65,9 @@ class PriceProvider extends ChangeNotifier {
 
     final ProductDetailsResponse productDetailResponse =
         await _inAppPurchase.queryProductDetails(kProductIds.toSet());
+
+    print(
+        "productDetailResponse>> ${productDetailResponse.notFoundIDs.toList()}");
     if (productDetailResponse.error != null) {
       queryProductError = productDetailResponse.error!.message;
       this.isAvailable = isAvailable;
@@ -87,7 +90,7 @@ class PriceProvider extends ChangeNotifier {
 
       purchases = <PurchaseDetails>[];
       notFoundIds = productDetailResponse.notFoundIDs;
-      print("isAvailable_${productDetailResponse.notFoundIDs}");
+      print("isAvailable_ ${productDetailResponse.notFoundIDs}");
       purchasePending = false;
       loading = false;
       notifyListeners();
@@ -100,17 +103,20 @@ class PriceProvider extends ChangeNotifier {
     purchasePending = false;
     loading = false;
     products.sort((b, a) => a.price.compareTo(b.price));
-    print(products[0].title);
+    print("PROO>>" + products[0].title);
     notifyListeners();
+    setPurchase();
   }
 
   setPurchase() async {
     print("setPurchase>> ");
-    var paymentWrapper = SKPaymentQueueWrapper();
-    var transactions = await paymentWrapper.transactions();
-    transactions.forEach((transaction) async {
-      await paymentWrapper.finishTransaction(transaction);
-    });
+    if(Platform.isIOS) {
+      var paymentWrapper = SKPaymentQueueWrapper();
+      var transactions = await paymentWrapper.transactions();
+      transactions.forEach((transaction) async {
+        await paymentWrapper.finishTransaction(transaction);
+      });
+    }
     purch = Map<String, PurchaseDetails>.fromEntries(
         purchases.map((PurchaseDetails purchase) {
       if (purchase.pendingCompletePurchase) {
@@ -121,19 +127,24 @@ class PriceProvider extends ChangeNotifier {
       }
       return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
     }));
+    print('purch>> purchases>> ${purchases.length}  mm  ${purch.length}');
     productList.addAll(products.map(
       (ProductDetails productDetails) {
+        print('productDetails.id. ${productDetails.id}');
         previousPurchase = purch[productDetails.id];
+
+        print('verificationData>> ${previousPurchase?.verificationData}');
       },
     ));
-    getmyPlan();
+    print('productList>> ${productList.length}');
+    // getmyPlan();
   }
 
   //listener
   void initData() async {
     ProductDetailsResponse productDetailResponse =
         await _inAppPurchase.queryProductDetails(kProductIds.toSet());
-    setListener();
+    await setListener();
 
     if (productDetailResponse.error != null) {}
     if (productDetailResponse.productDetails.isEmpty) {
@@ -151,9 +162,11 @@ class PriceProvider extends ChangeNotifier {
         }
       }
     }
-    initStoreInfo();
-    setPurchase();
+    await initStoreInfo();
+
     notifyListeners();
+    _inAppPurchase.restorePurchases();
+
   }
 
   setListener() {
@@ -174,43 +187,85 @@ class PriceProvider extends ChangeNotifier {
     print(purchaseDetailsList.length);
 
     for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
+      print('purchaseDetails>> ${purchaseDetails.status}');
       if (purchaseDetails.status == PurchaseStatus.pending) {
         showPendingUI();
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
           handleError(purchaseDetails.error!);
-        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
+        }
+        else if (purchaseDetails.status == PurchaseStatus.purchased) {
           final bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             //  final bool valid = await _verifyPurchase(purchaseDetails.productID);
-            var receiptBody = {
-              'receipt-data':
-                  purchaseDetails.verificationData.localVerificationData,
-              // receipt key you will receive in request purchase callback function
-              "exclude-old-transactions": true,
-              'password': '777b657dd5984c8d820b86f9ee25d868'
-            };
+            if (Platform.isIOS) {
+              var receiptBody = {
+                'receipt-data':
+                    purchaseDetails.verificationData.localVerificationData,
+                // receipt key you will receive in request purchase callback function
+                "exclude-old-transactions": true,
+                'password': '777b657dd5984c8d820b86f9ee25d868'
+              };
 
-            try {
-              var res = await hitValidateReceiptIos(
-                receiptBody,
-                isTest
-                    ? 'https://sandbox.itunes.apple.com/verifyReceipt'
-                    : 'https://buy.itunes.apple.com/verifyReceipt',
+              try {
+                var res = await hitValidateReceiptIos(
+                  receiptBody,
+                  isTest
+                      ? 'https://sandbox.itunes.apple.com/verifyReceipt'
+                      : 'https://buy.itunes.apple.com/verifyReceipt',
+                );
+
+                deliverProduct(purchaseDetails, res);
+
+                break;
+              } on Exception catch (e) {
+                _handleInvalidPurchase(purchaseDetails);
+                notifyListeners();
+              }
+            } else {
+              // android code goes here
+
+              // final GooglePlayPurchaseDetails? oldSubscription =
+              // _getOldSubscription(productDetails, purchases);
+              /*if (productDetails is GooglePlayProductDetails) {
+                SkuDetailsWrapper skuDetails = (productDetails as GooglePlayProductDetails).skuDetails;
+                print(skuDetails.introductoryPricePeriod);
+              }*/
+
+              purchases.add(purchaseDetails);
+              PurchaseWrapper billingClientPurchase =
+                  (purchaseDetails as GooglePlayPurchaseDetails)
+                      .billingClientPurchase;
+              var googlePlayPurchaseDetails = GooglePlayPurchaseDetails(
+                productID: purchaseDetails.productID,
+                purchaseID: billingClientPurchase.orderId,
+                verificationData: purchaseDetails.verificationData,
+                transactionDate: purchaseDetails.transactionDate,
+                billingClientPurchase: billingClientPurchase,
+                status: purchaseDetails.status,
               );
 
-              deliverProduct(purchaseDetails, res);
-
-              break;
-            } on Exception catch (e) {
-              _handleInvalidPurchase(purchaseDetails);
-              notifyListeners();
+              print(
+                  'googlePlayPurchaseDetails>> purchaseID ${googlePlayPurchaseDetails.purchaseID}');
+              print(
+                  'googlePlayPurchaseDetails>> purchaseToken ${billingClientPurchase.purchaseToken}');
+              print(
+                  'googlePlayPurchaseDetails>> status ${googlePlayPurchaseDetails.status.name}');
+              print(
+                  'googlePlayPurchaseDetails>>localVerificationData ${googlePlayPurchaseDetails.verificationData.localVerificationData}');
+              print(
+                  'googlePlayPurchaseDetails>> serverVerificationData ${googlePlayPurchaseDetails.verificationData.serverVerificationData}');
             }
           } else {
             _handleInvalidPurchase(purchaseDetails);
           }
         } else if (purchaseDetails.status == PurchaseStatus.restored) {
-          print("restore");
+          print("restore>> ${purchaseDetails.purchaseID}");
+          print("restore>>localVerificationData  ${purchaseDetails.verificationData.localVerificationData}");
+
+          purchases.add(purchaseDetails);
+          // getOldSubscription(productDetails, purchases)
+          notifyListeners();
         }
 
         if (purchaseDetails.pendingCompletePurchase) {
@@ -252,7 +307,7 @@ class PriceProvider extends ChangeNotifier {
   void handleError(IAPError iapError) {
     purchasePending = false;
     print("iapError>>> ${iapError.message}");
-    notifyListeners();
+    // notifyListeners();
   }
 
   void disposee() {
@@ -372,10 +427,42 @@ class PriceProvider extends ChangeNotifier {
   }
 
   void requestOfferCode(ProductDetails product) async {
-    InAppPurchaseStoreKitPlatformAddition iosPlatformAddition = InAppPurchase
-        .instance
-        .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
-    iosPlatformAddition.presentCodeRedemptionSheet();
+    if (Platform.isAndroid) {
+      InAppPurchaseStoreKitPlatformAddition iosPlatformAddition = InAppPurchase
+          .instance
+          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+
+      iosPlatformAddition.showPriceConsentIfNeeded();
+    } else {
+      InAppPurchaseStoreKitPlatformAddition iosPlatformAddition = InAppPurchase
+          .instance
+          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+      iosPlatformAddition.presentCodeRedemptionSheet();
+    }
+  }
+
+  GooglePlayPurchaseDetails? getOldSubscription(
+      ProductDetails productDetails, Map<String, PurchaseDetails> purchases) {
+    // This is just to demonstrate a subscription upgrade or downgrade.
+    // This method assumes that you have only 2 subscriptions under a group, 'subscription_silver' & 'subscription_gold'.
+    // The 'subscription_silver' subscription can be upgraded to 'subscription_gold' and
+    // the 'subscription_gold' subscription can be downgraded to 'subscription_silver'.
+    // Please remember to replace the logic of finding the old subscription Id as per your app.
+    // The old subscription is only required on Android since Apple handles this internally
+    // by using the subscription group feature in iTunesConnect.
+    GooglePlayPurchaseDetails? oldSubscription;
+    // if (productDetails.id == _kSilverSubscriptionId &&
+    //     purchases[_kGoldSubscriptionId] != null) {
+    //   oldSubscription =
+    //   purchases[_kGoldSubscriptionId]! as GooglePlayPurchaseDetails;
+    // } else if (productDetails.id == _kGoldSubscriptionId &&
+    //     purchases[_kSilverSubscriptionId] != null) {
+    //   oldSubscription =
+    //   purchases[_kSilverSubscriptionId]! as GooglePlayPurchaseDetails;
+    // }
+    oldSubscription!.billingClientPurchase.purchaseToken ?? "";
+    // oldSubscription.billingClientPurchase.signature.;
+    return oldSubscription;
   }
 }
 

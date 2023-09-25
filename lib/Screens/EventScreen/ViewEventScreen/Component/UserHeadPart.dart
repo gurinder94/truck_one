@@ -24,6 +24,7 @@ class UserHeadPart extends StatelessWidget {
                     _eventViewProvider.eventModel!.bannerImage.toString(),
                 width: double.infinity,
                 boxFit: BoxFit.fill,
+                needShadow: false,
                 height: 250)),
         Positioned(
           left: 20,
@@ -32,8 +33,9 @@ class UserHeadPart extends StatelessWidget {
             image: _eventViewProvider.eventModel!.brandLogo == null
                 ? ''
                 : Event_logo_Url +
-                    _eventViewProvider.eventModel!.brandLogo.toString(),
+                _eventViewProvider.eventModel!.brandLogo.toString(),
             width: 80,
+            needShadow: false,
             boxFit: BoxFit.fill,
             height: 80,
           ),

@@ -80,10 +80,11 @@ class TruckDetails extends StatelessWidget {
           ),
           TripDeatils(
               "Brand",
-              _listProvider.tripViewDetails!.data!.truckData!.brand == null
+              _listProvider.tripViewDetails!.data!.brandData == null
                   ? "Others"
-                  : _listProvider.tripViewDetails!.data!.truckData!.brand!
-                      .toString()),
+                  : _listProvider.tripViewDetails!.data!.brandData
+                      .toString()
+                      .replaceAll('null', '')),
           Divider(
             color: Colors.black38,
             height: 2,

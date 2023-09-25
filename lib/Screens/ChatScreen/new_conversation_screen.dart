@@ -46,7 +46,6 @@ class NewConversationScreen extends StatelessWidget {
             children: [
               Expanded(child: CommanSearchBar(onTextChange: (val) {
                 _newConversationProvider.searchText(val);
-
               })),
               SizedBox(
                 width: 10,
@@ -63,78 +62,100 @@ class NewConversationScreen extends StatelessWidget {
             return proData.list.length == 0
                 ? Center(child: Text('No Record Found'))
                 : Expanded(
-                    child: Column(
+                    child: Stack(
                       children: [
-                        Expanded(
-                          child: ListView.builder(
-                              // controller: proData.scrollController,
-                              itemCount: proData.list.length,
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: GestureDetector(
-                                    child: Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Stack(
-                                              alignment: Alignment.bottomCenter,
-                                              clipBehavior: Clip.none,
-                                              children: [
-                                                CustomImageProfile(
-                                                    image: IMG_URL +
-                                                        proData.list[index]
-                                                            .driverImage
-                                                            .toString(),
-                                                    width: 50,
-                                                    boxFit: BoxFit.contain,
-                                                    height: 50),
-                                              ],
-                                            ),
+                        Column(
+                          children: [
+                            Expanded(
+                              child: ListView.builder(
+                                  // controller: proData.scrollController,
+                                  itemCount: proData.list.length,
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: GestureDetector(
+                                        child: Container(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Stack(
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  clipBehavior: Clip.none,
+                                                  children: [
+                                                    CustomImageProfile(
+                                                        image: IMG_URL +
+                                                            proData.list[index]
+                                                                .driverImage
+                                                                .toString(),
+                                                        width: 50,
+                                                        boxFit: BoxFit.contain,
+                                                        height: 50),
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        '${proData.list[index].personName}'),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    '${proData.list[index].personName}'),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                                          decoration: BoxDecoration(
+                                              color: Color(0xFFEEEEEE),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black12,
+                                                    blurRadius: 4,
+                                                    offset: Offset(5, 5)),
+                                                BoxShadow(
+                                                    color: Colors.white,
+                                                    blurRadius: 4,
+                                                    offset: Offset(-5, -5))
+                                              ]),
+                                        ),
+                                        onTap: () {
+                                          if (isRedundentClick(DateTime.now())) {
+                                            print('hold on, processing');
+                                            return;
+                                          }
+                                          _newConversationProvider
+                                              .addChatList(proData.list[index]);
+                                          // chatHomeProvider.addChatConversation("conversationId", "image", [], "name", "type", 1);
+                                        },
                                       ),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xFFEEEEEE),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 4,
-                                                offset: Offset(5, 5)),
-                                            BoxShadow(
-                                                color: Colors.white,
-                                                blurRadius: 4,
-                                                offset: Offset(-5, -5))
-                                          ]),
-                                    ),
-                                    onTap: () {
-                                      _newConversationProvider
-                                          .addChatList(proData.list[index]);
-                                      // chatHomeProvider.addChatConversation("conversationId", "image", [], "name", "type", 1);
-                                    },
-                                  ),
-                                );
-                              }),
+                                    );
+                                  }),
+                            ),
+                            PaginationWidget(proData.PaginationLoder),
+                          ],
                         ),
-                        PaginationWidget(proData.PaginationLoder),
+                        proData.newloading
+                            ? Center(
+                              child: SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: Center(
+                                  child: CircularProgressIndicator.adaptive(),
+                                ),
+                              ),
+                            )
+                            : Container()
                       ],
                     ),
                   );

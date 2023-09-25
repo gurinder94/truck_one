@@ -121,16 +121,18 @@ class FleetDetail extends StatelessWidget {
                                     proData.fleetManagerDetailModel.data!.engine
                                         .toString(),
                                     AppLocalizations.instance.text('Brand'),
-                                    proData.fleetManagerDetailModel.data!
-                                                .brandName
-                                                .toString() !=
-                                            "null"
-                                        ? proData.fleetManagerDetailModel.data!
-                                            .brandName
-                                            .toString()
+                                    proData.fleetManagerDetailModel.data!.brand!
+                                                    .name
+                                                    .toString() ==
+                                                "null" &&
+                                            proData.fleetManagerDetailModel
+                                                    .data!.otherbrand
+                                                    .toString() ==
+                                                "null"
+                                        ? ""
                                         : proData.fleetManagerDetailModel.data!
-                                                    .otherbrand
-                                                    .toString() !=
+                                                    .brand!.name
+                                                    .toString() ==
                                                 "null"
                                             ? "Others"
                                             : proData.fleetManagerDetailModel

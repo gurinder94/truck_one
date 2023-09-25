@@ -4,10 +4,12 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/ViewEventScreen/Provider/UserViewEventProvider.dart';
 import 'package:my_truck_dot_one/Screens/EventScreen/ViewEventScreen/ViewEvent.dart';
@@ -70,6 +72,14 @@ final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
 
 Future<void> main() async {
   await WidgetsFlutterBinding.ensureInitialized();
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    // For play billing library 2.0 on Android, it is mandatory to call
+    // [enablePendingPurchases](https://developer.android.com/reference/com/android/billingclient/api/BillingClient.Builder.html#enablependingpurchases)
+    // as part of initializing the app.
+
+    InAppPurchase.instance.restorePurchases();
+  }
+
   //InAppPurchaseStoreKitPlatform.registerPlatform();
   HttpOverrides.global = MyHttpOverrides();
 
@@ -249,6 +259,7 @@ Future<void> initPlatformState() async {
     deviceName = androidInfo.device.toString();
     deviceVersion = androidInfo.version.toString();
     deviceModel = androidInfo.model.toString();
+    // androidInfo.
     deviceType = 'ANDROID';
     print('Running on $deviceId--- $deviceType'); // e.g. "Moto G (4)"
   } else if (Platform.isIOS) {
@@ -305,7 +316,7 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 final DarwinInitializationSettings initializationSettingsIOS =
-DarwinInitializationSettings(
+    DarwinInitializationSettings(
   requestAlertPermission: false,
   requestBadgePermission: false,
   requestSoundPermission: false,

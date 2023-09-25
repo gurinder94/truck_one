@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
 // import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:my_truck_dot_one/Model/constant_model.dart';
@@ -30,6 +33,7 @@ class PricingItem extends StatelessWidget {
       print("mdata>> endDate ${mdata.first['endDate']}");
       endDate = mdata.first['endDate'];
     }
+    print('product.title.>> ${product.title}');
     return Padding(
       padding: const EdgeInsets.all(14.0),
       child: Container(
@@ -46,7 +50,12 @@ class PricingItem extends StatelessWidget {
                     ? Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
-                          product.title.replaceAll('_', ' '),
+                          product.title
+                              .replaceAll('_', ' ')
+                              .replaceAll(
+                                  '(MyTruck.one: truck jobs, maps)', ' ')
+                              .replaceAll(
+                                  '(MyTruck.one: truck jobs, maps)', ' '),
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
@@ -56,6 +65,8 @@ class PricingItem extends StatelessWidget {
                     : Text(
                         capitalize(product.title
                                 .replaceAll('_', ' ')
+                                .replaceAll(
+                                    '(MyTruck.one: truck jobs, maps)', ' ')
                                 .contains("Weather Plan Monthly")
                             ? "Weather Monthly Plan"
                             : product.title
@@ -116,45 +127,55 @@ class PricingItem extends StatelessWidget {
                         child: Text("Expires on ${endDate}"),
                       )
                     : Container(),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.0,
-                  child: endDate==""?Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AbsorbPointer(
-                        absorbing: previousPurchase != null,
-                        child: CommanButton(
-                          title: previousPurchase == null
-                              ? "BUY NOW"
-                              : "Purchased",
-                          buttonColor: PrimaryColor,
-                          titleColor: APP_BG,
-                          onDoneFuction: () {
-                            print(previousPurchase);
+                Builder(builder: (context) {
+                  print('previousPurchase>> ${previousPurchase}');
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.0,
+                    child: endDate == ""
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AbsorbPointer(
+                                absorbing: previousPurchase != null,
+                                child: CommanButton(
+                                  title: previousPurchase == null
+                                      ? "Buy Now"
+                                      : "Purchased",
+                                  buttonColor: PrimaryColor,
+                                  titleColor: APP_BG,
+                                  onDoneFuction: () {
+                                    print(previousPurchase);
 
-                            proData.requestPurchase(product);
-                            // previousPurchase.verificationData.localVerificationData
-                          },
-                          loder: false,
-                        ),
-                      ),
-                      AbsorbPointer(
-                        absorbing: previousPurchase != null,
-                        child: previousPurchase == null
-                            ? CommanButton(
-                                title: "Redeem code",
-                                buttonColor: PrimaryColor,
-                                titleColor: APP_BG,
-                                onDoneFuction: () {
-                                  proData.requestOfferCode(product);
-                                },
-                                loder: false,
-                              )
-                            : SizedBox(),
-                      ),
-                    ],
-                  ):SizedBox(height: 50,),
-                ),
+                                    proData.requestPurchase(product);
+                                    //previousPurchase.verificationData.localVerificationData
+                                  },
+                                  loder: false,
+                                ),
+                              ),
+                              Platform.isIOS
+                                  ? AbsorbPointer(
+                                      absorbing: previousPurchase != null,
+                                      child: previousPurchase == null
+                                          ? CommanButton(
+                                              title: "Redeem code",
+                                              buttonColor: PrimaryColor,
+                                              titleColor: APP_BG,
+                                              onDoneFuction: () {
+                                                proData
+                                                    .requestOfferCode(product);
+                                              },
+                                              loder: false,
+                                            )
+                                          : SizedBox(),
+                                    )
+                                  : Container(),
+                            ],
+                          )
+                        : SizedBox(
+                            height: 50,
+                          ),
+                  );
+                }),
                 SizedBox(
                   height: 15,
                 ),

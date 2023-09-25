@@ -74,6 +74,10 @@ class FleetManagerProvider extends ChangeNotifier {
 
     try {
       fleetManagerModel = await hitFleetManagerListApi(map);
+      print("checkLength> ${fleetManagerModel!.data!.length}");
+      if(pagee==1){
+        FleetMangerList.clear();
+      }
       FleetMangerList.addAll(fleetManagerModel!.data!);
       loading = false;
       PaginationLoader = false;

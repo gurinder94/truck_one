@@ -35,7 +35,7 @@ class _UserEventListState extends State<UserEventList> {
   ScrollController _scrollController = new ScrollController();
   String Onserach = '';
   int pagee = 1;
-  String taber = "TOP";
+  String taber = "UPCOMING";
   Timer? _debounce;
   String searchText = '';
 
@@ -138,7 +138,9 @@ class _UserEventListState extends State<UserEventList> {
                             ],
                             containerDecoration: 2,
                             onDoneFunction: (value) {
+
                               switch (value) {
+
                                 case 1:
                                   _eventListProvider.resetList();
 
@@ -182,10 +184,13 @@ class _UserEventListState extends State<UserEventList> {
                       pos: 0,
                       title: 'All',
                       onTabHit: (val) {
-                        if(_eventListProvider.eventListLoad)
-                        taber = "UPCOMING";
-                         _eventListProvider.resetList();
-                        print(_eventListProvider.resetList());
+
+                        // if (_eventListProvider.eventListLoad)
+                         // taber = "UPCOMING";//
+                          taber = "UPCOMING";
+                          print('onTabHit fff> $taber');
+                        _eventListProvider.resetList();
+
 
                         _eventListProvider.hitGetEventsList(
                             context, taber, 1, false, Onserach, 0);
@@ -195,7 +200,9 @@ class _UserEventListState extends State<UserEventList> {
                       pos: 1,
                       title: 'Top',
                       onTabHit: (val) {
-                        taber = val;
+
+                        taber = 'TOP';
+                        print('onTabHit>> $taber');
                         _eventListProvider.resetList();
                         print(_eventListProvider.resetList());
                         _eventListProvider.hitGetEventsList(
@@ -206,8 +213,8 @@ class _UserEventListState extends State<UserEventList> {
                       pos: 2,
                       title: 'Weekly',
                       onTabHit: (val) {
-                        taber = val;
-
+                        taber = 'WEEKLY';
+                        print('onTabHit>> $taber');
                         _eventListProvider.resetList();
 
                         _eventListProvider.hitGetEventsList(
@@ -278,8 +285,13 @@ class _UserEventListState extends State<UserEventList> {
 
     _eventListProvider.resetList();
 
-    // _eventListProvider.hitGetEventsList(context, taber, 1, false, val);
-    _eventListProvider.getLocation(context, taber, 1, false, val);
+
+    _eventListProvider
+        .getLocation(context, taber, 1, false, val)
+        .catchError((err) {
+      print('error>> $err');
+
+    });
     pagee = 1;
   }
 

@@ -149,7 +149,7 @@ class JobApplyProvider extends ChangeNotifier {
       print(jsonData['data']);
       if (jsonData['data'] == null) {
       } else {
-        var imageReal = jsonData['data'];
+        var imageReal = jsonData['data']['fullPath'].toString();
 
         // setState(
         //       () =>
@@ -157,14 +157,15 @@ class JobApplyProvider extends ChangeNotifier {
         //     '/api/v1/event/uploads/profile/thumbnail/' +
         //     imageReal;
         // );
-
-        var imageLogo = imageReal;
+        _loading = false;
+        notifyListeners();
+        String imageLogo = imageReal;
         pdfTextEditing.text = imageLogo;
 
         print(imageLogo);
         _loading = false;
         // });
-        notifyListeners();
+
       }
     }
   }

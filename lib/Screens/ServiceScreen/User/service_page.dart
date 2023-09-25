@@ -52,79 +52,80 @@ class UserServicePage extends StatelessWidget {
                         ? SizeConfig.safeBlockVertical! * 9
                         : SizeConfig.safeBlockVertical! * 9, //10 for example
                   ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                    child: CommanSearchBar(
-                  onTextChange: (val) {
-                    _serviceProvider.serviceListSearch(val);
-                  },
-                  IconName: Selector<UserServiceProvider, bool>(
-                      selector: (_, provider) => provider.locationPermission,
-                      builder: (context, locationPermission, child) {
-                        return locationPermission == false
-                            ? GestureDetector(
-                                child: Icon(
-                                  Icons.more_vert,
-                                  color: Colors.black,
-                                ),
-                                onTap: () {
-                                  showMessage('Please Enable Location');
-                                },
-                              )
-                            : Container(
-                                child: PopMenuBar(
-                                    val: 1,
-                                    iconsName: Icons.more_vert,
-                                    userMenuItems: [
-                                      ['50 Miles', 1],
-                                      ['100 Miles', 2],
-                                      ['150 Miles', 3],
-                                      ['200 Miles', 4]
-                                    ],
-                                    containerDecoration: 1,
-                                    onDoneFunction: (value) {
-                                      switch (value) {
-                                        case 1:
-                                          _serviceProvider.ResetList();
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                      child: CommanSearchBar(
+                    onTextChange: (val) {
+                      _serviceProvider.serviceListSearch(val);
+                    },
+                    IconName: Selector<UserServiceProvider, bool>(
+                        selector: (_, provider) => provider.locationPermission,
+                        builder: (context, locationPermission, child) {
+                          return locationPermission == false
+                              ? GestureDetector(
+                                  child: Icon(
+                                    Icons.more_vert,
+                                    color: Colors.black,
+                                  ),
+                                  onTap: () {
+                                    showMessage('Please Enable Location');
+                                  },
+                                )
+                              : Container(
+                                  child: PopMenuBar(
+                                      val: 1,
+                                      iconsName: Icons.more_vert,
+                                      userMenuItems: [
+                                        ['50 Miles', 1],
+                                        ['100 Miles', 2],
+                                        ['150 Miles', 3],
+                                        ['200 Miles', 4]
+                                      ],
+                                      containerDecoration: 1,
+                                      onDoneFunction: (value) {
+                                        switch (value) {
+                                          case 1:
+                                            _serviceProvider.ResetList();
 
-                                          _serviceProvider.distanceSearch(50);
+                                            _serviceProvider.distanceSearch(50);
 
-                                          break;
-                                        case 2:
-                                          _serviceProvider.ResetList();
+                                            break;
+                                          case 2:
+                                            _serviceProvider.ResetList();
 
-                                          _serviceProvider.distanceSearch(100);
+                                            _serviceProvider.distanceSearch(100);
 
-                                          break;
-                                        case 3:
-                                          _serviceProvider.ResetList();
+                                            break;
+                                          case 3:
+                                            _serviceProvider.ResetList();
 
-                                          _serviceProvider.distanceSearch(150);
+                                            _serviceProvider.distanceSearch(150);
 
-                                          break;
-                                        case 4:
-                                          _serviceProvider.ResetList();
+                                            break;
+                                          case 4:
+                                            _serviceProvider.ResetList();
 
-                                          _serviceProvider.distanceSearch(200);
+                                            _serviceProvider.distanceSearch(200);
 
-                                          break;
-                                      }
-                                    }),
-                              );
-                      }),
-                )),
-                SizedBox(
-                  width: 10,
-                ),
-              ],
+                                            break;
+                                        }
+                                      }),
+                                );
+                        }),
+                  )),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+
             Consumer<UserServiceProvider>(builder: (context, noti, child) {
               if (noti.loading) {
                 return Column(

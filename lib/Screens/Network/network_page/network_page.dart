@@ -105,28 +105,21 @@ class _NetworkPageState extends State<NetworkPage> {
           return Column(
             children: [
 
-              SizedBox(height: 20,),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 24),
                 child: CommanSearchBar(onTextChange: (val) {
                   if (val == '') {
-
-                    pagee=1;
+                    pagee = 1;
                     _provider.reset();
                     getRecommendations(type, searchText);
-
                   }
                   if (!_provider.loading) {
-
                     print(type);
                     searchText = val;
                     getRecommendations(type, searchText);
                   }
                 }),
-              ),
-
-              SizedBox(
-                height: 10,
               ),
 
               noti.loading == true
@@ -144,6 +137,7 @@ class _NetworkPageState extends State<NetworkPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+
                             CustomTab(
                               title: 'Recommendation',
                               onClick: () {
@@ -204,11 +198,12 @@ class _NetworkPageState extends State<NetworkPage> {
                         ),
                       ),
                     ),
+
               //     :
-          //     ChangeNotifierProvider<GroupInfo>.value(
-          //     value: noti.groupInfoList[index],
-          // child:GroupItem(index),
-          // );
+              //     ChangeNotifierProvider<GroupInfo>.value(
+              //     value: noti.groupInfoList[index],
+              // child:GroupItem(index),
+              // );
               Expanded(
                 child: noti.tabEnable == 2
                     ? GridView.count(
@@ -218,11 +213,13 @@ class _NetworkPageState extends State<NetworkPage> {
                         crossAxisSpacing: 1.0,
                         children:
                             List.generate(noti.groupInfoList.length, (index) {
-                              print(noti.groupInfoList.length);
-                          return  ChangeNotifierProvider<GroupInfo>.value(
-                                  value: noti.groupInfoList[index],
-                              child:GroupItem(index,),
-                              );
+                          print(noti.groupInfoList.length);
+                          return ChangeNotifierProvider<GroupInfo>.value(
+                            value: noti.groupInfoList[index],
+                            child: GroupItem(
+                              index,
+                            ),
+                          );
                         }))
                     : noti.tabEnable == 3
                         ? GridView.builder(
@@ -238,10 +235,12 @@ class _NetworkPageState extends State<NetworkPage> {
                             ),
                             itemCount: noti.JobInvitationlist.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return  ChangeNotifierProvider<Datum>.value(
+                              return ChangeNotifierProvider<Datum>.value(
                                   value: noti.JobInvitationlist[index],
                                   child: JobInvitationsScreen(
-                                      index, noti.JobInvitationlist, ));
+                                    index,
+                                    noti.JobInvitationlist,
+                                  ));
                             },
                           )
                         : GridView.builder(
@@ -342,7 +341,6 @@ class _NetworkPageState extends State<NetworkPage> {
     var getid = await getUserId();
 
     if (type == "GROUP INVITATION") {
-
       Future.delayed(Duration(milliseconds: 300), () {
         _provider.reset();
         _provider.getGroupInvitation(
@@ -403,7 +401,6 @@ class _NetworkPageState extends State<NetworkPage> {
           pagnationList(context, pagee);
         }
         // Perform event when user reach at the end of list (e.g. do Api call)
-
       }
     });
   }

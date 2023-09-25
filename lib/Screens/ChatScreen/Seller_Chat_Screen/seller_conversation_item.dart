@@ -57,9 +57,13 @@ class SellerConversationItem extends StatelessWidget {
                     SizedBox(
                       height: 1,
                     ),
-                    Text(_conversationModel.lastMessages!.length == 0
-                        ? ''
-                        : _conversationModel.lastMessages![0].message!),
+                    Text(
+                      _conversationModel.lastMessages!.length == 0
+                          ? ''
+                          : _conversationModel.lastMessages![0].message!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               ),
@@ -135,17 +139,17 @@ class SellerConversationItem extends StatelessWidget {
                           _conversationModel.type.toString().toUpperCase(),
                           _conversationModel.isBlocked!),
                       child: ChatPage(
-                        conversationId:
-                            _conversationModel.conversation_id.toString(),
-                        image: _conversationModel.type == "INDIVIDUAL"
-                            ? IMG_URL + _conversationModel.image.toString()
-                            : SERVER_URL +
-                                '/uploads/event/brand_logo/' +
-                                _conversationModel.image.toString(),
-                        name: _conversationModel.name.toString(),
-                          userId:_conversationModel.userId==null?"":_conversationModel.userId!
-
-                      )))).then((value) {
+                          conversationId:
+                              _conversationModel.conversation_id.toString(),
+                          image: _conversationModel.type == "INDIVIDUAL"
+                              ? IMG_URL + _conversationModel.image.toString()
+                              : SERVER_URL +
+                                  '/uploads/event/brand_logo/' +
+                                  _conversationModel.image.toString(),
+                          name: _conversationModel.name.toString(),
+                          userId: _conversationModel.userId == null
+                              ? ""
+                              : _conversationModel.userId!)))).then((value) {
             proData.reset();
           });
         },
