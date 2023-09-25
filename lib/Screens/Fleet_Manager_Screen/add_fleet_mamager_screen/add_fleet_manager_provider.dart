@@ -287,9 +287,17 @@ class AddFleetManagerProvider extends ChangeNotifier {
   }
 
   void showData() {
-    textType = vinModel!.results![0]["EngineManufacturer"];
-    print("gygtuyguj$textType");
+    textType = vinModel!.results![0]["EngineManufacturer"] ?? "";
+    print("gygtuyguj $textType");
+    if (textType!.length > 0) {
+    } else {
+      textType = vinModel!.results![0]["Manufacturer"];
+    }
     brand.text = vinModel!.results![0]["EngineManufacturer"].toString();
+    if (brand.text.replaceAll('null', '').length > 0) {
+    } else {
+      brand.text = vinModel!.results![0]["Manufacturer"]??"";
+    }
     fuelType = vinModel!.results![0]["FuelTypePrimary"] == "Gasoline"
         ? "Gas"
         : vinModel!.results![0]["FuelTypePrimary"] == ""
@@ -303,6 +311,7 @@ class AddFleetManagerProvider extends ChangeNotifier {
         : vinModel!.results![0]["Wheels"];*/
     power.text = vinModel!.results![0]["EngineHP"].toString();
     modelNumber.text = vinModel!.results![0]['Model'].toString();
+    notifyListeners();
   }
 
   void showTrailerData() {

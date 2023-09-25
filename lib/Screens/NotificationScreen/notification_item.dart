@@ -20,6 +20,7 @@ import '../team_manage_Screen /company_team_manage/company_team_mange_component/
 
 class NotificationItem extends StatelessWidget {
   NotificationProvider notificationProvider;
+
   NotificationItem(this.notificationProvider);
 
   @override
@@ -28,26 +29,23 @@ class NotificationItem extends StatelessWidget {
     return GestureDetector(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 80,
         padding: const EdgeInsets.all(3.0),
-
-        child:    Padding(
+        child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Text(data.title.toString()),
-              SizedBox(height:5,),
-              Expanded(child: Text(data.message.toString())),
-
+              SizedBox(
+                height: 5,
+              ),
+              Text(data.message.toString()),
               Align(
                   alignment: Alignment.bottomRight,
                   child: Text(notificationDateTime(data.createdAt!.toLocal()))),
             ],
           ),
         ),
-
         decoration: BoxDecoration(
             color: Color(0xFFEEEEEE),
             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -59,31 +57,36 @@ class NotificationItem extends StatelessWidget {
             ]),
       ),
       onTap: () {
-
-        NavigationNextPage(data, );
-
+        NavigationNextPage(
+          data,
+        );
       },
     );
   }
 }
 
-NavigationNextPage(Datum data,) async {
+NavigationNextPage(
+  Datum data,
+) async {
   var roleName = await getRoleInfo();
-print(data.type);
+  print(data.type);
   if (data.type!.contains("EVENT")) {
-
     Navigator.push(
         navigatorKey.currentState!.context,
         MaterialPageRoute(
-            builder: (context) =>ChangeNotifierProvider(create: (_) => UserEventViewProvider(),
-              child: UserViewEvent(
-                data.typeId!,),
-            )));
-
-
+            builder: (context) => ChangeNotifierProvider(
+                  create: (_) => UserEventViewProvider(),
+                  child: UserViewEvent(
+                    data.typeId!,
+                  ),
+                )));
   } else if (data.type!.contains("JOB")) {
-    Navigator.push(  navigatorKey.currentState!.context,
-        MaterialPageRoute(builder: (context) =>   ChangeNotifierProvider(create: (_) => JobViewProvider(),child: ViewJob( data.typeId!, true))));
+    Navigator.push(
+        navigatorKey.currentState!.context,
+        MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+                create: (_) => JobViewProvider(),
+                child: ViewJob(data.typeId!, true))));
   } else if (data.type!.contains("ECOMMERCE")) {
     Navigator.push(
         navigatorKey.currentState!.context,
@@ -102,15 +105,18 @@ print(data.type);
     Navigator.push(
         navigatorKey.currentState!.context,
         MaterialPageRoute(
-            builder: (context) =>  ChangeNotifierProvider(
-                create: (_) => ManagerTeamProvider(),child: CompanyTeamManageScreen(1, true))));
+            builder: (context) => ChangeNotifierProvider(
+                create: (_) => ManagerTeamProvider(),
+                child: CompanyTeamManageScreen(1, true))));
   } else if (data.type!.contains("TRIP")) {
     var getrole = await getRoleInfo();
     Navigator.push(
-        navigatorKey.currentState!.context,
-        MaterialPageRoute(
-            builder: (context) =>
-                DispatcherScreen(getrole.toString().toUpperCase(),)),);
+      navigatorKey.currentState!.context,
+      MaterialPageRoute(
+          builder: (context) => DispatcherScreen(
+                getrole.toString().toUpperCase(),
+              )),
+    );
   } else if (data.type!.contains("SENDINVITATION")) {
     Navigator.push(
         navigatorKey.currentState!.context,
@@ -125,6 +131,4 @@ print(data.type);
                 create: (_) => LikeProvider(),
                 child: LikeScreen(data.typeId!))));
   }
-
-
 }

@@ -11,33 +11,42 @@ class WishListProvider extends ChangeNotifier {
   late WishListModel wishListModel;
 
   List<Datum> WishList = [];
+  int page = 1;
+
+  bool paginationLoder = false;
 
   getWishList() async {
     var getid = await getUserId();
-    Map<String, dynamic> map = {"userId": getid, "page": 1};
+    Map<String, dynamic> map = {"userId": getid, "page": page};
 
     print(map);
-    loading = true;
+    if (paginationLoder == false) {
+      loading = true;
+    }
     notifyListeners();
 
     try {
       wishListModel = await hitWishListApi(map);
+      if (wishListModel.data!.length > 0) WishList.addAll(wishListModel.data!);
 
-      WishList.addAll(wishListModel.data!);
       loading = false;
+      paginationLoder = false;
       notifyListeners();
+      print('WishList> ${WishList.length}');
     } on Exception catch (e) {
       print("hh");
       message = e.toString().replaceAll('Exception:', '');
       print(e.toString());
-      // notifyListeners();
+      paginationLoder = false;
+      loading = false;
+      notifyListeners();
     }
   }
 
   void removeWishlist(
     String id,
-    int index, WishListProvider noti,
-
+    int index,
+    WishListProvider noti,
   ) async {
     var getid = await getUserId();
     Map<String, dynamic> map = {
@@ -51,9 +60,9 @@ class WishListProvider extends ChangeNotifier {
       print("lajj$index");
       noti.WishList.removeAt(index);
 
-
-      showMessage(res.message,);
-
+      showMessage(
+        res.message,
+      );
 
       notifyListeners();
     } on Exception catch (e) {
@@ -65,5 +74,19 @@ class WishListProvider extends ChangeNotifier {
       print(e.toString());
       notifyListeners();
     }
+  }
+
+  void initScrollListener(ScrollController scrollController) {
+    scrollController.addListener(() {
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.position.pixels) {
+        if (paginationLoder == false) {
+          paginationLoder = true;
+          page = page + 1;
+          getWishList();
+        }
+        // Perform event when user reach at the end of list (e.g. do Api call)
+      }
+    });
   }
 }

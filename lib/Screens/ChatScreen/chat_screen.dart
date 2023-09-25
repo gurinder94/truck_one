@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
@@ -278,11 +280,8 @@ class ChatPage extends StatelessWidget {
                                                         width: 50,
                                                         height: 50,
                                                         child: Center(
-                                                            child: LoadingWidget(
-                                                                ((progress.cumulativeBytesLoaded /
-                                                                            progress.expectedTotalBytes!) *
-                                                                        100)
-                                                                    .toInt())),
+                                                            child:
+                                                                CircularProgressIndicator()),
                                                       );
                                               },
                                               errorBuilder: (a, b, c) =>
@@ -521,17 +520,21 @@ _launchURL(
 }
 
 openImagePicker(ChatProvider chatProvider) async {
-  final serviceStatus = await Permission.storage.isGranted;
-
-  bool isCameraOn = serviceStatus == ServiceStatus.enabled;
-  final status = await Permission.storage.request();
-  if (status == PermissionStatus.granted) {
-    print('Permission Granted');
+  if (Platform.isAndroid) {
     chatProvider.getChatAttachment();
-  } else if (status == PermissionStatus.denied) {
-    print('Permission denied');
-  } else if (status == PermissionStatus.permanentlyDenied) {
-    print('Permission Permanently Denied');
-    await openAppSettings();
+  } else {
+    final serviceStatus = await Permission.storage.isGranted;
+
+    bool isCameraOn = serviceStatus == ServiceStatus.enabled;
+    final status = await Permission.storage.request();
+    if (status == PermissionStatus.granted) {
+      print('Permission Granted');
+      chatProvider.getChatAttachment();
+    } else if (status == PermissionStatus.denied) {
+      print('Permission denied');
+    } else if (status == PermissionStatus.permanentlyDenied) {
+      print('Permission Permanently Denied');
+      await openAppSettings();
+    }
   }
 }

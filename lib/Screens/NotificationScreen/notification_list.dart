@@ -16,21 +16,19 @@ class NotificationList extends StatefulWidget {
 class _NotificationListState extends State<NotificationList> {
   late NotificationProvider _notificationProvider;
 
-
-
   @override
   void initState() {
     // TODO: implement initState
     _notificationProvider = context.read<NotificationProvider>();
     _notificationProvider.notficationList = [];
-    _notificationProvider.hitNotificationApi(context,  false);
+    _notificationProvider.hitNotificationApi(context, false);
     _notificationProvider.hitReadallNotification();
 
-    _notificationProvider.addScrollListener( context);
+    _notificationProvider.addScrollListener(context);
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Color(0xFFEEEEEE),
       appBar: AppBar(
@@ -50,7 +48,8 @@ class _NotificationListState extends State<NotificationList> {
           );
         }
         if (proData.notficationList.length == 0)
-          return Center(child: Text(AppLocalizations.instance.text("No Record Found")));
+          return Center(
+              child: Text(AppLocalizations.instance.text("No Record Found")));
         else
           return Column(
             children: [
@@ -68,17 +67,10 @@ class _NotificationListState extends State<NotificationList> {
                       );
                     }),
               ),
-              proData.pagenationLoder?LinearProgressIndicator():SizedBox(),
-
+              proData.pagenationLoder ? LinearProgressIndicator() : SizedBox(),
             ],
           );
       }),
     );
   }
-
-
-
-
-
-
 }
