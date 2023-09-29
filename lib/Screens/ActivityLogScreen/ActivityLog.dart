@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
+import 'package:my_truck_dot_one/commonUI/loading_shimmer.dart';
 import 'package:provider/provider.dart';
 import '../commanWidget/Custom_App_Bar_Widget.dart';
 import '../commanWidget/custom_image_network_profile.dart';
@@ -39,9 +40,7 @@ class Activity extends StatelessWidget {
             Expanded(
                 child: Consumer<ActivityLogProvider>(builder: (_, proData, __) {
               if (proData.loading) {
-                return Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
+                return commonListLoading(180);
               }
               if (proData.listDate.length == 0)
                 return Center(

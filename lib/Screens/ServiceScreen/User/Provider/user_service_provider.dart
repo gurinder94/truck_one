@@ -83,6 +83,8 @@ class UserServiceProvider extends ChangeNotifier {
   Future<void> getLocation(BuildContext context) async {
     bool serviceEnabled;
     LocationPermission permission;
+    loading = true;
+    notifyListeners();
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       showMessage('Please Enable Location');
@@ -95,6 +97,7 @@ class UserServiceProvider extends ChangeNotifier {
         permission == LocationPermission.deniedForever) {
       serviceList = [];
       locationPermission = false;
+      loading = true;
       hitGetServiceList(
         context,
       );
@@ -107,7 +110,7 @@ class UserServiceProvider extends ChangeNotifier {
       locationPermission = true;
       notifyListeners();
       Position position = await Geolocator.getCurrentPosition();
-
+      loading = true;
       hitGetServiceList(
         context,
       );

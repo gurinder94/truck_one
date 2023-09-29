@@ -6,6 +6,7 @@ import 'package:my_truck_dot_one/Screens/Home/Component/pagination_widget.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/ViewJob/Provider/JobviewProvider.dart';
 import 'package:my_truck_dot_one/Screens/JobScreen/ViewJob/ViewJob.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Menubar.dart';
+import 'package:my_truck_dot_one/commonUI/loading_shimmer.dart';
 import 'package:provider/provider.dart';
 import '../../../Language_Screen/application_localizations.dart';
 import '../../../commanWidget/Custom_App_Bar_Widget.dart';
@@ -76,56 +77,67 @@ class _UserJobListState extends State<UserJobList> {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          SizeConfig.screenHeight! < 1010?
-          SizedBox(
-            height: Platform.isIOS? SizeConfig.safeBlockVertical! *15:SizeConfig.safeBlockVertical! * 10, //10 for example
-          ):  SizedBox(
-            height: Platform.isIOS? SizeConfig.safeBlockVertical! *9:SizeConfig.safeBlockVertical! * 9, //10 for example
-          ),
-          Expanded(
-            child: Consumer<UserJobProvider>(builder: (_, proData, __) {
-              if (proData.jobListLoad) {
-                return Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              }
-              if (proData.jobList.length == 0)
-                return Center(
-                    child: Text(
-                        AppLocalizations.instance.text("No Record Found")));
-              else
-                return ListView.builder(
-                  itemCount: proData.jobList.length,
-                  padding: EdgeInsets.zero,
-                  controller: _scrollController,
-                  itemBuilder: (BuildContext context, int index) =>
-                      ChangeNotifierProvider<JobModel>.value(
-                          value: proData.jobList[index],
-                          child: GestureDetector(
-                            child: UserJobItem(index, proData),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>   ChangeNotifierProvider(create: (_) => JobViewProvider(),
-                                        child: ViewJob(
-                                            proData.jobList[index].id.toString(),
-                                            false),
-                                      )));
-                            },
-                          )),
-                );
-            }),
-          ),
-          Selector<UserJobProvider, bool>(
-              selector: (_, provider) => provider.paginationLoading,
-              builder: (context, paginationLoading, child) {
-                return PaginationWidget(paginationLoading);
+      child: Consumer<UserJobProvider>(builder: (_, proData, __) {
+        return Column(
+          children: [
+            SizeConfig.screenHeight! < 1010
+                ? Visibility(
+                    visible: proData.jobListLoad == false,
+                    child: SizedBox(
+                      height: Platform.isIOS
+                          ? SizeConfig.safeBlockVertical! * 15
+                          : SizeConfig.safeBlockVertical! * 12, //10 for example
+                    ),
+                  )
+                : SizedBox(
+                    height: Platform.isIOS
+                        ? SizeConfig.safeBlockVertical! * 9
+                        : SizeConfig.safeBlockVertical! * 9, //10 for example
+                  ),
+            Expanded(
+              child: Consumer<UserJobProvider>(builder: (_, proData, __) {
+                if (proData.jobListLoad) {
+                  return JobSListLoading();
+                }
+                if (proData.jobList.length == 0)
+                  return Center(
+                      child: Text(
+                          AppLocalizations.instance.text("No Record Found")));
+                else
+                  return ListView.builder(
+                    itemCount: proData.jobList.length,
+                    padding: EdgeInsets.zero,
+                    controller: _scrollController,
+                    itemBuilder: (BuildContext context, int index) =>
+                        ChangeNotifierProvider<JobModel>.value(
+                            value: proData.jobList[index],
+                            child: GestureDetector(
+                              child: UserJobItem(index, proData),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ChangeNotifierProvider(
+                                              create: (_) => JobViewProvider(),
+                                              child: ViewJob(
+                                                  proData.jobList[index].id
+                                                      .toString(),
+                                                  false),
+                                            )));
+                              },
+                            )),
+                  );
               }),
-        ],
-      ),
+            ),
+            Selector<UserJobProvider, bool>(
+                selector: (_, provider) => provider.paginationLoading,
+                builder: (context, paginationLoading, child) {
+                  return PaginationWidget(paginationLoading);
+                }),
+          ],
+        );
+      }),
     );
   }
 
@@ -145,7 +157,6 @@ class _UserJobListState extends State<UserJobList> {
           pagnationList(context, pagee);
         }
         // Perform event when user reach at the end of list (e.g. do Api call)
-
       }
     });
   }

@@ -37,3 +37,117 @@ class Loader extends StatelessWidget {
     );
   }
 }
+
+Widget JobSListLoading() {
+  return LoadingPage(
+    child: ListView.builder(
+      itemCount: 12,
+      itemBuilder: (context, index) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Loader(
+          height: 120.0,
+          width: (MediaQuery.of(context).size.width - 40).toDouble(),
+          shape: BoxShape.rectangle,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget serviceListListLoading() {
+  return LoadingPage(
+    child: ListView.builder(
+      itemCount: 12,
+      padding: EdgeInsets.zero,
+      itemBuilder: (context, index) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Loader(
+          height: 200.0,
+          width: (MediaQuery.of(context).size.width - 40).toDouble(),
+          shape: BoxShape.rectangle,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget dashBoardPostLoading() {
+  return LoadingPage(
+    child: ListView.builder(
+      itemCount: 12,
+      padding: EdgeInsets.zero,
+      itemBuilder: (context, index) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Loader(
+          height: 300.0,
+          width: (MediaQuery.of(context).size.width - 40).toDouble(),
+          shape: BoxShape.rectangle,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget notificationsLoading() {
+  return LoadingPage(
+    child: ListView.builder(
+      itemCount: 12,
+      padding: EdgeInsets.zero,
+      itemBuilder: (context, index) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Loader(
+          height: 75.0,
+          width: (MediaQuery.of(context).size.width - 40).toDouble(),
+          shape: BoxShape.rectangle,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget commonListLoading(double itemHeight) {
+  return LoadingPage(
+    child: ListView.builder(
+      itemCount: 12,
+      padding: EdgeInsets.zero,
+      itemBuilder: (context, index) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Loader(
+          height: itemHeight.toDouble(),
+          width: (MediaQuery.of(context).size.width - 40).toDouble(),
+          shape: BoxShape.rectangle,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget commonGridLoadind({required double height, required double width}) {
+  return LoadingPage(
+    child: GridView.builder(
+        padding: EdgeInsets.all(10),
+        controller: ScrollController(),
+        shrinkWrap: true,
+        itemCount: 6,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 20,
+            childAspectRatio: 0.9,
+            mainAxisSpacing: 20,
+            crossAxisCount: 2),
+        itemBuilder: (context, i) => Loader(
+              height: height.toDouble(),
+              width: width.toDouble(),
+              shape: BoxShape.rectangle,
+            )),
+  );
+}

@@ -4,6 +4,7 @@ import 'package:my_truck_dot_one/Model/NetworkModel/post_list_model.dart';
 
 import 'package:my_truck_dot_one/Screens/Home/Provider/home_page_list_provider.dart';
 import 'package:my_truck_dot_one/Screens/Home/post_create_component/PostItemWidget.dart';
+import 'package:my_truck_dot_one/commonUI/loading_shimmer.dart';
 import 'package:provider/provider.dart';
 
 import '../../NotificationScreen/Provider/notificationProvider.dart';
@@ -46,7 +47,9 @@ class _UserPostListState extends State<UserPostList> {
     // TODO: implement build
     return Consumer<HomePageListProvider>(builder: (context, data, child) {
       return data.loading
-          ? Center(child: CircularProgressIndicator.adaptive())
+          ? SizedBox(
+          height: MediaQuery.of(context).size.height-190,
+          child: dashBoardPostLoading())
           : data.list.length == 0
               ? Center(
                   child: Container(

@@ -366,8 +366,7 @@ class MyPlanListProvider extends ChangeNotifier {
         if (e.code == 'storekit_duplicate_product_object') {
           ProductDetailsResponse productDetailResponse =
           await _inAppPurchase.queryProductDetails(kProductIds.toSet());
-          print(
-              "requestPurchase storekit_duplicate_product_object ${productDetailResponse.productDetails.length}");
+          print("requestPurchase storekit_duplicate_product_object ${productDetailResponse.productDetails.length}");
           if (productDetailResponse.productDetails.isNotEmpty) {
             print("requestPurchase>>> dd ${purchases.length}");
             for (var _purchaseDetails in purchases) {

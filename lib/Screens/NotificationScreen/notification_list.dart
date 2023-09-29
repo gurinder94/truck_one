@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
+import 'package:my_truck_dot_one/commonUI/loading_shimmer.dart';
 import 'package:provider/provider.dart';
 
 import '../../Model/NotificationModel/NotificationModel.dart';
@@ -43,9 +44,7 @@ class _NotificationListState extends State<NotificationList> {
       ),
       body: Consumer<NotificationProvider>(builder: (_, proData, __) {
         if (proData.Loading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return notificationsLoading();
         }
         if (proData.notficationList.length == 0)
           return Center(

@@ -37,11 +37,7 @@ class CustomImageProfile extends StatelessWidget {
                           width: width,
                           height: height,
                           child: Center(
-                            child: LoadingWidget(
-                                ((progress.cumulativeBytesLoaded /
-                                            progress.expectedTotalBytes!) *
-                                        100)
-                                    .toInt()),
+                            child: CircularProgressIndicator(),
                           ),
                         );
                 },

@@ -3,6 +3,7 @@ import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
+import 'package:my_truck_dot_one/commonUI/loading_shimmer.dart';
 import '../../../Model/NetworkModel/job_invitation_model 2.dart';
 import 'package:my_truck_dot_one/Screens/Network/network_page/Component/network_group_item.dart';
 import 'package:my_truck_dot_one/Screens/Network/network_page/Component/network_item.dart';
@@ -104,7 +105,6 @@ class _NetworkPageState extends State<NetworkPage> {
         body: Consumer<NetworkProvider>(builder: (context, noti, child) {
           return Column(
             children: [
-
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 24),
@@ -123,21 +123,16 @@ class _NetworkPageState extends State<NetworkPage> {
               ),
 
               noti.loading == true
-                  ? Column(
-                      children: [
-                        SizedBox(
-                          height: 220,
-                        ),
-                        CircularProgressIndicator(),
-                      ],
-                    )
+                  ? SingleChildScrollView(
+                      child: commonGridLoadind(
+                          height: 120,
+                          width: MediaQuery.of(context).size.width))
                   : SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-
                             CustomTab(
                               title: 'Recommendation',
                               onClick: () {

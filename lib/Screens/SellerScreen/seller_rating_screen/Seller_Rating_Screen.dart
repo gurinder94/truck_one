@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/custom_image_network_profile.dart';
+import 'package:my_truck_dot_one/commonUI/loading_shimmer.dart';
 import 'package:provider/provider.dart';
 
 import '../../commanWidget/Custom_App_Bar_Widget.dart';
@@ -23,12 +24,11 @@ class SelleRating extends StatelessWidget {
       title: AppLocalizations.instance.text('My Rating'),
       child: Consumer<SellerRatingProvider>(builder: (_, proData, __) {
         if (proData.loading) {
-          return Center(
-            child: CircularProgressIndicator.adaptive(),
-          );
+          return commonListLoading(100);
         }
         if (proData.givenByCustomerModel.data!.length == 0)
-          return Center(child: Text(AppLocalizations.instance.text('No Record Found')));
+          return Center(
+              child: Text(AppLocalizations.instance.text('No Record Found')));
         else
           return ListView.builder(
               itemCount: proData.sellerRatingList.length,
@@ -38,7 +38,6 @@ class SelleRating extends StatelessWidget {
                   child: Container(
                     clipBehavior: Clip.antiAlias,
                     padding: const EdgeInsets.all(7.0),
-
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

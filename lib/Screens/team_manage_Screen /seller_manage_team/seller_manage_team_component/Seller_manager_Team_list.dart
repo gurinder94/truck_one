@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/comman_rich_text.dart';
+import 'package:my_truck_dot_one/commonUI/loading_shimmer.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/seller_manage_team_Provider.dart';
@@ -11,9 +12,7 @@ class SellerMangerTeamList extends StatelessWidget {
     return Expanded(
       child: Consumer<SellerManageTeamProvider>(builder: (_, proData, __) {
         if (proData.loading) {
-          return Center(
-            child: CircularProgressIndicator.adaptive(),
-          );
+          return commonListLoading(150);
         }
         if (proData.sellerManageTeamList.length == 0)
           return Center(child: Text(AppLocalizations.instance.text('No Record Found')));
