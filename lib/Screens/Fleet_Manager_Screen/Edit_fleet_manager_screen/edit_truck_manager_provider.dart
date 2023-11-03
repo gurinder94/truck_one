@@ -240,7 +240,7 @@ class EditTruckManagerProvider extends ChangeNotifier {
     length.text = truckDetail.length.toString();
     capacity.text = truckDetail.loadCapacity.toString();
     image = truckDetail.image;
-    image = image == null ? "" : Base_Url_Fleet_trailer + image;
+    image = image == null ? "" : Base_Url_Fleet_truck + image;
     isDeleteName = truckDetail.isDeleted == true ? "Archived" : "Unarchived";
     isDelete = truckDetail.isDeleted!;
   }
@@ -347,7 +347,7 @@ class EditTruckManagerProvider extends ChangeNotifier {
             "height": height.text,
             "image": image == null
                 ? null
-                : image.toString().replaceAll(Base_Url_Fleet_truck, ''),
+                : image.toString().replaceAll(Base_Url_Fleet_truck, ""),
             "isDeleted": isDelete,
             "loadCapacity": "0",
             "modelNumber": modelNumber.text,
@@ -367,7 +367,7 @@ class EditTruckManagerProvider extends ChangeNotifier {
             "height": height.text,
             "image": image == null
                 ? null
-                : image.toString().replaceAll(Base_Url_Fleet_trailer, ''),
+                : image.toString().replaceAll(Base_Url_Fleet_truck, ""),
             "isDeleted": isDelete,
             "trailerVinNumber": vin.text,
             "length": length.text,

@@ -54,7 +54,7 @@ int pagePos=0;
                     ? Container(
                         height: 300,
                         child: Image.network(
-                          Base_URL_group_image + _media.name.toString(),
+                        /*  Base_URL_group_image +*/ _media.name.toString(),
                           fit: BoxFit.fill, errorBuilder: (a, b, c) =>
                             Center(child: Image.asset('assets/default.png')),
                           loadingBuilder: (context, child, progress) {

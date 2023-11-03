@@ -3,6 +3,7 @@ import 'package:my_truck_dot_one/Screens/Fleet_Manager_Screen/view_fleet_Screen/
 import 'package:my_truck_dot_one/Screens/Fleet_Manager_Screen/view_fleet_Screen/view_fleet_manger.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/PaginationWidget.dart';
 import 'package:provider/provider.dart';
+import '../../../AppUtils/constants.dart';
 import '../../Language_Screen/application_localizations.dart';
 import '../Provider/fleet_manager_provider.dart';
 
@@ -37,10 +38,9 @@ class FleetManagerList extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   controller: fleetManagerProvider.scrollController,
                   itemBuilder: (BuildContext context, int index) {
-                    print('checkLength> ListView ${proData.FleetMangerList.length} ${proData.FleetMangerList[index].id}');
-                    return GestureDetector(
+                   return GestureDetector(
                       child: FeetManagerItem(
-                          proData.FleetMangerList[index], proData),
+                          proData.FleetMangerList, proData,index),
                       onTap: () {
                         Navigator.push(
                             context,

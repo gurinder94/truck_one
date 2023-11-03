@@ -7,11 +7,9 @@ import '../../commanWidget/loading_widget.dart';
 import '../group_view/GroupComponent/video_view.dart';
 
 class UserMediaList extends StatelessWidget {
-
   List<Media> media;
 
   UserMediaList(this.media);
-
 
   late VideoPlayerController _controller;
 
@@ -22,39 +20,40 @@ class UserMediaList extends StatelessWidget {
       child: PageView.builder(
         itemCount: media.length,
         controller:
-        PageController(initialPage: 0, keepPage: true, viewportFraction: 1),
+            PageController(initialPage: 0, keepPage: true, viewportFraction: 1),
         itemBuilder: (BuildContext context, int itemIndex) {
           Media _media = media[itemIndex];
           return _media.type == 'IMAGE'
               ? Container(
-            height: 300,
-            child: Image.network(
-              Base_URL_group_image + _media.name.toString(),
-              fit: BoxFit.fill,
-              loadingBuilder: (context, child, progress) {
-                return progress == null
-                    ? child
-                    : SizedBox(
-                  width: 50,
-                  height:50,
-                  child: Center(
-                      child: LoadingWidget(
-                          ((progress.cumulativeBytesLoaded /
-                              progress.expectedTotalBytes!) *
-                              100)
-                              .toInt())),
-                );
-
-              },
-              errorBuilder: (a, b, c) =>
-                  Center(
-                    child: Image.asset('icons/bannerProfile.png',  fit: BoxFit.cover,
-                      width:MediaQuery.of(context).size.width,
-                      height: 280,
+                  height: 300,
+                  child: Image.network(
+                    /*Base_URL_group_image +*/
+                    _media.name.toString(),
+                    fit: BoxFit.fill,
+                    loadingBuilder: (context, child, progress) {
+                      return progress == null
+                          ? child
+                          : SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: Center(
+                                  child: LoadingWidget(((progress
+                                                  .cumulativeBytesLoaded /
+                                              progress.expectedTotalBytes!) *
+                                          100)
+                                      .toInt())),
+                            );
+                    },
+                    errorBuilder: (a, b, c) => Center(
+                      child: Image.asset(
+                        'icons/bannerProfile.png',
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                        height: 280,
+                      ),
                     ),
                   ),
-            ),
-          )
+                )
               : VideoView(_media.name!);
         },
       ),

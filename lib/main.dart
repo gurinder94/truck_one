@@ -91,13 +91,13 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
   // await Stripe.instance.applySettings();
-  //FirebaseMessaging.onBackgroundMessage(_messageHandler);
+  FirebaseMessaging.onBackgroundMessage(_messageHandler);
   await _flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
-  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //     alert: true, badge: true, sound: true);
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true, badge: true, sound: true);
 
   runApp(MyApp());
 }
@@ -136,9 +136,8 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (_) => ChatSocketConnection(context, 'null'),
-            lazy: false,
-          ),
+              create: (_) => ChatSocketConnection(context, 'null'),
+              lazy: false),
           ChangeNotifierProvider(create: (_) => PriceProvider()),
           ChangeNotifierProvider(create: (_) => UserProfileViewProvider()),
           ChangeNotifierProvider(create: (_) => UserProvider()),

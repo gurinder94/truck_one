@@ -14,13 +14,13 @@ class ConversationItem extends StatelessWidget {
   int index;
   ChatHomeProvider proData;
 
+  @override
   ConversationItem(
     this.index,
     this.proData, {
     Key? key,
   });
 
-  @override
   @override
   Widget build(BuildContext context) {
     _conversationModel = context.watch<ConversationModel>();

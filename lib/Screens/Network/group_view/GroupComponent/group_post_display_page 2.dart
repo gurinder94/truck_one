@@ -123,7 +123,7 @@ class _GroupPostDisplayPageState extends State<GroupPostDisplayPage> {
                                 height: 300,
                                 width:double.infinity ,
                                 boxFit: BoxFit.fill,
-                                image:     Base_URL_group_image + _media.name.toString(),
+                                image:    /* Base_URL_group_image + */_media.name.toString(),
                               ),
                               resetDuration:
                               const Duration(milliseconds: 100),

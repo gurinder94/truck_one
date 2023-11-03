@@ -72,7 +72,7 @@ class AddTrailerPage extends StatelessWidget {
                                       color: PrimaryColor),
                                 ),
                                 onTap: () {
-                                  noti.getFromGallery(context, "TRAILERIMAGE");
+                                  noti.getFromGallery(context, "TRUCKIMAGE");
                                 },
                               ),
                             )

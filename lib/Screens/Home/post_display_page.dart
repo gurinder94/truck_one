@@ -113,7 +113,7 @@ class _PostDisplayPageState extends State<PostDisplayPage> {
                                     height: 300,
                                     width: double.infinity,
                                     boxFit: BoxFit.contain,
-                                    image: Base_URL_group_image +
+                                    image: /*Base_URL_group_image +*/
                                         _media.name.toString(),
                                   ),
                                   resetDuration:

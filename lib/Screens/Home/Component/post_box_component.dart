@@ -16,7 +16,6 @@ import 'package:provider/provider.dart';
 
 import '../../commanWidget/custom_image_network_profile.dart';
 
-
 class PostBox extends StatefulWidget {
   PostBox();
 
@@ -264,7 +263,7 @@ class _PostBoxState extends State<PostBox> {
         } else {
           _provider.files.add({
             "type": type == "POSTIMAGE" ? 'IMAGE' : "VIDEO",
-            "name": jsonData['data']['imagePath']
+            "name": Base_URL_group_image + jsonData['data']['imagePath']
           });
 
           setState(() {

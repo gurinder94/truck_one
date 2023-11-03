@@ -71,7 +71,7 @@ List<List<String>> sellerMenuItems = [
   ['Seller_menu_image/productQuestions.svg', 'Q&A'],
   // ['Seller_menu_image/inviteTeam.svg', 'chat'],
   ['Seller_menu_image/manageProduct.svg', 'Manage Products'],
-  ['Seller_menu_image/inviteTeam.svg', 'Support'],
+  // ['Seller_menu_image/inviteTeam.svg', 'Support'],
   ['Seller_menu_image/inviteTeam.svg', 'Chat'],
 ];
 List<List<String>> salePersonMenuItems = [

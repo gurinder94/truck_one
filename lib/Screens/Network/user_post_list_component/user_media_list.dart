@@ -29,7 +29,7 @@ class UserMediaList extends StatelessWidget {
               ? Container(
             height: 300,
             child: Image.network(
-              Base_URL_group_image + _media.name.toString(),
+             /* Base_URL_group_image +*/ _media.name.toString(),
               fit: BoxFit.fill,
               loadingBuilder: (context, child, progress) {
                 return progress == null

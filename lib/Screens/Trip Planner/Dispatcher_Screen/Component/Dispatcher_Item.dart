@@ -459,12 +459,12 @@ class DispatcherItem extends StatelessWidget {
     Future.delayed(Duration(microseconds: 100),
         () => data1.hitViewTripPlannerView(data.id.toString(), context));
     Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ViewTripPlanner()))
-        .then((_) {
+            context, MaterialPageRoute(builder: (context) => ViewTripPlanner()));
+        /*.then((_) {
       listProvider.resetList();
       print(type);
       listProvider..hitTripList(type.toUpperCase(), "");
-    });
+    });*/
   }
 
   getTripPlanner(TripPlannerModel data, BuildContext context) async {
@@ -475,19 +475,19 @@ class DispatcherItem extends StatelessWidget {
               create: (BuildContext context) => RouteMarkerListProvider(),
               child: ChangeNotifierProvider<TripPlannerModel>.value(
                   value: data, child: UserRouteMap(data, "DISPATCHER"))),
-        )).then((_) {
+        ))/*.then((_) {
       listProvider.resetList();
       listProvider.hitTripList(type.toUpperCase(), "");
-    });
+    })*/;
   }
 
   getAddStoppage(TripPlannerModel data, BuildContext context) async {
     Navigator.push(context,
             MaterialPageRoute(builder: (context) => AddStoppageMap(data)))
-        .then((_) {
+        /*.then((_) {
       listProvider.resetList();
       listProvider.hitTripList(type.toUpperCase(), "");
-    });
+    })*/;
   }
 
   //

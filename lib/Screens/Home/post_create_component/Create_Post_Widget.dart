@@ -41,12 +41,13 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
     _provider = context.watch<PostUploadProvider>();
     _provider.setContext(context);
     return CustomAppBarWidget(
-        leading: GestureDetector(child
-            : Icon(Icons.arrow_back),onTap: ()
-          {
+        leading: GestureDetector(
+          child: Icon(Icons.arrow_back),
+          onTap: () {
             Navigator.pop(context);
-          },),
-        title:  AppLocalizations.instance.text('createPost'),
+          },
+        ),
+        title: AppLocalizations.instance.text('createPost'),
         actions: SizedBox(),
         child: SingleChildScrollView(
             child: Padding(
@@ -85,20 +86,19 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
               width: double.infinity,
               height: 250,
               child: InputTextField(
-                  child: TextFormField(
-                    controller: _provider.textController,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText:AppLocalizations.instance.text('Post Message'),
-                    contentPadding: EdgeInsets.only(top: 15)),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    onChanged: (val) {
-                      val.length > 0 ? enablePost = true : enablePost = false;
-                      setState(() {});
-                    },
-              ),
-
+                child: TextFormField(
+                  controller: _provider.textController,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: AppLocalizations.instance.text('Post Message'),
+                      contentPadding: EdgeInsets.only(top: 15)),
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  onChanged: (val) {
+                    val.length > 0 ? enablePost = true : enablePost = false;
+                    setState(() {});
+                  },
+                ),
               ),
             ),
             uploadFile
@@ -159,8 +159,8 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                                 width: MediaQuery.of(context).size.width / 5,
                                 padding: EdgeInsets.all(6),
                                 alignment: Alignment.center,
-                                decoration:  BoxDecoration(
-                                    color:PrimaryColor,
+                                decoration: BoxDecoration(
+                                    color: PrimaryColor,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30)),
                                     boxShadow: [
@@ -169,7 +169,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                                           blurRadius: 5,
                                           offset: Offset(0, 5))
                                     ]),
-                                child:  Text(
+                                child: Text(
                                   AppLocalizations.instance.text('post'),
                                   style: TextStyle(
                                       color: Colors.white,
@@ -202,7 +202,8 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                             margin: EdgeInsets.all(10),
                             color: Colors.blue,
                             child: Image.network(
-                              Base_URL_group_image + _provider.files[index]['name'],
+                              Base_URL_group_image +
+                                  _provider.files[index]['name'],
                               fit: BoxFit.cover,
                               loadingBuilder: (context, child, progress) {
                                 return progress == null
@@ -314,7 +315,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
         } else {
           _provider.files.add({
             "type": type == "POSTIMAGE" ? 'IMAGE' : "VIDEO",
-            "name": jsonData['data']['imagePath']
+            "name": Base_URL_group_image + jsonData['data']['imagePath']
           });
 
           setState(() {

@@ -9,6 +9,7 @@ import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 
 final String IMG_URL = SERVER_URL + '/uploads/enduser/';
+// final String IMG_URL = SERVER_URL + '/uploads/post/image';
 final String Event_logo_Url = SERVER_URL + "/uploads/event/brand_logo/";
 
 final String Resume_Pdf_URl = SERVER_URL + '/uploads/resume/';
@@ -210,3 +211,6 @@ BoxDecoration nMbox =
     blurRadius: 10,
   ),
 ]);
+
+
+// Companies, activists push to speed zero-emission truck

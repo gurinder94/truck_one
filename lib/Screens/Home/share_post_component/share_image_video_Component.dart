@@ -55,7 +55,7 @@ class _ShareImageVideoComponentState extends State<ShareImageVideoComponent> {
                     ? Container(
                         height: 250,
                         child: Image.network(
-                          Base_URL_group_image + _media.name.toString(),
+                          /* Base_URL_group_image + */ _media.name.toString(),
                           width: double.infinity,
                           fit: BoxFit.fill,
                           loadingBuilder: (context, child, progress) {

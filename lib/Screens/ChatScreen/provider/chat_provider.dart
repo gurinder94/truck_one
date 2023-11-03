@@ -73,64 +73,64 @@ class ChatProvider extends ChangeNotifier with ChatListeners {
 
   receiveMSG(value) async {
     print(value);
-    if (value["data"] == null) {
+    /* if (value["data"] == null) {
 // UserData jj=UserData();
       //MessageModel msg = MessageModel(senderId:value["data"]["sender_id"],msgTime:DateTime.now().toUtc(),messageId:value["data"]["message_id"]
       // // ,
       // // message: "llll",
       // ,userData: );
 
-    } else if (value["code"] == 200) {
-      var roleName = await getRoleInfo();
-      var id = await getUserId();
-      var name = await getNameInfo();
+    } else if (value["code"] == 200) {*/
+    var roleName = await getRoleInfo();
+    var id = await getUserId();
+    var name = await getNameInfo();
 
-      // TODO: implement receiveMSGhi
-      // ChatConversationModelDetail conversationModel =
-      // await hitGetchatCoversationDetails({
-      //   //    "clinic_id": value["data"]["clinic_id"],
-      //
-      //   "nowTime": DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-      //       .format(DateTime.now().toUtc()),
-      //
-      //   "loggedInUser": userId,
-      //
-      //   "message_id": value["data"]["message_id"],
-      //   "conversationType": value["data"]["conversationType"],
-      //   "sender_id": value["data"]["sender_id"],
-      //   "convOpened": true,
-      //   "conversation_id": value["data"]["conversation_id"],
-      //   "roleTitle": roleName.toString().toUpperCase() == "USER" ? "ENDUSER"
-      //       : roleName.toString().toUpperCase(),
-      //
-      //
-      // });
-      //
-      // ChatConversationModelDetail conversationModel= ChatConversationModelDetail ();
-      //
-      ChatUserData _data =
-          ChatUserData(firstName: name, id: id, image: '', lastName: name);
+    // TODO: implement receiveMSGhi
+    // ChatConversationModelDetail conversationModel =
+    // await hitGetchatCoversationDetails({
+    //   //    "clinic_id": value["data"]["clinic_id"],
+    //
+    //   "nowTime": DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    //       .format(DateTime.now().toUtc()),
+    //
+    //   "loggedInUser": userId,
+    //
+    //   "message_id": value["data"]["message_id"],
+    //   "conversationType": value["data"]["conversationType"],
+    //   "sender_id": value["data"]["sender_id"],
+    //   "convOpened": true,
+    //   "conversation_id": value["data"]["conversation_id"],
+    //   "roleTitle": roleName.toString().toUpperCase() == "USER" ? "ENDUSER"
+    //       : roleName.toString().toUpperCase(),
+    //
+    //
+    // });
+    //
+    // ChatConversationModelDetail conversationModel= ChatConversationModelDetail ();
+    //
+    ChatUserData _data =
+        ChatUserData(firstName: name, id: id, image: '', lastName: name);
 
-      MessageModel msg = MessageModel(
-          senderId: value["data"]["sender_id"],
-          msgTime: DateTime.now().toUtc(),
-          messageId: value["data"]["message_id"],
-          message: value["data"]["message"],
-          userData: _data,
-          document: value["data"]["document"] == null
-              ? []
-              : [value["data"]["document"][0]]);
+    MessageModel msg = MessageModel(
+        senderId: value["data"]["sender_id"],
+        msgTime: DateTime.now().toUtc(),
+        messageId: value["data"]["message_id"],
+        message: value["data"]["message"],
+        userData: _data,
+        document: value["data"]["document"] == null
+            ? []
+            : [value["data"]["document"][0]]);
 
-      _msgList.add(msg);
+    _msgList.add(msg);
 
-      // //
-      // if (conversationModel.code == 200 &&
-      //     value["data"]["conversation_id"] == conversationId) {
-      //   MessageModel msg = conversationModel.data!.lastMessages![0];
-      //   _msgList.add(msg);
-      notifyListeners();
-      // }
-    }
+    // //
+    // if (conversationModel.code == 200 &&
+    //     value["data"]["conversation_id"] == conversationId) {
+    //   MessageModel msg = conversationModel.data!.lastMessages![0];
+    //   _msgList.add(msg);
+    notifyListeners();
+    // }
+    // }
   }
 
   Future<void> getMessages(String conversationId) async {
@@ -187,12 +187,12 @@ class ChatProvider extends ChangeNotifier with ChatListeners {
       var filePath = files!.path;
       var name = result.files.single.name.toString();
 
-      var fileExtension = files!.path.toString().split('.').last;
+      var fileExtension = files!.path.toString().split('.').last.toLowerCase();
       // p.extension(files!.path.toString());
 
       final extension = files!.path.split(".").last;
       print("fileExtension---" + extension);
-
+      print(fileExtension.toLowerCase());
       if (fileExtension == "pdf" ||
           fileExtension == "doc" ||
           fileExtension == "png" ||
@@ -261,7 +261,6 @@ class ChatProvider extends ChangeNotifier with ChatListeners {
         loading = false;
         notifyListeners();
         // });
-
       }
     } else {
       String value = await utf8.decoder.bind(response.stream).join();

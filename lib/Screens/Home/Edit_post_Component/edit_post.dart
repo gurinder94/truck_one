@@ -43,7 +43,6 @@ class _EditPostState extends State<EditPost> {
     Future.delayed(Duration(milliseconds: 300), () {
       setData();
     });
-
   }
 
   @override
@@ -51,11 +50,9 @@ class _EditPostState extends State<EditPost> {
     _provider = context.watch<PostEditProvider>();
     _provider.setContext(context);
 
-
     return CustomAppBarWidget(
         leading: IconButton(
             onPressed: () {
-
               Navigator.pop(context);
             },
             icon: Icon(
@@ -63,32 +60,26 @@ class _EditPostState extends State<EditPost> {
               size: 20,
             )),
         title: AppLocalizations.instance.text("Edit Post"),
-
         actions: Row(
           children: [
             GestureDetector(
-              child: Text(
-                AppLocalizations.instance.text("Post"),
-
-              ),
-              onTap: ()
-              async {
-                if (_provider.textController.text
-                    .trim()
-                    .isEmpty)
-                  showMessage('Please enter caption');
-                else {
-                  var getid = await getUserId();
-                  _provider.updatePost({
-                    'postId': widget.item.id,
-                    'caption': _provider.textController.text,
-                    'type': 'INDIVIDUAL',
-                    'media': _provider.files,
-                    'userId': getid,
-                  }, widget.listProvider);
-                }
-              }
-            ),
+                child: Text(
+                  AppLocalizations.instance.text("Post"),
+                ),
+                onTap: () async {
+                  if (_provider.textController.text.trim().isEmpty)
+                    showMessage('Please enter caption');
+                  else {
+                    var getid = await getUserId();
+                    _provider.updatePost({
+                      'postId': widget.item.id,
+                      'caption': _provider.textController.text,
+                      'type': 'INDIVIDUAL',
+                      'media': _provider.files,
+                      'userId': getid,
+                    }, widget.listProvider);
+                  }
+                }),
             SizedBox(
               width: 20,
             ),
@@ -108,7 +99,7 @@ class _EditPostState extends State<EditPost> {
                       width: 50,
                       boxFit: BoxFit.cover,
                       height: 50,
-                      image:   IMG_URL +widget.item.userData!.image.toString(),
+                      image: IMG_URL + widget.item.userData!.image.toString(),
                     ),
                     SizedBox(
                       width: 10,
@@ -128,8 +119,9 @@ class _EditPostState extends State<EditPost> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       textAlign: TextAlign.start,
                       style: TextStyle(fontSize: 14),
-                      decoration:  InputDecoration(
-                        hintText:  AppLocalizations.instance.text("Write something here..."),
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.instance
+                            .text("Write something here..."),
                         border: InputBorder.none,
                         hintStyle: TextStyle(fontSize: 14),
                       ),
@@ -140,13 +132,12 @@ class _EditPostState extends State<EditPost> {
                   ),
                 ),
                 uploadFile || _provider.loading
-              ? LinearProgressIndicator(
-            color: Colors.white,
-            backgroundColor: Colors.black,
-            minHeight: 1,
-          )
-              : SizedBox(),
-
+                    ? LinearProgressIndicator(
+                        color: Colors.white,
+                        backgroundColor: Colors.black,
+                        minHeight: 1,
+                      )
+                    : SizedBox(),
                 SizedBox(
                   height: 30,
                 ),
@@ -192,36 +183,34 @@ class _EditPostState extends State<EditPost> {
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.zero,
                       itemBuilder: (BuildContext context, int index) {
-                        print(  _provider.files[index].type=="IMAGE"?   SERVER_URL +
-                            '/uploads/post/image/'+_provider.files[index].name.toString()
-                            :
-                        SERVER_URL+'/uploads/post/video/' +_provider.files[index].name.toString());
+                        print(_provider.files[index].type == "IMAGE"
+                            ? _provider.files[index].name.toString()
+                            : _provider.files[index].name.toString());
                         return Container(
                           width: 308,
                           height: 300,
                           child: Stack(
                             clipBehavior: Clip.antiAlias,
                             children: [
-                              _provider.files[index].type=="IMAGE"?        Container(
-                                width: 280,
-                                height: 280,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff7c94b6),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-
-                                   SERVER_URL +
-                                        '/uploads/post/image/'+_provider.files[index].name.toString()
-                                   ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ):  CommanVideoView(_provider.files[index].name.toString()),
-
-
+                              _provider.files[index].type == "IMAGE"
+                                  ? Container(
+                                      width: 280,
+                                      height: 280,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff7c94b6),
+                                        image: DecorationImage(
+                                          image: NetworkImage(_provider
+                                              .files[index].name
+                                              .toString()),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    )
+                                  : CommanVideoView(
+                                      _provider.files[index].name.toString()),
                               Positioned(
-                                  right:25,
+                                  right: 25,
                                   top: 0,
                                   child: GestureDetector(
                                     child: Icon(
@@ -322,9 +311,9 @@ class _EditPostState extends State<EditPost> {
           showMessage(jsonData['message']);
           _provider.files.add(Media(
               type: type == 'POSTIMAGE' ? 'IMAGE' : 'VIDEO',
-              name: jsonData['data']['imagePath']));
+              name: Base_URL_group_image +  jsonData['data']['imagePath']));
 
-          print( SERVER_URL+'/uploads/post/video/' +jsonData['data']['imagePath']);
+          print(jsonData['data']['imagePath']);
           setState(() {
             uploadFile = false;
           });

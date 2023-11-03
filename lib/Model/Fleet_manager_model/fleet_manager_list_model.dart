@@ -56,9 +56,9 @@ class Datum {
   String ?id;
   String ?name;
   dynamic image;
-  int ?weight;
-  int ?height;
-  int ?width;
+  var weight;
+  var height;
+  var width;
   String ?vehicleType;
   bool? isActive;
   bool ?isDeleted;

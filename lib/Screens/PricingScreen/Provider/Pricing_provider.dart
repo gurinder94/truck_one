@@ -43,7 +43,7 @@ class PriceProvider extends ChangeNotifier {
   List<LatestReceiptInfo> inApp = <LatestReceiptInfo>[];
   bool buyProductLoder = false;
   bool isAvailable = false;
-  bool isTest = true;
+  bool isTest = false;
   bool purchasePending = false;
   ResponseModel? responseModel;
   PurchaseDetails? previousPurchase;
@@ -75,7 +75,7 @@ class PriceProvider extends ChangeNotifier {
     }
 
     final ProductDetailsResponse productDetailResponse =
-    await _inAppPurchase.queryProductDetails(kProductIds.toSet());
+        await _inAppPurchase.queryProductDetails(kProductIds.toSet());
 
     print(
         "productDetailResponse>> ${productDetailResponse.notFoundIDs.toList()}");
@@ -127,16 +127,16 @@ class PriceProvider extends ChangeNotifier {
     });
     purch = Map<String, PurchaseDetails>.fromEntries(
         purchases.map((PurchaseDetails purchase) {
-          if (purchase.pendingCompletePurchase) {
-            print("setPurchase>> pendingCompletePurchase ${purchase.error?.code} ");
-            print(
-                "setPurchase>> pendingCompletePurchase ${purchase.error?.message} ");
-            _inAppPurchase.completePurchase(purchase);
-          }
-          return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
-        }));
+      if (purchase.pendingCompletePurchase) {
+        print("setPurchase>> pendingCompletePurchase ${purchase.error?.code} ");
+        print(
+            "setPurchase>> pendingCompletePurchase ${purchase.error?.message} ");
+        _inAppPurchase.completePurchase(purchase);
+      }
+      return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
+    }));
     productList.addAll(products.map(
-          (ProductDetails productDetails) {
+      (ProductDetails productDetails) {
         previousPurchase = purch[productDetails.id];
       },
     ));
@@ -146,19 +146,19 @@ class PriceProvider extends ChangeNotifier {
   //listener
   void initData() async {
     ProductDetailsResponse productDetailResponse =
-    await _inAppPurchase.queryProductDetails(kProductIds.toSet());
+        await _inAppPurchase.queryProductDetails(kProductIds.toSet());
     setListener();
 
     if (productDetailResponse.error != null) {}
     if (productDetailResponse.productDetails.isEmpty) {
       final Map<String, PurchaseDetails> purch =
-      Map<String, PurchaseDetails>.fromEntries(
-          purchases.map((PurchaseDetails purchase) {
-            if (purchase.pendingCompletePurchase) {
-              _inAppPurchase.completePurchase(purchase);
-            }
-            return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
-          }));
+          Map<String, PurchaseDetails>.fromEntries(
+              purchases.map((PurchaseDetails purchase) {
+        if (purchase.pendingCompletePurchase) {
+          _inAppPurchase.completePurchase(purchase);
+        }
+        return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
+      }));
       for (var _purchaseDetails in purchases) {
         if (_purchaseDetails.pendingCompletePurchase) {
           await _inAppPurchase.completePurchase(_purchaseDetails);
@@ -173,14 +173,14 @@ class PriceProvider extends ChangeNotifier {
   setListener() {
     subscription =
         purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
-          listenToPurchaseUpdated(purchaseDetailsList);
-        }, onDone: () {
-          subscription!.cancel();
-          notifyListeners();
-        }, onError: (Object error) {
-          print(error);
-          // handle error here.
-        });
+      listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      subscription!.cancel();
+      notifyListeners();
+    }, onError: (Object error) {
+      print(error);
+      // handle error here.
+    });
   }
 
   Future<void> listenToPurchaseUpdated(
@@ -200,7 +200,7 @@ class PriceProvider extends ChangeNotifier {
             if (Platform.isIOS) {
               var receiptBody = {
                 'receipt-data':
-                purchaseDetails.verificationData.localVerificationData,
+                    purchaseDetails.verificationData.localVerificationData,
                 // receipt key you will receive in request purchase callback function
                 "exclude-old-transactions": true,
                 'password': '777b657dd5984c8d820b86f9ee25d868'
@@ -305,8 +305,8 @@ class PriceProvider extends ChangeNotifier {
   void disposee() {
     if (Platform.isIOS) {
       final InAppPurchaseStoreKitPlatformAddition iosPlatformAddition =
-      _inAppPurchase
-          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+          _inAppPurchase
+              .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       iosPlatformAddition.setDelegate(null);
     }
     // subscription!.cancel();
@@ -334,7 +334,7 @@ class PriceProvider extends ChangeNotifier {
       if (e is PlatformException) {
         if (e.code == 'storekit_duplicate_product_object') {
           ProductDetailsResponse productDetailResponse =
-          await _inAppPurchase.queryProductDetails(kProductIds.toSet());
+              await _inAppPurchase.queryProductDetails(kProductIds.toSet());
           print(
               "requestPurchase storekit_duplicate_product_object ${productDetailResponse.productDetails.length}");
           if (productDetailResponse.productDetails.isNotEmpty) {
@@ -394,14 +394,14 @@ class PriceProvider extends ChangeNotifier {
 
       log("deliverProduct>> res ${response}");
       validateReceiptIosModel =
-      await ValidateReceiptIosModel.fromJson(response);
+          await ValidateReceiptIosModel.fromJson(response);
       log("Receipts>> Length ${validateReceiptIosModel.latestReceiptInfo.length}");
       print(getid);
 
       responseModel = await hitSubscriptionPlanPayment({
         "userId": getid,
         "paymentData":
-        jsonDecode(jsonEncode(validateReceiptIosModel.latestReceiptInfo)),
+            jsonDecode(jsonEncode(validateReceiptIosModel.latestReceiptInfo)),
         "deviceName": deviceId,
         "paymentMode": "IOS",
         "paymentType": "INAPPPURCHASE"
@@ -531,7 +531,7 @@ class PriceProvider extends ChangeNotifier {
   List<LatestReceiptInfo> inApp = <LatestReceiptInfo>[];
   bool buyProductLoder = false;
   bool isAvailable = false;
-  bool isTest = false;
+  bool isTest = true;
   bool purchasePending = false;
   ResponseModel? responseModel;
   PurchaseDetails? previousPurchase;
@@ -730,7 +730,7 @@ class PriceProvider extends ChangeNotifier {
 /*if (productDetails is GooglePlayProductDetails) {
                 SkuDetailsWrapper skuDetails = (productDetails as GooglePlayProductDetails).skuDetails;
                 print(skuDetails.introductoryPricePeriod);
-              }*//*
+              }*/ /*
 
 
               purchases.add(purchaseDetails);

@@ -34,6 +34,7 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _chatProvider = context.read<ChatProvider>();
+    print("====> ${conversationId}");
     _chatProvider.role();
     _chatProvider.msgList.clear();
     _chatProvider.listenChat(context, conversationId);
@@ -165,12 +166,6 @@ class ChatPage extends StatelessWidget {
             );
           } else if (proData.msgList.length != 0) {
             Future.delayed(Duration(milliseconds: 500), () {
-              //   scrollController.animateTo(
-              //       // scrollController.position.maxScrollExtent,
-              //       // duration: Duration(milliseconds: 100),
-              //       // curve: Curves.fastOutSlowIn);
-              //
-              // });
               scrollController.animateTo(
                 scrollController.position.maxScrollExtent,
                 duration: const Duration(milliseconds: 100),
@@ -483,13 +478,6 @@ class ChatPage extends StatelessWidget {
                                         _chatProvider.documentName.isNotEmpty) {
                                       _chatProvider.sendMessage();
                                     }
-
-                                    // if (_provider.messageController.text
-                                    //     .toString()
-                                    //     .trim()
-                                    //     .isEmpty)
-                                    //   return;
-                                    // else
                                   }
                                 },
                                 child: Icon(Icons.send),

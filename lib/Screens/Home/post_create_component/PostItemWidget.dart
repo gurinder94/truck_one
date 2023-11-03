@@ -28,7 +28,6 @@ class MyPostItemWidget extends StatelessWidget {
 
   Widget build(BuildContext context) {
     var data = context.watch<PostItem>();
-
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.all(10),
@@ -43,17 +42,19 @@ class MyPostItemWidget extends StatelessWidget {
                     child: Row(
                   children: [
                     GestureDetector(
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        child: CustomImageProfile(
-                            image: data.userData!.image == null
-                                ? ' '
-                                : IMG_URL + data.userData!.image!,
-                            width: 50,
-                            boxFit: BoxFit.cover,
-                            height: 50),
-                      ),
+                      child: data.userData == null
+                          ? SizedBox()
+                          : Container(
+                              width: 50,
+                              height: 50,
+                              child: CustomImageProfile(
+                                  image: data.userData!.image == null
+                                      ? ' '
+                                      : IMG_URL + data.userData!.image!,
+                                  width: 50,
+                                  boxFit: BoxFit.cover,
+                                  height: 50),
+                            ),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChangeNotifierProvider(
@@ -70,13 +71,15 @@ class MyPostItemWidget extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          capitalize(
-                            data.userData!.personName.toString(),
-                          ),
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
+                        data.userData == null
+                            ? SizedBox()
+                            : Text(
+                                capitalize(
+                                  data.userData!.personName.toString(),
+                                ),
+                                style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.bold),
+                              ),
                         SizedBox(
                           height: 3,
                         ),
@@ -288,8 +291,7 @@ class MyPostItemWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    onTap: () {
-                    },
+                    onTap: () {},
                   )
                 : SizedBox(),
             data.type == 'SHARED'

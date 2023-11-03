@@ -23,15 +23,6 @@ class CustomImage extends StatelessWidget {
       fit: boxFit,
       width: width,
       height: height,
-      loadingBuilder: (context, child, progress) {
-        return progress == null && progress?.expectedTotalBytes == null
-            ? child
-            : Center(
-                child: LoadingWidget(((progress!.cumulativeBytesLoaded /
-                            progress.expectedTotalBytes!) *
-                        100)
-                    .toInt()));
-      },
       errorBuilder: (a, b, c) => Center(
           child: Image.asset(
         'assets/default.png',

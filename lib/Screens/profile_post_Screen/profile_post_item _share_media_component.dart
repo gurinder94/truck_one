@@ -50,7 +50,7 @@ class _ProfilePostShareMediaState extends State<ProfilePostShareMedia> {
                     height: 300,
                     child:Image.network(
 
-                      Base_URL_group_image + _media.name.toString(),
+                     /* Base_URL_group_image +*/ _media.name.toString(),
                       height: 300,
                       width:double.infinity ,fit: BoxFit.cover,
                       loadingBuilder: (context, child, progress) {

@@ -118,7 +118,7 @@ class _UserTripPlannerState extends State<UserTripPlanner> {
                                     value: 2,
                                   ),
                                   PopupMenuItem(
-                                    child: Text("Cancelled"),
+                                    child: Text("Canceled"),
                                     value: 3,
                                   ),
                                   PopupMenuItem(

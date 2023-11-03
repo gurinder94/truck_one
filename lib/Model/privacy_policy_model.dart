@@ -25,7 +25,7 @@ class PrivacyPolicyModel {
       PrivacyPolicyModel(
         code: json["code"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {

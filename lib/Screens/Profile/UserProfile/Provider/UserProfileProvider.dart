@@ -472,7 +472,7 @@ class UserProfileProvider extends ChangeNotifier {
                     ? null
                     : image
                 : imageLogo,
-            "bannerImage": imagebanner == null ? imageviewBanner : imagebanner,
+            "bannerImage": imagebanner == null ? imageviewBanner :  imagebanner,
             'documentArray': documentArray.length == 0 ? [] : documentArray
           }
         : map = {

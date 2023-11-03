@@ -51,7 +51,6 @@ class PostItem extends ChangeNotifier {
     }
   }
 
-
   void setData(LikePostModel model) {
     this.isDislike = model.data!.isDislike;
     this.isLiked = model.data!.isLiked;
@@ -107,7 +106,7 @@ class PostItem extends ChangeNotifier {
         caption: json["caption"] ?? '',
         totalLike: json["totalLike"],
         totalDislike: json["totalDislike"],
-        totalComment: json["totalCommentWithReComment"]??0,
+        totalComment: json["totalCommentWithReComment"] ?? 0,
         type: json["type"],
         media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
         postedById: json["postedById"],
@@ -115,7 +114,9 @@ class PostItem extends ChangeNotifier {
         // updatedAt: DateTime.parse(json["updatedAt"]),
         isLiked: json["isLiked"],
         isDislike: json["isDislike"],
-        userData: UserData.fromJson(json["userData"]),
+        userData: json["userData"] == null
+            ? null
+            : UserData.fromJson(json["userData"]),
         orignalPostData: json["orignalPostData"] == null
             ? null
             : OrignalPostData.fromJson(json["orignalPostData"]),
@@ -167,7 +168,7 @@ class OrignalPostData {
         id: json["_id"],
         caption: json["caption"],
         isDeleted: json["isDeleted"],
-        media:List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
+        media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
         userData: UserData.fromJson(json["userData"]),
       );
 
@@ -193,14 +194,14 @@ class GroupData {
   String? name;
   String? groupImage;
   String? description;
-  int  ?totalMembers;
+  int? totalMembers;
 
   factory GroupData.fromJson(Map<String, dynamic> json) => GroupData(
         id: json["_id"] == null ? null : json["_id"],
         name: json["name"] == null ? null : json["name"],
         groupImage: json["groupImage"] == null ? null : json["groupImage"],
         description: json["description"] == null ? null : json["description"],
-      totalMembers:json["totalMembers"],
+        totalMembers: json["totalMembers"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -208,7 +209,7 @@ class GroupData {
         "name": name == null ? null : name,
         "groupImage": groupImage == null ? null : groupImage,
         "description": description == null ? null : description,
-    "totalMembers":totalMembers,
+        "totalMembers": totalMembers,
       };
 }
 

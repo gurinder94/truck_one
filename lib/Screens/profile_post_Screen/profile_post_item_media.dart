@@ -72,7 +72,7 @@ class _ProfilePostMediaPartState extends State<ProfilePostMediaPart> {
                 return _media.type == 'IMAGE'
                     ? Container(
                         child: Image.network(
-                        Base_URL_group_image + _media.name.toString(),
+                        /*Base_URL_group_image +*/ _media.name.toString(),
                         height: 300,
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, progress) {

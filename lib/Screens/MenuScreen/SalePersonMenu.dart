@@ -41,7 +41,7 @@ class SalePersonMenu extends StatefulWidget {
 class _SalePersonMenuState extends State<SalePersonMenu> {
   late Size size;
 
-  bool loading=false;
+  bool loading = false;
   ResponseModel? _responseModel;
 
   @override
@@ -104,16 +104,10 @@ class _SalePersonMenuState extends State<SalePersonMenu> {
             color: Color(0xFFEEEEEE),
             borderRadius: BorderRadius.all(Radius.circular(20)),
             boxShadow: [
-
               BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 5,
-                  offset: Offset(5, 5)),
+                  color: Colors.black12, blurRadius: 5, offset: Offset(5, 5)),
               BoxShadow(
-                  color: Colors.white,
-                  blurRadius: 2,
-                  offset: Offset(-3, -3))
-
+                  color: Colors.white, blurRadius: 2, offset: Offset(-3, -3))
             ]),
         child: Row(
           children: [
@@ -126,7 +120,6 @@ class _SalePersonMenuState extends State<SalePersonMenu> {
               width: 25,
               color: IconColor,
             ),
-
             SizedBox(
               width: 10,
             ),
@@ -134,22 +127,17 @@ class _SalePersonMenuState extends State<SalePersonMenu> {
               child: Text(
                 AppLocalizations.instance.text(userMenuItems[1]),
                 overflow: TextOverflow.ellipsis,
-                style:
-                TextStyle(fontWeight: FontWeight.w600, color: Colors.black54),
+                style: TextStyle(
+                    fontWeight: FontWeight.w600, color: Colors.black54),
               ),
             )
-
           ],
         ),
       ),
     );
   }
 
-  listOfOptions(
-    String title,
-    String path,
-    int i,
-  ) {
+  listOfOptions(String title, String path, int i) {
     return Padding(
       padding: const EdgeInsets.only(left: 5, right: 5),
       child: GestureDetector(
@@ -166,9 +154,10 @@ class _SalePersonMenuState extends State<SalePersonMenu> {
                   ),
                   Expanded(
                       child: Text(
-                        AppLocalizations.instance.text(title),
-                        style: TextStyle(fontWeight: FontWeight.w600,color: Colors.black54),
-                      )),
+                    AppLocalizations.instance.text(title),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: Colors.black54),
+                  )),
                   Icon(Icons.keyboard_arrow_right)
                 ],
               ),
@@ -177,7 +166,6 @@ class _SalePersonMenuState extends State<SalePersonMenu> {
                 color: Color(0xFFEEEEEE),
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 boxShadow: [
-
                   BoxShadow(
                       color: Colors.black12,
                       blurRadius: 5,
@@ -186,7 +174,6 @@ class _SalePersonMenuState extends State<SalePersonMenu> {
                       color: Colors.white,
                       blurRadius: 2,
                       offset: Offset(-3, -3))
-
                 ])),
         onTap: () async {
           if (i == 3) {
@@ -206,7 +193,7 @@ class _SalePersonMenuState extends State<SalePersonMenu> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>  CompanySettingPage(widget.language)));
+                    builder: (context) => CompanySettingPage(widget.language)));
           }
 
           if (i == 1) {
@@ -236,7 +223,7 @@ class _SalePersonMenuState extends State<SalePersonMenu> {
 
       Navigator.of(navigatorKey.currentState!.context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => LoginScreen()),
-              (Route<dynamic> route) => false);
+          (Route<dynamic> route) => false);
       final pref = await SharedPreferences.getInstance();
       await pref.clear();
 
@@ -255,7 +242,6 @@ class _SalePersonMenuState extends State<SalePersonMenu> {
   }
 }
 
-
 openMenuItems(String title, BuildContext context) {
   switch (title) {
     case "Support Information":
@@ -267,14 +253,14 @@ openMenuItems(String title, BuildContext context) {
                   child: SellerSupportScreen())));
       break;
     case 'Chat':
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => MultiProvider(providers: [
-              ChangeNotifierProvider(create: (_) => SellerChatProvider()),
-              ChangeNotifierProvider(create: (_) => ChatHomeProvider()),
-            ], child: SalePerson())));
-    break;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MultiProvider(providers: [
+                    ChangeNotifierProvider(create: (_) => SellerChatProvider()),
+                    ChangeNotifierProvider(create: (_) => ChatHomeProvider()),
+                  ], child: SalePerson())));
+      break;
     case 'Q&A':
       Navigator.push(
           context,
@@ -284,6 +270,4 @@ openMenuItems(String title, BuildContext context) {
                   child: SellerQuestionScreen())));
       break;
   }
-
-
 }

@@ -223,7 +223,7 @@ class FleetDetail extends StatelessWidget {
                           height: 400,
                           width: double.infinity,
                           child: Image.network(
-                              Base_Url_Fleet_trailer +
+                              Base_Url_Fleet_truck +
                                   _viewFleetManagerProvider
                                       .fleetManagerDetailModel.data!.image
                                       .toString(),

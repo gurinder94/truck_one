@@ -60,6 +60,8 @@ class AddFleetManagerProvider extends ChangeNotifier {
 
   String? textType;
 
+  var images;
+
   getBrandList() async {
     brandList = [];
     var getid = await getUserId();
@@ -134,7 +136,7 @@ class AddFleetManagerProvider extends ChangeNotifier {
             "width": width.text,
             "image": image == null
                 ? null
-                : image.toString().replaceAll(Base_Url_Fleet_trailer, ''),
+                : image.toString().replaceAll(Base_Url_Fleet_truck, ''),
           }
         : {
             "brand": brandvalue == null ? null : brandvalue!.id,
@@ -241,8 +243,10 @@ class AddFleetManagerProvider extends ChangeNotifier {
         var imageReal = jsonData['data']['imagePath'];
         print(type);
         this.image = type == "TRAILERIMAGE"
-            ? Base_Url_Fleet_trailer + imageReal
+            ? Base_Url_Fleet_truck + imageReal
             : Base_Url_Fleet_truck + imageReal;
+        print(this.image);
+        images = Base_Url_Fleet_truck + imageReal;
 
         notifyListeners();
       }
@@ -296,7 +300,7 @@ class AddFleetManagerProvider extends ChangeNotifier {
     brand.text = vinModel!.results![0]["EngineManufacturer"].toString();
     if (brand.text.replaceAll('null', '').length > 0) {
     } else {
-      brand.text = vinModel!.results![0]["Manufacturer"]??"";
+      brand.text = vinModel!.results![0]["Manufacturer"] ?? "";
     }
     fuelType = vinModel!.results![0]["FuelTypePrimary"] == "Gasoline"
         ? "Gas"

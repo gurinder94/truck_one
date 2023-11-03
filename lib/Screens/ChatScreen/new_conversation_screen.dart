@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Screens/ChatScreen/Seller_Chat_Screen/seller_conversation_item.dart';
 import 'package:my_truck_dot_one/Screens/ChatScreen/new_conversation_provider.dart';
+import 'package:my_truck_dot_one/Screens/ChatScreen/provider/chat_provider.dart';
 import 'package:my_truck_dot_one/Screens/Home/Component/pagination_widget.dart';
 import 'package:my_truck_dot_one/Screens/Language_Screen/application_localizations.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/Custom_App_Bar_Widget.dart';
@@ -12,8 +13,12 @@ import 'package:my_truck_dot_one/Screens/commanWidget/SizeConfig.dart';
 import 'package:my_truck_dot_one/Screens/commanWidget/custom_image_network_profile.dart';
 import 'package:provider/provider.dart';
 
+import '../../Model/ChatModel/ConversationListModel.dart';
+import 'chat_screen.dart';
+
 class NewConversationScreen extends StatelessWidget {
   late NewConversationProvider _newConversationProvider;
+  ConversationModel _conversationModel = ConversationModel();
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +135,8 @@ class NewConversationScreen extends StatelessWidget {
                                               ]),
                                         ),
                                         onTap: () {
-                                          if (isRedundentClick(DateTime.now())) {
+                                          if (isRedundentClick(
+                                              DateTime.now())) {
                                             print('hold on, processing');
                                             return;
                                           }
@@ -147,14 +153,14 @@ class NewConversationScreen extends StatelessWidget {
                         ),
                         proData.newloading
                             ? Center(
-                              child: SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: Center(
-                                  child: CircularProgressIndicator.adaptive(),
+                                child: SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: Center(
+                                    child: CircularProgressIndicator.adaptive(),
+                                  ),
                                 ),
-                              ),
-                            )
+                              )
                             : Container()
                       ],
                     ),

@@ -65,6 +65,7 @@ dependencies:
   shimmer: ^3.0.0
   # flutter_inapp_purchase: ^5.3.1
   in_app_purchase_storekit: ^0.3.6+2
+  s3_storage: ^1.0.4
 
 
 dependency_overrides:

@@ -30,21 +30,6 @@ class CustomImageProfile extends StatelessWidget {
                 fit: boxFit,
                 width: width,
                 height: height,
-                loadingBuilder: (context, child, progress) {
-                  return progress == null
-                      ? child
-                      : SizedBox(
-                          width: width,
-                          height: height,
-                          child: Center(
-                            child: LoadingWidget(
-                                ((progress.cumulativeBytesLoaded /
-                                            progress.expectedTotalBytes!) *
-                                        100)
-                                    .toInt()),
-                          ),
-                        );
-                },
                 errorBuilder: (a, b, c) {
                   return Center(
                     child: Image.asset(

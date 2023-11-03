@@ -35,7 +35,7 @@ class ProfileImageVideoComponent extends StatelessWidget {
                 ? Container(
               height: 300,
               child: Image.network(
-                Base_URL_image + _media.name.toString(),
+                /*Base_URL_image + */_media.name.toString(),
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, progress) {
                   return progress == null

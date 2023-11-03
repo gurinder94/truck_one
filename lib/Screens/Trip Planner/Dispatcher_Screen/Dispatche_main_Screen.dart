@@ -104,7 +104,7 @@ class _DispatcherScreenState extends State<DispatcherScreen> {
                             break;
                           case 2:
                             indexFliter = 2;
-                            type = "CANCELLED";
+                            type = "CANCELED";
                             _listProvider.tripList = [];
                             getTripList(context, 'CANCELLED', '');
                             _listProvider.setValuefliter("CANCELLED");
@@ -147,7 +147,7 @@ class _DispatcherScreenState extends State<DispatcherScreen> {
                       },
                       userMenuItems: [
                         ['Active', 1],
-                        ['Cancelled', 2],
+                        ['Canceled', 2],
                         ['Completed', 3],
                         ['Upcoming', 4],
                         ['Unassigned', 5],

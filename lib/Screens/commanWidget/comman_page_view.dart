@@ -53,7 +53,7 @@ class _CommanPageViewState extends State<CommanPageView> {
                           height: 300,
                           width:double.infinity ,
                           boxFit: BoxFit.contain,
-                          image:           Base_URL_group_image  + _media.name.toString(),
+                          image:          /* Base_URL_group_image  + */_media.name.toString(),
                         ),
                         resetDuration:
                         const Duration(milliseconds: 100),

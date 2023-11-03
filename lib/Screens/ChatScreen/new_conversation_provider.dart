@@ -4,8 +4,11 @@ import 'package:my_truck_dot_one/ApiCall/api_Call.dart';
 import 'package:my_truck_dot_one/AppUtils/UserInfo.dart';
 import 'package:my_truck_dot_one/AppUtils/constants.dart';
 import 'package:my_truck_dot_one/Model/ChatModel/NewConversationList.dart';
+import 'package:my_truck_dot_one/Screens/ChatScreen/provider/chat_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../Model/ChatModel/CreateSingleConversationModel.dart';
+import 'chat_screen.dart';
 
 class NewConversationProvider extends ChangeNotifier {
   bool loading = false, PaginationLoder = false;
@@ -85,8 +88,24 @@ class NewConversationProvider extends ChangeNotifier {
     try {
       _singleConversationChatListModel = await hitCreateConversationApi(map);
       newloading = false;
-      notifyListeners();
-      Navigator.pop(navigatorKey.currentState!.context);
+      Navigator.pushReplacement(
+          navigatorKey.currentState!.context,
+          MaterialPageRoute(
+              builder: (context) => ChangeNotifierProvider(
+                    create: (_) => ChatProvider(
+                        _singleConversationChatListModel.data!.type!,
+                        _singleConversationChatListModel.data!.isBlocked!),
+                    child: ChatPage(
+                        conversationId: _singleConversationChatListModel
+                            .data!.conversation_id
+                            .toString(),
+                        image: _singleConversationChatListModel.data!.image
+                            .toString(),
+                        name: _singleConversationChatListModel.data!.name
+                            .toString(),
+                        userId: _singleConversationChatListModel.data!.id
+                            .toString()),
+                  )));
       notifyListeners();
     } on Exception catch (e) {
       var message = e.toString().replaceAll('Exception:', '');

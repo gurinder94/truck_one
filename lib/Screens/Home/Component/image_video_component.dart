@@ -65,21 +65,13 @@ class _ImageVideoComponentState extends State<ImageVideoComponent> {
               },
               itemBuilder: (BuildContext context, int itemIndex) {
                 Media _media = widget.media[itemIndex];
+                print(_media.name.toString());
                 return _media.type == 'IMAGE'
                     ? Image.network(
-                        Base_URL_group_image + _media.name.toString(),
+                        /* Base_URL_group_image + */
+                        _media.name.toString(),
                         width: double.infinity,
                         fit: BoxFit.fill,
-                        loadingBuilder: (context, child, progress) {
-                          return progress == null
-                              ? child
-                              : Center(
-                                  child: LoadingWidget(((progress
-                                                  .cumulativeBytesLoaded /
-                                              progress.expectedTotalBytes!) *
-                                          100)
-                                      .toInt()));
-                        },
                         errorBuilder: (a, b, c) => Image.asset(
                           'assets/default.png',
                           width: double.infinity,
